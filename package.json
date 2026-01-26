@@ -1,0 +1,20 @@
+{
+  "name": "emy",
+  "version": "1.0.0",
+  "description": "projet integrateur",
+  "homepage": "https://github.com/YvanJaures/Emy#readme",
+  "bugs": {
+    "url": "https://github.com/YvanJaures/Emy/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YvanJaures/Emy.git"
+  },
+  "license": "UNLICENSED",
+  "author": "Yvan, Emma, Mathieu",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
