@@ -1,3 +1,12 @@
+# Install Prisma CLI as dev dependency
+npm install prisma --save-dev
+
+# Install Prisma Client
+npm install @prisma/client
+
+# Initialize prisma
+npx prisma init 
+
 # 📚 Complete Prisma Queries Reference Guide
 
 ## Table of Contents
