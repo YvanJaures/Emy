@@ -27,7 +27,7 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(sse())
-app.use(express.static('app'))
+app.use(express.static('emy_app'))
 
 app.listen(process.env.PORT);
 console.log('http://localhost:' + process.env.PORT);
