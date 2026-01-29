@@ -1,0 +1,226 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+/*
+Ce modèle représente un utilisateur avec ses informations personnelles et ses relations
+avec d'autres entités comme les membres, les employés, et les communautés.
+*/
+model User {
+  id : Int @id @default(autoincrement())
+  user_name : String @unique
+  first_name : String
+  last_name : String
+  surname : String
+  address : String
+  birth_date : DateTime
+  phone : String
+  email : String
+  avatar : String
+  password : String
+  registered : Boolean
+  member : Member?
+  employee :  Employee?
+  community : Community? @relation(fields : [id_community], references : [id])
+  id_community : Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/*
+Ce modèle représente un administrateur d'une communauté avec des informations 
+sur la communauté qu'il gère et ses relations avec les tournois, les prix et les équipes.
+*/
+model Admin {
+  id_admin : Int @id @default(autoincrement())
+  id_community : Int
+  community : String
+  user : User @relation(fields: [id_user], references: [id])
+  id_user : Int
+  tournaments : Tournament[]
+  prizes : Prize []
+  teams : Team[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/*
+Ce modèle représente une communauté, incluant ses membres, son administrateur et 
+les tournois associés. Il contient aussi des informations sur la confidentialité et la localisation.
+*/
+model Community {
+  id : Int @id @default(autoincrement())
+  id_community : Int
+  avatar : String
+  members : Int
+  admin : Int
+  location : String
+  id_manager : Int @unique
+  manager : Manager @relation(fields : [id_manager], references : [id])
+  tournaments : Tournament[]
+  users : User[]
+  privacy : Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/*
+Ce modèle représente un membre d'une communauté, avec son nom d'utilisateur et la date de son adhésion.
+*/
+model CommunityMember {
+  id_community : Int @id
+  user_name : String
+  join_date : DateTime
+}
+
+/*
+Ce modèle représente un manager d'une communauté, incluant ses employés associés et la relation avec la communauté qu'il gère.
+*/
+model Manager {
+id : Int @id @default(autoincrement())
+community : Community @relation(fields : [id_community], references : [id])
+id_community : Int
+employee : Employee[]
+}
+
+/*
+Ce modèle représente un tournoi organisé dans une communauté, avec des informations sur le statut, les équipes et les dates.
+*/
+model Tournament {
+  id_tour : Int @id @default(autoincrement())
+  name : String
+  teams : Team[]
+  location : String
+  start_date : DateTime
+  end_date : DateTime
+  community : Community @relation(fields: [communityId], references: [id])
+  communityId : Int
+  admin : Admin @relation(fields: [id_admin], references: [id])
+  id_admin : Int
+  status : Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/*
+Ce modèle représente un joueur d'un tournoi, avec ses informations personnelles et la relation avec son équipe et son tournoi.
+*/
+model Player {
+  id : Int @id @default(autoincrement())
+  user_name : String
+  id_team : Int
+  team : Team @relation(fields: [id_team], references : [id])
+  id_tournament : Int
+  tournament : Tournament @relation(fields : [id_tournament], references : [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/*
+Ce modèle représente une équipe dans un tournoi, avec ses joueurs associés et son statut d'ouverture.
+*/
+model Team {
+  id_team : Int @id @default(autoincrement())
+  name : String
+  players : Int
+  id_tournament : Int
+  tournament : Tournament @relation(fields: [id_tournament], references: [id])
+  open : Boolean
+  user_name : String
+  players : Player[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/*
+Ce modèle représente un employé d'une communauté ou d'une organisation, avec un lien vers son manager.
+*/
+model Employee {
+  id : Int @id @default(autoincrement())
+  user_name : String
+  retraite : Boolean
+  id_manager : Int
+  manager : Manager @relation(fields : [id_manager], references : [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/*
+Ce modèle représente un sponsor d'événements, avec les prix qu'il offre et les tournois qu'il soutient.
+*/
+model Sponsor {
+  id : Int @id @default(autoincrement())
+  company_name : String
+  title : Int 
+  prizes : Prize[]
+  tournaments : Tournament[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+/*
+Ce modèle représente un prix offert dans un tournoi, avec son nom, type, et la relation avec le tournoi.
+*/
+model Prize {
+  id_prize : Int
+  prize_name : String
+  prize_type : String
+  spots : Int
+  groupSpot : Int
+  id_tournament : Int
+  id_type : Int
+  id_admin : Int
+  number : Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/*
+Ce modèle représente la relation entre un prix et son sponsor, avec un lien vers les entités Prize et Sponsor.
+*/
+model PrizeSponsor {
+  id_prize : Int @id
+  id_sponsor : Int
+  prize : Prize @relation(fields: [id_prize], references: [id])
+  sponsor : Sponsor @relation(fields: [id_sponsor], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+
+/*
+Ce modèle représente un membre d'équipe dans un tournoi, avec la relation vers le joueur et l'équipe.
+*/
+model TeamMember {
+  id_team : Int @id
+  user_name String
+  team : Team @relation(fields: [id_team], references: [id])
+  id_player : Int
+  player : Player @relation(fields: [id_player], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
