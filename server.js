@@ -3,10 +3,11 @@ import express, { json } from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
 import compression from 'compression'
-import sse from './middlewares/sse.js'
+import sse from './src/middlewares/sse.js'
 import passport from 'passport'
 import session from 'express-session'
 import memorystore from 'memorystore'
+import routes from './src/routes/index.js'
 const app=express()
 
 const MemoryStore=memorystore(session)
@@ -28,6 +29,8 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(sse())
 app.use(express.static('emy_app'))
+
+app.use('/api',routes)
 
 app.listen(process.env.PORT);
 console.log('http://localhost:' + process.env.PORT);
