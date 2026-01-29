@@ -27,13 +27,7 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(sse())
-app.use(express.static('Emy', {
-  setHeaders: (res, path) => {
-    if (path.endsWith('.jsx')) {
-      res.setHeader('Content-Type', 'text/javascript');
-    }
-  }
-}))
+app.use(express.static('app'))
 
 app.listen(process.env.PORT);
 console.log('http://localhost:' + process.env.PORT);
