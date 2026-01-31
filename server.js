@@ -3,18 +3,29 @@ import express, { json } from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
 import compression from 'compression'
-import sse from './middlewares/sse.js'
+import sse from './src/middlewares/sse.js'
 import passport from 'passport'
 import session from 'express-session'
 import memorystore from 'memorystore'
-const app=express()
+import routes from './src/routes/index.js'
+import next from "next";
 
+// Defini si nous sommes en production ou en developpement
+const dev = process.env.NODE_ENV !== "production";
+
+const PORT = process.env.PORT ;
+const nextApp = next({ dev, dir: "./emy_app" });
+const handle = nextApp.getRequestHandler();
+
+await nextApp.prepare();
+
+const app=express()
 const MemoryStore=memorystore(session)
 
 app.use(helmet())
 app.use(cors())
 app.use(compression())
-app.use(json())
+app.use(express.json())
 app.use(session({
     name:process.env.npm_package_name,
     cookie:{maxAge:3600000},
@@ -27,7 +38,16 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(sse())
-app.use(express.static('app'))
+// API de routes
+app.use('/api',routes)
+// API pour tester le backend
+app.get("/api/health", (req, res) => res.json({ ok: true }));
 
-app.listen(process.env.PORT);
-console.log('http://localhost:' + process.env.PORT);
+
+// Specifier que toutes les requêtes restantes, Next.js s’en occupe
+// Doit toujours etre place apres toutes les requetes HTTP
+app.all(/.*/, (req, res) => handle(req, res));
+
+app.listen(PORT, () => {
+  console.log(`Serveur unique: http://localhost:${PORT} (dev=${dev})`);
+});
