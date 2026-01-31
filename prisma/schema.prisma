@@ -7,214 +7,152 @@ datasource db {
   provider = "sqlserver"
 }
 
-/*
-Ce modèle représente un utilisateur avec ses informations personnelles et ses relations
-avec d'autres entités comme les membres, les employés, et les communautés.
-*/
-model User {
-  id : Int @id @default(autoincrement())
-  user_name : String @unique
-  first_name : String
-  last_name : String
-  surname : String
-  address : String
-  birth_date : DateTime
-  phone : String
-  email : String
-  avatar : String
-  password : String
-  registered : Boolean
-  member : Member?
-  employee :  Employee?
-  community : Community? @relation(fields : [id_community], references : [id])
-  id_community : Int?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-/*
-Ce modèle représente un administrateur d'une communauté avec des informations 
-sur la communauté qu'il gère et ses relations avec les tournois, les prix et les équipes.
-*/
 model Admin {
-  id_admin : Int @id @default(autoincrement())
-  id_community : Int
-  community : String
-  user : User @relation(fields: [id_user], references: [id])
-  id_user : Int
-  tournaments : Tournament[]
-  prizes : Prize []
-  teams : Team[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id_admin     Int          @id(map: "PK__Admin__89472E95DB2049D4") @default(autoincrement())
+  id_community Int?
+  user_name    String?      @db.VarChar(50)
+  Community    Community?   @relation(fields: [id_community], references: [id_community], onDelete: NoAction, onUpdate: NoAction, map: "FK__Admin__id_commun__6D0D32F4")
+  Member       Member?      @relation(fields: [user_name], references: [user_name], onDelete: NoAction, onUpdate: NoAction, map: "FK_Admin_Member")
+  Tournament   Tournament[]
 }
 
-/*
-Ce modèle représente une communauté, incluant ses membres, son administrateur et 
-les tournois associés. Il contient aussi des informations sur la confidentialité et la localisation.
-*/
 model Community {
-  id : Int @id @default(autoincrement())
-  id_community : Int
-  avatar : String
-  members : Int
-  admin : Int
-  location : String
-  id_manager : Int @unique
-  manager : Manager @relation(fields : [id_manager], references : [id])
-  tournaments : Tournament[]
-  users : User[]
-  privacy : Boolean @default(false)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id_community     Int                @id(map: "PK__Communit__5EB0F0780885BDE2") @default(autoincrement())
+  avatar           String?            @db.VarChar(255)
+  members          Int?
+  location         String?            @db.VarChar(100)
+  id_manager       Int?
+  privacy          Boolean?
+  Admin            Admin[]
+  Manager          Manager?           @relation(fields: [id_manager], references: [id_manager], onDelete: NoAction, onUpdate: NoAction, map: "FK_Community_Manager")
+  Community_member Community_member[]
+  Tournament       Tournament[]
 }
 
-/*
-Ce modèle représente un membre d'une communauté, avec son nom d'utilisateur et la date de son adhésion.
-*/
-model CommunityMember {
-  id_community : Int @id
-  user_name : String
-  join_date : DateTime
+model Community_member {
+  id_co_member Int        @id(map: "PK__Communit__E973ECDD1047C6B9") @default(autoincrement())
+  join_date    DateTime?  @db.Date
+  id_community Int?
+  user_name    String?    @db.VarChar(50)
+  Community    Community? @relation(fields: [id_community], references: [id_community], onDelete: NoAction, onUpdate: NoAction, map: "FK__Community__id_co__5165187F")
+  Member       Member?    @relation(fields: [user_name], references: [user_name], onDelete: NoAction, onUpdate: NoAction, map: "FK__Community__user___52593CB8")
 }
 
-/*
-Ce modèle représente un manager d'une communauté, incluant ses employés associés et la relation avec la communauté qu'il gère.
-*/
-model Manager {
-id : Int @id @default(autoincrement())
-community : Community @relation(fields : [id_community], references : [id])
-id_community : Int
-employee : Employee[]
-}
-
-/*
-Ce modèle représente un tournoi organisé dans une communauté, avec des informations sur le statut, les équipes et les dates.
-*/
-model Tournament {
-  id_tour : Int @id @default(autoincrement())
-  name : String
-  teams : Team[]
-  location : String
-  start_date : DateTime
-  end_date : DateTime
-  community : Community @relation(fields: [communityId], references: [id])
-  communityId : Int
-  admin : Admin @relation(fields: [id_admin], references: [id])
-  id_admin : Int
-  status : Int
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-/*
-Ce modèle représente un joueur d'un tournoi, avec ses informations personnelles et la relation avec son équipe et son tournoi.
-*/
-model Player {
-  id : Int @id @default(autoincrement())
-  user_name : String
-  id_team : Int
-  team : Team @relation(fields: [id_team], references : [id])
-  id_tournament : Int
-  tournament : Tournament @relation(fields : [id_tournament], references : [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-/*
-Ce modèle représente une équipe dans un tournoi, avec ses joueurs associés et son statut d'ouverture.
-*/
-model Team {
-  id_team : Int @id @default(autoincrement())
-  name : String
-  players : Int
-  id_tournament : Int
-  tournament : Tournament @relation(fields: [id_tournament], references: [id])
-  open : Boolean
-  user_name : String
-  players : Player[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-/*
-Ce modèle représente un employé d'une communauté ou d'une organisation, avec un lien vers son manager.
-*/
 model Employee {
-  id : Int @id @default(autoincrement())
-  user_name : String
-  retraite : Boolean
-  id_manager : Int
-  manager : Manager @relation(fields : [id_manager], references : [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  user_name String   @id(map: "PK__Employee__7C9273C569FB6D8F") @db.VarChar(50)
+  retraite  Boolean?
 }
 
-/*
-Ce modèle représente un sponsor d'événements, avec les prix qu'il offre et les tournois qu'il soutient.
-*/
-model Sponsor {
-  id : Int @id @default(autoincrement())
-  company_name : String
-  title : Int 
-  prizes : Prize[]
-  tournaments : Tournament[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Manager {
+  id_manager Int         @id(map: "PK__Manager__7F9D5D00A6100A19") @default(autoincrement())
+  password   String?     @db.VarChar(255)
+  Community  Community[]
 }
 
+model Member {
+  user_name        String             @id(map: "PK__Member__7C9273C585C5662A") @db.VarChar(50)
+  name             String?            @db.VarChar(50)
+  surname          String?            @db.VarChar(50)
+  address          String?            @db.VarChar(100)
+  birth_date       DateTime?          @db.Date
+  country          String?            @db.VarChar(50)
+  email            String?            @db.VarChar(100)
+  avatar           String?            @db.VarChar(255)
+  password         String?            @db.VarChar(255)
+  Admin            Admin[]
+  Community_member Community_member[]
+  Player           Player[]
+  Sponsor          Sponsor?
+  Team             Team[]
+  Team_member      Team_member[]
+}
 
-/*
-Ce modèle représente un prix offert dans un tournoi, avec son nom, type, et la relation avec le tournoi.
-*/
+model Player {
+  id_player  Int         @id(map: "PK__Player__45CF72B13D626897") @default(autoincrement())
+  id_tour    Int?
+  user_name  String?     @db.VarChar(50)
+  Member     Member?     @relation(fields: [user_name], references: [user_name], onDelete: NoAction, onUpdate: NoAction, map: "FK__Player__user_nam__4CA06362")
+  Tournament Tournament? @relation(fields: [id_tour], references: [id_tour], onDelete: NoAction, onUpdate: NoAction, map: "FK_Player_Tournament")
+}
+
 model Prize {
-  id_prize : Int
-  prize_name : String
-  prize_type : String
-  spots : Int
-  groupSpot : Int
-  id_tournament : Int
-  id_type : Int
-  id_admin : Int
-  number : Int
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id_prize      Int             @id(map: "PK__Prize__D8A0CD8857767C01") @default(autoincrement())
+  name          String?         @db.VarChar(50)
+  spots         Int?
+  group_spot    Int?
+  id_tour       Int?
+  id_type       Int?
+  id_admin      Int?
+  Tournament    Tournament?     @relation(fields: [id_tour], references: [id_tour], onDelete: NoAction, onUpdate: NoAction, map: "FK__Prize__id_tour__656C112C")
+  Type          Type?           @relation(fields: [id_type], references: [id_type], onDelete: NoAction, onUpdate: NoAction, map: "FK__Prize__id_type__66603565")
+  Prize_sponsor Prize_sponsor[]
 }
 
-/*
-Ce modèle représente la relation entre un prix et son sponsor, avec un lien vers les entités Prize et Sponsor.
-*/
-model PrizeSponsor {
-  id_prize : Int @id
-  id_sponsor : Int
-  prize : Prize @relation(fields: [id_prize], references: [id])
-  sponsor : Sponsor @relation(fields: [id_sponsor], references: [id])
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Prize_sponsor {
+  id_prize_sponsor Int      @id(map: "PK__Prize_sp__BFED9266AFAAE36A") @default(autoincrement())
+  id_prize         Int?
+  user_name        String?  @db.VarChar(50)
+  Prize            Prize?   @relation(fields: [id_prize], references: [id_prize], onDelete: NoAction, onUpdate: NoAction, map: "FK__Prize_spo__id_pr__693CA210")
+  Sponsor          Sponsor? @relation(fields: [user_name], references: [user_name], onDelete: NoAction, onUpdate: NoAction, map: "FK__Prize_spo__user___6A30C649")
 }
 
+model Sponsor {
+  user_name     String          @id(map: "PK__Sponsor__7C9273C5672D81F4") @db.VarChar(50)
+  company_name  String?         @db.VarChar(100)
+  title         String?         @db.VarChar(100)
+  Prize_sponsor Prize_sponsor[]
+  Member        Member          @relation(fields: [user_name], references: [user_name], onUpdate: NoAction, map: "FK__Sponsor__user_na__59063A47")
+}
 
+model Team {
+  id_team     Int           @id(map: "PK__Team__C6D204E78433FB0F") @default(autoincrement())
+  members     Int?
+  players     Int?
+  id_tour     Int?
+  key_team    String?       @db.VarChar(50)
+  open        Boolean?      @map("_open")
+  user_name   String?       @db.VarChar(50)
+  Tournament  Tournament?   @relation(fields: [id_tour], references: [id_tour], onDelete: NoAction, onUpdate: NoAction, map: "FK__Team__id_tour__5BE2A6F2")
+  Member      Member?       @relation(fields: [user_name], references: [user_name], onDelete: NoAction, onUpdate: NoAction, map: "FK__Team__user_name__5CD6CB2B")
+  Team_member Team_member[]
+}
 
-/*
-Ce modèle représente un membre d'équipe dans un tournoi, avec la relation vers le joueur et l'équipe.
-*/
-model TeamMember {
-  id_team : Int @id
-  user_name String
-  team : Team @relation(fields: [id_team], references: [id])
-  id_player : Int
-  player : Player @relation(fields: [id_player], references: [id])
+model Team_member {
+  id_team_member Int      @id(map: "PK__Team_mem__36EAACFC07AC4600") @default(autoincrement())
+  id_team        Int?
+  user_name      String?  @db.VarChar(50)
+  status         Boolean?
+  Team           Team?    @relation(fields: [id_team], references: [id_team], onDelete: NoAction, onUpdate: NoAction, map: "FK__Team_memb__id_te__5FB337D6")
+  Member         Member?  @relation(fields: [user_name], references: [user_name], onDelete: NoAction, onUpdate: NoAction, map: "FK__Team_memb__user___60A75C0F")
+}
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model Test {
+  patate String? @db.VarChar(100)
+  yvan   String? @db.VarChar(10)
+
+  @@ignore
+}
+
+model Tournament {
+  id_tour      Int        @id(map: "PK__Tourname__C9304CF6ECB8D893") @default(autoincrement())
+  location     String?    @db.VarChar(100)
+  start_date   DateTime?  @db.Date
+  end_date     DateTime?  @db.Date
+  status       Int?
+  avatar       String?    @db.VarChar(255)
+  id_admin     Int?
+  id_community Int?
+  fees         Float?
+  Player       Player[]
+  Prize        Prize[]
+  Team         Team[]
+  Admin        Admin?     @relation(fields: [id_admin], references: [id_admin], onDelete: NoAction, onUpdate: NoAction, map: "FK_Tournament_Admin")
+  Community    Community? @relation(fields: [id_community], references: [id_community], onDelete: NoAction, onUpdate: NoAction, map: "FK_Tournament_Community")
+}
+
+model Type {
+  id_type Int     @id(map: "PK__Type__C3F091E0EDEEA9E9") @default(autoincrement())
+  name    String? @db.VarChar(50)
+  Prize   Prize[]
 }
