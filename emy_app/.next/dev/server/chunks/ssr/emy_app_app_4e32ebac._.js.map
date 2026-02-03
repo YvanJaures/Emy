@@ -2,5 +2,5 @@
   "version": 3,
   "sources": [],
   "sections": [
-    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/YVAN/OneDrive%20-%20Coll%C3%A8ge%20la%20Cit%C3%A9/Bureau/session4/Projet%20Int%C3%A9grateur/EMY/emy_app/app/favicon.ico.mjs%20%28structured%20image%20object%29"],"sourcesContent":["import src from \"IMAGE\";\nexport default { src, width: 256, height: 256 }\n"],"names":[],"mappings":";;;;AAAA;;uCACe;IAAE,KAAA,8IAAG;IAAE,OAAO;IAAK,QAAQ;AAAI"}}]
+    {"offset": {"line": 7, "column": 0}, "map": {"version":3,"sources":["file:///D:/PROGRAMMATION/SESSION%204/Projet%20integrateur/Emy/emy_app/app/favicon.ico.mjs%20%28structured%20image%20object%29"],"sourcesContent":["import src from \"IMAGE\";\nexport default { src, width: 256, height: 256 }\n"],"names":[],"mappings":";;;;AAAA;;uCACe;IAAE,KAAA,8IAAG;IAAE,OAAO;IAAK,QAAQ;AAAI"}}]
 }
