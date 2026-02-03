@@ -28,7 +28,7 @@ const InputText: React.FC<InputProps> = ({
   return (
     <div className={`w-full my-2 ${containerClassName}`}>
       {label && (
-        <p className="mb-1 font-bold text-sm text-neutral-700">{label}</p>
+        <p className="mb-3 font-bold text-sm text-neutral-700">{label}</p>
       )}
 
       <input

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import LabeledField from "@/components/molecules/LabeledField";
 
 export default function Home() {
   return (
@@ -59,6 +60,7 @@ export default function Home() {
             Documentation
           </a>
         </div>
+        <LabeledField label="Login page" />
       </main>
     </div>
   );
