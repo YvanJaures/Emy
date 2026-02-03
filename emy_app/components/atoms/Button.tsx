@@ -15,8 +15,8 @@ type ButtonProps = {
   title?: string;
   containerClassName?: string;
 
-  /** optionnel mais utile */
-  className?: string; // classes extra pour le button (padding, radius, etc.)
+  /** optionnel  */
+  className?: string; 
   type?: "button" | "submit" | "reset";
 };
 
