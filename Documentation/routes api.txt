@@ -1,0 +1,90 @@
+  APIs à coder pour notre application de golf:
+ 								POST,PATCH,PUT,DELETE
+GLOBAL USERS
+
+1- Post : api/user&add ( user_name,name,surname,address,birth_date,phone,email,avatar,password);
+37- Patch: api/user&update (user_name,alias,new_info)
+2- Post : api/user&team (name,id_tour,key,limit);
+3- Patch: api/user&member (id_team,user_name);
+4- Post: api/user&pay
+
+SPONSORS
+
+5- Post: api/user&sponsor (user_name,email,ame,surname,address,company_name,phone,title,birth_date,password);
+6- Post: api/user&sponsor&prize (id_prize,user_name);
+7- Post: api/user&sponsor&member ( user_name,name,surname,address,birth_date,phone,email,pasword)
+
+ADMINS
+8- Post: api/admin&member (id_team,user_name);
+9- Delete: api/admin&member (id_team,user_name);
+10- Post: api/admin&tour (teams,location,start_date,end_date,status,avatar,id_admin,id_community);
+11- Post: apidmin&prize (name,spots,group_spots,id_tour,id_type,id_admin,number);
+12- Delete: api/admin&prize (id_prize,id_tour);
+13- Patch: api/admin&prize (id_prize,id_tour,number)
+14- Patch: api/admin&tour (id_tour,id_community,teams);
+15- Delete: api/admi&team (id_team,id_tour);
+16- Patch: api/admin&tour (id_tour,id_community,status)  // open or close form
+17- Post: api/admin&admin (user_name,id_community)       // add an admin
+18- Delete: api/admin&admin (id_amin,user_name,id_community) // remove an admin
+20- Post: api/admin&action (id_admin,details)   // records admins actions in the system
+
+MANAGERS
+21- Post: api/manager&community (avatar,privacy,id_manager)
+22- Delete: api/manager&community (id_community)
+23- Patch: api/manager&community&privacy (id_community,privacy)
+24- Post: api/manager (user_name,id_admin,id_community,id_manager)  // in this case: id_admin= 9999999 and id_community=9999999 with id_manager=1 for testing
+
+GLOBAL USERS
+25- Patch: api/user&password (user_name,password,new_password)
+26- Post: api/user&email (email/user_name,details)  // path to send verification email to users
+27- Patch: api/user&password&lost (password)
+28- Post: api/user&member&community (id_community,user_name,join_date)	// join a communtiy
+29- Post api/user&member&player (id_tour,user_name)  // join a tournament
+
+ADMINS
+30- Delete: api/admin&member&tour (id_tour,user_name)
+31- Delete: api/admin&member&community (id_community,user_name)
+32- Patch: api/admin&community&update (id_community,alias,new_info)
+
+MANAGERS
+33- Delete: api/manager&user&banned (user_name)
+34- Delete: api/manager&community&remove (id_community,id_manager)
+
+ 								GETS
+COMMUNITY:
+35- Get: api/communities
+36- Get: api/community	(id_community)
+
+GLOBAL USERS:
+38- Get: api/users
+39- Get: api/user (user_name)
+40- Get: api/users&names 
+
+ADMINS:
+41- Get: api/admins
+42- Get: api/admin (id_admin)
+
+SPONSORS:
+43- Get: api/sponsors
+44- Get: api/sponsor (user_name)
+
+PLAYERS:
+45- Get: api/players&tour (id_tour)
+46- Get: api/player&tour (user_name)
+
+PRIZES:
+45- Get: api/prizes (id_tour)
+46- Get: api/prize (id_prize,id_tour)
+47- Get: api/prizes&sponsors (id_prize,user_name)
+
+TEAMS:
+48- Get: api/teams (id_tour)
+49- Get: api/team (id_team,id_tour)
+
+TEAM MEMBERS:
+50- Get: api/team&members (id_team)
+51- Get: api/team&member (id_team,user_name)
+
+COMMUNITY MEMBERS:
+50- Get: api/community&members (id_community)
+51- Get: api/comunity&member (id_community,user_name)
