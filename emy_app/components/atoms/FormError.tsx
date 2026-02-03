@@ -1,5 +1,11 @@
+
 type Props = { message?: string };
 
+/**
+ * Ce composant FormError sert à afficher un message d’erreur de formulaire, seulement quand il y en a un
+ * @param message
+ * 
+ */
 function FormError({ message }: Props) {
   if (!message) return null;
   return (
