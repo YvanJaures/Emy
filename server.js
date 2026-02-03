@@ -7,6 +7,7 @@ import sse from './src/middlewares/sse.js'
 import passport from 'passport'
 import session from 'express-session'
 import memorystore from 'memorystore'
+import routes from './src/routes/index.js'
 import next from "next";
 
 // Defini si nous sommes en production ou en developpement
@@ -37,7 +38,8 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(sse())
-
+// API de routes
+app.use('/api',routes)
 // API pour tester le backend
 app.get("/api/health", (req, res) => res.json({ ok: true }));
 
