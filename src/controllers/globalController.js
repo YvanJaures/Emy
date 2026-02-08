@@ -1,5 +1,6 @@
 import { addCommunityMember, addMember, addPlayer, addTeam, addTeamMember, addTeamMemberWait, getMemberByEmail, getMemberByName, getMembers, getMembersUserNames, updateMember, updatePasswordMember } from '../models/global.js';
 import '../services/auth.js'
+import passport from 'passport';
 import 'dotenv/config'
 // copier et adapter
 /*
@@ -50,18 +51,19 @@ export const getMembersUserNamesC=async(request,response)=>{
 }
 export const addMemberC=async(request,response)=>{
     try{
-        await addMember(request.query.user_name,
+        await addMember(request.body.user_name,
             request.body.name,
             request.body.surname,
             request.body.address,
             request.body.birth_date,
-            request.body.phone,
+            request.body.country,
             request.body.email,
             request.body.avatar,
             request.body.password
         )
         response.status(201).end()
     }catch(error){
+        console.log(error)
         response.status(404).end()
     }
 }

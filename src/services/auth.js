@@ -28,11 +28,11 @@ passport.use(new Strategy(config,async(email,password,done)=>{
 
 }))
 passport.serializeUser((client,done)=>{
-    done(null,client.id_client)
+    done(null,client.user_name)
 })
-passport.deserializeUser(async(id_client,done)=>{
+passport.deserializeUser(async(user_name,done)=>{
     try{
-        const client =await getClientParId(id_client)
+        const client =await getMemberByName(user_name)
         done(null,client)
     }catch(erreur){
         done(erreur)
