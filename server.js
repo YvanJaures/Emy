@@ -1,5 +1,5 @@
 import 'dotenv/config'
-import express, { json } from 'express'
+import express from 'express'
 import helmet from 'helmet'
 import cors from 'cors'
 import compression from 'compression'
@@ -7,7 +7,7 @@ import sse from './src/middlewares/sse.js'
 import passport from 'passport'
 import session from 'express-session'
 import memorystore from 'memorystore'
-import routes from './src/routes/index.js'
+import router from './src/routes/global.js'
 import next from "next";
 
 // Defini si nous sommes en production ou en developpement
@@ -39,7 +39,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 app.use(sse())
 // API de routes
-app.use('/api',routes)
+app.use('/api',router)
 // API pour tester le backend
 app.get("/api/health", (req, res) => res.json({ ok: true }));
 
