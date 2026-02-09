@@ -49,7 +49,7 @@ export default function LoginForm() {
       setLoading(false);
     }
   }
-
+console.log("STATE:", { emailOrUsername, password });
   return (
     <form onSubmit={onSubmit} className="flex w-full flex-col items-center">
       <Title as="p" className="mb-3">
@@ -105,7 +105,7 @@ export default function LoginForm() {
           <Button
             type="submit"
             title="LOG IN"
-            disabled={false}
+            disabled={!canSubmit || loading}
             size="text-[10px]"
             className="py-2"
             color="bg-black/80 border-black/80 text-white hover:bg-black/90"
