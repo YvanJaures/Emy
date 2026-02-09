@@ -2,13 +2,6 @@
 
 import React, { useState } from "react";
 
-/**
- * Cet input permet à l'utilisateur d'entrer du texte, des nombres ou des symboles. 
- * Vous pouvez également ajouter un nouveau style aux input et au conteneur selon votre utilisation
- *
- * @param {string} label
- * - Spécifiez les informations attendues dans le champ
- */
 type InputProps = {
   label?: string;
   containerClassName?: string;
@@ -21,6 +14,7 @@ const InputText: React.FC<InputProps> = ({
   inputClassName = "",
   onFocus,
   onBlur,
+  onChange,
   ...inputProps
 }) => {
   const [isFocused, setFocused] = useState(false);
@@ -33,6 +27,9 @@ const InputText: React.FC<InputProps> = ({
 
       <input
         {...inputProps}
+        onChange={(e) => {
+          onChange?.(e); 
+        }}
         onFocus={(e) => {
           setFocused(true);
           onFocus?.(e);
