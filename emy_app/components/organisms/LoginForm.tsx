@@ -1,35 +1,26 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 
 import Title from "../atoms/Title";
 import FormError from "../atoms/FormError";
 import Button from "../atoms/Button";
 import AppLink from "../atoms/AppLink";
-import SelectField from "../atoms/SelectField";
 import LabeledField from "../molecules/LabeledField";
 
-type Role = "user" | "commanditaire";
-
+/**
+ * Ce composant est un formulaire de connexion qui n'active le boutton de 
+ * soumission que lorqsqu'au moins l'email et le mot de passe sont remplis
+ */
 export default function LoginForm() {
-  const [emailOrUsername, setEmailOrUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [role, setRole] = useState<Role>("user");
   const [adminId, setAdminId] = useState("");
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
   // Désactive LOG IN seulement si email OU password est vide
-  const canSubmit = useMemo(() => {
-    return emailOrUsername.trim() !== "" && password.trim() !== "";
-  }, [emailOrUsername, password]);
-
-  console.log("DEBUG:", {
-  emailOrUsername,
-  password,
-  canSubmit
-});
-
+  const canSubmit = email.trim() !== "" && password.trim() !== "";
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -43,13 +34,24 @@ export default function LoginForm() {
     setLoading(true);
 
     try {
+      const payload = {
+        email: email.trim(),
+        password: password.trim(),
+        ...(adminId.trim() ? { adminId: adminId.trim() } : {}), // adminId optionnel
+      };
+
+      console.log("LOGIN PAYLOAD:", payload);
+
+      // TODO:a remplacer par ton appel API (fetch/axios)
+      // const res = await fetch("/api/auth/login", { method:"POST", body: JSON.stringify(payload) ... })
+
       // Simulation d’erreur (à remplacer par ton API)
       setError("email/username or password incorrect...");
     } finally {
       setLoading(false);
     }
   }
-console.log("STATE:", { emailOrUsername, password });
+
   return (
     <form onSubmit={onSubmit} className="flex w-full flex-col items-center">
       <Title as="p" className="mb-3">
@@ -57,12 +59,11 @@ console.log("STATE:", { emailOrUsername, password });
       </Title>
 
       <div className="w-[220px]">
-
         {/* email / username */}
         <LabeledField
           placeholder="email or username"
-          value={emailOrUsername}
-          onChange={(e) => setEmailOrUsername(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           inputClassName="py-2 text-xs rounded-lg"
           containerClassName="my-2"
         />
@@ -77,18 +78,13 @@ console.log("STATE:", { emailOrUsername, password });
           containerClassName="my-2"
         />
 
-        
-        {/* role */}
-        <SelectField
-          value={role}
-          onChange={(e) => setRole(e.target.value as Role)}
-          className="py-2 text-xs rounded-lg my-2"
-        >
-          <option value="user">user</option>
-          <option value="commanditaire">commanditaire</option>
-        </SelectField>
+        {/* petit texte comme sur la capture (optionnel) */}
+        <div className="my-1 flex items-center gap-2 text-xs text-black/80">
+          <span className="inline-flex h-3 w-3 items-center justify-center rounded-full border border-black/60" />
+          <span>are you an admin?</span>
+        </div>
 
-        {/* admin ID (toujours visible comme sur ton image) */}
+        {/* admin ID (toujours visible) */}
         <LabeledField
           placeholder="ID"
           value={adminId}
@@ -114,7 +110,7 @@ console.log("STATE:", { emailOrUsername, password });
           <Button
             type="button"
             title="SIGN IN"
-            disabled={false} 
+            disabled={false}
             size="text-[10px]"
             className="py-2"
             color="bg-white/80 border-white/80 text-black hover:bg-white"
@@ -131,4 +127,3 @@ console.log("STATE:", { emailOrUsername, password });
     </form>
   );
 }
-
