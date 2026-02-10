@@ -9,7 +9,7 @@ import AppLink from "../atoms/AppLink";
 import LabeledField from "../molecules/LabeledField";
 
 /**
- * Ce composant est un formulaire de connexion qui n'active le boutton de 
+ * Ce composant est un formulaire de connexion qui n'active le boutton de
  * soumission que lorqsqu'au moins l'email et le mot de passe sont remplis
  */
 export default function LoginForm() {
@@ -42,11 +42,31 @@ export default function LoginForm() {
 
       console.log("LOGIN PAYLOAD:", payload);
 
-      // TODO:a remplacer par ton appel API (fetch/axios)
-      // const res = await fetch("/api/auth/login", { method:"POST", body: JSON.stringify(payload) ... })
+      // MON API
 
-      // Simulation d’erreur (à remplacer par ton API)
-      setError("email/username or password incorrect...");
+      const API_BASE = "http://localhost:3000";
+
+      const res = await fetch(`${API_BASE}/connexion`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        let msg = "email/username or password incorrect...";
+        try {
+          const data = await res.json();
+          if (data?.message) msg = data.message;
+        } catch {}
+        setError(msg);
+        return;
+      }
+
+      // Succès
+      setError("");
+      window.location.href = "/"; 
+      //setError("email/username or password incorrect...");
     } finally {
       setLoading(false);
     }
