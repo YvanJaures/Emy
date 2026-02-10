@@ -40,8 +40,6 @@ export default function LoginForm() {
         ...(adminId.trim() ? { adminId: adminId.trim() } : {}), // adminId optionnel
       };
 
-      console.log("LOGIN PAYLOAD:", payload);
-
       // MON API
 
       const API_BASE = "http://localhost:3000";
