@@ -58,6 +58,7 @@ model Member {
   birth_date       DateTime?          @db.Date
   country          String?            @db.VarChar(50)
   email            String?            @db.VarChar(100)
+  phone            String?            @db.VarChar(50)
   avatar           String?            @db.VarChar(255)
   password         String?            @db.VarChar(255)
   Admin            Admin[]
