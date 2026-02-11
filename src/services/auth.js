@@ -10,7 +10,7 @@ const config={
 
 passport.use(new Strategy(config,async(email,password,done)=>{
     try{
-        const client=await getMemberByEmail(email)
+        let client=await getMemberByEmail(email)
         if(!client){
             client= await getMemberByName(email)
             if(!client){
