@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../generated/prisma"
 }
 
@@ -41,6 +41,7 @@ model Community_member {
 model Employee {
   user_name String   @id(map: "PK__Employee__7C9273C569FB6D8F") @db.VarChar(50)
   retraite  Boolean?
+  Member    Member   @relation(fields: [user_name], references: [user_name], onUpdate: NoAction, map: "FK__Employee__user_na__59063A47")
 }
 
 model Manager {
@@ -57,10 +58,12 @@ model Member {
   birth_date       DateTime?          @db.Date
   country          String?            @db.VarChar(50)
   email            String?            @db.VarChar(100)
+  phone            String?            @db.VarChar(50)
   avatar           String?            @db.VarChar(255)
   password         String?            @db.VarChar(255)
   Admin            Admin[]
   Community_member Community_member[]
+  Employee         Employee?
   Player           Player[]
   Sponsor          Sponsor?
   Team             Team[]
@@ -106,6 +109,7 @@ model Sponsor {
 
 model Team {
   id_team     Int           @id(map: "PK__Team__C6D204E78433FB0F") @default(autoincrement())
+  name        String?       @db.VarChar(50)
   members     Int?
   players     Int?
   id_tour     Int?
