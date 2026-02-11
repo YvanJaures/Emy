@@ -44,7 +44,7 @@ export default function LoginForm() {
 
       const API_BASE = "http://localhost:3000";
 
-      const res = await fetch(`${API_BASE}/connexion`, {
+      const res = await fetch(`${API_BASE}/api/connexion`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
