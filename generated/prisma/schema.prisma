@@ -18,6 +18,8 @@ model Admin {
 
 model Community {
   id_community     Int                @id(map: "PK__Communit__5EB0F0780885BDE2") @default(autoincrement())
+  name             String?
+  details          String?
   avatar           String?            @db.VarChar(255)
   members          Int?
   location         String?            @db.VarChar(100)
