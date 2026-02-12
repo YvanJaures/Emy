@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Button from "@/components/atoms/Button";
 import PopCommunity from '@/components/organisms/PopCommunity'
 import Title from '@/components/atoms/Title'
+import Footer from "@/components/organisms/Footer";
 
 export default function Home() {
   const router = useRouter();
@@ -13,7 +14,7 @@ export default function Home() {
     {  name:'Oshawa city', details:'Communauté de la ville d’oshawa. Rejoins nous pour du fun!', avatar: '/assets/arrieres_plan/EtangGolf.png', members: 180, location: 'Madrid, Canada', id_manager: '12', privacy: false }
   ]
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+    <div className="flex flex-col gap-6 min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <div className="w-full bg-contain h-[300px] bg-no-repeat bg-clip-content bg-fixed overflow-hidden">
         <img src="/assets/arrieres_plan/AlpineFairwayCanada.png" alt="image accueil des alpines" className='h-110 w-full' />
       </div>
@@ -24,6 +25,8 @@ export default function Home() {
       </div>
       <PopCommunity list={list_communautes}></PopCommunity>
       {/*<Button title="GO TO LOGIN" onClick={() => router.push("/login")} />*/}
+
+    <Footer/>
     </div>
   );
 }
