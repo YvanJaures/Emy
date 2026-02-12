@@ -22,7 +22,7 @@ await nextApp.prepare();
 const app=express()
 const MemoryStore=memorystore(session)
 
-//app.use(helmet())
+app.use(helmet())
 app.use(cors())
 app.use(compression())
 app.use(express.json())

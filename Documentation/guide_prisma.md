@@ -7,13 +7,6 @@ npm install @prisma/client
 # Initialize prisma
 npx prisma init 
 
-# Creation de la base de donnee en local
- npx prisma db push
-
- # Recuperer les tables de la base de donnees
-npx prisma db pull
-
-
 # 📚 Complete Prisma Queries Reference Guide
 
 ## Table of Contents
