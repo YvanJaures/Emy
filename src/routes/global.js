@@ -1,13 +1,14 @@
 import express from 'express'
 import * as globalController from '../controllers/globalController.js'
 import { sendMail } from '../controllers/sendMailController.js'
+import {deConnecterApi,connecterApi} from '../middlewares/auth.js'
 
 const router=express.Router()
 
 // routes
 // connexion, deconnexion
-router.post('/connexion',globalController.connexion)
-router.post('/deconnexion',globalController.deconnexion)
+router.post('/connexion',deConnecterApi,globalController.connexion)
+router.post('/deconnexion',connecterApi,globalController.deconnexion)
 //router.get('/',globalController)
 router.get('/members',globalController.getMembersC)
 router.get('/member/email',globalController.getMemberByEmailC)
