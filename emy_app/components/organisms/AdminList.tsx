@@ -1,18 +1,20 @@
 "use client";
 
 import React from "react";
-import AdminRow, { Admin } from "../molecules/AdminRow";
+import AdminRow from "../molecules/AdminRow";
+import type { AdminDTO } from "@/hooks/Type_AdminDTO"
 
-type Props = {
-  admins: Admin[];
-  onDelete: (id: string) => void;
-};
-
-export default function AdminList({ admins, onDelete }: Props) {
+export default function AdminList({
+  admins,
+  onDelete,
+}: {
+  admins: AdminDTO[];
+  onDelete: (id_admin: number) => void;
+}) {
   return (
     <div className="mt-6 space-y-3">
       {admins.map((a) => (
-        <AdminRow key={a.id} admin={a} onDelete={onDelete} />
+        <AdminRow key={a.id_admin} admin={a} onDelete={onDelete} />
       ))}
     </div>
   );
