@@ -13,7 +13,7 @@ function Title({ children, as = "h2", className = "" }: Props) {
   return (
     <Comp
       className={[
-        "text-center text-xs font-semibold tracking-widest text-black/70",
+        "text-center font-semibold tracking-widest",
         className,
       ].join(" ")}
     >
