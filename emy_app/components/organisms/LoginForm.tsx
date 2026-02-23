@@ -42,9 +42,7 @@ export default function LoginForm() {
 
       // MON API
 
-      const API_BASE = "http://localhost:3000";
-
-      const res = await fetch(`${API_BASE}/api/connexion`, {
+      const res = await fetch(`/api/connexion`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -72,7 +70,7 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={onSubmit} className="flex w-full flex-col items-center">
-      <Title as="p" className="mb-3">
+      <Title as="p" className="mb-3 text-xs">
         LOG IN
       </Title>
 
@@ -121,7 +119,7 @@ export default function LoginForm() {
             title="LOG IN"
             disabled={!canSubmit || loading}
             size="text-[10px]"
-            className="py-2"
+            className="py-2 w-full"
             color="bg-black/80 border-black/80 text-white hover:bg-black/90"
           />
 
@@ -130,7 +128,7 @@ export default function LoginForm() {
             title="SIGN IN"
             disabled={false}
             size="text-[10px]"
-            className="py-2"
+            className="py-2 w-full"
             color="bg-white/80 border-white/80 text-black hover:bg-white"
             onClick={() => (window.location.href = "/register")}
           />
