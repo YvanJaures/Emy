@@ -5,7 +5,7 @@ export default function LoginPage() {
   return (
     <main
       className="min-h-screen w-full bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url(/assets/arrieres_plan/DesertBloomArizona.png)" }}
+      style={{ backgroundImage: "url(/assets/Desert%20Bloom.png)" }}
     >
       {/* Overlay léger (aide à lire la carte) */}
       <div className="min-h-screen w-full bg-black/10 flex items-center justify-center p-6">
@@ -18,7 +18,7 @@ export default function LoginPage() {
           <button
             type="button"
             aria-label="Close"
-            className="absolute left-4 top-4 text-black/70 hover:text-black hover:cursor-pointer text-[40px] leading-none"
+            className="absolute left-4 top-4 text-black/70 hover:text-black text-xl leading-none"
             onClick={() => history.back()}
           >
             ×

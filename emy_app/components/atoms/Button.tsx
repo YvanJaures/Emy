@@ -39,8 +39,8 @@ const Button: React.FC<ButtonProps> = ({
         disabled={disabled}
         onClick={onClick}
         className={[
-          "rounded-md border-4 px-4 py-2 shadow",
-          "flex items-center justify-center gap-2 hover:cursor-pointer",
+          "w-full rounded-md border-4 px-4 py-2 shadow",
+          "flex items-center justify-center gap-2",
           "active:scale-[0.99] transition",
           disabled ? "opacity-60 cursor-not-allowed" : "",
           color,
