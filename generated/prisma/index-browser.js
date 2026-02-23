@@ -129,6 +129,8 @@ exports.Prisma.AdminScalarFieldEnum = {
 
 exports.Prisma.CommunityScalarFieldEnum = {
   id_community: 'id_community',
+  name: 'name',
+  details: 'details',
   avatar: 'avatar',
   members: 'members',
   location: 'location',
