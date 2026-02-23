@@ -21,8 +21,8 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="bg-white">
-      <div className="mx-auto flex h-[72px] gap-70 w-full items-center justify-between px-6">
+    <header className="bg-white w-full">
+      <div className="flex h-[72px] gap-20 w-full items-center justify-between px-6">
         {/* Logo */}
         <div className="flex items-center">
           <div className="relative h-[82px] w-[300px]">
