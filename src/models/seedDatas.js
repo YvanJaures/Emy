@@ -332,9 +332,9 @@ async function seedCommunities() {
         }
     })
   const communities = [
-    { name:'Ottawa city' ,details:'Communauté de la ville d’ottawa. Rejoins nous pour du fun!' ,avatar: 'community1.jpg', members: 150, location: 'New York, Canada', id_manager: idManager.id_manager, privacy: false },
-    {  name:'Ottawa city', details:'Communauté de la ville d’ottawa. Rejoins nous pour du fun!', avatar: 'community2.jpg', members: 220, location: 'Los Angeles, Canada', id_manager: idManager.id_manager, privacy: true },
-    {  name:'Ottawa city', details:'Communauté de la ville d’ottawa. Rejoins nous pour du fun!', avatar: 'community3.jpg', members: 180, location: 'Madrid, Canada', id_manager: idManager.id_manager, privacy: false }
+    { avatar: 'community1.jpg', members: 150, location: 'New York, Canada', id_manager: idManager.id_manager, privacy: false },
+    { avatar: 'community2.jpg', members: 220, location: 'Los Angeles, Canada', id_manager: idManager.id_manager, privacy: true },
+    { avatar: 'community3.jpg', members: 180, location: 'Madrid, Canada', id_manager: idManager.id_manager, privacy: false }
   ];
 
   await prisma.community.createMany({ data: communities });
