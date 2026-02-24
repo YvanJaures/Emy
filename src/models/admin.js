@@ -175,27 +175,26 @@ export async function deleteMemberFromCommunity(id_community,user_name){
     return deleted;
 }
 
+
 export async function updateCommunity(id_community, alias, new_info) {
   switch(alias){
     case "name":
         return await prisma.community.update({
             where: { id_community },
-            data: { title: new_info } 
+            data: { name: new_info }
         });
-
     case "description":
         return await prisma.community.update({
             where: { id_community },
-            data: { desc: new_info }
+            data: { details: new_info } 
         });
-
     case "avatar":
         return await prisma.community.update({
             where: { id_community },
-            data: { image: new_info } 
+            data: { avatar: new_info }
         });
-
     default:
-        throw new Error("Alias invalide");
+        break;
   }
 }
+
