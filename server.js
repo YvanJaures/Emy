@@ -9,6 +9,7 @@ import session from 'express-session'
 import memorystore from 'memorystore'
 import router from './src/routes/global.js'
 import next from "next";
+import adminRoutes from './src/routes/admin.js'
 
 // Defini si nous sommes en production ou en developpement
 const dev = process.env.NODE_ENV !== "production";
@@ -40,6 +41,7 @@ app.use(passport.session())
 app.use(sse())
 // API de routes
 app.use('/api',router)
+app.use('/api/admin', adminRoutes)
 // API pour tester le backend
 app.get("/api/health", (req, res) => res.json({ ok: true }));
 
