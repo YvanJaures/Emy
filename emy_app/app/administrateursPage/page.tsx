@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 
-import Navbar from "@/components/organisms/NavBar";
+import NavbarAdmin from "@/components/organisms/NavBarAdmin";
 import Footer from "@/components/organisms/Footer";
 
 import Button from "@/components/atoms/Button";
@@ -49,7 +49,7 @@ export default function AdministrateursPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
+      <NavbarAdmin />
 
       <main className="mx-auto w-full max-w-6xl px-6 py-8 mb-15">
         {/* Bandeau haut pâle + bouton vert */}
