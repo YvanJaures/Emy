@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Navbar from "@/components/organisms/NavBar";
 import Footer from "@/components/organisms/Footer";
@@ -9,26 +9,42 @@ import Button from "@/components/atoms/Button";
 import ImageBackground from "@/components/atoms/ImageBackground";
 import SectionPillTitle from "@/components/molecules/SectionPillTitle";
 import AdminList from "@/components/organisms/AdminList";
-import type { Admin } from "../../components/molecules/AdminRow";
+import type { AdminDTO } from "@/hooks/Type_AdminDTO";
 
 export default function AdministrateursPage() {
-  const [admins, setAdmins] = useState<Admin[]>([
-    {
-      id: "1",
-      name: "Jean Dupuis",
-      tournoi: "Tournoi 2025",
-      email: "jean@gmail.com",
-    },
-    {
-      id: "2",
-      name: "Marie Desjardin",
-      tournoi: "Tournoi 2025",
-      email: "marie@gmail.com",
-    },
-  ]);
+  const [admins, setAdmins] = useState<AdminDTO[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleDelete = (id: string) => {
-    setAdmins((prev) => prev.filter((a) => a.id !== id));
+  //const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "";
+  //const ADMINS_URL = `${API_BASE}/api/admins`; //  adapte selon ton backend
+  const ADMINS_URL = `/api/admins`; //  adapte selon ton backend
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch(ADMINS_URL, { cache: "no-store" });
+        if (!res.ok) throw new Error("Erreur chargement admins");
+        const data = (await res.json()) as AdminDTO[];
+        setAdmins(data);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, [ADMINS_URL]);
+
+  const handleDelete = async (id_admin: number) => {
+    try {
+      const res = await fetch(`${ADMINS_URL}/${id_admin}`, {
+        method: "DELETE",
+      });
+      if (!res.ok) throw new Error("Suppression échouée");
+      setAdmins((prev) => prev.filter((a) => a.id_admin !== id_admin));
+    } catch (e) {
+      console.error(e);
+      alert("Impossible de supprimer cet administrateur.");
+    }
   };
 
   return (
