@@ -19,7 +19,6 @@ export const updateTourTeams = async (req,res)=>{
         res.status(500).json({message:"Erreur serveur",error:error.message});
     }
 };
-//Besoin de travailler sur cette partie, trop de bug en ce moment.
 
 export const updateTourStatus = async (req, res) => {
   try {
@@ -306,3 +305,31 @@ export const updateCommunity = async (req,res)=>{
         res.status(500).json({message:"Erreur serveur"});
     }
 };
+
+export async function getAdmins(req, res) {
+    try {
+        const admins = await adminModel.getAllAdmins();
+        res.json(admins);
+    } catch (error) {
+        console.error("GET ADMINS:", error);
+        res.status(500).json({ message: "Erreur serveur" });
+    }
+}
+
+
+export async function getAdmin(req, res) {
+    try {
+        const id = parseInt(req.params.id);
+
+        const admin = await adminModel.getAdminById(id);
+
+        if (!admin)
+            return res.status(404).json({ message: "Admin non trouvé" });
+
+        res.json(admin);
+
+    } catch (error) {
+        console.error("GET ADMIN:", error);
+        res.status(500).json({ message: "Erreur serveur" });
+    }
+}

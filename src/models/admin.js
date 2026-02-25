@@ -198,3 +198,25 @@ export async function updateCommunity(id_community, alias, new_info) {
   }
 }
 
+export async function getAllAdmins() {
+    console.log("admins")
+    return await prisma.admin.findMany({
+        include: {
+            Member: true,        
+            Community: true      
+        }
+    });
+}
+
+
+export async function getAdminById(id_admin) {
+    return await prisma.admin.findUnique({
+        where: {
+            id_admin: id_admin
+        },
+        include: {
+            Member: true,
+            Community: true
+        }
+    });
+}

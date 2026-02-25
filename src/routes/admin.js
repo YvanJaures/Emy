@@ -36,4 +36,9 @@ router.delete('/member/community', verifyAdmin, adminController.deleteMemberFrom
 //Mise à jour communauté
 router.patch('/community/update', verifyAdmin, adminController.updateCommunity);
 
+//Gestions admins
+router.get('/admins', verifyAdmin, adminController.getAdmins);
+router.get('/admin/:id', verifyAdmin, adminController.getAdmin);
+
+
 export default router;
