@@ -32,9 +32,7 @@ export const getMemberByNameC=async(request,response)=>{
 }
 export const getMembersC=async(request,response)=>{
     try{
-        console.log('hey')
         const members=await getMembers()
-        console.log("correct")
         response.status(200).json(members)
     }catch(error){
         console.log(error)
