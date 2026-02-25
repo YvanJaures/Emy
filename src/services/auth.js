@@ -8,7 +8,7 @@ const config={
     passwordField:'password'
 }
 
-passport.use(new Strategy(config,async(email,password,done)=>{
+passport.use(new Strategy(config,async(email, password, done)=>{
     try{
         let client=await getMemberByEmail(email)
         if(!client){
@@ -17,9 +17,9 @@ passport.use(new Strategy(config,async(email,password,done)=>{
                 return done(null,false,{erreur:'mauvais_email'})
             }
         }
-        const valid=await bcrypt.compare(password,client.password)
+        const valid= await bcrypt.compare(password, client.password)
         if(!valid){
-            return done(null,false,{erreur:'mauvais_mot_passe'})
+            return done(null, false, {erreur:'mauvais_mot_passe'})
         }
         done(null,client)
     }catch(erreur){
@@ -27,12 +27,12 @@ passport.use(new Strategy(config,async(email,password,done)=>{
     }
 
 }))
-passport.serializeUser((client,done)=>{
-    done(null,client.user_name)
+passport.serializeUser((client, done)=>{
+    done(null, client.user_name)
 })
-passport.deserializeUser(async(user_name,done)=>{
+passport.deserializeUser(async(user_name, done)=>{
     try{
-        const client =await getMemberByName(user_name)
+        const client = await getMemberByName(user_name)
         done(null,client)
     }catch(erreur){
         done(erreur)
