@@ -162,7 +162,6 @@ export async function deleteMemberFromTour(id_tour,user_name){
     return deleted;
 }
 
-
 export async function deleteMemberFromCommunity(id_community,user_name){
 
     const deleted = await prisma.community_member.deleteMany({
@@ -174,7 +173,6 @@ export async function deleteMemberFromCommunity(id_community,user_name){
 
     return deleted;
 }
-
 
 export async function updateCommunity(id_community, alias, new_info) {
   switch(alias){
@@ -198,16 +196,18 @@ export async function updateCommunity(id_community, alias, new_info) {
   }
 }
 
-export async function getAllAdmins() {
+export async function getAllAdmins(id_community) {
     console.log("admins")
     return await prisma.admin.findMany({
+        where:{
+            id_community:id_community
+        },
         include: {
             Member: true,        
             Community: true      
         }
     });
 }
-
 
 export async function getAdminById(id_admin) {
     return await prisma.admin.findUnique({

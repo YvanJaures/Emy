@@ -22,7 +22,7 @@ export default function AdministrateursPage() {
   //const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "";
   //const ADMINS_URL = `${API_BASE}/api/admins`; //  adapte selon ton backend
   const ADMINS_URL = `/api/admins`; //  adapte selon ton backend
- /* 
+
   useEffect(() => {
   (async () => {
       try {
@@ -36,7 +36,7 @@ export default function AdministrateursPage() {
         setLoading(false);
       }
     })();
-  }, [ADMINS_URL]);*/
+  }, [ADMINS_URL]);
     useEffect(()=>{
       (async ()=>{
         try{

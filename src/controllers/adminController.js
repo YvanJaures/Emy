@@ -308,7 +308,7 @@ export const updateCommunity = async (req,res)=>{
 
 export async function getAdmins(req, res) {
     try {
-        const admins = await adminModel.getAllAdmins();
+        const admins = await adminModel.getAllAdmins(request.user.Admin.id_community);
         res.json(admins);
     } catch (error) {
         console.error("GET ADMINS:", error);
