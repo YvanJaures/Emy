@@ -27,4 +27,18 @@ router.delete('/admin', verifyAdmin, adminController.deleteAdmin)
 //Journal des actions admin
 router.post('/action', verifyAdmin, adminController.logAdminAction)
 
+//Gestion membres tournoi
+router.delete('/member/tour', verifyAdmin, adminController.deleteMemberFromTour);
+
+//Gestion membres communauté
+router.delete('/member/community', verifyAdmin, adminController.deleteMemberFromCommunity);
+
+//Mise à jour communauté
+router.patch('/community/update', verifyAdmin, adminController.updateCommunity);
+
+//Gestions admins
+router.get('/admins', verifyAdmin, adminController.getAdmins);
+router.get('/admin/:id', verifyAdmin, adminController.getAdmin);
+
+
 export default router;
