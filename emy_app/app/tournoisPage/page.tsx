@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Navbar from "@/components/organisms/NavBar";
+import NavBarAdmin from "@/components/organisms/NavBarAdmin";
 import Footer from "@/components/organisms/Footer";
 
 import Button from "@/components/atoms/Button";
@@ -49,7 +49,7 @@ export default function TournoisPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
+      <NavBarAdmin />
 
       <main className="mx-auto w-full max-w-6xl px-6 py-8">
         {/* Bandeau pâle + bouton vert */}

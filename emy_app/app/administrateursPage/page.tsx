@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 
-import Navbar from "@/components/organisms/NavBar";
+import NavbarAdmin from "@/components/organisms/NavBarAdmin";
 import Footer from "@/components/organisms/Footer";
 
 import Button from "@/components/atoms/Button";

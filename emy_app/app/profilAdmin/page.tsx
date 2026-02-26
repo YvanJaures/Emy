@@ -1,4 +1,4 @@
-import NavBar from "@/components/organisms/NavBar";
+import NavBarAdmin from "@/components/organisms/NavBarAdmin";
 import Footer from "@/components/organisms/Footer";
 import ProfileCard from "@/components/organisms/ProfileCard";
 
@@ -13,7 +13,7 @@ export default function ProfilAdmin(){
     }
     return(
         <div className="bg-gray-100">
-            <NavBar/>
+            <NavBarAdmin/>
             <main className="mb-80 mt-5 flex flex-col justify-center items-center m-2">
                 <ProfileCard name={admin.name} imgUrl={admin.imgUrl} email={admin.email} edit="pointer-events-all"/>
             </main>

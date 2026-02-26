@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react";
-import NavBar from "@/components/organisms/NavBar";
+import NavBarAdmin from "@/components/organisms/NavBarAdmin";
 import Footer from "@/components/organisms/Footer";
 import InputText from "@/components/atoms/InputText";
 import Button from "@/components/atoms/Button";
@@ -38,10 +38,10 @@ export default function CreateTournament(){
     if(tr<2) trHaut="pointer-events-none"
     return(
         <div className="bg-gray-100">
-            <NavBar/>
+            <NavBarAdmin/>
             <main className="flex flex-col gap-2 p-5 justify-center items-center rounded-xl m-2 bg-white shadow-xl">
                 <h1>
-                    CREATION D'UN TOURNOI
+                    CREATION D UN TOURNOI
                 </h1>
                 <form action="submit" method="post" className="flex flex-col justify-center items-center w-full p-5">
                     <section className="flex flex-col flex-wrap w-full">

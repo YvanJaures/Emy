@@ -61,7 +61,7 @@ export default function LoginForm() {
 
       // Succès
       setError("");
-      window.location.href = "/"; 
+      window.location.href = "/profilAdmin"; 
       //setError("email/username or password incorrect...");
     } finally {
       setLoading(false);
