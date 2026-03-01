@@ -6,10 +6,12 @@ type InputProps = {
   label?: string;
   containerClassName?: string;
   inputClassName?: string;
+  type?:string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 const InputText: React.FC<InputProps> = ({
   label,
+  type,
   containerClassName = "",
   inputClassName = "",
   onFocus,
@@ -44,6 +46,7 @@ const InputText: React.FC<InputProps> = ({
           isFocused ? "border-yellow-400" : "border-black/50",
           inputClassName,
         ].join(" ")}
+        type={type}
       />
     </div>
   );

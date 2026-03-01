@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Navbar from "@/components/organisms/NavBar";
+import NavBarAdmin from "@/components/organisms/NavBarAdmin";
 import Footer from "@/components/organisms/Footer";
 
 import Button from "@/components/atoms/Button";
@@ -49,7 +49,7 @@ export default function TournoisPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
+      <NavBarAdmin />
 
       <main className="mx-auto w-full max-w-6xl px-6 py-8">
         {/* Bandeau pâle + bouton vert */}
@@ -60,6 +60,7 @@ export default function TournoisPage() {
               icon={<span className="text-base">+</span>}
               color="bg-green-300 border-green-300 text-black/80 hover:bg-green-200"
               className="rounded-2xl border-0 px-10 py-3 text-sm shadow-sm"
+              onClick={() => (window.location.href = "/createTour")}
             />
           </div>
         </section>
