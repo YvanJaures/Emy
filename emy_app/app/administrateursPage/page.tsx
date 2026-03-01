@@ -6,21 +6,25 @@ import NavbarAdmin from "@/components/organisms/NavBarAdmin";
 import Footer from "@/components/organisms/Footer";
 
 import Button from "@/components/atoms/Button";
+import Title from "@/components/atoms/Title";
+import UserSelectRow from "@/components/molecules/UserSelectRow";
 import ImageBackground from "@/components/atoms/ImageBackground";
 import SectionPillTitle from "@/components/molecules/SectionPillTitle";
 import AdminList from "@/components/organisms/AdminList";
 import type { AdminDTO } from "@/hooks/Type_AdminDTO";
+import { MemberDTO } from "@/hooks/Tpe_MemberDTO";
 
 export default function AdministrateursPage() {
   const [admins, setAdmins] = useState<AdminDTO[]>([]);
+  const [members,setMembers] = useState<MemberDTO[]>([]);
+  const [display,setDisplay]=useState("hidden")
   const [loading, setLoading] = useState(true);
-
   //const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "";
   //const ADMINS_URL = `${API_BASE}/api/admins`; //  adapte selon ton backend
   const ADMINS_URL = `/api/admins`; //  adapte selon ton backend
 
   useEffect(() => {
-    (async () => {
+  (async () => {
       try {
         const res = await fetch(ADMINS_URL, { cache: "no-store" });
         if (!res.ok) throw new Error("Erreur chargement admins");
@@ -33,8 +37,22 @@ export default function AdministrateursPage() {
       }
     })();
   }, [ADMINS_URL]);
-
-  const handleDelete = async (id_admin: number) => {
+    useEffect(()=>{
+      (async ()=>{
+        try{
+          const response=await fetch('/api/members')
+          if(response.ok){
+            const data=(await response.json()) as MemberDTO[]
+            setMembers(data)
+          }
+        }catch(error){
+          console.log(error)
+        }finally {
+          setLoading(false);
+        }
+      })()
+    },[]);
+  const handleDelete = async (id_admin: number) => {/*
     try {
       const res = await fetch(`${ADMINS_URL}/${id_admin}`, {
         method: "DELETE",
@@ -44,7 +62,7 @@ export default function AdministrateursPage() {
     } catch (e) {
       console.error(e);
       alert("Impossible de supprimer cet administrateur.");
-    }
+    }*/
   };
 
   return (
@@ -60,6 +78,7 @@ export default function AdministrateursPage() {
               title="Ajouter un administrateur"
               color="bg-green-300 border-green-300 text-black/80 hover:bg-green-200"
               className="rounded-2xl border-0 px-10 py-3 text-sm shadow-sm"
+              onClick={()=>(setDisplay('flex'))}
             />
           </div>
         </section>
@@ -75,6 +94,17 @@ export default function AdministrateursPage() {
       </main>
 
       <Footer />
+      <div className={`flex-col justify-center items-center shadow-xl absolute 
+          bg-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] h-[70%] 
+          p-2 rounded-xl z-50 overflow-visible  `+display} >
+          <Title as="h2" className="p-1 flex-5">Selectionner un nouvel admin</Title>
+          <span className="flex justify-center items-center p-2 gap-5">
+            <Button title="Ajouter" className="w-[100%] h-5 border-none bg-green-400" type="submit"/>
+            <Button title="Annuler" className="w-[100%] h-5 border-none bg-red-500"
+              onClick={()=>(setDisplay('hidden'))}/>
+          </span>
+          <UserSelectRow users={members} className="flex-90"/>
+      </div>
     </div>
   );
 }

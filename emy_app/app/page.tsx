@@ -64,7 +64,7 @@ export default function Home() {
         ></Button>
       </div>
       <PopCommunity list={list_communautes}></PopCommunity>
-      <Button title="GO TO profile" onClick={() => router.push("/profilAdmin")} />
+      {/* <Button title="GO TO profile" onClick={() => router.push("/profilAdmin")} /> */}
 
       <Footer />
     </div>

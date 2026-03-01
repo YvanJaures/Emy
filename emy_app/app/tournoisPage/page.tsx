@@ -60,7 +60,7 @@ export default function TournoisPage() {
               icon={<span className="text-base">+</span>}
               color="bg-green-300 border-green-300 text-black/80 hover:bg-green-200"
               className="rounded-2xl border-0 px-10 py-3 text-sm shadow-sm"
-              onClick={() => (window.location.href = "/createTour")}
+              onClick={()=>{location.href="/createTour"}}
             />
           </div>
         </section>

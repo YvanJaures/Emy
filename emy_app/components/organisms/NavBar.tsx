@@ -21,23 +21,19 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="bg-white w-full">
-      <div className="flex h-[72px] gap-20 w-full items-center justify-between px-6">
+    <header className="bg-white w-full border-b-[3px] border-[#0b78b9]">
+      <div className="flex h-[72px] w-full items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center">
-          <div className="relative h-[82px] w-[300px]">
-            <Image
-              src="/assets/logos/emy_foot.png"
+          <div className="flex justify-center items-center p-5 h-[50%] w-[20%] max-lg:w-[40%]">
+            <img
+              src="/assets/logos/emy_head.png"
               alt="EMY"
-              fill
-              className="object-contain"
-              priority
+              className="object-contain w-[80%]"
             />
           </div>
-        </div>
 
         {/* Menu centré (Desktop) */}
-        <nav className="hidden lg:flex items-center gap-34">
+        <nav className="hidden lg:flex items-center justify-evenly w-[70%]">
           {navItems.map((item) => {
             const isActive =
               pathname === item.href ||
@@ -60,7 +56,7 @@ export default function Navbar() {
         </nav>
 
         {/* Actions à droite */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 w-[10%] max-lg:w-[20%]">
           <button
             type="button"
             aria-label="Activer/Désactiver le mode sombre"
@@ -87,8 +83,6 @@ export default function Navbar() {
           </button>
         </div>
       </div>
-
-      <div className="h-[3px] w-full bg-[#0b78b9]" />
 
       {open && (
         <div className="lg:hidden border-t border-black/10 bg-white">
