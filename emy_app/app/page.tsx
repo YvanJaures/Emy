@@ -6,6 +6,10 @@ import PopCommunity from "@/components/organisms/PopCommunity";
 import Title from "@/components/atoms/Title";
 import Footer from "@/components/organisms/Footer";
 import Navbar from "@/components/organisms/NavBar";
+import MetaData from "@/components/organisms/MetaData";
+import Founders from "@/components/organisms/Founders";
+import LoadingAnimation from "@/components/organisms/LoadingAnimation";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Home() {
   const router = useRouter();
@@ -40,6 +44,7 @@ export default function Home() {
   ];
   return (
     <div className="flex flex-col gap-6 min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+      <MetaData seoTitle="Accueil" seoDescription="Accueil du site"></MetaData>
       <Navbar />
       <div className="w-full bg-contain h-[300px] bg-no-repeat bg-clip-content bg-fixed overflow-hidden">
         <img
@@ -54,18 +59,21 @@ export default function Home() {
           Emy est une plateforme en ligne d’hébergement de tournois de golf.
           C’est l’occasion de découvrir pour vous passionés de golf toutes les
           compétitions dans votre région. N’attendez plus, inscrivez vous dès
-          maintenant et réjoingnez un tournoi.
+          maintenant et réjoingnez une de nos nombreuses communautés remplis
+           de passionés de golf comme vous. Des tournois sont réguliérement 
+           organisé en fonction des communautés alors, n'attendez plus et 
+           rejoignez les pour plus de fun.
         </span>
         <Button
           title="S'INSCRIRE"
           onClick={() => router.push("/register")}
-          className="bg-[#0F70AC] text-white"
+          className="bg-[#0F70AC] text-white border-none w-fit"
           color="#0F70AC"
         ></Button>
       </div>
       <PopCommunity list={list_communautes}></PopCommunity>
       <Button title="GO TO profile" onClick={() => router.push("/profilAdmin")} />
-
+      <Founders/>
       <Footer />
     </div>
   );

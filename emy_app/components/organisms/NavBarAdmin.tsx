@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { FaMoon } from "react-icons/fa6";
 import AppLink from "../atoms/AppLink";
+import { deconnexion } from "@/fetchs/global";
 
 type NavItem = { label: string; href: string };
 
@@ -12,13 +13,20 @@ const navItems: NavItem[] = [
   { label: "ADMINISTRATEURS", href: "/administrateursPage" },
   { label: "TOURNOIS", href: "/tournoisPage" },
   { label: "EQUIPES", href: "/equipesPage" },
-  { label: "PROFIL", href: "/profilAdmin" },
-  { label: "DECONNEXION", href: "/" },
+  { label: "PROFIL", href: "/profilAdmin" }
 ];
 
 export default function NavBarAdmin() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [deconnecte,setDeConnecte]=useState(false)
+  useEffect(()=>{
+    if(deconnecte){
+      const deconnect=(async ()=>{
+        await deconnexion()
+      })()
+    }
+  },[])
 
   return (
     <header className="bg-white w-full">
@@ -57,6 +65,16 @@ export default function NavBarAdmin() {
               </AppLink>
             );
           })}
+          <button
+                onClick={async ()=>
+                await deconnexion()}
+                className={[
+                  "uppercase text-xs tracking-widest text-blue-700 opacity-70 hover:cursor-pointer hover:opacity-100",
+                  "hover:underline underline-offset-4"
+                ].join(" ")}
+              >
+                DECONNEXION
+          </button>
         </nav>
 
         {/* Actions à droite */}
@@ -115,6 +133,16 @@ export default function NavBarAdmin() {
                 );
               })}
             </ul>
+              <button
+                  onClick={async ()=>
+                  await deconnexion()}
+                  className={[
+                    "uppercase text-xs tracking-widest text-blue-700 opacity-70 hover:cursor-pointer hover:opacity-100",
+                    "hover:underline underline-offset-4 mt-5"
+                  ].join(" ")}
+                >
+                  DECONNEXION
+              </button>
           </nav>
         </div>
       )}

@@ -79,8 +79,8 @@ export const addAdmin = async (req,res)=>{
         if(!user_name || !id_community){
             return res.status(400).json({message:"Paramètres manquants"});
         }
-
-        res.json({
+        await adminModel.addAdmin(user_name,id_community)
+        res.status(200).json({
             message:"Administrateur ajouté",
             data:{user_name,id_community}
         });
@@ -309,7 +309,8 @@ export const updateCommunity = async (req,res)=>{
 export async function getAdmins(req, res) {
     try {
         const admins = await adminModel.getAllAdmins();
-        res.json(admins);
+        console.log(admins)
+        res.status(200).json(admins);
     } catch (error) {
         console.error("GET ADMINS:", error);
         res.status(500).json({ message: "Erreur serveur" });
@@ -326,7 +327,7 @@ export async function getAdmin(req, res) {
         if (!admin)
             return res.status(404).json({ message: "Admin non trouvé" });
 
-        res.json(admin);
+        res.status(200).json(admin);
 
     } catch (error) {
         console.error("GET ADMIN:", error);

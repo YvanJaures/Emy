@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 import passport from 'passport'
 import { Strategy } from 'passport-local'
-import {getMemberByEmail, getMemberByName } from '../models/global.js'
+import {getMemberByEmail, getMemberByName, getMemberPassword } from '../models/global.js'
 
 const config={
     usernameField:'email',
@@ -17,10 +17,30 @@ passport.use(new Strategy(config,async(email,password,done)=>{
                 return done(null,false,{erreur:'mauvais_email'})
             }
         }
-        const valid=await bcrypt.compare(password,client.password)
+        const passwordM=await getMemberPassword(client.user_name)
+        const valid=await bcrypt.compare(password,passwordM.password)
         if(!valid){
             return done(null,false,{erreur:'mauvais_mot_passe'})
         }
+       /* client={
+             id_member        :client.id_member,
+             user_name        :client.user_name,
+             name             :client.name,
+             surname          :client.surname,
+             address          :client.address,
+             birth_date       :client.birth_date,
+             country          :client.country,
+             email            :client.email,
+             phone            :client.phone,
+             avatar           :client.avatar,
+             Admin            :client.Admin,
+            Community_member  :client.Community_member,
+            Employee         :client.Employee,
+            Player           :client.Player,
+            Sponsor          :client.Sponsor,
+            Team             :client.Team,
+            Team_member      :client.Team_member
+        }*/
         done(null,client)
     }catch(erreur){
         done(erreur)

@@ -3,41 +3,18 @@
 import { useState } from "react";
 import NavBarAdmin from "@/components/organisms/NavBarAdmin";
 import Footer from "@/components/organisms/Footer";
+import MetaData from "@/components/organisms/MetaData";
 import InputText from "@/components/atoms/InputText";
 import Button from "@/components/atoms/Button";
 import { RiDeleteBin2Line } from "react-icons/ri";
 
 export default function CreateTournament(){
-    function addRow(){
-        const tr=document.createElement('tr')
-
-        tr.className="m-0 flex w-full"
-        tr.innerHTML=`
-                <td  className="flex-40 flex text-center justify-center items-center">
-                    <input type="text" placeholder="nom" className="w-full p-2 text-center" required/>
-                </td>
-                <td  className="flex-15 flex text-center justify-center items-center">
-                    $<input type="text" placeholder="valeur" className="w-full p-2 text-center" required/>
-                </td>
-                <td  className="flex-10 flex text-center justify-center items-center">
-                    <input type="text" placeholder="quota" className="w-full p-2 text-center" required/>
-                </td>
-                <td  className="flex-30 flex text-center justify-center items-center">
-                    <input type="text" placeholder="places disponibles" className="w-full p-2 text-center" required/>
-                </td>
-                <td  className="flex-5 p-2 text-center flex text-center justify-center items-center">
-                    <Button className="bg-black-20 w-5 border-none" 
-                    title="+" 
-                    onClick={()=>(addRow())}></Button>
-                </td>
-            `
-        document.getElementById('tableBody')?.append(tr)
-    }
     const [tr,setTr]=useState(1)
     let trHaut=""
     if(tr<2) trHaut="pointer-events-none"
     return(
         <div className="bg-gray-100">
+            <MetaData seoTitle="Création de tournoi" seoDescription="creation de tournoi par un administrateur"></MetaData>
             <NavBarAdmin/>
             <main className="flex flex-col gap-2 p-5 justify-center items-center rounded-xl m-2 bg-white shadow-xl">
                 <h1>
@@ -113,7 +90,8 @@ export default function CreateTournament(){
                                 ))}
                             </tbody>
                         </table>
-                        <Button className={`bg-black-20 w-5 border-none absolute right-0 -translate-4 -translate-y-8`} title="+" onClick={()=>(setTr(tr+1))}></Button>
+                        <Button className={`bg-black-20 w-5 border-none absolute right-0 -translate-4 -translate-y-8`} 
+                            title="+" onClick={()=>(setTr(tr+1))}></Button>
                         <InputText label="Frais d'inscription" 
                             containerClassName="flex flex-row flew-wrap 
                             justify-center items-center" type="text" required>

@@ -1,11 +1,10 @@
-"use client";
-
+"use client"
+import type { Metadata } from "next";
 import React, { useState, useEffect } from "react";
 
 import NavbarAdmin from "@/components/organisms/NavBarAdmin";
 import Footer from "@/components/organisms/Footer";
 import MetaData from "@/components/organisms/MetaData";
-import LoadingAnimation from "@/components/organisms/LoadingAnimation";
 import Button from "@/components/atoms/Button";
 import Title from "@/components/atoms/Title";
 import UserSelectRow from "@/components/molecules/UserSelectRow";
@@ -15,10 +14,58 @@ import AdminList from "@/components/organisms/AdminList";
 import type { AdminDTO } from "@/hooks/Type_AdminDTO";
 import { MemberDTO } from "@/hooks/Tpe_MemberDTO";
 
-export default function AdministrateursPage() {
+type Props={
+    params:Promise<{slug:string}>
+}
+
+const communities={
+    canada:{
+        title:"Découvrir le Canada",
+        description:"Un article sur le Canada et ses paysages.",
+        image:"/flag.png"
+    },
+    cameroon:{
+        title:"Découvrir le Cameroun",
+        description:"Un article sur le Cameroun et ses paysages.",
+        image:"/cameroon.png"
+    },
+}
+async function generateMetadata(
+    {params}:Props
+): Promise<Metadata>{
+    const {slug}=await params
+    const community=communities[slug as keyof typeof communities]
+
+    if(!community){
+        return{
+            title:"Communauté non trouvé",
+            description:"Cett communauté n'existe pas."
+        }
+    }
+
+    return{
+        title:community.title,
+        description:community.description,
+        openGraph:{
+            title:community.title,
+            description:community.description,
+            images:[
+                {
+                    url:community.image,
+                    width:1200,
+                    height:630,
+                },
+            ],
+            type:"article"
+        },
+    }
+}
+
+export default function AdminCommunity({params}:Props) {
   const [admins, setAdmins] = useState<AdminDTO[]>([]);
   const [members,setMembers] = useState<MemberDTO[]>([]);
   const [display,setDisplay]=useState("hidden")
+  const [slug,setSlug]=useState("")
   const [loading, setLoading] = useState(true);
   //const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "";
   //const ADMINS_URL = `${API_BASE}/api/admins`; //  adapte selon ton backend
@@ -39,6 +86,15 @@ export default function AdministrateursPage() {
     })();
   }, [ADMINS_URL]);*/
     useEffect(()=>{
+        (async ()=>{
+        try{
+          const  {slug}=await params
+          console.log("SLUG: ",slug)
+          setSlug(slug)
+        }catch(error){
+          console.log(error)
+        }
+      })();
       (async ()=>{
         try{
           const response=await fetch('/api/members')
@@ -65,15 +121,11 @@ export default function AdministrateursPage() {
       alert("Impossible de supprimer cet administrateur.");
     }*/
   };
+    const community=communities[slug as keyof typeof communities]
 
+    if(!community) return <h1>Article non trouvé</h1>
   return (
-    <>
-    {
-      loading ? (
-        <LoadingAnimation/>
-      ):
-      (<div className="min-h-screen bg-white flex flex-col justify-center items-center">
-      <MetaData seoTitle="Liste des administrateurs" seoDescription="liste des administrateurs de la communauté"></MetaData>
+    <div className="min-h-screen bg-white flex flex-col justify-center items-center">
       <NavbarAdmin />
       <main className="mx-auto w-full max-w-6xl px-6 py-8 mb-15">
         {/* Bandeau haut pâle + bouton vert */}
@@ -111,8 +163,6 @@ export default function AdministrateursPage() {
           </span>
           <UserSelectRow users={members} className="flex-90"/>
       </div>
-    </div>)
-  }
-  </>
+    </div>
   );
 }
