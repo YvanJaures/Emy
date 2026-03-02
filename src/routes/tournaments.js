@@ -1,29 +1,13 @@
-import * as tournamentModel from "../models/tournaments.js";
 import express from "express";
+import * as tournamentController from "../controllers/tournamentsController.js";
+import { verifyAdmin } from "../middlewares/adminAuth.js";
 
 const router = express.Router();
 
-export const getTournaments = async (req, res) => {
-    try {
-        const tours = await tournamentModel.getAllTournaments();
-        res.json(tours);
-    } catch (error) {
-        console.error("GET TOURNAMENTS:", error);
-        res.status(500).json({ message: "Erreur serveur" });
-    }
-};
+// GET tous les tournois
+router.get("/tournaments", tournamentController.getTournaments);
 
-export const getTournamentsByAdmin = async (req, res) => {
-    try {
-        const id_admin = parseInt(req.params.id);
-
-        const tours = await tournamentModel.getTournamentsByAdmin(id_admin);
-
-        res.json(tours);
-    } catch (error) {
-        console.error("GET TOURNAMENT BY ADMIN:", error);
-        res.status(500).json({ message: "Erreur serveur" });
-    }
-};
+// GET tournois par admin
+router.get("/tournaments/admin/:id", verifyAdmin, tournamentController.getTournamentsByAdmin);
 
 export default router;

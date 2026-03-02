@@ -15,8 +15,7 @@ export async function getTournamentsByAdmin(id_admin) {
             id_admin: id_admin
         },
         include: {
-            Community: true,
-            Admin: true
+            Community: true
         }
     });
 }
