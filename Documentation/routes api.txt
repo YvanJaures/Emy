@@ -9,8 +9,11 @@ GLOBAL USERS (DONE --------------------------------------------)
 54- Pacth: api/member/team/update (user_name);
 4- Post: api/member/pay
 
-SPONSORS
+TOURNAMENT
+55- GET: api/tournaments    (Pour tous les tournois)
+56- GET: api/tournaments/admin/*id_admin* 
 
+SPONSORS
 5- Post: api/member/sponsor (user_name,email,ame,surname,address,company_name,phone,title,birth_date,password);
 6- Post: api/member/sponsor/prize (id_prize,user_name);
 7- Post: api/member/sponsor/member ( user_name,name,surname,address,birth_date,phone,email,pasword)
