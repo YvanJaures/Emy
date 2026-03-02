@@ -129,12 +129,13 @@ exports.Prisma.AdminScalarFieldEnum = {
 
 exports.Prisma.CommunityScalarFieldEnum = {
   id_community: 'id_community',
+  name: 'name',
+  details: 'details',
   avatar: 'avatar',
   members: 'members',
   location: 'location',
   id_manager: 'id_manager',
-  privacy: 'privacy',
-  details: 'details'
+  privacy: 'privacy'
 };
 
 exports.Prisma.Community_memberScalarFieldEnum = {
@@ -162,9 +163,9 @@ exports.Prisma.MemberScalarFieldEnum = {
   birth_date: 'birth_date',
   country: 'country',
   email: 'email',
+  phone: 'phone',
   avatar: 'avatar',
-  password: 'password',
-  phone: 'phone'
+  password: 'password'
 };
 
 exports.Prisma.PlayerScalarFieldEnum = {
