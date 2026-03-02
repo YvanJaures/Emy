@@ -5,7 +5,7 @@ export type AdminDTO = {
 
 
   Member?: {
-     user_name: string;
+    user_name: string;
     name: string | null;
     surname: string | null;
     email: string | null;
