@@ -2,10 +2,13 @@ import express from 'express'
 import * as globalController from '../controllers/globalController.js'
 import { sendMail } from '../controllers/sendMailController.js'
 import {deConnecterApi,connecterApi} from '../middlewares/auth.js'
+import tournamentRoutes from './tournaments.js'
+import adminRoutes from './admin.js'
 
 const router=express.Router()
 
-// routes
+
+// Routes GLOBAL
 // connexion, deconnexion
 router.post('/connexion',deConnecterApi,globalController.connexion)
 router.post('/deconnexion',connecterApi,globalController.deconnexion)
@@ -30,5 +33,8 @@ router.patch('/member/update',globalController.updateMemberC)
 router.patch('/member/team/update',globalController.addTeamMemberC)
 router.patch('/member/password',globalController.updatePasswordMemberC)
 
+//Routes ADMIN ET TOURNAMENTS
+router.use('/admin', adminRoutes)
+router.use('/', tournamentRoutes)
 // ne pas supprimer
 export default router;
