@@ -8,11 +8,6 @@ export default function Error404Page(){
         <div className="w-full h-dvh bg-cover bg-[url(/assets/emy_error_404_v2.png)]
          bg-clip-content bg-center bg-no-repeat bg-fixed overflow-hidden 
          flex flex-col overflow-scroll">
-        <img
-           src="/assets/emy_error_404_v2.png"
-           alt="image de page introuvable"
-           className="h-dvh w-full object-cover top-0"
-         />
         <div className="bg-white w-full h-fit p-10 
           flex flex-col justify-center items-center gap-3 max-sm:text-[20px] text-[30px] bold">
           <Title className="flex justify-center items-center gap-2
@@ -29,6 +24,11 @@ export default function Error404Page(){
             color="#0F70AC"
         ></Button>
         </div>
+        <img
+           src="/assets/emy_error_404_v2.png"
+           alt="image de page introuvable"
+           className="h-dvh w-full object-cover top-0"
+         />
       </div>
     )
 }
