@@ -1,5 +1,4 @@
 import 'dotenv/config'
-import bcrypt from 'bcrypt'
 import { prisma } from '../prisma.js';
 
 //Ajouter membre à une équipe
@@ -237,6 +236,14 @@ export async function getAdminById(id_admin) {
         include: {
             Member: true,
             Community: true
+        }
+    });
+}
+
+export async function getTournamentsByCommunity(id_community) {
+    return await prisma.tournament.findMany({
+        where: {
+            id_community: id_community
         }
     });
 }

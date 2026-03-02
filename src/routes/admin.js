@@ -2,6 +2,7 @@ import express from 'express'
 import * as adminController from '../controllers/adminController.js'
 import { verifyAdmin } from '../middlewares/adminAuth.js'
 
+
 const router = express.Router()
 
 //Routes
@@ -40,6 +41,8 @@ router.patch('/community/update', verifyAdmin, adminController.updateCommunity);
 router.get('/admins', verifyAdmin, adminController.getAdmins);      //ok
 router.get('/admin/:id', verifyAdmin, adminController.getAdmin);    //ok  si tu test avec thunder client ---> doit ajouter le id a la fin. 
                                                                     // Exemple : http://localhost:3000/api/admin/admin/1   ---> 1 ici est l'id du admin
+// GET tournois par admin
+router.get("/tournaments/community/:id", verifyAdmin, adminController.getTournamentsByCommunity);
 
 
 export default router;
