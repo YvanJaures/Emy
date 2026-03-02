@@ -1,4 +1,7 @@
-import * as tournamentModel from "../models/tournament.js";
+import * as tournamentModel from "../models/tournaments.js";
+import express from "express";
+
+const router = express.Router();
 
 export const getTournaments = async (req, res) => {
     try {
@@ -22,3 +25,5 @@ export const getTournamentsByAdmin = async (req, res) => {
         res.status(500).json({ message: "Erreur serveur" });
     }
 };
+
+export default router;

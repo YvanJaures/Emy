@@ -10,7 +10,7 @@ import memorystore from 'memorystore'
 import router from './src/routes/global.js'
 import next from "next";
 import adminRoutes from './src/routes/admin.js'
-import tournamentRoutes from "./src/routes/tournament.js";
+import tournamentRoutes from "./src/routes/tournaments.js";
 
 
 // Defini si nous sommes en production ou en developpement
