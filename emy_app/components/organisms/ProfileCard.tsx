@@ -3,6 +3,7 @@ import { MdLogout } from "react-icons/md";
 import { AiOutlineUserDelete } from "react-icons/ai";
 import { TbUserEdit } from "react-icons/tb";
 import { useState } from "react";
+import { deconnexion } from "@/fetchs/global";
 export default function ProfileCard(props:{imgUrl:string,name:string,user_name:string,email:string,edit:string}){
 const [avatar,setAvatar]=useState(props.imgUrl)
     return(
@@ -34,7 +35,7 @@ const [avatar,setAvatar]=useState(props.imgUrl)
                     MODIFIER
                 </span>
                 <span className="border border-black-800 rounded-xl p-1  w-50 gap-2 flex justify-center 
-                    items-center hover:cursor-pointer"  onClick={()=>(alert('logout'))}>
+                    items-center hover:cursor-pointer"  onClick={async ()=>await deconnexion()}>
                     <MdLogout className="hover:cursor-pointer"/>
                     DECONNEXION
                 </span>
