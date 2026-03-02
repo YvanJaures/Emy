@@ -4,7 +4,8 @@ import React, { useState, useEffect, useMemo } from "react";
 
 import NavbarAdmin from "@/components/organisms/NavBarAdmin";
 import Footer from "@/components/organisms/Footer";
-
+import MetaData from "@/components/organisms/MetaData";
+import LoadingAnimation from "@/components/organisms/LoadingAnimation";
 import Button from "@/components/atoms/Button";
 import Title from "@/components/atoms/Title";
 import UserSelectRow from "@/components/molecules/UserSelectRow";
@@ -91,7 +92,13 @@ export default function AdministrateursPage() {
   const isLoading = loadingAdmins || loadingMembers;
 
   return (
+    <>
+    {
+      isLoading ? (
+        <LoadingAnimation/>
+      ):(
     <div className="min-h-screen bg-white">
+      <MetaData seoTitle="Liste des administrateurs" seoDescription="liste des administrateurs de la communauté"></MetaData>
       <NavbarAdmin />
 
       <main className="mx-auto w-full max-w-6xl px-6 py-8">
@@ -112,7 +119,7 @@ export default function AdministrateursPage() {
             <SectionPillTitle text="Liste des administrateurs" />
           </div>
 
-          {isLoading ? (
+          {loadingAdmins ? (
             <p className="mt-6 text-xs text-white/90">Chargement...</p>
           ) : (
             <AdminList admins={admins} onDelete={handleDelete} />
@@ -160,5 +167,7 @@ export default function AdministrateursPage() {
         </>
       )}
     </div>
+      )}
+    </>
   );
 }

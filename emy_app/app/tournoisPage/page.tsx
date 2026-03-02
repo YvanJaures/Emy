@@ -3,11 +3,13 @@
 import React, { useEffect, useState } from "react";
 import NavBarAdmin from "@/components/organisms/NavBarAdmin";
 import Footer from "@/components/organisms/Footer";
+import LoadingAnimation from "@/components/organisms/LoadingAnimation";
 
 import Button from "@/components/atoms/Button";
 import ImageBackground from "@/components/atoms/ImageBackground";
 import SectionPillTitle from "@/components/molecules/SectionPillTitle";
 import TournamentList from "@/components/organisms/TournamentList";
+import MetaData from "@/components/organisms/MetaData";
 import type { TournamentDTO } from "@/hooks/Type_TournamentDTO";
 
 export default function TournoisPage() {
@@ -48,7 +50,14 @@ export default function TournoisPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <>
+      {
+        loading ?
+        (
+          <LoadingAnimation/>
+        ) :
+    (<div className="min-h-screen bg-white">
+      <MetaData seoTitle="Tournois de la communauté" seoDescription="Tournois de la communauté"></MetaData>
       <NavBarAdmin />
 
       <main className="mx-auto w-full max-w-6xl px-6 py-8">
@@ -65,21 +74,23 @@ export default function TournoisPage() {
           </div>
         </section>
 
-        {/* Bloc image + liste */}
-        <ImageBackground imageUrl="/assets/arrieres_plan/CarolinaLowcountry.png">
-          <div className="flex justify-center pt-2">
-            <SectionPillTitle text="Liste des tournois" />
-          </div>
+          {/* Bloc image + liste */}
+          <ImageBackground imageUrl="/assets/arrieres_plan/CarolinaLowcountry.png">
+            <div className="flex justify-center pt-2">
+              <SectionPillTitle text="Liste des tournois" />
+            </div>
 
-          {loading ? (
-            <p className="mt-6 text-xs text-white/90">Chargement...</p>
-          ) : (
-            <TournamentList tournaments={tournaments} onDelete={handleDelete} />
-          )}
-        </ImageBackground>
-      </main>
+            {loading ? (
+              <p className="mt-6 text-xs text-white/90">Chargement...</p>
+            ) : (
+              <TournamentList tournaments={tournaments} onDelete={handleDelete} />
+            )}
+          </ImageBackground>
+        </main>
 
-      <Footer />
-    </div>
+        <Footer />
+      </div>
+        )}
+    </>
   );
 }

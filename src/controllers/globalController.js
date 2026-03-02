@@ -11,7 +11,14 @@ export const basefunction=async(request,response)=>{
         response.status(404).end()
     }
 }*/
-
+export const getUser=async(request,response)=>{
+    const user=request.user
+    if(!user){
+        response.status(404).json({info:"no_user"})
+        return
+    }
+    response.status(200).json(user)
+}
 export const getMemberByEmailC=async(request,response)=>{
     try{
 

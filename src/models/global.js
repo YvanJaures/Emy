@@ -10,6 +10,24 @@ export async function getMemberByEmail(email){
     const member= await prisma.member.findFirst({
         where:{
             email:email
+        },
+        select:{
+            user_name        :true,
+            name             :true,
+            surname          :true,
+            address          :true,
+            birth_date       :true,
+            country          :true,
+            email            :true,
+            phone            :true,
+            avatar           :true,
+            Admin            :true,
+            Community_member :true,
+            Employee         :true,
+            Player           :true,
+            Sponsor          :true,
+            Team             :true,
+            Team_member      :true
         }
     });
     return member
@@ -23,9 +41,37 @@ export async function getMemberByName(user_name){
     const member= await prisma.member.findUnique({
         where:{
             user_name:user_name
+        },
+        select:{
+            user_name        :true,
+            name             :true,
+            surname          :true,
+            address          :true,
+            birth_date       :true,
+            country          :true,
+            email            :true,
+            phone            :true,
+            avatar           :true,
+            Admin            :true,
+            Community_member :true,
+            Employee         :true,
+            Player           :true,
+            Sponsor          :true,
+            Team             :true,
+            Team_member      :true
         }
     });
     return member
+}
+export async function getMemberPassword(user_name){
+    return await prisma.member.findUnique({
+        where:{
+            user_name:user_name
+        },
+        select:{
+            password:true
+        }
+    })
 }
 /**
  * Récupére la liste de tous les membres
@@ -33,7 +79,11 @@ export async function getMemberByName(user_name){
  */
 export async function getMembers(){
     console.log("Server:", process.env.DB_SERVER);
-    const members=await prisma.member.findMany()
+    const members=await prisma.member.findMany({
+        include:{
+            Admin:true
+        }
+    })
     console.log('correct')
     return members
 }

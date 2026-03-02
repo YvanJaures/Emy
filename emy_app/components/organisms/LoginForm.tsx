@@ -12,7 +12,7 @@ import LabeledField from "../molecules/LabeledField";
  * Ce composant est un formulaire de connexion qui n'active le boutton de
  * soumission que lorqsqu'au moins l'email et le mot de passe sont remplis
  */
-export default function LoginForm() {
+export default function LoginForm(props:{route:string}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [adminId, setAdminId] = useState("");
@@ -61,7 +61,12 @@ export default function LoginForm() {
 
       // Succès
       setError("");
-      window.location.href = "/profilAdmin"; 
+      if(props.route){
+
+        location.href=props.route 
+      }else{
+        location.href='/profilAdmin'
+      }
       //setError("email/username or password incorrect...");
     } finally {
       setLoading(false);
@@ -125,7 +130,7 @@ export default function LoginForm() {
 
           <Button
             type="button"
-            title="SIGN IN"
+            title="SIGN UP"
             disabled={false}
             size="text-[10px]"
             className="py-2 w-full"

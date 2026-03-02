@@ -3,6 +3,7 @@
 import { useState } from "react";
 import NavBarAdmin from "@/components/organisms/NavBarAdmin";
 import Footer from "@/components/organisms/Footer";
+import MetaData from "@/components/organisms/MetaData";
 import InputText from "@/components/atoms/InputText";
 import Button from "@/components/atoms/Button";
 import { RiDeleteBin2Line } from "react-icons/ri";
@@ -81,7 +82,7 @@ export default function CreateTournament() {
   return (
     <div className="bg-gray-100">
       <NavBarAdmin />
-
+      <MetaData seoTitle="Création de tournoi" seoDescription="creation de tournoi par un administrateur"></MetaData>
       <main className="flex flex-col gap-2 p-5 justify-center items-center rounded-xl m-2 bg-white shadow-xl">
         <h1>CREATION D UN TOURNOI</h1>
 
@@ -252,7 +253,7 @@ export default function CreateTournament() {
             </table>
 
             <Button
-              className="bg-black-20 w-5 border-none self-end mt-2"
+              className="bg-black-20 w-5 border-none absolute right-0 -translate-4 -translate-y-8"
               title="+"
               type="button"
               onClick={() => setTr(tr + 1)}

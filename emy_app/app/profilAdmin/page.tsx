@@ -1,23 +1,35 @@
+"use client"
 import NavBarAdmin from "@/components/organisms/NavBarAdmin";
 import Footer from "@/components/organisms/Footer";
 import ProfileCard from "@/components/organisms/ProfileCard";
-
-
+import MetaData from "@/components/organisms/MetaData";
+import LoadingAnimation from "@/components/organisms/LoadingAnimation";
+import { useEffect, useState } from "react";
+import { getUser } from "@/fetchs/global";
+import { MemberDTO } from "@/hooks/Tpe_MemberDTO";
+import { isNull } from "util";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function ProfilAdmin(){
-    const admin={
-      name: "Yvan jaures",
-      details: "Communauté de la ville d’ottawa. Rejoins nous pour du fun!",
-      imgUrl: "/assets/avatars/avatar_prof_4.png",
-      email: "emaildeyvan@gmail.com"
-    }
+
+    const {member,loading}=useAuth();
+    console.log(member)
     return(
-        <div className="bg-gray-100">
-            <NavBarAdmin/>
-            <main className="mb-80 mt-5 flex flex-col justify-center items-center m-2">
-                <ProfileCard name={admin.name} imgUrl={admin.imgUrl} email={admin.email} edit="pointer-events-all"/>
-            </main>
-            <Footer/>
-        </div>
+        <>
+            {
+                loading ? (
+                    <LoadingAnimation/>
+                ) : (
+                    <div className="bg-gray-100">
+                        <MetaData seoTitle="Profil utilisateur" seoDescription="informations de profil utilisateur"></MetaData>
+                        <NavBarAdmin/>
+                        <main className="mb-80 mt-5 flex flex-col justify-center items-center m-2">
+                            <ProfileCard name={member?.name ?? ""} user_name={member?.user_name ?? ""} imgUrl={member?.avatar ?? "null"} email={member?.email ?? ""} edit="pointer-events-all"/>
+                        </main>
+                        <Footer/>
+                    </div>
+                )
+            }
+        </>
     )
 }
