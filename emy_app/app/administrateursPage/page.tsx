@@ -15,6 +15,18 @@ import AdminList from "@/components/organisms/AdminList";
 import type { AdminDTO } from "@/hooks/Type_AdminDTO";
 import { MemberDTO } from "@/hooks/Tpe_MemberDTO";
 
+/**
+ * Page d’administration permettant :
+ * - d’afficher la liste des administrateurs
+ * - de charger les membres pour en ajouter un comme admin
+ * - de supprimer un administrateur existant
+ * - d’ouvrir un modal pour sélectionner un nouvel admin
+ *
+ * Cette fonction gère :
+ * - les appels API (GET admins, GET members, DELETE admin)
+ * - les états de chargement
+ * - l’affichage conditionnel (loading, liste, modal)
+ */
 export default function AdministrateursPage() {
 
   const [admins, setAdmins] = useState<AdminDTO[]>([]);

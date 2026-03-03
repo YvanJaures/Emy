@@ -13,6 +13,18 @@ import MetaData from "@/components/organisms/MetaData";
 import type { TournamentDTO } from "@/hooks/Type_TournamentDTO";
 import { useAuth } from "@/hooks/useAuth";
 
+/**
+ * Page listant tous les tournois de la communauté.
+ *
+ * Cette fonction :
+ * - charge les tournois depuis l’endpoint /api/tournaments
+ * - utilise useAuth() pour récupérer l’utilisateur connecté et afficher la barre admin
+ * - affiche une animation de chargement tant que les données ne sont pas disponibles
+ * - rend la liste des tournois via TournamentList
+ * - permet la suppression d’un tournoi via handleDelete()
+ * - propose un bouton pour créer un nouveau tournoi
+ */
+
 export default function TournoisPage() {
   const [tournaments, setTournaments] = useState<TournamentDTO[]>([]);
   const [loading, setLoading] = useState(true);

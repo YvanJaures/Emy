@@ -21,6 +21,16 @@ import notFound from "@/app/not-found";
 type Props={
     params:Promise<{slug:string}>
 }
+/**
+*Cette fonction permet de recuperer la liste des communautes depuis l'api
+* - Appelle l’endpoint GET `/api/communities`
+ * - Envoie les cookies de session (credentials: "include") pour que l’API puisse
+ *   identifier l’utilisateur (auth / session).
+ * - Si la réponse est OK (HTTP 200-299), retourne le JSON (liste de communautés).
+ * - Sinon, retourne `null` (ex: non connecté, erreur serveur, etc.).
+ *
+ * @returns Promise<CommunityDTO[] | null>
+ */
 export async function getCommunities(){
     const res=await fetch('/api/communities',{
         credentials:"include"
@@ -67,6 +77,22 @@ async function generateMetadata(
     }
 }
 
+/**
+ *  Génère dynamiquement les métadonnées (title/description/openGraph) pour la page
+ * selon la communauté ciblée par l’URL (`params.slug`).
+ *
+ * - Récupère `slug` depuis `params`.
+ * - Trouve la communauté correspondante dans `communities`.
+ * - Si la communauté n’existe pas :
+ *   - Retourne un titre/description “Communauté non trouvé”.
+ * - Si elle existe :
+ *   - Retourne title/description basés sur `community.name` et `community.details`.
+ *   - Configure aussi Open Graph (utile pour le partage sur réseaux sociaux) :
+ *     titre, description, image (community.avatar), dimensions, type.
+ *
+ * @param props.params - contient le slug de la communauté (route dynamique)
+ * @returns Promise<Metadata>
+ */
 export default function AdminCommunity({params}:Props) {
   const [admins, setAdmins] = useState<AdminDTO[]>([]);
   const [members,setMembers] = useState<Community_memberDTO[]>([]);
