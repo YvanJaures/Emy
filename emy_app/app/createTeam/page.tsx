@@ -12,8 +12,8 @@ export default function CreateTeamPage() {
 
       <main className="mx-auto w-full max-w-6xl px-6 py-8">
         <CreateTeamForm
-          teamUrl="/api/admin/team"
-          tournamentsUrl="/api/admin/tours"
+          teamUrl="/api/member/team"
+          tournamentsUrl="/api/tournaments"
           onSuccessRedirectTo="/equipes"
           onCancel={() => (location.href = "/equipesPage")}
         />
