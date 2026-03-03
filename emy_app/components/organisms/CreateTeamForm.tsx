@@ -22,8 +22,8 @@ type Props = {
 };
 
 export default function CreateTeamForm({
-  teamUrl = "/api/admin/team",
-  tournamentsUrl = "/api/admin/tours",
+  teamUrl = "/api/member/team",
+  tournamentsUrl = "/api/tournaments",
   onCancel,
   onSuccessRedirectTo,
 }: Props) {
@@ -229,6 +229,9 @@ export default function CreateTeamForm({
             disabled={loading}
             className="w-32 border-none"
             color="bg-green-300 border-green-300 text-black/80 hover:bg-green-200"
+            onClick={() => {
+              location.href = "/equipesPage";
+            }}
           />
 
           <Button
