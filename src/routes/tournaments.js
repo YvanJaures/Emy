@@ -7,7 +7,5 @@ const router = express.Router();
 // GET tous les tournois
 router.get("/tournaments", tournamentController.getTournaments);
 
-// GET tournois par admin
-router.get("/tournaments/admin/:id", verifyAdmin, tournamentController.getTournamentsByAdmin);
 
 export default router;
