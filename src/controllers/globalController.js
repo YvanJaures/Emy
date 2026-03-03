@@ -11,6 +11,11 @@ export const basefunction=async(request,response)=>{
         response.status(404).end()
     }
 }*/
+/**
+ * recupére l'utilisateur connecté
+ * @param {*} request 
+ * @param {*} response
+ */
 export const getUser=async(request,response)=>{
     const user=request.user
     if(!user){
@@ -19,6 +24,11 @@ export const getUser=async(request,response)=>{
     }
     response.status(200).json(user)
 }
+/**
+ * recupére le membre en fonction de l'email
+ * @param {*} request 
+ * @param {*} response 
+ */
 export const getMemberByEmailC=async(request,response)=>{
     try{
 
@@ -28,6 +38,11 @@ export const getMemberByEmailC=async(request,response)=>{
         response.status(404).end()
     }
 }
+/**
+ * recupére le membre en fonction du username
+ * @param {*} request 
+ * @param {*} response 
+ */
 export const getMemberByNameC=async(request,response)=>{
     try{
 
@@ -37,6 +52,11 @@ export const getMemberByNameC=async(request,response)=>{
         response.status(404).end()
     }
 }
+/**
+ * recupére tous les membres de l'application
+ * @param {*} request 
+ * @param {*} response 
+ */
 export const getMembersC=async(request,response)=>{
     try{
         const members=await getMembers()
@@ -46,6 +66,11 @@ export const getMembersC=async(request,response)=>{
         response.status(404).end()
     }
 }
+/**
+ * recupére les noms d'utilisateurs de membres de l'application
+ * @param {*} request 
+ * @param {*} response 
+ */
 export const getMembersUserNamesC=async(request,response)=>{
     try{
         const userNames=await getMembersUserNames()
@@ -54,6 +79,11 @@ export const getMembersUserNamesC=async(request,response)=>{
         response.status(404).end()
     }
 }
+/**
+ * ajoute un membre
+ * @param {*} request 
+ * @param {*} response 
+ */
 export const addMemberC=async(request,response)=>{
     try{
         await addMember(request.body.user_name,
@@ -72,6 +102,11 @@ export const addMemberC=async(request,response)=>{
         response.status(404).end()
     }
 }
+/**
+ * met à jour un membre 
+ * @param {*} request 
+ * @param {*} response 
+ */
 export const updateMemberC=async(request,response)=>{
     try{
         await updateMember(request.body.user_name,
@@ -82,6 +117,11 @@ export const updateMemberC=async(request,response)=>{
         response.status(404).end()
     }
 }
+/**
+ * ajoute un team à une équipe
+ * @param {*} request 
+ * @param {*} response 
+ */
 export const addTeamC=async(request,response)=>{
     try{
         await addTeam(request.body.name,
@@ -93,6 +133,11 @@ export const addTeamC=async(request,response)=>{
         response.status(404).end()
     }
 }
+/**
+ * ajoute un membre à une équipe (en attente)
+ * @param {*} request 
+ * @param {*} response 
+ */
 export const addTeamMemberWaitC=async(request,response)=>{
     try{
         await addTeamMemberWait(request.body.id_team,
@@ -103,6 +148,11 @@ export const addTeamMemberWaitC=async(request,response)=>{
         response.status(404).end()
     }
 }
+/**
+ * ajoute un membre à une équipe (définitivement)
+ * @param {*} request 
+ * @param {*} response 
+ */
 export const addTeamMemberC=async(request,response)=>{
     try{
         await addTeamMember(request.body.user_name)
@@ -111,6 +161,11 @@ export const addTeamMemberC=async(request,response)=>{
         response.status(404).end()
     }
 }
+/**
+ * paye
+ * @param {*} request 
+ * @param {*} response 
+ */
 export const payC=async(request,response)=>{
     try{
 
@@ -118,6 +173,11 @@ export const payC=async(request,response)=>{
         response.status(404).end()
     }
 }
+/**
+ * modifie le mot de passe de l'utilisateur
+ * @param {*} request 
+ * @param {*} response 
+ */
 export const updatePasswordMemberC=async(request,response)=>{
     try{
         await updatePasswordMember(request.body.user_name,
@@ -128,6 +188,11 @@ export const updatePasswordMemberC=async(request,response)=>{
         response.status(404).end()
     }
 }
+/**
+ * ajoute un membre à une communauté
+ * @param {*} request 
+ * @param {*} response 
+ */
 export const addCommunityMemberC=async(request,response)=>{
     try{
         await addCommunityMember(request.body.id_community,
@@ -138,6 +203,11 @@ export const addCommunityMemberC=async(request,response)=>{
         response.status(404).end()
     }
 }
+/**
+ * ajoute un joueur à une équipe
+ * @param {*} request 
+ * @param {*} response 
+ */
 export const addPlayerC=async(request,response)=>{
     try{
         await addPlayer(request.body.id_tour,
@@ -148,7 +218,11 @@ export const addPlayerC=async(request,response)=>{
     }
 }
 
-
+/**
+ * connecte l'utilisateur à l'application
+ * @param {*} request 
+ * @param {*} response 
+ */
 export const connexion=async(request, response, next) => {
     passport.authenticate('local', (error, user, info) => {
         if (error) return next(error);
@@ -159,7 +233,11 @@ export const connexion=async(request, response, next) => {
         });
     })(request, response, next);
 };
-
+/**
+ * déconnecte l'utilisateur à l'application
+ * @param {*} request 
+ * @param {*} response 
+ */
 export const deconnexion=async (request, response, next) => {
     request.logout((error) => {
         if (error) return next(error);
