@@ -1,14 +1,20 @@
 "use client";
 
 //import React, { useEffect, useState } from "react";
-import NavbarAdmin from "@/components/organisms/NavBarAdmin";
+import NavBarAdmin from "@/components/organisms/NavBarAdmin";
 import Footer from "@/components/organisms/Footer";
 import CreateTeamForm from "@/components/organisms/CreateTeamForm";
+import LoadingAnimation from "@/components/organisms/LoadingAnimation";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function CreateTeamPage() {
+  const { member, loading } = useAuth();
+  if (loading) return <LoadingAnimation />;
   return (
     <div className="min-h-screen bg-white">
-      <NavbarAdmin />
+      {member?.Admin?.id_community && (
+        <NavBarAdmin id_community={member.Admin.id_community} />
+      )}
 
       <main className="mx-auto w-full max-w-6xl px-6 py-8">
         <CreateTeamForm
@@ -23,7 +29,6 @@ export default function CreateTeamPage() {
     </div>
   );
 }
-
 
 // import InputText from "@/components/atoms/InputText";
 // import Button from "@/components/atoms/Button";
@@ -107,7 +112,7 @@ export default function CreateTeamPage() {
 //         method: "POST",
 //         headers: {
 //           "Content-Type": "application/json",
-//           role: "admin", 
+//           role: "admin",
 //         },
 //         body: JSON.stringify(payload),
 //       });
