@@ -1,7 +1,8 @@
+"use client"
 import { getUser } from '@/fetchs/global';
 import { useState, useEffect } from 'react';
 import { useRouter } from "next/navigation";
-import { MemberDTO } from './Tpe_MemberDTO';
+import { MemberDTO } from './Type_DTO';
 
 export const useAuth = () => {
     const [member,setMember]=useState<MemberDTO|null>(null)
@@ -17,7 +18,6 @@ export const useAuth = () => {
                 } else {
                     setMember(data);
                     setLoading(false);
-                    router.push('/profilAdmin')
                 }
             } catch (error) {
                 console.error("pas de user", error);

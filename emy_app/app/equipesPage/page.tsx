@@ -2,19 +2,22 @@
 
 import React, { useEffect, useState } from "react";
 
-import NavbarAdmin from "@/components/organisms/NavBarAdmin";
+import NavBarAdmin from "@/components/organisms/NavBarAdmin";
 import Footer from "@/components/organisms/Footer";
 
 import Button from "@/components/atoms/Button";
 import ImageBackground from "@/components/atoms/ImageBackground";
 import SectionPillTitle from "@/components/molecules/SectionPillTitle";
+import LoadingAnimation from "@/components/organisms/LoadingAnimation";
 
 import TournamentTeamsBlock from "@/components/organisms/TournamentTeamsBlock";
 import type { TournamentTeamsDTO } from "@/hooks/Type_Teams";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function EquipesPage() {
   const [data, setData] = useState<TournamentTeamsDTO[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [_loading, setLoading] = useState(true);
+  const {member,loading}=useAuth()
 
   // adapte le nom du endpoint
   const TEAMS_URL = "/api/admin/tour/teams";
@@ -36,10 +39,12 @@ export default function EquipesPage() {
       }
     })();
   }, []);
-
+  if(loading) return <LoadingAnimation/>
   return (
     <div className="min-h-screen bg-white">
-      <NavbarAdmin />
+      {member?.Admin?.id_community && (
+        <NavBarAdmin id_community={member.Admin.id_community} />
+      )}
 
       <main className="mx-auto w-full max-w-6xl px-6 py-8">
         {/* Bandeau pâle + bouton vert */}
@@ -62,7 +67,7 @@ export default function EquipesPage() {
           </div>
 
           <div className="mt-6 space-y-6">
-            {loading ? (
+            {_loading ? (
               <p className="text-xs text-white/90">Chargement...</p>
             ) : (
               data.map((t) => <TournamentTeamsBlock key={t.id_tour} t={t} />)

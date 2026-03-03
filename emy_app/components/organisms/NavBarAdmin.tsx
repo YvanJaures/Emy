@@ -9,17 +9,16 @@ import { deconnexion } from "@/fetchs/global";
 
 type NavItem = { label: string; href: string };
 
-const navItems: NavItem[] = [
-  { label: "ADMINISTRATEURS", href: "/administrateursPage" },
+export default function NavBarAdmin(props:{id_community:number|null}) {
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+  const [deconnecte,setDeConnecte]=useState(false)
+  const navItems: NavItem[] = [
+  { label: "ADMINISTRATEURS", href: "/adminCommunity/"+props.id_community },
   { label: "TOURNOIS", href: "/tournoisPage" },
   { label: "EQUIPES", href: "/equipesPage" },
   { label: "PROFIL", href: "/profilAdmin" }
 ];
-
-export default function NavBarAdmin() {
-  const pathname = usePathname();
-  const [open, setOpen] = useState(false);
-  const [deconnecte,setDeConnecte]=useState(false)
   useEffect(()=>{
     if(deconnecte){
       const deconnect=(async ()=>{

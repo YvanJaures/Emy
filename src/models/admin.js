@@ -239,11 +239,3 @@ export async function getAdminById(id_admin) {
         }
     });
 }
-
-export async function getTournamentsByCommunity(id_community) {
-    return await prisma.tournament.findMany({
-        where: {
-            id_community: id_community
-        }
-    });
-}

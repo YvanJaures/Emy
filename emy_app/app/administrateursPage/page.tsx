@@ -99,8 +99,10 @@ export default function AdministrateursPage() {
       ):(
     <div className="min-h-screen bg-white">
       <MetaData seoTitle="Liste des administrateurs" seoDescription="liste des administrateurs de la communauté"></MetaData>
-      <NavbarAdmin />
-
+     {/* {member?.Admin?.id_community && (
+        <Component id_community={member.Admin.id_community} />
+      )}
+*/}
       <main className="mx-auto w-full max-w-6xl px-6 py-8">
         <section className="mb-6 rounded-3xl bg-gradient-to-r from-rose-50 to-green-50 p-8">
           <div className="flex justify-center">
@@ -159,10 +161,9 @@ export default function AdministrateursPage() {
                 onClick={() => setIsModalOpen(false)}
               />
             </div>
-
             <div className="mt-2 h-[calc(70%-120px)] overflow-auto">
-              <UserSelectRow users={members} className="w-full" />
-            </div>
+{ /*             <UserSelectRow users={members} className="w-full" />
+*/}            </div>
           </div>
         </>
       )}

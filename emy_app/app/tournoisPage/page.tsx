@@ -11,16 +11,18 @@ import SectionPillTitle from "@/components/molecules/SectionPillTitle";
 import TournamentList from "@/components/organisms/TournamentList";
 import MetaData from "@/components/organisms/MetaData";
 import type { TournamentDTO } from "@/hooks/Type_TournamentDTO";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function TournoisPage() {
   const [tournaments, setTournaments] = useState<TournamentDTO[]>([]);
   const [loading, setLoading] = useState(true);
+  const {member}=useAuth()
 
  // const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "";
   //const TOURNAMENTS_URL = `${API_BASE}/api/tournaments`;
   // ADAPTER LE NOM DE LA ROUTE
   const TOURNAMENTS_URL = `/api/tournaments`;
-
+  console.log(member)
   useEffect(() => {
     (async () => {
       try {
@@ -58,8 +60,9 @@ export default function TournoisPage() {
         ) :
     (<div className="min-h-screen bg-white">
       <MetaData seoTitle="Tournois de la communauté" seoDescription="Tournois de la communauté"></MetaData>
-      <NavBarAdmin />
-
+      {member?.Admin?.id_community && (
+        <NavBarAdmin id_community={member.Admin.id_community} />
+      )}
       <main className="mx-auto w-full max-w-6xl px-6 py-8">
         {/* Bandeau pâle + bouton vert */}
         <section className="mb-6 rounded-3xl bg-gradient-to-r from-rose-50 to-green-50 p-8">
