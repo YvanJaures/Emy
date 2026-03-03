@@ -155,6 +155,7 @@ model Tournament {
   Team         Team[]
   Admin        Admin?     @relation(fields: [id_admin], references: [id_admin], onDelete: NoAction, onUpdate: NoAction, map: "FK_Tournament_Admin")
   Community    Community? @relation(fields: [id_community], references: [id_community], onDelete: NoAction, onUpdate: NoAction, map: "FK_Tournament_Community")
+
 }
 
 model Type {
