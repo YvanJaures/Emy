@@ -6,7 +6,7 @@ const routerTournament = express.Router();
 
 // GET tous les tournois
 routerTournament.get("/tournaments", tournamentController.getTournaments);
-routerTournament.get("/tournaments", tournamentController.getTournamentsByCommunity);
+routerTournament.get("/tournament", tournamentController.getTournamentsByCommunity);
 
 
 export default routerTournament;
