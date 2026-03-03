@@ -1,4 +1,5 @@
 import 'dotenv/config'
+import bcrypt from 'bcrypt'
 import { prisma } from '../prisma.js';
 
 //Ajouter membre à une équipe
