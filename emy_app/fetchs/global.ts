@@ -9,14 +9,22 @@ export async function getUser(){
     return null
 
 }
+export async function getCommunities(){
+    const res=await fetch('/api/communities',{
+        credentials:"include"
+    })
+    if(res.ok){
+        const communities= await res.json()
+        return communities
+    }
+    return null
+}
 export async function deconnexion() {
     const response=await fetch('/api/deconnexion',{
         method:'POST'
     })
     if(response.ok){
-        alert('deconnecte')
         location.replace('/')  
         return
     }
-    alert('pas deconnecte')
 }

@@ -7,6 +7,8 @@ import MetaData from "@/components/organisms/MetaData";
 import InputText from "@/components/atoms/InputText";
 import Button from "@/components/atoms/Button";
 import { RiDeleteBin2Line } from "react-icons/ri";
+import { useAuth } from "@/hooks/useAuth";
+import LoadingAnimation from "@/components/organisms/LoadingAnimation";
 
 export default function CreateTournament() {
   const [tr, setTr] = useState(1);
@@ -22,9 +24,10 @@ export default function CreateTournament() {
   const [idCommunity, setIdCommunity] = useState("");
 
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [_loading, setLoading] = useState(false);
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
+  const { member, loading } = useAuth();
 
   let trHaut = "";
   if (tr < 2) trHaut = "pointer-events-none";
@@ -79,10 +82,16 @@ export default function CreateTournament() {
     }
   }
 
+  if (loading) return <LoadingAnimation />;
   return (
     <div className="bg-gray-100">
-      <NavBarAdmin />
-      <MetaData seoTitle="Création de tournoi" seoDescription="creation de tournoi par un administrateur"></MetaData>
+      {member?.Admin?.id_community && (
+        <NavBarAdmin id_community={member.Admin.id_community} />
+      )}
+      <MetaData
+        seoTitle="Création de tournoi"
+        seoDescription="creation de tournoi par un administrateur"
+      ></MetaData>
       <main className="flex flex-col gap-2 p-5 justify-center items-center rounded-xl m-2 bg-white shadow-xl">
         <h1>CREATION D UN TOURNOI</h1>
 
@@ -267,11 +276,11 @@ export default function CreateTournament() {
           <section className="flex justify-evenly items-center w-full mt-4">
             <Button
               className="bg-green-400 border-none w-25"
-              title={loading ? "Création..." : "Creer"}
+              title={_loading ? "Création..." : "Creer"}
               type="submit"
-              disabled={loading}
+              disabled={_loading}
               onClick={() => {
-              location.href = "/tournoisPage";
+                location.href = "/tournoisPage";
               }}
             />
             <Button

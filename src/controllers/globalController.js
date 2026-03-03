@@ -11,6 +11,12 @@ export const basefunction=async(request,response)=>{
         response.status(404).end()
     }
 }*/
+/**
+ * recup_re l'utilisateur connecté
+ * @param {*} request 
+ * @param {*} response 
+ * @returns 
+ */
 export const getUser=async(request,response)=>{
     const user=request.user
     if(!user){

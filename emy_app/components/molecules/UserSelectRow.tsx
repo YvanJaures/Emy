@@ -1,10 +1,11 @@
 "use client"
 import { MemberDTO } from "@/hooks/Tpe_MemberDTO"
+import { Community_memberDTO } from "@/hooks/Type_DTO"
 import { useState } from "react"
-export default function UserSelectRow(props: {users:Array<MemberDTO>,className:string}){
+export default function UserSelectRow(props: {users:Array<Community_memberDTO>,className:string}){
 const [user_name,setUser_name]=useState("")
 const [avatar,setAvatar]=useState<string[]>([])
-console.log(avatar)
+console.log(props.users)
 function getUser_name(i:Number){
     const pUser=document.getElementById(`user_name${i}`)
     return pUser?.textContent.slice(1,pUser?.textContent.length-1)

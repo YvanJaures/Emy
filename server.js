@@ -8,6 +8,9 @@ import passport from 'passport'
 import session from 'express-session'
 import memorystore from 'memorystore'
 import router from './src/routes/global.js'
+import routerAdmin from './src/routes/admin.js'
+import routerCommunity from './src/routes/community.js'
+import routerTournament from './src/routes/tournaments.js'
 import next from "next";
 
 
@@ -41,6 +44,9 @@ app.use(passport.session())
 app.use(sse())
 // API de routes
 app.use('/api',router)
+app.use('/api',routerAdmin)
+app.use('/api',routerCommunity)
+app.use('/api',routerTournament)
 // API pour tester le backend
 app.get("/api/health", (req, res) => res.json({ ok: true }));
 

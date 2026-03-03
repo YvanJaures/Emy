@@ -9,17 +9,16 @@ import { deconnexion } from "@/fetchs/global";
 
 type NavItem = { label: string; href: string };
 
-const navItems: NavItem[] = [
-  { label: "ADMINISTRATEURS", href: "/administrateursPage" },
+export default function NavBarAdmin(props:{id_community:number|null}) {
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+  const [deconnecte,setDeConnecte]=useState(false)
+  const navItems: NavItem[] = [
+  { label: "ADMINISTRATEURS", href: "/adminCommunity/"+props.id_community },
   { label: "TOURNOIS", href: "/tournoisPage" },
   { label: "EQUIPES", href: "/equipesPage" },
   { label: "PROFIL", href: "/profilAdmin" }
 ];
-
-export default function NavBarAdmin() {
-  const pathname = usePathname();
-  const [open, setOpen] = useState(false);
-  const [deconnecte,setDeConnecte]=useState(false)
   useEffect(()=>{
     if(deconnecte){
       const deconnect=(async ()=>{
@@ -29,23 +28,23 @@ export default function NavBarAdmin() {
   },[])
 
   return (
-    <header className="bg-white w-full">
-      <div className="flex h-[72px] gap-20 w-full items-center justify-between px-6">
+    <header className="bg-white w-full border-b-[3px] border-[#0b78b9]">
+      <div className="flex h-[72px] w-full items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center">
+          <div className="flex justify-center items-center p-5 h-[50%] w-[20%] max-lg:w-[40%]">
           <div className="relative h-[82px] w-[300px]">
             <Image
-              src="/assets/logos/emy_foot.png"
+              src="/assets/logos/emy_head.png"
               alt="EMY"
               fill
-              className="object-contain"
+              className="object-contain w-[80%]"
               priority
             />
           </div>
         </div>
 
         {/* Menu centré (Desktop) */}
-        <nav className="hidden lg:flex items-center gap-34">
+        <nav className="hidden lg:flex items-center justify-evenly w-[70%]">
           {navItems.map((item) => {
             const isActive =
               pathname === item.href ||

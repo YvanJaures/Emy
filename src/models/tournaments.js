@@ -8,14 +8,14 @@ export async function getAllTournaments() {
         }
     });
 }
-
-export async function getTournamentsByAdmin(id_admin) {
+export async function getTournamentsByCommunity(id_community) {
     return await prisma.tournament.findMany({
         where: {
-            id_admin: id_admin
+            id_community: id_community
         },
-        include: {
-            Community: true
+        include:{
+            Team:true
         }
     });
 }
+

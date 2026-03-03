@@ -53,6 +53,7 @@ export type CommunityDTO ={
  * object représentant les membres d'une communauté
  */
 export type Community_memberDTO ={
+  avatar: string|null;
   id_co_member :number   ; 
   join_Date    :Date ; 
   id_community :number;

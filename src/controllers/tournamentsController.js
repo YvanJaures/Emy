@@ -9,19 +9,19 @@ export const getTournaments = async (req, res) => {
         res.status(500).json({ message: "Erreur serveur" });
     }
 };
-
-export const getTournamentsByAdmin = async (req, res) => {
+export const getTournamentsByCommunity = async (req, res) => {
     try {
-        const id_admin = parseInt(req.params.id);
+        const id_community = parseInt(req.params.id);
 
-        if (!id_admin)
-            return res.status(400).json({ message: "ID admin requis" });
+        if (!id_community) {
+            return res.status(400).json({ message: "id_community requis" });
+        }
 
-        const tours = await tournamentModel.getTournamentsByAdmin(id_admin);
+        const tours = await adminModel.getTournamentsByCommunity(id_community);
 
         res.json(tours);
     } catch (error) {
-        console.error("GET TOURNAMENT BY ADMIN:", error);
+        console.error("GET TOURNAMENTS BY COMMUNITY:", error);
         res.status(500).json({ message: "Erreur serveur" });
     }
 };

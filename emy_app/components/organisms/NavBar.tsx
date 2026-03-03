@@ -84,6 +84,8 @@ export default function Navbar() {
         </div>
       </div>
 
+      <div className="h-[3px] w-full bg-[#0b78b9]" />
+      
       {open && (
         <div className="lg:hidden border-t border-black/10 bg-white">
           <nav className="px-6 py-4">
