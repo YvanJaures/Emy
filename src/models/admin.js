@@ -2,7 +2,7 @@ import 'dotenv/config'
 import bcrypt from 'bcrypt'
 import { prisma } from '../prisma.js';
 
-//Ajouter membre à une équipe
+/**Ajouter membre à une équipe*/
 export async function addMemberToTeam(id_team,user_name){
     await prisma.team_member.create({
         data:{
@@ -13,7 +13,7 @@ export async function addMemberToTeam(id_team,user_name){
     })
 }
 
-//Retirer membre d'une équipe
+/**Retirer membre d'une équipe*/
 export async function deleteMemberFromTeam(id_team,user_name){
     await prisma.team_member.deleteMany({
         where:{
@@ -23,7 +23,7 @@ export async function deleteMemberFromTeam(id_team,user_name){
     })
 }
 
-//Créer tournoi
+/**Créer tournoi*/
 export async function createTour(
     location,
     start_date,
@@ -46,7 +46,7 @@ export async function createTour(
     });
 }
 
-//Modifier nombre d'équipes
+/**Modifier nombre d'équipes*/
 export async function updateTourTeams(id_tour,id_community,teams){
     await prisma.tournament.updateMany({
         where:{
@@ -59,7 +59,7 @@ export async function updateTourTeams(id_tour,id_community,teams){
     })
 }
 
-//Ouvrir/Fermer inscriptions
+/**Ouvrir/Fermer inscriptions*/
 export async function updateTourStatus(id_tour,id_community,status){
     await prisma.tournament.updateMany({
         where:{
@@ -72,7 +72,7 @@ export async function updateTourStatus(id_tour,id_community,status){
     })
 }
 
-//Retirer équipe du tournoi
+/**Retirer équipe du tournoi*/
 export async function deleteTeamFromTour(id_team, id_tour){
     return await prisma.team.updateMany({
         where: {
@@ -85,7 +85,7 @@ export async function deleteTeamFromTour(id_team, id_tour){
     });
 }
 
-//Créer prix
+/**Créer prix*/
 export async function createPrize(
     name,
     spots,
@@ -111,7 +111,7 @@ export async function createPrize(
         }
     });
 }
-//Supprimer prix
+/**Supprimer prix*/
 export async function deletePrize(id_prize, id_tour){
 
     //doit supprimer le Prix sponsored avant car Key Foreign
@@ -129,7 +129,7 @@ export async function deletePrize(id_prize, id_tour){
     });
 }
 
-//Modifier nombre prix     ***
+/**Modifier nombre prix   */  
 export async function updatePrize(id_prize, id_tour, spots) {
     return await prisma.prize.updateMany({
         where: {
@@ -142,7 +142,7 @@ export async function updatePrize(id_prize, id_tour, spots) {
     });
 }
 
-//Ajouter admin
+/**Ajouter admin */
 export async function addAdmin(user_name,id_community) {
     return await prisma.admin.create({
         data:{
@@ -152,7 +152,7 @@ export async function addAdmin(user_name,id_community) {
     });
 }
 
-//Supprimer admin
+/**Supprimer admin*/
 export async function deleteAdmin(id_admin,user_name,id_community) {
     await prisma.admin.deleteMany({
         where:{
@@ -163,7 +163,7 @@ export async function deleteAdmin(id_admin,user_name,id_community) {
     })
 }
 
-//Enregistrer action admin
+/**Enregistrer action admin*/
 export async function logAdminAction(id_admin,details) {
     await prisma.admin_action.create({
         data:{
@@ -239,4 +239,50 @@ export async function getAdminById(id_admin) {
             Community: true
         }
     });
+}
+
+
+/** Supprimer un tournoi */
+export async function deleteTour(id_tour, id_community) {
+  return await prisma.$transaction(async (tx) => {
+    // vérifier que le tournoi appartient à la communauté
+    const tour = await tx.tournament.findFirst({
+      where: { id_tour, ...(id_community ? { id_community } : {}) },
+      select: { id_tour: true }
+    });
+
+    if (!tour) {
+      return { count: 0 };
+    }
+
+    // prize_sponsor  doit partir avant Prize 
+    await tx.prize_sponsor.deleteMany({
+      where: {
+        Prize: { id_tour }
+      }
+    });
+
+    // prizes du tournoi
+    await tx.prize.deleteMany({
+      where: { id_tour }
+    });
+
+    // players du tournoi
+    await tx.player.deleteMany({
+      where: { id_tour }
+    });
+
+    // teams: détacher du tournoi (sinon FK NoAction bloque)
+    await tx.team.updateMany({
+      where: { id_tour },
+      data: { id_tour: null }
+    });
+
+    // supprimer le tournoi
+    const deleted = await tx.tournament.deleteMany({
+      where: { id_tour, ...(id_community ? { id_community } : {}) }
+    });
+
+    return deleted; 
+  });
 }

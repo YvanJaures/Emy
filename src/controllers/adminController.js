@@ -411,3 +411,32 @@ export async function getAdmin(req, res) {
         res.status(500).json({ message: "Erreur serveur" });
     }
 }
+
+/** Controller pour supprimer un tournoi */
+export const deleteTour = async (req, res) => {
+  try {
+    const { id_tour, id_community } = req.body;
+
+    if (!id_tour) {
+      return res.status(400).json({ message: "Paramètres manquants" });
+    }
+
+    const result = await adminModel.deleteTour(
+      Number(id_tour),
+      id_community ? Number(id_community) : undefined
+    );
+
+    if (result.count === 0) {
+      return res.status(404).json({ message: "Tournoi introuvable" });
+    }
+
+    return res.status(200).json({
+      message: "Tournoi supprimé",
+      data: { id_tour: Number(id_tour) }
+    });
+
+  } catch (error) {
+    console.error("DELETE TOUR:", error);
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+};

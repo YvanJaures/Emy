@@ -14,6 +14,7 @@ routerAdmin.post('/tour', verifyAdmin, adminController.createTour)              
 routerAdmin.patch('/tour', verifyAdmin, adminController.updateTourTeams)         //en attente de reconfiguration...
 routerAdmin.patch('/tour/status', verifyAdmin, adminController.updateTourStatus) //ok
 routerAdmin.delete('/team', verifyAdmin, adminController.deleteTeamFromTour)     //ok
+routerAdmin.delete('/tour', verifyAdmin, adminController.deleteTour);  
 
 //Gestion des prix
 routerAdmin.post('/prize', verifyAdmin, adminController.createPrize)      //ok       
