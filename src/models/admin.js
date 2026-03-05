@@ -27,7 +27,6 @@ export async function createTour(
     location,
     start_date,
     end_date,
-    status,
     avatar,
     id_admin,
     id_community
@@ -37,7 +36,6 @@ export async function createTour(
             location,
             start_date: new Date(start_date),
             end_date: new Date(end_date),
-            status,
             avatar,
             id_admin,
             id_community

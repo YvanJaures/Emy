@@ -10,7 +10,7 @@ datasource db {
 model Admin {
   id_admin     Int          @id(map: "PK__Admin__89472E95DB2049D4") @default(autoincrement())
   id_community Int?
-  user_name    String?      @db.VarChar(50) @unique
+  user_name    String?      @db.VarChar(50)
   Community    Community?   @relation(fields: [id_community], references: [id_community], onDelete: NoAction, onUpdate: NoAction, map: "FK__Admin__id_commun__6D0D32F4")
   Member       Member?      @relation(fields: [user_name], references: [user_name], onDelete: NoAction, onUpdate: NoAction, map: "FK_Admin_Member")
   Tournament   Tournament[]
@@ -18,8 +18,6 @@ model Admin {
 
 model Community {
   id_community     Int                @id(map: "PK__Communit__5EB0F0780885BDE2") @default(autoincrement())
-  name             String?
-  details          String?
   avatar           String?            @db.VarChar(255)
   members          Int?
   location         String?            @db.VarChar(100)
@@ -60,10 +58,10 @@ model Member {
   birth_date       DateTime?          @db.Date
   country          String?            @db.VarChar(50)
   email            String?            @db.VarChar(100)
-  phone            String?            @db.VarChar(50)
   avatar           String?            @db.VarChar(255)
   password         String?            @db.VarChar(255)
-  Admin            Admin?
+  phone            String?            @db.VarChar(50)
+  Admin            Admin[]
   Community_member Community_member[]
   Employee         Employee?
   Player           Player[]
@@ -145,7 +143,7 @@ model Tournament {
   location     String?    @db.VarChar(100)
   start_date   DateTime?  @db.Date
   end_date     DateTime?  @db.Date
-  status       Int?       @default(0)
+  status       Int?
   avatar       String?    @db.VarChar(255)
   id_admin     Int?
   id_community Int?
@@ -155,7 +153,6 @@ model Tournament {
   Team         Team[]
   Admin        Admin?     @relation(fields: [id_admin], references: [id_admin], onDelete: NoAction, onUpdate: NoAction, map: "FK_Tournament_Admin")
   Community    Community? @relation(fields: [id_community], references: [id_community], onDelete: NoAction, onUpdate: NoAction, map: "FK_Tournament_Community")
-
 }
 
 model Type {
@@ -163,4 +160,3 @@ model Type {
   name    String? @db.VarChar(50)
   Prize   Prize[]
 }
-

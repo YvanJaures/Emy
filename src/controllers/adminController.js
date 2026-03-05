@@ -176,7 +176,6 @@ export const createTour = async (req, res) => {
             location,
             start_date,
             end_date,
-            status,
             avatar,
             id_admin,
             id_community
@@ -192,7 +191,6 @@ export const createTour = async (req, res) => {
             location,
             start_date,
             end_date,
-            Number(status),
             avatar,
             Number(id_admin),
             Number(id_community)
