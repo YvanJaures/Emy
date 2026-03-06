@@ -21,7 +21,7 @@ SPONSORS
 ADMINS
 8- Post: api/admin/member (id_team,user_name);
 9- Delete: api/admin/member (id_team,user_name);
-10- Post: api/admin/tour (teams,location,start_date,end_date,status,avatar,id_admin,id_community);
+10- Post: api/admin/tour (teams,location,start_date,end_date,avatar,id_admin,id_community);
 11- Post: apidmin/prize (name,spots,group_spots,id_tour,id_type,id_admin,number);
 12- Delete: api/admin/prize (id_prize,id_tour);
 13- Patch: api/admin/prize (id_prize,id_tour,number)

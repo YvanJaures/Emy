@@ -17,6 +17,7 @@ export default function NavBarAdmin(props:{id_community:number|null}) {
   { label: "ADMINISTRATEURS", href: "/adminCommunity/"+props.id_community },
   { label: "TOURNOIS", href: "/tournoisPage" },
   { label: "EQUIPES", href: "/equipesPage" },
+  { label: "MEMBRES", href: "/memberCommunity" },
   { label: "PROFIL", href: "/profilAdmin" }
 ];
   useEffect(()=>{

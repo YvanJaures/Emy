@@ -1,4 +1,8 @@
-import { addCommunityMember, addMember, addPlayer, addTeam, addTeamMember, addTeamMemberWait, getMemberByEmail, getMemberByName, getMembers, getMembersUserNames, updateMember, updatePasswordMember } from '../models/global.js';
+import { addCommunityMember, addMember,
+         addPlayer, addTeam, addTeamMember, addTeamMemberWait, 
+         getMemberByEmail, getMemberByName, getMembers, 
+         getMembersUserNames, updateMember, 
+         updatePasswordMember,getMembersByCommunity } from '../models/global.js';
 import '../services/auth.js'
 import passport from 'passport';
 import 'dotenv/config'
@@ -65,6 +69,15 @@ export const getMembersC=async(request,response)=>{
         console.log(error)
         response.status(404).end()
     }
+}
+export const getMembersByCommunityC=async(request,response)=>{
+    try{
+        const members=await getMembersByCommunity(request.query.id_community)
+        response.status(200).json(members)
+    }catch(error){
+        console.log(error)
+        response.status(404).end()
+    }   
 }
 /**
  * recupére les noms d'utilisateurs de membres de l'application
@@ -196,8 +209,7 @@ export const updatePasswordMemberC=async(request,response)=>{
 export const addCommunityMemberC=async(request,response)=>{
     try{
         await addCommunityMember(request.body.id_community,
-            request.body.user_name,
-            request.body.join_date)
+            request.body.user_name)
         response.status(201).end()
     }catch(error){
         response.status(404).end()
