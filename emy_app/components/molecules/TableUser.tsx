@@ -6,6 +6,7 @@ import {useEffect, useState} from 'react'
 import { SlMagnifier } from "react-icons/sl";
 import { deleteMemberCommunity } from "@/fetchs/global";
 import Confirmation from "@/components/organisms/Confirmation";
+import OnError from "../organisms/OnError";
 type Props={
     title:string,
     headers:Array<string>,
@@ -19,6 +20,8 @@ export default function TableUser({title,headers,datas,id_community}:Props){
   const [showConfirm,setShowConfirm]=useState(false)
   const [confirm,setConfirm]=useState(false)
   const [toDelete,setToDelete]=useState("")
+  const [onError, setOnError] = useState(false);
+  const [onPopUp,setOnPopUp]=useState(false)
   const deleteMember=async(user_name:string,confirm:boolean)=>{
     try{
         console.log(confirm)
@@ -32,6 +35,8 @@ export default function TableUser({title,headers,datas,id_community}:Props){
         setMembers(members2) 
       }catch(error){
         console.log(error)
+        setOnError(true)
+        setOnPopUp(true)
       }
   } 
   useEffect(()=>{
@@ -52,7 +57,7 @@ export default function TableUser({title,headers,datas,id_community}:Props){
   console.log(showConfirm)
     return(
       <>
-        <table className="w-full">
+        <table className={`w-full ${onError ? "pointer-events-none blur-md" : ""} ${onPopUp ? "pointer-events-none blur-md" : ""} `}>
             <caption className="bold gap-5 flex flex-col">
               <div className="flex gap-3 justify-center items-center w-full">
                 <label htmlFor="input">Rechercher</label>
@@ -131,6 +136,13 @@ export default function TableUser({title,headers,datas,id_community}:Props){
             setConfirm(res);
             setShowConfirm(res)}}
           showConfirm={showConfirm}/>
+        {onError && (
+          <OnError
+            title="Suppression"
+            message="Une erreur est survenue! Impossible de supprimer cet utilisateur. Veuillez réessayer plus tard."
+            onConfirmed={(res) =>{ setOnError(res);setOnPopUp(res)}}
+          />
+        )}
       </>
     )
 }

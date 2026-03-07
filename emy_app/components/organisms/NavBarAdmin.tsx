@@ -38,6 +38,7 @@ export default function NavBarAdmin(props:{id_community:number|null}) {
               src="/assets/logos/emy_head.png"
               alt="EMY"
               fill
+              sizes="100"
               className="object-contain w-[80%]"
               priority
             />

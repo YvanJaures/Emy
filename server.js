@@ -11,7 +11,7 @@ import router from './src/routes/global.js'
 import routerAdmin from './src/routes/admin.js'
 import routerCommunity from './src/routes/community.js'
 import routerTournament from './src/routes/tournaments.js'
-import next from "next";
+import next from 'next'
 
 
 // Defini si nous sommes en production ou en developpement

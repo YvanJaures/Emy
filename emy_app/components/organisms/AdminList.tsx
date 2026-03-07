@@ -2,7 +2,7 @@
 
 import React from "react";
 import AdminRow from "../molecules/AdminRow";
-import type { AdminDTO } from "@/hooks/Type_AdminDTO"
+import type { AdminDTO } from "@/hooks/Type_DTO"
 
 export default function AdminList({
   admins,

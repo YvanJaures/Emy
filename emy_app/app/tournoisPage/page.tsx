@@ -12,11 +12,14 @@ import TournamentList from "@/components/organisms/TournamentList";
 import MetaData from "@/components/organisms/MetaData";
 import type { TournamentDTO } from "@/hooks/Type_TournamentDTO";
 import { useAuth } from "@/hooks/useAuth";
+import OnError from "@/components/organisms/OnError";
 
 export default function TournoisPage() {
   const [tournaments, setTournaments] = useState<TournamentDTO[]>([]);
   const [loading, setLoading] = useState(true);
   const {member}=useAuth()
+  const [onError, setOnError] = useState(false);
+  const [onPopUp,setOnPopUp]=useState(false)
 
  // const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "";
   //const TOURNAMENTS_URL = `${API_BASE}/api/tournaments`;
@@ -47,7 +50,8 @@ export default function TournoisPage() {
       setTournaments((prev) => prev.filter((t) => t.id_tour !== id_tour));
     } catch (e) {
       console.error(e);
-      alert("Impossible de supprimer ce tournoi.");
+      setOnError(true);
+      setOnPopUp(true)
     }
   };
 
@@ -63,7 +67,7 @@ export default function TournoisPage() {
       {member?.Admin?.id_community && (
         <NavBarAdmin id_community={member.Admin.id_community} />
       )}
-      <main className="mx-auto w-full max-w-6xl px-6 py-8">
+      <main className={`${onError ? "pointer-events-none blur-md" : ""} ${onPopUp ? "pointer-events-none blur-md" : ""} mx-auto w-full max-w-6xl px-6 py-8`}>
         {/* Bandeau pâle + bouton vert */}
         <section className="mb-6 rounded-3xl bg-gradient-to-r from-rose-50 to-green-50 p-8">
           <div className="flex justify-center">
@@ -92,6 +96,13 @@ export default function TournoisPage() {
         </main>
 
         <Footer />
+        {onError && (
+          <OnError
+            title="Suppression"
+            message="Une erreur est survenue! Impossible de supprimer ce tournoi. Veuillez réessayer plus tard."
+            onConfirmed={(res) =>{ setOnError(res);setOnPopUp(res)}}
+          />
+        )}
       </div>
         )}
     </>

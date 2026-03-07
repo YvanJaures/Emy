@@ -16955,15 +16955,15 @@ export namespace Prisma {
 
   export type Community_memberWhereUniqueInput = Prisma.AtLeast<{
     id_co_member?: number
+    id_community?: number
     AND?: Community_memberWhereInput | Community_memberWhereInput[]
     OR?: Community_memberWhereInput[]
     NOT?: Community_memberWhereInput | Community_memberWhereInput[]
     join_date?: DateTimeNullableFilter<"Community_member"> | Date | string | null
-    id_community?: IntNullableFilter<"Community_member"> | number | null
     user_name?: StringNullableFilter<"Community_member"> | string | null
     Community?: XOR<CommunityNullableScalarRelationFilter, CommunityWhereInput> | null
     Member?: XOR<MemberNullableScalarRelationFilter, MemberWhereInput> | null
-  }, "id_co_member">
+  }, "id_co_member" | "id_community">
 
   export type Community_memberOrderByWithAggregationInput = {
     id_co_member?: SortOrder
