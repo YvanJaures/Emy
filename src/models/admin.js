@@ -46,9 +46,6 @@ export async function createTour(
     });
 }
 
-<<<<<<< HEAD
-/**Modifier nombre d'équipes*/
-=======
 //Créer tournoi
 export async function createTourWithPrizes(
     location,
@@ -80,7 +77,6 @@ export async function createTourWithPrizes(
     });
 }
 //Modifier nombre d'équipes
->>>>>>> 8d0fe3e9f38d015666432634147c07c6669b1669
 export async function updateTourTeams(id_tour,id_community,teams){
     await prisma.tournament.updateMany({
         where:{

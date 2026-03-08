@@ -11,19 +11,12 @@ routerAdmin.post('/member', verifyAdmin,isAdminConnecterApi, adminController.add
 routerAdmin.delete('/member', verifyAdmin,isAdminConnecterApi, adminController.deleteMemberFromTeam) //ok
 
 //Gestion des tournois
-<<<<<<< HEAD
-routerAdmin.post('/tour', verifyAdmin, adminController.createTour)               //ok
-routerAdmin.patch('/tour', verifyAdmin, adminController.updateTourTeams)         //en attente de reconfiguration...
-routerAdmin.patch('/tour/status', verifyAdmin, adminController.updateTourStatus) //ok
-routerAdmin.delete('/team', verifyAdmin, adminController.deleteTeamFromTour)     //ok
-routerAdmin.delete('/tour', verifyAdmin, adminController.deleteTour);  
-=======
 routerAdmin.post('/tour', verifyAdmin,isAdminConnecterApi, adminController.createTour)               //ok
 routerAdmin.post('/tour&prizes', verifyAdmin,isAdminConnecterApi, adminController.createTourWithPrizes)               //ok
 routerAdmin.patch('/tour', verifyAdmin,isAdminConnecterApi, adminController.updateTourTeams)         //en attente de reconfiguration...
 routerAdmin.patch('/tour/status', verifyAdmin,isAdminConnecterApi, adminController.updateTourStatus) //ok
 routerAdmin.delete('/team', verifyAdmin,isAdminConnecterApi, adminController.deleteTeamFromTour)     //ok
->>>>>>> 8d0fe3e9f38d015666432634147c07c6669b1669
+routerAdmin.delete('/tour', verifyAdmin, adminController.deleteTour);  
 
 //Gestion des prix
 routerAdmin.post('/prize', verifyAdmin,isAdminConnecterApi, adminController.createPrize)      //ok       
