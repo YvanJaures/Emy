@@ -205,7 +205,45 @@ export const createTour = async (req, res) => {
         res.status(500).json({ message: "Erreur serveur" });
     }
 };
+export const createTourWithPrizes = async (req, res) => {
+    try {
+        const {
+            location,
+            start_date,
+            end_date,
+            status,
+            avatar,
+            id_admin,
+            id_community,
+            prizes
+        } = req.body;
 
+        if (!location || !start_date || !end_date || !id_admin || !id_community || prizes?.length<=0) {
+            return res.status(400).json({
+                message: "Paramètres manquants"
+            });
+        }
+
+        await adminModel.createTourWithPrizes(
+            location,
+            start_date,
+            end_date,
+            Number(status),
+            avatar,
+            Number(id_admin),
+            Number(id_community),
+            prizes
+        );
+
+        res.status(201).json({
+            message: "Tournoi créé"
+        });
+
+    } catch (error) {
+        console.error("CREATE TOUR:", error);
+        res.status(500).json({ message: "Erreur serveur" });
+    }
+};
 export const createPrize = async (req, res) => {
     try {
         const {

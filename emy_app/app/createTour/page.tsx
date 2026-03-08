@@ -10,6 +10,17 @@ import { RiDeleteBin2Line } from "react-icons/ri";
 import { useAuth } from "@/hooks/useAuth";
 import LoadingAnimation from "@/components/organisms/LoadingAnimation";
 
+/**
+* Page permettant à un administrateur de créer un tournoi.
+ *
+ * Cette fonction :
+ * - gère tous les états du formulaire (lieu, dates, type, avatar, frais, statut…)
+ * - récupère l'utilisateur connecté via useAuth() pour vérifier l'accès admin
+ * - affiche une animation de chargement tant que l’authentification n’est pas prête
+ * - construit le payload et envoie la requête POST vers /api/admin/tour
+ * - affiche les messages d’erreur ou de succès selon la réponse du serveur
+ * - rend le formulaire complet de création de tournoi, incluant la table des commandites (UI)
+ */
 export default function CreateTournament() {
   const [tr, setTr] = useState(1);
 
