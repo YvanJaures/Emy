@@ -10,9 +10,10 @@ npx prisma init
 # Creation de la base de donnee en local
  npx prisma db push
 
- # Recuperer les tables de la base de donnees
-npx prisma db pull
-
+# Recuperer les tables de la base de donnees
+ npx prisma db pull
+# Migration
+ npx prisma migrate dev --name="description de la migration"
 
 # 📚 Complete Prisma Queries Reference Guide
 

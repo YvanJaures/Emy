@@ -19,7 +19,7 @@ export type MemberDTO={
   name             :string | null |null;            
   surname          :string | null |null;            
   address          :string | null |null;            
-  birth_Date       :Date | null;          
+  birth_date       :Date | null;          
   country          :string | null |null;          
   email            :string | null |null;          
   phone            :string | null |null;          

@@ -1,5 +1,5 @@
 import React from "react";
-import type { AdminDTO } from "@/hooks/Type_AdminDTO"
+import type { AdminDTO } from "@/hooks/Type_DTO"
 
 export default function AdminRow({
   admin,

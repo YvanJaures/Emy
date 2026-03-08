@@ -4,6 +4,7 @@ import { sendMail } from '../controllers/sendMailController.js'
 import {deConnecterApi,connecterApi} from '../middlewares/auth.js'
 import tournamentRoutes from './tournaments.js'
 import adminRoutes from './admin.js'
+import {motDePasseValide,courrielValide} from '../middlewares/validation.js'
 
 const router=express.Router()
 
@@ -16,11 +17,12 @@ router.post('/deconnexion',connecterApi,globalController.deconnexion)
 router.get('/user',globalController.getUser)
 router.get('/members',globalController.getMembersC)
 router.get('/member/email',globalController.getMemberByEmailC)
+router.get('/members/community',globalController.getMembersByCommunityC)
 router.get('/member/user_name',globalController.getMemberByNameC)
 router.get('/members/names',globalController.getMembersUserNamesC)
 
 //router.post('/',globalController)
-router.post('/member/add',globalController.addMemberC)
+router.post('/member/add',motDePasseValide,courrielValide,globalController.addMemberC)
 router.post('/member/team',globalController.addTeamC)
 router.post('/member/team/add',globalController.addTeamMemberWaitC)
 router.post('/member/pay',globalController.payC)

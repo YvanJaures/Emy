@@ -63,6 +63,22 @@ export async function getMemberByName(user_name){
     });
     return member
 }
+export async function getMembersByCommunity(id_community){
+    const id=Number.parseInt(id_community)
+    const  community=await prisma.community.findUnique({
+        where:{
+            id_community:id
+        },
+        include:{
+            Community_member:true
+        }
+    })
+    const members=[]
+    for(const member of community.Community_member){
+        members.push(await getMemberByName(member.user_name))
+    }
+    return members
+}
 export async function getMemberPassword(user_name){
     return await prisma.member.findUnique({
         where:{
@@ -271,12 +287,12 @@ export async function updatePasswordMember(user_name,new_password){
     }
 }
 
-export async function addCommunityMember(id_community,user_name,join_date){
+export async function addCommunityMember(id_community,user_name){
     await prisma.community_member.create({
         data:{
            id_community:id_community,
            user_name:user_name,
-           join_date:join_date 
+           join_date:new Date() 
         }
     })
 }
