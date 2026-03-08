@@ -1,3 +1,4 @@
+import {CommunityDTO,MemberDTO} from '../hooks/Type_DTO'
 export async function getUser(){
     const res=await fetch('/api/user',{
         credentials:"include"
@@ -9,6 +10,36 @@ export async function getUser(){
     return null
 
 }
+export async function getMemberByName(user_name:string){
+    const res=await fetch('/api/member/user_name?user_name='+user_name,{
+        credentials:"include"
+    })
+    if(res.ok){
+        const member= await res.json()
+        return member as MemberDTO
+    }
+    return null   
+}
+export async function getMembers(){
+    const res=await fetch('/api/members',{
+        credentials:"include"
+    })
+    if(res.ok){
+        const members= await res.json()
+        return members
+    }
+    return null
+}
+export async function getCommunityMembers(id_community:number){
+    const res=await fetch('/api/members/community?id_community='+id_community,{
+        credentials:"include"
+    })
+    if(res.ok){
+        const members= await res.json()
+        return members
+    }   
+    return null
+}
 export async function getCommunities(){
     const res=await fetch('/api/communities',{
         credentials:"include"
@@ -18,6 +49,36 @@ export async function getCommunities(){
         return communities
     }
     return null
+}
+export async function getCommunityById(id_community:number){
+    const res=await fetch('/api/community'+id_community,{
+        credentials:"include"
+    })
+    if(res.ok){
+        const community= await res.json()
+        return community as CommunityDTO
+    }
+    return null  
+}
+export async function deleteMemberCommunity(user_name:string,id_community:number){
+    try {
+        const res = await fetch('/api/member/community', {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json","role":"admin"},
+            credentials: "include",
+            body: JSON.stringify({
+                id_community: id_community,
+                user_name: user_name
+            })
+        })
+        if(res.ok){
+            console.log('suppression éffectué')
+            return true
+        }
+        return false
+    }catch(error){
+        console.log(error)
+    }
 }
 export async function deconnexion() {
     const response=await fetch('/api/deconnexion',{

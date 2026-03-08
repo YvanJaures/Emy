@@ -46,7 +46,41 @@ export async function createTour(
     });
 }
 
+<<<<<<< HEAD
 /**Modifier nombre d'équipes*/
+=======
+//Créer tournoi
+export async function createTourWithPrizes(
+    location,
+    start_date,
+    end_date,
+    status,
+    avatar,
+    id_admin,
+    id_community,
+    prizes
+){
+    console.log(prizes)
+    return await prisma.tournament.create({
+        data:{
+            location,
+            start_date: new Date(start_date),
+            end_date: new Date(end_date),
+            status,
+            avatar,
+            id_admin,
+            id_community,
+            Prize:{
+                create:prizes
+            }
+        },
+        include:{
+            Prize:true
+        }
+    });
+}
+//Modifier nombre d'équipes
+>>>>>>> 8d0fe3e9f38d015666432634147c07c6669b1669
 export async function updateTourTeams(id_tour,id_community,teams){
     await prisma.tournament.updateMany({
         where:{

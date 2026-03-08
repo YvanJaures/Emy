@@ -40,9 +40,21 @@ export function connecterApi(request,response,next){
  * @param {import("express").Response} response 
  * @param {import("express").NextFunction} next 
  */
+export function isAdminConnecterApi(request,response,next){
+    if(request.user?.Admin?.id_admin){
+        return next()
+    }
+    response.status(401).end()
+}
+/**
+ * 
+ * @param {import("express").Request} request 
+ * @param {import("express").Response} response 
+ * @param {import("express").NextFunction} next 
+ */
 export function deConnecterApi(request,response,next){
     if(!request.user){
         return next()
     }
-    response.status(401).end()
+    response.status(401).json({message:"déjà connecté"})
 }
