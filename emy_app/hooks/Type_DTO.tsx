@@ -7,9 +7,25 @@ export type AdminDTO = {
   id_admin: number;
   user_name: string | null;
   id_community: number;
-  Member?:MemberDTO;
-  Community?: CommunityDTO ;
-  Tournament?: TournamentDTO;
+   Member?: {
+    user_name: string;
+    name: string | null;
+    surname: string | null;
+    email: string | null;
+  } | null;
+
+  Community?: {
+    id_community: number;
+    name?: string | null; 
+  } | null;
+
+  Tournament?: {
+    id_tour: number;
+    location: string | null;
+  }[];
+  // Member?:MemberDTO;
+  // Community?: CommunityDTO ;
+  // Tournament?: TournamentDTO;
 };
 /**
  * object représentant les membres ou utilisateurs de l'application
@@ -43,7 +59,7 @@ export type CommunityDTO ={
   members          :number |null;
   location         :string | null            ;
   id_manager       :number;
-  privacy          :Boolean;
+  privacy          :boolean;
   Admin           ?:AdminDTO[] |null;
   Manager         ?:ManagerDTO  |null         ;
   Community_member?:Community_memberDTO[] |null;
@@ -66,7 +82,7 @@ export type Community_memberDTO ={
  */
 export type EmployeeDTO ={
   user_name :string| null;
-  retraite  :Boolean;
+  retraite  :boolean;
   Member   ?:MemberDTO 
 }
 /**
@@ -132,7 +148,7 @@ export type TeamDTO ={
   players     :number;
   id_tour     :number;
   key_team    :string | null ;
-  open        :Boolean;     
+  open        :boolean;     
   user_name   :string | null ;
   Tournament ?:TournamentDTO  
   Member     ?:MemberDTO;    
@@ -145,7 +161,7 @@ export type Team_memberDTO ={
   id_team_member :number ;   
   id_team        :number;
   user_name      :string | null;
-  status         :Boolean;
+  status         :boolean;
   Team          ?:TeamDTO   ;
   Member        ?:MemberDTO ;
 }
