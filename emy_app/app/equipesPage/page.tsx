@@ -14,9 +14,22 @@ import TournamentTeamsBlock from "@/components/organisms/TournamentTeamsBlock";
 import type { TournamentTeamsDTO } from "@/hooks/Type_Teams";
 import { useAuth } from "@/hooks/useAuth";
 
+/**
+ * Page affichant la liste des équipes inscrites aux tournois d’une communauté.
+ *
+ * Cette fonction :
+ * - récupère l’utilisateur connecté via useAuth() pour vérifier l’accès admin
+ * - charge les équipes depuis l’endpoint /api/admin/tour/teams
+ * - affiche une animation de chargement tant que les données ne sont pas prêtes
+ * - affiche la barre de navigation admin si l’utilisateur appartient à une communauté
+ * - rend la liste des équipes via TournamentTeamsBlock
+ * - propose un bouton permettant de créer une nouvelle équipe
+ */
+
 export default function EquipesPage() {
   const [data, setData] = useState<TournamentTeamsDTO[]>([]);
   const [_loading, setLoading] = useState(true);
+  // a copier coller dans les autres pages
   const {member,loading}=useAuth()
 
   // adapte le nom du endpoint
@@ -41,6 +54,7 @@ export default function EquipesPage() {
   }, []);
   if(loading) return <LoadingAnimation/>
   return (
+    // a copier coller dans les autres pages
     <div className="min-h-screen bg-white">
       {member?.Admin?.id_community && (
         <NavBarAdmin id_community={member.Admin.id_community} />

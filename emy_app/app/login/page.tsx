@@ -3,6 +3,18 @@ import LoginForm from "@/components/organisms/LoginForm";
 import MetaData from "@/components/organisms/MetaData";
 import { useAuth } from "@/hooks/useAuth";
 
+/**
+ * Page de connexion permettant à un utilisateur (admin ou membre) de s’authentifier.
+ *
+ * Cette fonction :
+ * - utilise useAuth() pour récupérer l’état d’authentification de l’utilisateur
+ * - prépare la route de redirection après connexion (profil admin)
+ * - affiche les métadonnées SEO de la page
+ * - affiche un fond d’écran avec un effet de carte en verre (glassmorphism)
+ * - rend le formulaire de connexion (LoginForm)
+ * - inclut un bouton permettant de revenir à la page précédente
+ */
+
 export default function LoginPage() {
   const {member,loading}=useAuth();
   const route='/profilAdmin'
