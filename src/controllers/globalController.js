@@ -12,7 +12,7 @@ export const basefunction=async(request,response)=>{
     try{
 
     }catch(error){
-        response.status(404).end()
+        response.status(400).end()
     }
 }*/
 /**
@@ -23,7 +23,7 @@ export const basefunction=async(request,response)=>{
 export const getUser=async(request,response)=>{
     const user=request.user
     if(!user){
-        response.status(404).json({info:"no_user"})
+        response.status(400).json({info:"no_user"})
         return
     }
     response.status(200).json(user)
@@ -39,7 +39,7 @@ export const getMemberByEmailC=async(request,response)=>{
         const member= await getMemberByEmail(request.query.email)
         response.status(200).json(member)
     }catch(error){
-        response.status(404).end()
+        response.status(400).end()
     }
 }
 /**
@@ -53,7 +53,7 @@ export const getMemberByNameC=async(request,response)=>{
         const member= await getMemberByName(request.query.user_name)
         response.status(200).json(member)
     }catch(error){
-        response.status(404).end()
+        response.status(400).end()
     }
 }
 /**
@@ -67,7 +67,7 @@ export const getMembersC=async(request,response)=>{
         response.status(200).json(members)
     }catch(error){
         console.log(error)
-        response.status(404).end()
+        response.status(400).end()
     }
 }
 export const getMembersByCommunityC=async(request,response)=>{
@@ -76,7 +76,7 @@ export const getMembersByCommunityC=async(request,response)=>{
         response.status(200).json(members)
     }catch(error){
         console.log(error)
-        response.status(404).end()
+        response.status(400).end()
     }   
 }
 /**
@@ -89,7 +89,7 @@ export const getMembersUserNamesC=async(request,response)=>{
         const userNames=await getMembersUserNames()
         response.status(200).json(userNames)
     }catch(error){
-        response.status(404).end()
+        response.status(400).end()
     }
 }
 /**
@@ -112,7 +112,7 @@ export const addMemberC=async(request,response)=>{
         response.status(201).end()
     }catch(error){
         console.log(error)
-        response.status(404).end()
+        response.status(400).end()
     }
 }
 /**
@@ -127,7 +127,7 @@ export const updateMemberC=async(request,response)=>{
             request.body.new_info)
         response.status(200).end()
     }catch(error){
-        response.status(404).end()
+        response.status(400).end()
     }
 }
 /**
@@ -143,7 +143,7 @@ export const addTeamC=async(request,response)=>{
         )
         response.status(201).end()
     }catch(error){
-        response.status(404).end()
+        response.status(400).end()
     }
 }
 /**
@@ -158,7 +158,7 @@ export const addTeamMemberWaitC=async(request,response)=>{
         )
         response.status(201).end()
     }catch(error){
-        response.status(404).end()
+        response.status(400).end()
     }
 }
 /**
@@ -171,7 +171,7 @@ export const addTeamMemberC=async(request,response)=>{
         await addTeamMember(request.body.user_name)
         response.status(200).end()
     }catch(error){
-        response.status(404).end()
+        response.status(400).end()
     }
 }
 /**
@@ -183,7 +183,7 @@ export const payC=async(request,response)=>{
     try{
 
     }catch(error){
-        response.status(404).end()
+        response.status(400).end()
     }
 }
 /**
@@ -194,11 +194,12 @@ export const payC=async(request,response)=>{
 export const updatePasswordMemberC=async(request,response)=>{
     try{
         await updatePasswordMember(request.body.user_name,
-            request.body.new_password
+            request.body.password
         )
         response.status(200).end()
     }catch(error){
-        response.status(404).end()
+        console.log(error)
+        response.status(400).json({message:"impossible "+error})
     }
 }
 /**
@@ -212,7 +213,7 @@ export const addCommunityMemberC=async(request,response)=>{
             request.body.user_name)
         response.status(201).end()
     }catch(error){
-        response.status(404).end()
+        response.status(400).end()
     }
 }
 /**
@@ -226,7 +227,7 @@ export const addPlayerC=async(request,response)=>{
             request.body.user_name
         )
     }catch(error){
-        response.status(404).end()
+        response.status(400).end()
     }
 }
 

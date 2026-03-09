@@ -260,7 +260,7 @@ export async function pay(){
  * @param {*} user_name 
  * @param {*} new_password 
  */
-export async function updatePasswordMember(user_name,new_password){
+export async function updatePasswordMember(user_name,password){
     const client=await getMemberByName(user_name)
     if(client){
         await prisma.member.update({
@@ -268,7 +268,7 @@ export async function updatePasswordMember(user_name,new_password){
                 user_name:user_name
             },
             data:{
-                password:await bcrypt.hash(new_password,10)
+                password:await bcrypt.hash(password,10)
             }
         })
     }
@@ -280,7 +280,7 @@ export async function updatePasswordMember(user_name,new_password){
                     email:user_name
                 },
                 data:{
-                    password:await bcrypt.hash(new_password,10)
+                    password:await bcrypt.hash(password,10)
                 }
             })
         }

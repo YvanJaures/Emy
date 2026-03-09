@@ -30,5 +30,5 @@ export function motDePasseValide(request, response, next) {
         return next();
     }
 
-    response.status(400).end();
+    response.status(400).json({message:"mot de passe invalide"});
 }
