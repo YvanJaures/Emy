@@ -48,9 +48,9 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
     if (!admin) return;
 
     try {
-      const res = await fetch("/api/admin", {
+      const res = await fetch("/api/admin/admin", {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", role: "admin" },
         credentials: "include",
         body: JSON.stringify({
           id_admin: admin.id_admin,
