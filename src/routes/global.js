@@ -23,20 +23,20 @@ router.get('/members/names',globalController.getMembersUserNamesC)
 
 //router.post('/',globalController)
 router.post('/member/add',motDePasseValide,courrielValide,globalController.addMemberC)
-router.post('/member/team',globalController.addTeamC)
-router.post('/member/team/add',globalController.addTeamMemberWaitC)
-router.post('/member/pay',globalController.payC)
-router.post('/member/community/join',globalController.addCommunityMemberC)
-router.post('/member/tour/join',globalController.addPlayerC)
+router.post('/member/team',connecterApi,globalController.addTeamC)
+router.post('/member/team/add',connecterApi,globalController.addTeamMemberWaitC)
+router.post('/member/pay',connecterApi,globalController.payC)
+router.post('/member/community/join',connecterApi,globalController.addCommunityMemberC)
+router.post('/member/tour/join',connecterApi,globalController.addPlayerC)
 router.post('/sendMail',sendMail)
 
 //router.patch('/',globalController)
-router.patch('/member/update',globalController.updateMemberC)
-router.patch('/member/team/update',globalController.addTeamMemberC)
-router.patch('/member/password',globalController.updatePasswordMemberC)
+router.patch('/member/update',connecterApi,globalController.updateMemberC)
+router.patch('/member/team/update',connecterApi,globalController.addTeamMemberC)
+router.patch('/member/password',connecterApi,motDePasseValide,globalController.updatePasswordMemberC)
 
 //Routes ADMIN ET TOURNAMENTS
-router.use('/admin', adminRoutes)
+router.use('/admin',connecterApi,adminRoutes)
 router.use('/', tournamentRoutes)
 // ne pas supprimer
 export default router;

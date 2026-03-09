@@ -32,7 +32,7 @@ export function connecterApi(request,response,next){
     if(request.user){
         return next()
     }
-    response.status(401).end()
+    response.status(401).json({message:"pas encore connecté"})
 }
 /**
  * 
