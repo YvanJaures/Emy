@@ -5,10 +5,14 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { FaMoon } from "react-icons/fa6";
 import AppLink from "../atoms/AppLink";
+import { useConnexion } from "@/hooks/useAuth";
+import { GoBell } from "react-icons/go";
+import Notifications from "../molecules/Notifications";
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
 
 type NavItem = { label: string; href: string };
 
-const navItems: NavItem[] = [
+let navItems: NavItem[] = [
   { label: "ACCUEIL", href: "/" },
   { label: "COMMUNAUTÉS", href: "/communautes" },
   { label: "TOURNOIS", href: "/tournois" },
@@ -19,7 +23,17 @@ const navItems: NavItem[] = [
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-
+  const [notif,setNotif]=useState(false);
+  const [notifications,setNotifications]=useState<any[]|null>(null)
+  const {member,loading}=useConnexion();
+  if(member){
+    navItems=[
+      { label: "COMMUNAUTÉS", href: "/communautes" },
+      { label: "TOURNOIS", href: "/tournois" },
+      { label: "SPONSORS", href: "/sponsors" },
+      { label: "PROFIL", href: "/profil" }, 
+    ]
+  }
   return (
     <header className="bg-white w-full border-b-[3px] border-[#0b78b9]">
       <div className="flex h-[72px] w-full items-center justify-between">
@@ -34,6 +48,17 @@ export default function Navbar() {
 
         {/* Menu centré (Desktop) */}
         <nav className="hidden lg:flex items-center justify-evenly w-[70%]">
+          {member ?
+          (
+              <button
+                className={[
+                  "uppercase text-xs tracking-widest text-black",
+                  "hover:underline underline-offset-4 text-blue-700 opacity-60 hover:opacity-100 hover:cursor-pointer"
+                ].join(" ")}
+              >
+                {"RECHERCHER"}
+              </button>
+          ):('')}
           {navItems.map((item) => {
             const isActive =
               pathname === item.href ||
@@ -53,10 +78,11 @@ export default function Navbar() {
               </AppLink>
             );
           })}
+          
         </nav>
 
         {/* Actions à droite */}
-        <div className="flex items-center gap-2 w-[10%] max-lg:w-[20%]">
+        <div className="flex items-center flex-20 justify-end gap-2 w-[10%] mr-2 max-lg:w-[20%]">
           <button
             type="button"
             aria-label="Activer/Désactiver le mode sombre"
@@ -65,9 +91,25 @@ export default function Navbar() {
               // TODO: ton toggle dark mode
             }}
           >
-            <FaMoon className="h-10 w-5" />
+            <FaMoon className="h-6 w-5" />
           </button>
-
+          {/* si le membre est connéte*/}
+          {member &&
+          (
+            <span className="group hover:cursor-pointer"
+              onClick={()=>setNotif(!notif)}>
+              <GoBell className="h-10 w-5 group-hover:text-blue-700 hover:cursor-pointer"/>
+              { 
+                notifications &&(<p className="bg-red-500 rounded-full w-4 h-4 text-white text-[8px] text-center
+                flex justify-center items-center absolute -translate-y-8 translate-x-1/2">99+</p>)}
+            </span> 
+          )}
+          {
+            member?.Admin?.id_community &&(
+              <MdOutlineAdminPanelSettings className="h-12 w-6 hover:text-blue-700 hover:cursor-pointer"
+                onClick={()=>location.href="/profilAdmin"}/>
+            )
+          }
           <button
             type="button"
             className="lg:hidden rounded-full p-2 hover:bg-black/5"
@@ -89,6 +131,17 @@ export default function Navbar() {
       {open && (
         <div className="lg:hidden border-t border-black/10 bg-white">
           <nav className="px-6 py-4">
+            {member ?
+              (
+                  <button
+                    className={[
+                      "uppercase text-xs tracking-widest text-black mb-2",
+                      "hover:underline underline-offset-4 text-blue-700 opacity-60 hover:opacity-100 hover:cursor-pointer"
+                    ].join(" ")}
+                  >
+                    {"RECHERCHER"}
+                  </button>
+              ):('')}
             <ul className="flex flex-col gap-4">
               {navItems.map((item) => {
                 const isActive =
@@ -114,6 +167,13 @@ export default function Navbar() {
           </nav>
         </div>
       )}
+      {
+        notif? (
+          <Notifications notifications={notifications}/>
+        ):(
+          ''
+        )
+      }
     </header>
   );
 }

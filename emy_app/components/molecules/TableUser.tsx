@@ -63,7 +63,7 @@ export default function TableUser({title,headers,datas,id_community}:Props){
                 <label htmlFor="input">Rechercher</label>
                 <input type="search" 
                   placeholder="Entrer l'identifiant du membre"
-                  onInput={(e)=>(setSearch(e.target.value ? e.target.value:''))}
+                  onChange={(e)=>(setSearch(e.target.value ? e.target.value:''))}
                   className="outline-red-200 border rounded-xl flex-70 p-2"/>
                 <SlMagnifier />
               </div>

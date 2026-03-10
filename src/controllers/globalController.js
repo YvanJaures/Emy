@@ -70,6 +70,10 @@ export const getMembersC=async(request,response)=>{
         response.status(400).end()
     }
 }
+/**
+ * récupére les membres d'une communauté précise. (passer
+ * l'id community en paramètres via le query)
+ */
 export const getMembersByCommunityC=async(request,response)=>{
     try{
         const members=await getMembersByCommunity(request.query.id_community)
