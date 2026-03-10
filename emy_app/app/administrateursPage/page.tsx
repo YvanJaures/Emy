@@ -82,7 +82,7 @@ export default function AdministrateursPage() {
     if (!admin) return;
 
     try {
-      const res = await fetch(DELETE_ADMIN_URL, {
+      const res = await fetch(`${DELETE_ADMIN_URL}/ ${id_admin}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
