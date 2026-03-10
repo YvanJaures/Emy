@@ -60,6 +60,23 @@ export async function getCommunityById(id_community:number){
     }
     return null  
 }
+/**
+ * ajoute un membre à une communauté
+ */
+export async function addCommunityMember(payload:Object){
+    try{
+        const res=await fetch('/api/member/community/join',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(payload)
+        })
+        if(!res.ok){
+            throw new Error('impossible de rejoindre cette communaute')
+        }
+    }catch(error){
+
+    }
+}
 export async function deleteMemberCommunity(user_name:string,id_community:number){
     try {
         const res = await fetch('/api/member/community', {
@@ -87,5 +104,22 @@ export async function deconnexion() {
     if(response.ok){
         location.replace('/')  
         return
+    }
+}
+/**
+ * à copier et modifier en fonction du besoir
+ */
+export async function base(payload:Object){
+    try{
+        const res=await fetch('/api/member/add',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(payload)
+        })
+        if(!res.ok){
+            throw new Error('impossible de rejoindre cette communaute')
+        }
+    }catch(error){
+
     }
 }

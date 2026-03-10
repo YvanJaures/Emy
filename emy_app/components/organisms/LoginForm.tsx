@@ -62,10 +62,9 @@ export default function LoginForm(props:{route:string}) {
       // Succès
       setError("");
       if(props.route){
-
         location.href=props.route 
       }else{
-        location.href='/profilAdmin'
+        location.href='/communautes'
       }
       //setError("email/username or password incorrect...");
     } finally {

@@ -17,8 +17,9 @@ import { useAuth } from "@/hooks/useAuth";
 
 export default function LoginPage() {
   const {member,loading}=useAuth();
-  const route='/profilAdmin'
+  const route='/communautes'
   console.log(member)
+  
   return (
     <>
     <MetaData seoTitle="Log in" seoDescription="page de connexion"></MetaData>

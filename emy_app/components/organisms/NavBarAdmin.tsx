@@ -12,7 +12,6 @@ type NavItem = { label: string; href: string };
 export default function NavBarAdmin(props:{id_community:number|null}) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [deconnecte,setDeConnecte]=useState(false)
   const navItems: NavItem[] = [
   { label: "ADMINISTRATEURS", href: "/adminCommunity/"+props.id_community },
   { label: "TOURNOIS", href: "/tournoisPage" },
@@ -20,14 +19,6 @@ export default function NavBarAdmin(props:{id_community:number|null}) {
   { label: "MEMBRES", href: "/memberCommunity" },
   { label: "PROFIL", href: "/profilAdmin" }
 ];
-  useEffect(()=>{
-    if(deconnecte){
-      const deconnect=(async ()=>{
-        await deconnexion()
-      })()
-    }
-  },[])
-
   return (
     <header className="bg-white w-full border-b-[3px] border-[#0b78b9]">
       <div className="flex h-[72px] w-full items-center justify-between">

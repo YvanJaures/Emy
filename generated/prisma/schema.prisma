@@ -32,10 +32,12 @@ model Community {
 model Community_member {
   id_co_member Int        @id(map: "PK__Communit__E973ECDD1047C6B9") @default(autoincrement())
   join_date    DateTime?  @db.Date
-  id_community Int?       @unique
+  id_community Int?
   user_name    String?    @db.VarChar(50)
   Community    Community? @relation(fields: [id_community], references: [id_community], onDelete: NoAction, onUpdate: NoAction, map: "FK__Community__id_co__5165187F")
   Member       Member?    @relation(fields: [user_name], references: [user_name], onDelete: NoAction, onUpdate: NoAction, map: "FK__Community__user___52593CB8")
+
+  @@unique([user_name, id_community])
 }
 
 model Employee {

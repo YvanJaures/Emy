@@ -30,3 +30,29 @@ export const useAuth = () => {
 
     return { member, loading };
 };
+export const useConnexion=()=>{
+    const [member,setMember]=useState<MemberDTO|null>(null)
+    const [loading,setLoading]=useState(true)
+    const router = useRouter();
+    useEffect(() => {
+        const verifyUser = async () => {
+            try {
+                const data = await getUser();
+                
+                if (!data) {
+                    setMember(null);
+                    setLoading(false)
+                } else {
+                    setMember(data);
+                    setLoading(false);
+                }
+            } catch (error) {
+                console.error("pas de user", error);
+            } 
+        };
+
+        verifyUser();
+    }, [router]);
+
+    return { member, loading };   
+}

@@ -10,7 +10,7 @@ import ImageBackground from "@/components/atoms/ImageBackground";
 import SectionPillTitle from "@/components/molecules/SectionPillTitle";
 import AdminList from "@/components/organisms/AdminList";
 import OnError from "@/components/organisms/OnError";
-import { Community_memberDTO, CommunityDTO,AdminDTO } from "@/hooks/Type_DTO";
+import { Community_memberDTO, CommunityDTO, AdminDTO } from "@/hooks/Type_DTO";
 import { useAuth } from "@/hooks/useAuth";
 import notFound from "@/app/not-found";
 
@@ -25,9 +25,12 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
   const [community, setCommunity] = useState<CommunityDTO | null>(null);
   const [display, setDisplay] = useState("hidden");
   const [onError, setOnError] = useState(false);
-  const [onPopUp,setOnPopUp]=useState(false)
+  const [onPopUp, setOnPopUp] = useState(false);
   const [_loading, setLoading] = useState(true);
   const { member, loading } = useAuth();
+  const [selectedMembers, setSelectedMembers] = useState<Community_memberDTO[]>(
+    [],
+  );
 
   useEffect(() => {
     try {
@@ -48,9 +51,9 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
     if (!admin) return;
 
     try {
-      const res = await fetch("/api/admin", {
+      const res = await fetch("/api/admin/admin", {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", role: "admin" },
         credentials: "include",
         body: JSON.stringify({
           id_admin: admin.id_admin,
@@ -66,18 +69,77 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
     }
   };
 
+  const handleAddAdmin = async () => {
+    if (!community || selectedMembers.length === 0) return;
+
+    try {
+      const alreadyAdminsUserNames = admins.map((admin) => admin.user_name);
+
+      const membersToAdd = selectedMembers.filter(
+        (selectedMember) =>
+          !alreadyAdminsUserNames.includes(selectedMember.user_name),
+      );
+
+      if (membersToAdd.length === 0) {
+        setDisplay("hidden");
+        setOnPopUp(false);
+        setSelectedMembers([]);
+        return;
+      }
+
+      for (const selectedMember of membersToAdd) {
+        const res = await fetch("/api/admin/admin", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            role: "admin",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            user_name: selectedMember.user_name,
+            id_community: community.id_community,
+          }),
+        });
+
+        if (!res.ok) {
+          throw new Error("Ajout d'administrateur échoué");
+        }
+      }
+
+      const newAdmins: AdminDTO[] = membersToAdd.map(
+        (selectedMember, index) => ({
+          id_admin: -(Date.now() + index),
+          user_name: selectedMember.user_name,
+          id_community: community.id_community,
+        }),
+      );
+
+      setAdmins((prev) => [...prev, ...newAdmins]);
+      setSelectedMembers([]);
+      setDisplay("hidden");
+      setOnPopUp(false);
+    } catch (error) {
+      console.error(error);
+      setOnError(true);
+    }
+  };
+
   // Tous les hooks sont déclarés — returns conditionnels après
   if (loading) return <LoadingAnimation />;
   if (!community) return notFound();
 
   return (
     <>
-      <div className={`min-h-screen bg-white flex flex-col justify-center items-center`}>
+      <div
+        className={`min-h-screen bg-white flex flex-col justify-center items-center`}
+      >
         {member?.Admin?.id_community && (
           <NavBarAdmin id_community={member.Admin.id_community} />
         )}
 
-        <main className={`${onError ? "pointer-events-none blur-md" : ""} ${onPopUp ? "pointer-events-none blur-md" : ""} mx-auto w-full max-w-6xl px-6 py-8 mb-15`}>
+        <main
+          className={`${onError ? "pointer-events-none blur-md" : ""} ${onPopUp ? "pointer-events-none blur-md" : ""} mx-auto w-full max-w-6xl px-6 py-8 mb-15`}
+        >
           <section className="mb-6 rounded-3xl bg-gradient-to-r from-rose-50 to-green-50 p-8">
             <div className="flex justify-center">
               <Button
@@ -85,7 +147,10 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
                 title="Ajouter un administrateur"
                 color="bg-green-300 border-green-300 text-black/80 hover:bg-green-200"
                 className="rounded-2xl border-0 px-10 py-3 text-sm shadow-sm"
-                onClick={() =>{ setDisplay("flex");setOnPopUp(true)}}
+                onClick={() => {
+                  setDisplay("flex");
+                  setOnPopUp(true);
+                }}
               />
             </div>
           </section>
@@ -108,16 +173,39 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
 
         <Footer />
 
-        <div className={`flex-col justify-center items-center shadow-xl absolute 
+        <div
+          className={
+            `flex-col justify-center items-center shadow-xl absolute 
             bg-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] h-[70%] 
-            p-2 rounded-xl z-50 overflow-visible ` + display}>
-          <Title as="h2" className="p-1 flex-5">Selectionner un nouvel admin</Title>
+            p-2 rounded-xl z-50 overflow-visible ` + display
+          }
+        >
+          <Title as="h2" className="p-1 flex-5">
+            Selectionner un nouvel admin
+          </Title>
           <span className="flex justify-center items-center p-2 gap-5">
-            <Button title="Ajouter" className="w-[100%] h-5 border-none bg-green-400" type="submit" />
-            <Button title="Annuler" className="w-[100%] h-5 border-none bg-red-500"
-              onClick={() => {setDisplay("hidden");setOnPopUp(false)}} />
+            <Button
+              title="Ajouter"
+              className="w-[100%] h-5 border-none bg-green-400"
+              //type="submit"
+              type="button"
+              onClick={handleAddAdmin}
+            />
+            <Button
+              title="Annuler"
+              className="w-[100%] h-5 border-none bg-red-500"
+              onClick={() => {
+                setDisplay("hidden");
+                setOnPopUp(false);
+                setSelectedMembers([]);
+              }}
+            />
           </span>
-          <UserSelectRow users={members} className="flex-90" />
+          <UserSelectRow
+            users={members}
+            className="flex-90"
+           onSelectionChange={setSelectedMembers}
+          />
         </div>
       </div>
     </>

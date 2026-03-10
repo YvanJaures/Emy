@@ -7,22 +7,9 @@ export type AdminDTO = {
   id_admin: number;
   user_name: string | null;
   id_community: number;
-   Member?: {
-    user_name: string;
-    name: string | null;
-    surname: string | null;
-    email: string | null;
-  } | null;
-
-  Community?: {
-    id_community: number;
-    name?: string | null; 
-  } | null;
-
-  Tournament?: {
-    id_tour: number;
-    location: string | null;
-  }[];
+  Member: MemberDTO;
+  Community?:CommunityDTO;
+  Tournament?:TournamentDTO[];
   // Member?:MemberDTO;
   // Community?: CommunityDTO ;
   // Tournament?: TournamentDTO;
@@ -52,16 +39,17 @@ export type MemberDTO={
  * object représentant les communautés
  */
 export type CommunityDTO ={
-  id_community     :number                ;
-  name             :string | null;
+  id_community     :number;
+  name             :string;
   details          :string | null;
   avatar           :string | null            ;
   members          :number |null;
   location         :string | null            ;
   id_manager       :number;
+  created          :Date;
   privacy          :boolean;
-  Admin           ?:AdminDTO[] |null;
-  Manager         ?:ManagerDTO  |null         ;
+  Admin            :AdminDTO[] ;
+  Manager          :ManagerDTO ;
   Community_member?:Community_memberDTO[] |null;
   Tournament      ?:TournamentDTO[] |null
 }
