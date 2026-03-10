@@ -16955,6 +16955,7 @@ export namespace Prisma {
 
   export type Community_memberWhereUniqueInput = Prisma.AtLeast<{
     id_co_member?: number
+    user_name_id_community?: Community_memberUser_nameId_communityCompoundUniqueInput
     AND?: Community_memberWhereInput | Community_memberWhereInput[]
     OR?: Community_memberWhereInput[]
     NOT?: Community_memberWhereInput | Community_memberWhereInput[]
@@ -16963,7 +16964,7 @@ export namespace Prisma {
     user_name?: StringNullableFilter<"Community_member"> | string | null
     Community?: XOR<CommunityNullableScalarRelationFilter, CommunityWhereInput> | null
     Member?: XOR<MemberNullableScalarRelationFilter, MemberWhereInput> | null
-  }, "id_co_member">
+  }, "id_co_member" | "user_name_id_community">
 
   export type Community_memberOrderByWithAggregationInput = {
     id_co_member?: SortOrder
@@ -18668,6 +18669,11 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type Community_memberUser_nameId_communityCompoundUniqueInput = {
+    user_name: string
+    id_community: number
   }
 
   export type Community_memberCountOrderByAggregateInput = {
