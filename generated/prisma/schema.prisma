@@ -10,7 +10,7 @@ datasource db {
 model Admin {
   id_admin     Int          @id(map: "PK__Admin__89472E95DB2049D4") @default(autoincrement())
   id_community Int?
-  user_name    String?      @db.VarChar(50)
+  user_name    String?      @unique @db.VarChar(50)
   Community    Community?   @relation(fields: [id_community], references: [id_community], onDelete: NoAction, onUpdate: NoAction, map: "FK__Admin__id_commun__6D0D32F4")
   Member       Member?      @relation(fields: [user_name], references: [user_name], onDelete: NoAction, onUpdate: NoAction, map: "FK_Admin_Member")
   Tournament   Tournament[]
@@ -24,6 +24,7 @@ model Community {
   members          Int?
   location         String?            @db.VarChar(100)
   id_manager       Int?
+  created          String?
   privacy          Boolean?
   Admin            Admin[]
   Manager          Manager?           @relation(fields: [id_manager], references: [id_manager], onDelete: NoAction, onUpdate: NoAction, map: "FK_Community_Manager")
@@ -38,6 +39,8 @@ model Community_member {
   user_name    String?    @db.VarChar(50)
   Community    Community? @relation(fields: [id_community], references: [id_community], onDelete: NoAction, onUpdate: NoAction, map: "FK__Community__id_co__5165187F")
   Member       Member?    @relation(fields: [user_name], references: [user_name], onDelete: NoAction, onUpdate: NoAction, map: "FK__Community__user___52593CB8")
+
+  @@unique([user_name, id_community])
 }
 
 model Employee {
@@ -63,7 +66,7 @@ model Member {
   phone            String?            @db.VarChar(50)
   avatar           String?            @db.VarChar(255)
   password         String?            @db.VarChar(255)
-  Admin            Admin[]
+  Admin            Admin?
   Community_member Community_member[]
   Employee         Employee?
   Player           Player[]

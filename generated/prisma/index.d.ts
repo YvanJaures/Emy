@@ -2044,7 +2044,6 @@ export namespace Prisma {
    */
 
   export type MemberCountOutputType = {
-    Admin: number
     Community_member: number
     Player: number
     Team: number
@@ -2052,7 +2051,6 @@ export namespace Prisma {
   }
 
   export type MemberCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Admin?: boolean | MemberCountOutputTypeCountAdminArgs
     Community_member?: boolean | MemberCountOutputTypeCountCommunity_memberArgs
     Player?: boolean | MemberCountOutputTypeCountPlayerArgs
     Team?: boolean | MemberCountOutputTypeCountTeamArgs
@@ -2068,13 +2066,6 @@ export namespace Prisma {
      * Select specific fields to fetch from the MemberCountOutputType
      */
     select?: MemberCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * MemberCountOutputType without action
-   */
-  export type MemberCountOutputTypeCountAdminArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: AdminWhereInput
   }
 
   /**
@@ -3331,6 +3322,7 @@ export namespace Prisma {
     members: number | null
     location: string | null
     id_manager: number | null
+    created: string | null
     privacy: boolean | null
   }
 
@@ -3342,6 +3334,7 @@ export namespace Prisma {
     members: number | null
     location: string | null
     id_manager: number | null
+    created: string | null
     privacy: boolean | null
   }
 
@@ -3353,6 +3346,7 @@ export namespace Prisma {
     members: number
     location: number
     id_manager: number
+    created: number
     privacy: number
     _all: number
   }
@@ -3378,6 +3372,7 @@ export namespace Prisma {
     members?: true
     location?: true
     id_manager?: true
+    created?: true
     privacy?: true
   }
 
@@ -3389,6 +3384,7 @@ export namespace Prisma {
     members?: true
     location?: true
     id_manager?: true
+    created?: true
     privacy?: true
   }
 
@@ -3400,6 +3396,7 @@ export namespace Prisma {
     members?: true
     location?: true
     id_manager?: true
+    created?: true
     privacy?: true
     _all?: true
   }
@@ -3498,6 +3495,7 @@ export namespace Prisma {
     members: number | null
     location: string | null
     id_manager: number | null
+    created: string | null
     privacy: boolean | null
     _count: CommunityCountAggregateOutputType | null
     _avg: CommunityAvgAggregateOutputType | null
@@ -3528,6 +3526,7 @@ export namespace Prisma {
     members?: boolean
     location?: boolean
     id_manager?: boolean
+    created?: boolean
     privacy?: boolean
     Admin?: boolean | Community$AdminArgs<ExtArgs>
     Manager?: boolean | Community$ManagerArgs<ExtArgs>
@@ -3546,10 +3545,11 @@ export namespace Prisma {
     members?: boolean
     location?: boolean
     id_manager?: boolean
+    created?: boolean
     privacy?: boolean
   }
 
-  export type CommunityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_community" | "name" | "details" | "avatar" | "members" | "location" | "id_manager" | "privacy", ExtArgs["result"]["community"]>
+  export type CommunityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_community" | "name" | "details" | "avatar" | "members" | "location" | "id_manager" | "created" | "privacy", ExtArgs["result"]["community"]>
   export type CommunityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Admin?: boolean | Community$AdminArgs<ExtArgs>
     Manager?: boolean | Community$ManagerArgs<ExtArgs>
@@ -3574,6 +3574,7 @@ export namespace Prisma {
       members: number | null
       location: string | null
       id_manager: number | null
+      created: string | null
       privacy: boolean | null
     }, ExtArgs["result"]["community"]>
     composites: {}
@@ -3955,6 +3956,7 @@ export namespace Prisma {
     readonly members: FieldRef<"Community", 'Int'>
     readonly location: FieldRef<"Community", 'String'>
     readonly id_manager: FieldRef<"Community", 'Int'>
+    readonly created: FieldRef<"Community", 'String'>
     readonly privacy: FieldRef<"Community", 'Boolean'>
   }
     
@@ -7498,7 +7500,7 @@ export namespace Prisma {
   export type $MemberPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Member"
     objects: {
-      Admin: Prisma.$AdminPayload<ExtArgs>[]
+      Admin: Prisma.$AdminPayload<ExtArgs> | null
       Community_member: Prisma.$Community_memberPayload<ExtArgs>[]
       Employee: Prisma.$EmployeePayload<ExtArgs> | null
       Player: Prisma.$PlayerPayload<ExtArgs>[]
@@ -7857,7 +7859,7 @@ export namespace Prisma {
    */
   export interface Prisma__MemberClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    Admin<T extends Member$AdminArgs<ExtArgs> = {}>(args?: Subset<T, Member$AdminArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Admin<T extends Member$AdminArgs<ExtArgs> = {}>(args?: Subset<T, Member$AdminArgs<ExtArgs>>): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     Community_member<T extends Member$Community_memberArgs<ExtArgs> = {}>(args?: Subset<T, Member$Community_memberArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$Community_memberPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Employee<T extends Member$EmployeeArgs<ExtArgs> = {}>(args?: Subset<T, Member$EmployeeArgs<ExtArgs>>): Prisma__EmployeeClient<$Result.GetResult<Prisma.$EmployeePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     Player<T extends Member$PlayerArgs<ExtArgs> = {}>(args?: Subset<T, Member$PlayerArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PlayerPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -8261,11 +8263,6 @@ export namespace Prisma {
      */
     include?: AdminInclude<ExtArgs> | null
     where?: AdminWhereInput
-    orderBy?: AdminOrderByWithRelationInput | AdminOrderByWithRelationInput[]
-    cursor?: AdminWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: AdminScalarFieldEnum | AdminScalarFieldEnum[]
   }
 
   /**
@@ -16618,6 +16615,7 @@ export namespace Prisma {
     members: 'members',
     location: 'location',
     id_manager: 'id_manager',
+    created: 'created',
     privacy: 'privacy'
   };
 
@@ -16835,15 +16833,15 @@ export namespace Prisma {
 
   export type AdminWhereUniqueInput = Prisma.AtLeast<{
     id_admin?: number
+    user_name?: string
     AND?: AdminWhereInput | AdminWhereInput[]
     OR?: AdminWhereInput[]
     NOT?: AdminWhereInput | AdminWhereInput[]
     id_community?: IntNullableFilter<"Admin"> | number | null
-    user_name?: StringNullableFilter<"Admin"> | string | null
     Community?: XOR<CommunityNullableScalarRelationFilter, CommunityWhereInput> | null
     Member?: XOR<MemberNullableScalarRelationFilter, MemberWhereInput> | null
     Tournament?: TournamentListRelationFilter
-  }, "id_admin">
+  }, "id_admin" | "user_name">
 
   export type AdminOrderByWithAggregationInput = {
     id_admin?: SortOrder
@@ -16876,6 +16874,7 @@ export namespace Prisma {
     members?: IntNullableFilter<"Community"> | number | null
     location?: StringNullableFilter<"Community"> | string | null
     id_manager?: IntNullableFilter<"Community"> | number | null
+    created?: StringNullableFilter<"Community"> | string | null
     privacy?: BoolNullableFilter<"Community"> | boolean | null
     Admin?: AdminListRelationFilter
     Manager?: XOR<ManagerNullableScalarRelationFilter, ManagerWhereInput> | null
@@ -16891,6 +16890,7 @@ export namespace Prisma {
     members?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
     id_manager?: SortOrderInput | SortOrder
+    created?: SortOrderInput | SortOrder
     privacy?: SortOrderInput | SortOrder
     Admin?: AdminOrderByRelationAggregateInput
     Manager?: ManagerOrderByWithRelationInput
@@ -16909,6 +16909,7 @@ export namespace Prisma {
     members?: IntNullableFilter<"Community"> | number | null
     location?: StringNullableFilter<"Community"> | string | null
     id_manager?: IntNullableFilter<"Community"> | number | null
+    created?: StringNullableFilter<"Community"> | string | null
     privacy?: BoolNullableFilter<"Community"> | boolean | null
     Admin?: AdminListRelationFilter
     Manager?: XOR<ManagerNullableScalarRelationFilter, ManagerWhereInput> | null
@@ -16924,6 +16925,7 @@ export namespace Prisma {
     members?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
     id_manager?: SortOrderInput | SortOrder
+    created?: SortOrderInput | SortOrder
     privacy?: SortOrderInput | SortOrder
     _count?: CommunityCountOrderByAggregateInput
     _avg?: CommunityAvgOrderByAggregateInput
@@ -16943,6 +16945,7 @@ export namespace Prisma {
     members?: IntNullableWithAggregatesFilter<"Community"> | number | null
     location?: StringNullableWithAggregatesFilter<"Community"> | string | null
     id_manager?: IntNullableWithAggregatesFilter<"Community"> | number | null
+    created?: StringNullableWithAggregatesFilter<"Community"> | string | null
     privacy?: BoolNullableWithAggregatesFilter<"Community"> | boolean | null
   }
 
@@ -16969,6 +16972,7 @@ export namespace Prisma {
 
   export type Community_memberWhereUniqueInput = Prisma.AtLeast<{
     id_co_member?: number
+    user_name_id_community?: Community_memberUser_nameId_communityCompoundUniqueInput
     AND?: Community_memberWhereInput | Community_memberWhereInput[]
     OR?: Community_memberWhereInput[]
     NOT?: Community_memberWhereInput | Community_memberWhereInput[]
@@ -16977,7 +16981,7 @@ export namespace Prisma {
     user_name?: StringNullableFilter<"Community_member"> | string | null
     Community?: XOR<CommunityNullableScalarRelationFilter, CommunityWhereInput> | null
     Member?: XOR<MemberNullableScalarRelationFilter, MemberWhereInput> | null
-  }, "id_co_member">
+  }, "id_co_member" | "user_name_id_community">
 
   export type Community_memberOrderByWithAggregationInput = {
     id_co_member?: SortOrder
@@ -17097,7 +17101,7 @@ export namespace Prisma {
     phone?: StringNullableFilter<"Member"> | string | null
     avatar?: StringNullableFilter<"Member"> | string | null
     password?: StringNullableFilter<"Member"> | string | null
-    Admin?: AdminListRelationFilter
+    Admin?: XOR<AdminNullableScalarRelationFilter, AdminWhereInput> | null
     Community_member?: Community_memberListRelationFilter
     Employee?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
     Player?: PlayerListRelationFilter
@@ -17117,7 +17121,7 @@ export namespace Prisma {
     phone?: SortOrderInput | SortOrder
     avatar?: SortOrderInput | SortOrder
     password?: SortOrderInput | SortOrder
-    Admin?: AdminOrderByRelationAggregateInput
+    Admin?: AdminOrderByWithRelationInput
     Community_member?: Community_memberOrderByRelationAggregateInput
     Employee?: EmployeeOrderByWithRelationInput
     Player?: PlayerOrderByRelationAggregateInput
@@ -17140,7 +17144,7 @@ export namespace Prisma {
     phone?: StringNullableFilter<"Member"> | string | null
     avatar?: StringNullableFilter<"Member"> | string | null
     password?: StringNullableFilter<"Member"> | string | null
-    Admin?: AdminListRelationFilter
+    Admin?: XOR<AdminNullableScalarRelationFilter, AdminWhereInput> | null
     Community_member?: Community_memberListRelationFilter
     Employee?: XOR<EmployeeNullableScalarRelationFilter, EmployeeWhereInput> | null
     Player?: PlayerListRelationFilter
@@ -17713,6 +17717,7 @@ export namespace Prisma {
     avatar?: string | null
     members?: number | null
     location?: string | null
+    created?: string | null
     privacy?: boolean | null
     Admin?: AdminCreateNestedManyWithoutCommunityInput
     Manager?: ManagerCreateNestedOneWithoutCommunityInput
@@ -17728,6 +17733,7 @@ export namespace Prisma {
     members?: number | null
     location?: string | null
     id_manager?: number | null
+    created?: string | null
     privacy?: boolean | null
     Admin?: AdminUncheckedCreateNestedManyWithoutCommunityInput
     Community_member?: Community_memberUncheckedCreateNestedManyWithoutCommunityInput
@@ -17740,6 +17746,7 @@ export namespace Prisma {
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     members?: NullableIntFieldUpdateOperationsInput | number | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    created?: NullableStringFieldUpdateOperationsInput | string | null
     privacy?: NullableBoolFieldUpdateOperationsInput | boolean | null
     Admin?: AdminUpdateManyWithoutCommunityNestedInput
     Manager?: ManagerUpdateOneWithoutCommunityNestedInput
@@ -17755,6 +17762,7 @@ export namespace Prisma {
     members?: NullableIntFieldUpdateOperationsInput | number | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     id_manager?: NullableIntFieldUpdateOperationsInput | number | null
+    created?: NullableStringFieldUpdateOperationsInput | string | null
     privacy?: NullableBoolFieldUpdateOperationsInput | boolean | null
     Admin?: AdminUncheckedUpdateManyWithoutCommunityNestedInput
     Community_member?: Community_memberUncheckedUpdateManyWithoutCommunityNestedInput
@@ -17768,6 +17776,7 @@ export namespace Prisma {
     members?: number | null
     location?: string | null
     id_manager?: number | null
+    created?: string | null
     privacy?: boolean | null
   }
 
@@ -17777,6 +17786,7 @@ export namespace Prisma {
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     members?: NullableIntFieldUpdateOperationsInput | number | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    created?: NullableStringFieldUpdateOperationsInput | string | null
     privacy?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
@@ -17788,6 +17798,7 @@ export namespace Prisma {
     members?: NullableIntFieldUpdateOperationsInput | number | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     id_manager?: NullableIntFieldUpdateOperationsInput | number | null
+    created?: NullableStringFieldUpdateOperationsInput | string | null
     privacy?: NullableBoolFieldUpdateOperationsInput | boolean | null
   }
 
@@ -17914,7 +17925,7 @@ export namespace Prisma {
     phone?: string | null
     avatar?: string | null
     password?: string | null
-    Admin?: AdminCreateNestedManyWithoutMemberInput
+    Admin?: AdminCreateNestedOneWithoutMemberInput
     Community_member?: Community_memberCreateNestedManyWithoutMemberInput
     Employee?: EmployeeCreateNestedOneWithoutMemberInput
     Player?: PlayerCreateNestedManyWithoutMemberInput
@@ -17934,7 +17945,7 @@ export namespace Prisma {
     phone?: string | null
     avatar?: string | null
     password?: string | null
-    Admin?: AdminUncheckedCreateNestedManyWithoutMemberInput
+    Admin?: AdminUncheckedCreateNestedOneWithoutMemberInput
     Community_member?: Community_memberUncheckedCreateNestedManyWithoutMemberInput
     Employee?: EmployeeUncheckedCreateNestedOneWithoutMemberInput
     Player?: PlayerUncheckedCreateNestedManyWithoutMemberInput
@@ -17954,7 +17965,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    Admin?: AdminUpdateManyWithoutMemberNestedInput
+    Admin?: AdminUpdateOneWithoutMemberNestedInput
     Community_member?: Community_memberUpdateManyWithoutMemberNestedInput
     Employee?: EmployeeUpdateOneWithoutMemberNestedInput
     Player?: PlayerUpdateManyWithoutMemberNestedInput
@@ -17974,7 +17985,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    Admin?: AdminUncheckedUpdateManyWithoutMemberNestedInput
+    Admin?: AdminUncheckedUpdateOneWithoutMemberNestedInput
     Community_member?: Community_memberUncheckedUpdateManyWithoutMemberNestedInput
     Employee?: EmployeeUncheckedUpdateOneWithoutMemberNestedInput
     Player?: PlayerUncheckedUpdateManyWithoutMemberNestedInput
@@ -18628,6 +18639,7 @@ export namespace Prisma {
     members?: SortOrder
     location?: SortOrder
     id_manager?: SortOrder
+    created?: SortOrder
     privacy?: SortOrder
   }
 
@@ -18645,6 +18657,7 @@ export namespace Prisma {
     members?: SortOrder
     location?: SortOrder
     id_manager?: SortOrder
+    created?: SortOrder
     privacy?: SortOrder
   }
 
@@ -18656,6 +18669,7 @@ export namespace Prisma {
     members?: SortOrder
     location?: SortOrder
     id_manager?: SortOrder
+    created?: SortOrder
     privacy?: SortOrder
   }
 
@@ -18682,6 +18696,11 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type Community_memberUser_nameId_communityCompoundUniqueInput = {
+    user_name: string
+    id_community: number
   }
 
   export type Community_memberCountOrderByAggregateInput = {
@@ -18811,6 +18830,11 @@ export namespace Prisma {
 
   export type ManagerSumOrderByAggregateInput = {
     id_manager?: SortOrder
+  }
+
+  export type AdminNullableScalarRelationFilter = {
+    is?: AdminWhereInput | null
+    isNot?: AdminWhereInput | null
   }
 
   export type EmployeeNullableScalarRelationFilter = {
@@ -19137,11 +19161,6 @@ export namespace Prisma {
     every?: PrizeWhereInput
     some?: PrizeWhereInput
     none?: PrizeWhereInput
-  }
-
-  export type AdminNullableScalarRelationFilter = {
-    is?: AdminWhereInput | null
-    isNot?: AdminWhereInput | null
   }
 
   export type PrizeOrderByRelationAggregateInput = {
@@ -19575,11 +19594,10 @@ export namespace Prisma {
     deleteMany?: CommunityScalarWhereInput | CommunityScalarWhereInput[]
   }
 
-  export type AdminCreateNestedManyWithoutMemberInput = {
-    create?: XOR<AdminCreateWithoutMemberInput, AdminUncheckedCreateWithoutMemberInput> | AdminCreateWithoutMemberInput[] | AdminUncheckedCreateWithoutMemberInput[]
-    connectOrCreate?: AdminCreateOrConnectWithoutMemberInput | AdminCreateOrConnectWithoutMemberInput[]
-    createMany?: AdminCreateManyMemberInputEnvelope
-    connect?: AdminWhereUniqueInput | AdminWhereUniqueInput[]
+  export type AdminCreateNestedOneWithoutMemberInput = {
+    create?: XOR<AdminCreateWithoutMemberInput, AdminUncheckedCreateWithoutMemberInput>
+    connectOrCreate?: AdminCreateOrConnectWithoutMemberInput
+    connect?: AdminWhereUniqueInput
   }
 
   export type Community_memberCreateNestedManyWithoutMemberInput = {
@@ -19622,11 +19640,10 @@ export namespace Prisma {
     connect?: Team_memberWhereUniqueInput | Team_memberWhereUniqueInput[]
   }
 
-  export type AdminUncheckedCreateNestedManyWithoutMemberInput = {
-    create?: XOR<AdminCreateWithoutMemberInput, AdminUncheckedCreateWithoutMemberInput> | AdminCreateWithoutMemberInput[] | AdminUncheckedCreateWithoutMemberInput[]
-    connectOrCreate?: AdminCreateOrConnectWithoutMemberInput | AdminCreateOrConnectWithoutMemberInput[]
-    createMany?: AdminCreateManyMemberInputEnvelope
-    connect?: AdminWhereUniqueInput | AdminWhereUniqueInput[]
+  export type AdminUncheckedCreateNestedOneWithoutMemberInput = {
+    create?: XOR<AdminCreateWithoutMemberInput, AdminUncheckedCreateWithoutMemberInput>
+    connectOrCreate?: AdminCreateOrConnectWithoutMemberInput
+    connect?: AdminWhereUniqueInput
   }
 
   export type Community_memberUncheckedCreateNestedManyWithoutMemberInput = {
@@ -19669,18 +19686,14 @@ export namespace Prisma {
     connect?: Team_memberWhereUniqueInput | Team_memberWhereUniqueInput[]
   }
 
-  export type AdminUpdateManyWithoutMemberNestedInput = {
-    create?: XOR<AdminCreateWithoutMemberInput, AdminUncheckedCreateWithoutMemberInput> | AdminCreateWithoutMemberInput[] | AdminUncheckedCreateWithoutMemberInput[]
-    connectOrCreate?: AdminCreateOrConnectWithoutMemberInput | AdminCreateOrConnectWithoutMemberInput[]
-    upsert?: AdminUpsertWithWhereUniqueWithoutMemberInput | AdminUpsertWithWhereUniqueWithoutMemberInput[]
-    createMany?: AdminCreateManyMemberInputEnvelope
-    set?: AdminWhereUniqueInput | AdminWhereUniqueInput[]
-    disconnect?: AdminWhereUniqueInput | AdminWhereUniqueInput[]
-    delete?: AdminWhereUniqueInput | AdminWhereUniqueInput[]
-    connect?: AdminWhereUniqueInput | AdminWhereUniqueInput[]
-    update?: AdminUpdateWithWhereUniqueWithoutMemberInput | AdminUpdateWithWhereUniqueWithoutMemberInput[]
-    updateMany?: AdminUpdateManyWithWhereWithoutMemberInput | AdminUpdateManyWithWhereWithoutMemberInput[]
-    deleteMany?: AdminScalarWhereInput | AdminScalarWhereInput[]
+  export type AdminUpdateOneWithoutMemberNestedInput = {
+    create?: XOR<AdminCreateWithoutMemberInput, AdminUncheckedCreateWithoutMemberInput>
+    connectOrCreate?: AdminCreateOrConnectWithoutMemberInput
+    upsert?: AdminUpsertWithoutMemberInput
+    disconnect?: AdminWhereInput | boolean
+    delete?: AdminWhereInput | boolean
+    connect?: AdminWhereUniqueInput
+    update?: XOR<XOR<AdminUpdateToOneWithWhereWithoutMemberInput, AdminUpdateWithoutMemberInput>, AdminUncheckedUpdateWithoutMemberInput>
   }
 
   export type Community_memberUpdateManyWithoutMemberNestedInput = {
@@ -19759,18 +19772,14 @@ export namespace Prisma {
     deleteMany?: Team_memberScalarWhereInput | Team_memberScalarWhereInput[]
   }
 
-  export type AdminUncheckedUpdateManyWithoutMemberNestedInput = {
-    create?: XOR<AdminCreateWithoutMemberInput, AdminUncheckedCreateWithoutMemberInput> | AdminCreateWithoutMemberInput[] | AdminUncheckedCreateWithoutMemberInput[]
-    connectOrCreate?: AdminCreateOrConnectWithoutMemberInput | AdminCreateOrConnectWithoutMemberInput[]
-    upsert?: AdminUpsertWithWhereUniqueWithoutMemberInput | AdminUpsertWithWhereUniqueWithoutMemberInput[]
-    createMany?: AdminCreateManyMemberInputEnvelope
-    set?: AdminWhereUniqueInput | AdminWhereUniqueInput[]
-    disconnect?: AdminWhereUniqueInput | AdminWhereUniqueInput[]
-    delete?: AdminWhereUniqueInput | AdminWhereUniqueInput[]
-    connect?: AdminWhereUniqueInput | AdminWhereUniqueInput[]
-    update?: AdminUpdateWithWhereUniqueWithoutMemberInput | AdminUpdateWithWhereUniqueWithoutMemberInput[]
-    updateMany?: AdminUpdateManyWithWhereWithoutMemberInput | AdminUpdateManyWithWhereWithoutMemberInput[]
-    deleteMany?: AdminScalarWhereInput | AdminScalarWhereInput[]
+  export type AdminUncheckedUpdateOneWithoutMemberNestedInput = {
+    create?: XOR<AdminCreateWithoutMemberInput, AdminUncheckedCreateWithoutMemberInput>
+    connectOrCreate?: AdminCreateOrConnectWithoutMemberInput
+    upsert?: AdminUpsertWithoutMemberInput
+    disconnect?: AdminWhereInput | boolean
+    delete?: AdminWhereInput | boolean
+    connect?: AdminWhereUniqueInput
+    update?: XOR<XOR<AdminUpdateToOneWithWhereWithoutMemberInput, AdminUpdateWithoutMemberInput>, AdminUncheckedUpdateWithoutMemberInput>
   }
 
   export type Community_memberUncheckedUpdateManyWithoutMemberNestedInput = {
@@ -20555,6 +20564,7 @@ export namespace Prisma {
     avatar?: string | null
     members?: number | null
     location?: string | null
+    created?: string | null
     privacy?: boolean | null
     Manager?: ManagerCreateNestedOneWithoutCommunityInput
     Community_member?: Community_memberCreateNestedManyWithoutCommunityInput
@@ -20569,6 +20579,7 @@ export namespace Prisma {
     members?: number | null
     location?: string | null
     id_manager?: number | null
+    created?: string | null
     privacy?: boolean | null
     Community_member?: Community_memberUncheckedCreateNestedManyWithoutCommunityInput
     Tournament?: TournamentUncheckedCreateNestedManyWithoutCommunityInput
@@ -20675,6 +20686,7 @@ export namespace Prisma {
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     members?: NullableIntFieldUpdateOperationsInput | number | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    created?: NullableStringFieldUpdateOperationsInput | string | null
     privacy?: NullableBoolFieldUpdateOperationsInput | boolean | null
     Manager?: ManagerUpdateOneWithoutCommunityNestedInput
     Community_member?: Community_memberUpdateManyWithoutCommunityNestedInput
@@ -20689,6 +20701,7 @@ export namespace Prisma {
     members?: NullableIntFieldUpdateOperationsInput | number | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     id_manager?: NullableIntFieldUpdateOperationsInput | number | null
+    created?: NullableStringFieldUpdateOperationsInput | string | null
     privacy?: NullableBoolFieldUpdateOperationsInput | boolean | null
     Community_member?: Community_memberUncheckedUpdateManyWithoutCommunityNestedInput
     Tournament?: TournamentUncheckedUpdateManyWithoutCommunityNestedInput
@@ -20957,6 +20970,7 @@ export namespace Prisma {
     avatar?: string | null
     members?: number | null
     location?: string | null
+    created?: string | null
     privacy?: boolean | null
     Admin?: AdminCreateNestedManyWithoutCommunityInput
     Manager?: ManagerCreateNestedOneWithoutCommunityInput
@@ -20971,6 +20985,7 @@ export namespace Prisma {
     members?: number | null
     location?: string | null
     id_manager?: number | null
+    created?: string | null
     privacy?: boolean | null
     Admin?: AdminUncheckedCreateNestedManyWithoutCommunityInput
     Tournament?: TournamentUncheckedCreateNestedManyWithoutCommunityInput
@@ -20992,7 +21007,7 @@ export namespace Prisma {
     phone?: string | null
     avatar?: string | null
     password?: string | null
-    Admin?: AdminCreateNestedManyWithoutMemberInput
+    Admin?: AdminCreateNestedOneWithoutMemberInput
     Employee?: EmployeeCreateNestedOneWithoutMemberInput
     Player?: PlayerCreateNestedManyWithoutMemberInput
     Sponsor?: SponsorCreateNestedOneWithoutMemberInput
@@ -21011,7 +21026,7 @@ export namespace Prisma {
     phone?: string | null
     avatar?: string | null
     password?: string | null
-    Admin?: AdminUncheckedCreateNestedManyWithoutMemberInput
+    Admin?: AdminUncheckedCreateNestedOneWithoutMemberInput
     Employee?: EmployeeUncheckedCreateNestedOneWithoutMemberInput
     Player?: PlayerUncheckedCreateNestedManyWithoutMemberInput
     Sponsor?: SponsorUncheckedCreateNestedOneWithoutMemberInput
@@ -21041,6 +21056,7 @@ export namespace Prisma {
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     members?: NullableIntFieldUpdateOperationsInput | number | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    created?: NullableStringFieldUpdateOperationsInput | string | null
     privacy?: NullableBoolFieldUpdateOperationsInput | boolean | null
     Admin?: AdminUpdateManyWithoutCommunityNestedInput
     Manager?: ManagerUpdateOneWithoutCommunityNestedInput
@@ -21055,6 +21071,7 @@ export namespace Prisma {
     members?: NullableIntFieldUpdateOperationsInput | number | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     id_manager?: NullableIntFieldUpdateOperationsInput | number | null
+    created?: NullableStringFieldUpdateOperationsInput | string | null
     privacy?: NullableBoolFieldUpdateOperationsInput | boolean | null
     Admin?: AdminUncheckedUpdateManyWithoutCommunityNestedInput
     Tournament?: TournamentUncheckedUpdateManyWithoutCommunityNestedInput
@@ -21082,7 +21099,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    Admin?: AdminUpdateManyWithoutMemberNestedInput
+    Admin?: AdminUpdateOneWithoutMemberNestedInput
     Employee?: EmployeeUpdateOneWithoutMemberNestedInput
     Player?: PlayerUpdateManyWithoutMemberNestedInput
     Sponsor?: SponsorUpdateOneWithoutMemberNestedInput
@@ -21101,7 +21118,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    Admin?: AdminUncheckedUpdateManyWithoutMemberNestedInput
+    Admin?: AdminUncheckedUpdateOneWithoutMemberNestedInput
     Employee?: EmployeeUncheckedUpdateOneWithoutMemberNestedInput
     Player?: PlayerUncheckedUpdateManyWithoutMemberNestedInput
     Sponsor?: SponsorUncheckedUpdateOneWithoutMemberNestedInput
@@ -21120,7 +21137,7 @@ export namespace Prisma {
     phone?: string | null
     avatar?: string | null
     password?: string | null
-    Admin?: AdminCreateNestedManyWithoutMemberInput
+    Admin?: AdminCreateNestedOneWithoutMemberInput
     Community_member?: Community_memberCreateNestedManyWithoutMemberInput
     Player?: PlayerCreateNestedManyWithoutMemberInput
     Sponsor?: SponsorCreateNestedOneWithoutMemberInput
@@ -21139,7 +21156,7 @@ export namespace Prisma {
     phone?: string | null
     avatar?: string | null
     password?: string | null
-    Admin?: AdminUncheckedCreateNestedManyWithoutMemberInput
+    Admin?: AdminUncheckedCreateNestedOneWithoutMemberInput
     Community_member?: Community_memberUncheckedCreateNestedManyWithoutMemberInput
     Player?: PlayerUncheckedCreateNestedManyWithoutMemberInput
     Sponsor?: SponsorUncheckedCreateNestedOneWithoutMemberInput
@@ -21174,7 +21191,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    Admin?: AdminUpdateManyWithoutMemberNestedInput
+    Admin?: AdminUpdateOneWithoutMemberNestedInput
     Community_member?: Community_memberUpdateManyWithoutMemberNestedInput
     Player?: PlayerUpdateManyWithoutMemberNestedInput
     Sponsor?: SponsorUpdateOneWithoutMemberNestedInput
@@ -21193,7 +21210,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    Admin?: AdminUncheckedUpdateManyWithoutMemberNestedInput
+    Admin?: AdminUncheckedUpdateOneWithoutMemberNestedInput
     Community_member?: Community_memberUncheckedUpdateManyWithoutMemberNestedInput
     Player?: PlayerUncheckedUpdateManyWithoutMemberNestedInput
     Sponsor?: SponsorUncheckedUpdateOneWithoutMemberNestedInput
@@ -21207,6 +21224,7 @@ export namespace Prisma {
     avatar?: string | null
     members?: number | null
     location?: string | null
+    created?: string | null
     privacy?: boolean | null
     Admin?: AdminCreateNestedManyWithoutCommunityInput
     Community_member?: Community_memberCreateNestedManyWithoutCommunityInput
@@ -21220,6 +21238,7 @@ export namespace Prisma {
     avatar?: string | null
     members?: number | null
     location?: string | null
+    created?: string | null
     privacy?: boolean | null
     Admin?: AdminUncheckedCreateNestedManyWithoutCommunityInput
     Community_member?: Community_memberUncheckedCreateNestedManyWithoutCommunityInput
@@ -21262,6 +21281,7 @@ export namespace Prisma {
     members?: IntNullableFilter<"Community"> | number | null
     location?: StringNullableFilter<"Community"> | string | null
     id_manager?: IntNullableFilter<"Community"> | number | null
+    created?: StringNullableFilter<"Community"> | string | null
     privacy?: BoolNullableFilter<"Community"> | boolean | null
   }
 
@@ -21279,10 +21299,6 @@ export namespace Prisma {
   export type AdminCreateOrConnectWithoutMemberInput = {
     where: AdminWhereUniqueInput
     create: XOR<AdminCreateWithoutMemberInput, AdminUncheckedCreateWithoutMemberInput>
-  }
-
-  export type AdminCreateManyMemberInputEnvelope = {
-    data: AdminCreateManyMemberInput | AdminCreateManyMemberInput[]
   }
 
   export type Community_memberCreateWithoutMemberInput = {
@@ -21403,20 +21419,26 @@ export namespace Prisma {
     data: Team_memberCreateManyMemberInput | Team_memberCreateManyMemberInput[]
   }
 
-  export type AdminUpsertWithWhereUniqueWithoutMemberInput = {
-    where: AdminWhereUniqueInput
+  export type AdminUpsertWithoutMemberInput = {
     update: XOR<AdminUpdateWithoutMemberInput, AdminUncheckedUpdateWithoutMemberInput>
     create: XOR<AdminCreateWithoutMemberInput, AdminUncheckedCreateWithoutMemberInput>
+    where?: AdminWhereInput
   }
 
-  export type AdminUpdateWithWhereUniqueWithoutMemberInput = {
-    where: AdminWhereUniqueInput
+  export type AdminUpdateToOneWithWhereWithoutMemberInput = {
+    where?: AdminWhereInput
     data: XOR<AdminUpdateWithoutMemberInput, AdminUncheckedUpdateWithoutMemberInput>
   }
 
-  export type AdminUpdateManyWithWhereWithoutMemberInput = {
-    where: AdminScalarWhereInput
-    data: XOR<AdminUpdateManyMutationInput, AdminUncheckedUpdateManyWithoutMemberInput>
+  export type AdminUpdateWithoutMemberInput = {
+    Community?: CommunityUpdateOneWithoutAdminNestedInput
+    Tournament?: TournamentUpdateManyWithoutAdminNestedInput
+  }
+
+  export type AdminUncheckedUpdateWithoutMemberInput = {
+    id_admin?: IntFieldUpdateOperationsInput | number
+    id_community?: NullableIntFieldUpdateOperationsInput | number | null
+    Tournament?: TournamentUncheckedUpdateManyWithoutAdminNestedInput
   }
 
   export type Community_memberUpsertWithWhereUniqueWithoutMemberInput = {
@@ -21569,7 +21591,7 @@ export namespace Prisma {
     phone?: string | null
     avatar?: string | null
     password?: string | null
-    Admin?: AdminCreateNestedManyWithoutMemberInput
+    Admin?: AdminCreateNestedOneWithoutMemberInput
     Community_member?: Community_memberCreateNestedManyWithoutMemberInput
     Employee?: EmployeeCreateNestedOneWithoutMemberInput
     Sponsor?: SponsorCreateNestedOneWithoutMemberInput
@@ -21588,7 +21610,7 @@ export namespace Prisma {
     phone?: string | null
     avatar?: string | null
     password?: string | null
-    Admin?: AdminUncheckedCreateNestedManyWithoutMemberInput
+    Admin?: AdminUncheckedCreateNestedOneWithoutMemberInput
     Community_member?: Community_memberUncheckedCreateNestedManyWithoutMemberInput
     Employee?: EmployeeUncheckedCreateNestedOneWithoutMemberInput
     Sponsor?: SponsorUncheckedCreateNestedOneWithoutMemberInput
@@ -21655,7 +21677,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    Admin?: AdminUpdateManyWithoutMemberNestedInput
+    Admin?: AdminUpdateOneWithoutMemberNestedInput
     Community_member?: Community_memberUpdateManyWithoutMemberNestedInput
     Employee?: EmployeeUpdateOneWithoutMemberNestedInput
     Sponsor?: SponsorUpdateOneWithoutMemberNestedInput
@@ -21674,7 +21696,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    Admin?: AdminUncheckedUpdateManyWithoutMemberNestedInput
+    Admin?: AdminUncheckedUpdateOneWithoutMemberNestedInput
     Community_member?: Community_memberUncheckedUpdateManyWithoutMemberNestedInput
     Employee?: EmployeeUncheckedUpdateOneWithoutMemberNestedInput
     Sponsor?: SponsorUncheckedUpdateOneWithoutMemberNestedInput
@@ -21990,7 +22012,7 @@ export namespace Prisma {
     phone?: string | null
     avatar?: string | null
     password?: string | null
-    Admin?: AdminCreateNestedManyWithoutMemberInput
+    Admin?: AdminCreateNestedOneWithoutMemberInput
     Community_member?: Community_memberCreateNestedManyWithoutMemberInput
     Employee?: EmployeeCreateNestedOneWithoutMemberInput
     Player?: PlayerCreateNestedManyWithoutMemberInput
@@ -22009,7 +22031,7 @@ export namespace Prisma {
     phone?: string | null
     avatar?: string | null
     password?: string | null
-    Admin?: AdminUncheckedCreateNestedManyWithoutMemberInput
+    Admin?: AdminUncheckedCreateNestedOneWithoutMemberInput
     Community_member?: Community_memberUncheckedCreateNestedManyWithoutMemberInput
     Employee?: EmployeeUncheckedCreateNestedOneWithoutMemberInput
     Player?: PlayerUncheckedCreateNestedManyWithoutMemberInput
@@ -22060,7 +22082,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    Admin?: AdminUpdateManyWithoutMemberNestedInput
+    Admin?: AdminUpdateOneWithoutMemberNestedInput
     Community_member?: Community_memberUpdateManyWithoutMemberNestedInput
     Employee?: EmployeeUpdateOneWithoutMemberNestedInput
     Player?: PlayerUpdateManyWithoutMemberNestedInput
@@ -22079,7 +22101,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    Admin?: AdminUncheckedUpdateManyWithoutMemberNestedInput
+    Admin?: AdminUncheckedUpdateOneWithoutMemberNestedInput
     Community_member?: Community_memberUncheckedUpdateManyWithoutMemberNestedInput
     Employee?: EmployeeUncheckedUpdateOneWithoutMemberNestedInput
     Player?: PlayerUncheckedUpdateManyWithoutMemberNestedInput
@@ -22130,7 +22152,7 @@ export namespace Prisma {
     phone?: string | null
     avatar?: string | null
     password?: string | null
-    Admin?: AdminCreateNestedManyWithoutMemberInput
+    Admin?: AdminCreateNestedOneWithoutMemberInput
     Community_member?: Community_memberCreateNestedManyWithoutMemberInput
     Employee?: EmployeeCreateNestedOneWithoutMemberInput
     Player?: PlayerCreateNestedManyWithoutMemberInput
@@ -22149,7 +22171,7 @@ export namespace Prisma {
     phone?: string | null
     avatar?: string | null
     password?: string | null
-    Admin?: AdminUncheckedCreateNestedManyWithoutMemberInput
+    Admin?: AdminUncheckedCreateNestedOneWithoutMemberInput
     Community_member?: Community_memberUncheckedCreateNestedManyWithoutMemberInput
     Employee?: EmployeeUncheckedCreateNestedOneWithoutMemberInput
     Player?: PlayerUncheckedCreateNestedManyWithoutMemberInput
@@ -22242,7 +22264,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    Admin?: AdminUpdateManyWithoutMemberNestedInput
+    Admin?: AdminUpdateOneWithoutMemberNestedInput
     Community_member?: Community_memberUpdateManyWithoutMemberNestedInput
     Employee?: EmployeeUpdateOneWithoutMemberNestedInput
     Player?: PlayerUpdateManyWithoutMemberNestedInput
@@ -22261,7 +22283,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    Admin?: AdminUncheckedUpdateManyWithoutMemberNestedInput
+    Admin?: AdminUncheckedUpdateOneWithoutMemberNestedInput
     Community_member?: Community_memberUncheckedUpdateManyWithoutMemberNestedInput
     Employee?: EmployeeUncheckedUpdateOneWithoutMemberNestedInput
     Player?: PlayerUncheckedUpdateManyWithoutMemberNestedInput
@@ -22322,7 +22344,7 @@ export namespace Prisma {
     phone?: string | null
     avatar?: string | null
     password?: string | null
-    Admin?: AdminCreateNestedManyWithoutMemberInput
+    Admin?: AdminCreateNestedOneWithoutMemberInput
     Community_member?: Community_memberCreateNestedManyWithoutMemberInput
     Employee?: EmployeeCreateNestedOneWithoutMemberInput
     Player?: PlayerCreateNestedManyWithoutMemberInput
@@ -22341,7 +22363,7 @@ export namespace Prisma {
     phone?: string | null
     avatar?: string | null
     password?: string | null
-    Admin?: AdminUncheckedCreateNestedManyWithoutMemberInput
+    Admin?: AdminUncheckedCreateNestedOneWithoutMemberInput
     Community_member?: Community_memberUncheckedCreateNestedManyWithoutMemberInput
     Employee?: EmployeeUncheckedCreateNestedOneWithoutMemberInput
     Player?: PlayerUncheckedCreateNestedManyWithoutMemberInput
@@ -22408,7 +22430,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    Admin?: AdminUpdateManyWithoutMemberNestedInput
+    Admin?: AdminUpdateOneWithoutMemberNestedInput
     Community_member?: Community_memberUpdateManyWithoutMemberNestedInput
     Employee?: EmployeeUpdateOneWithoutMemberNestedInput
     Player?: PlayerUpdateManyWithoutMemberNestedInput
@@ -22427,7 +22449,7 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     password?: NullableStringFieldUpdateOperationsInput | string | null
-    Admin?: AdminUncheckedUpdateManyWithoutMemberNestedInput
+    Admin?: AdminUncheckedUpdateOneWithoutMemberNestedInput
     Community_member?: Community_memberUncheckedUpdateManyWithoutMemberNestedInput
     Employee?: EmployeeUncheckedUpdateOneWithoutMemberNestedInput
     Player?: PlayerUncheckedUpdateManyWithoutMemberNestedInput
@@ -22533,6 +22555,7 @@ export namespace Prisma {
     avatar?: string | null
     members?: number | null
     location?: string | null
+    created?: string | null
     privacy?: boolean | null
     Admin?: AdminCreateNestedManyWithoutCommunityInput
     Manager?: ManagerCreateNestedOneWithoutCommunityInput
@@ -22547,6 +22570,7 @@ export namespace Prisma {
     members?: number | null
     location?: string | null
     id_manager?: number | null
+    created?: string | null
     privacy?: boolean | null
     Admin?: AdminUncheckedCreateNestedManyWithoutCommunityInput
     Community_member?: Community_memberUncheckedCreateNestedManyWithoutCommunityInput
@@ -22657,6 +22681,7 @@ export namespace Prisma {
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     members?: NullableIntFieldUpdateOperationsInput | number | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    created?: NullableStringFieldUpdateOperationsInput | string | null
     privacy?: NullableBoolFieldUpdateOperationsInput | boolean | null
     Admin?: AdminUpdateManyWithoutCommunityNestedInput
     Manager?: ManagerUpdateOneWithoutCommunityNestedInput
@@ -22671,6 +22696,7 @@ export namespace Prisma {
     members?: NullableIntFieldUpdateOperationsInput | number | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     id_manager?: NullableIntFieldUpdateOperationsInput | number | null
+    created?: NullableStringFieldUpdateOperationsInput | string | null
     privacy?: NullableBoolFieldUpdateOperationsInput | boolean | null
     Admin?: AdminUncheckedUpdateManyWithoutCommunityNestedInput
     Community_member?: Community_memberUncheckedUpdateManyWithoutCommunityNestedInput
@@ -22864,6 +22890,7 @@ export namespace Prisma {
     avatar?: string | null
     members?: number | null
     location?: string | null
+    created?: string | null
     privacy?: boolean | null
   }
 
@@ -22873,6 +22900,7 @@ export namespace Prisma {
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     members?: NullableIntFieldUpdateOperationsInput | number | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    created?: NullableStringFieldUpdateOperationsInput | string | null
     privacy?: NullableBoolFieldUpdateOperationsInput | boolean | null
     Admin?: AdminUpdateManyWithoutCommunityNestedInput
     Community_member?: Community_memberUpdateManyWithoutCommunityNestedInput
@@ -22886,6 +22914,7 @@ export namespace Prisma {
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     members?: NullableIntFieldUpdateOperationsInput | number | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    created?: NullableStringFieldUpdateOperationsInput | string | null
     privacy?: NullableBoolFieldUpdateOperationsInput | boolean | null
     Admin?: AdminUncheckedUpdateManyWithoutCommunityNestedInput
     Community_member?: Community_memberUncheckedUpdateManyWithoutCommunityNestedInput
@@ -22899,11 +22928,8 @@ export namespace Prisma {
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     members?: NullableIntFieldUpdateOperationsInput | number | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
+    created?: NullableStringFieldUpdateOperationsInput | string | null
     privacy?: NullableBoolFieldUpdateOperationsInput | boolean | null
-  }
-
-  export type AdminCreateManyMemberInput = {
-    id_community?: number | null
   }
 
   export type Community_memberCreateManyMemberInput = {
@@ -22927,22 +22953,6 @@ export namespace Prisma {
   export type Team_memberCreateManyMemberInput = {
     id_team?: number | null
     status?: boolean | null
-  }
-
-  export type AdminUpdateWithoutMemberInput = {
-    Community?: CommunityUpdateOneWithoutAdminNestedInput
-    Tournament?: TournamentUpdateManyWithoutAdminNestedInput
-  }
-
-  export type AdminUncheckedUpdateWithoutMemberInput = {
-    id_admin?: IntFieldUpdateOperationsInput | number
-    id_community?: NullableIntFieldUpdateOperationsInput | number | null
-    Tournament?: TournamentUncheckedUpdateManyWithoutAdminNestedInput
-  }
-
-  export type AdminUncheckedUpdateManyWithoutMemberInput = {
-    id_admin?: IntFieldUpdateOperationsInput | number
-    id_community?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type Community_memberUpdateWithoutMemberInput = {

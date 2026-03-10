@@ -32,9 +32,9 @@ const privacyLinks: FooterLink[] = [
 export default function Footer() {
   return (
     <footer className="bg-[#0b78b9] text-white w-full">
-      <div className="mx-auto flex w-full flex-col gap-10 px-6 py-10 md:flex-row md:items-start md:justify-between">
+      <div className="mx-auto flex w-full flex-col gap-10 px-6 py-10 max-sm:flex-col-reverse md:flex-row md:items-start md:justify-between">
         {/* Logo */}
-        <div className="flex items-center md:w-[220px]">
+        <div className="flex items-center md:w-[220px] max-sm:w-[100%] max-sm:justify-center">
           <div className="relative h-[200px] w-[340px]">
             <Image
               src="/assets/logos/emy_foot.png"
@@ -47,7 +47,7 @@ export default function Footer() {
         </div>
 
         {/* Colonnes */}
-        <div className="grid flex-1 grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid flex-1 grid-cols-1 gap-8 max-sm:grid-cols-2 sm:grid-cols-2 lg:grid-cols-4">
           {/* A PROPOS */}
           <div>
             <h3 className="mb-4 text-sm underline font-semibold tracking-widest">

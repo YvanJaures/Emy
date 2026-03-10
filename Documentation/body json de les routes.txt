@@ -1,0 +1,157 @@
+Headers :   role : admin
+
+router.post('/member', verifyAdmin, adminController.addMemberToTeam)
+Methode : POST            
+URL : http://localhost:3000/api/admin/member
+Body : 
+{
+  "id_team": 1,
+  "user_name": "mathieu"
+}
+
+router.delete('/member', verifyAdmin, adminController.deleteMemberFromTeam)
+Methode : DELETE
+URL : http://localhost:3000/api/admin/member
+Body : 
+{
+  "id_team": 1,
+  "user_name": "mathieu"
+}
+
+router.post('/tour', verifyAdmin, adminController.createTour)
+Methode : POST
+URL : http://localhost:3000/api/admin/tour
+Body : 
+{
+  "location": "Montreal",
+  "start_date": "2026-03-01",
+  "end_date": "2026-03-10",
+  "status": 1,
+  "avatar": "image.png",
+  "id_admin": 1,
+  "id_community": 1
+}
+
+router.patch('/tour', verifyAdmin, adminController.updateTourTeams)
+*En reconfiguration*
+
+router.patch('/tour/status', verifyAdmin, adminController.updateTourStatus)
+Methode : PATCH
+URL : http://localhost:3000/api/admin/tour/status
+Body : 
+{
+  "id_tour": 1,
+  "id_community": 1,
+  "status": 0
+}
+
+router.delete('/team', verifyAdmin, adminController.deleteTeamFromTour)
+Methode : DELETE
+URL : http://localhost:3000/api/admin/team
+Body : 
+{
+  "id_team": 1,
+  "id_tour": 1
+}
+
+router.post('/prize', verifyAdmin, adminController.createPrize)
+Methode : POST
+URL : http://localhost:3000/api/admin/prize
+Body : 
+{
+  "name": "Gold Medal",
+  "spots": 1,
+  "group_spot": 0,
+  "id_tour": 1,
+  "id_type": 1,
+  "id_admin": 1
+}
+
+router.delete('/prize', verifyAdmin, adminController.deletePrize)
+Methode : DELETE
+URL : http://localhost:3000/api/admin/prize
+Body :
+{
+  "id_prize": 1,
+  "id_tour": 1
+}
+
+router.patch('/prize', verifyAdmin, adminController.updatePrize)
+Methode : PATCH
+URL : http://localhost:3000/api/admin/prize
+Body :
+{
+  "id_prize": 1,
+  "id_tour": 1,
+  "spots": 2
+}
+
+router.post('/admin', verifyAdmin, adminController.addAdmin)
+Methode : POST
+URL : http://localhost:3000/api/admin/admin
+Body : 
+{
+  "user_name": "mathieu",
+  "id_community": 1
+}
+
+router.delete('/admin', verifyAdmin, adminController.deleteAdmin)
+Methode : DELETE
+URL : http://localhost:3000/api/admin/admin
+Body : 
+{
+  "id_admin": 1,
+  "user_name": "mathieu",
+  "id_community": 1
+}
+
+router.post('/action', verifyAdmin, adminController.logAdminAction)
+*En reconfiguration*
+
+router.delete('/member/tour', verifyAdmin, adminController.deleteMemberFromTour)
+Methode : DELETE
+URL : http://localhost:3000/api/admin/member/tour
+Body : 
+{
+  "id_tour": 1,
+  "user_name": "mathieu"
+}
+
+router.delete('/member/community', verifyAdmin, adminController.deleteMemberFromCommunity)
+Methode : DELETE
+URL : http://localhost:3000/api/admin/member/community
+Body : 
+{
+  "id_community": 1,
+  "user_name": "mathieu"
+}
+
+router.patch('/community/update', verifyAdmin, adminController.updateCommunity)
+Methode : PATCH
+URL : http://localhost:3000/api/admin/community/update
+Body : 
+{
+  "id_community": 1,
+  "alias": "name",
+  "new_info": "Nouvelle communauté"
+}
+
+router.get('/admins', verifyAdmin, adminController.getAdmins)
+Methode : GET
+URL : http://localhost:3000/api/admin/admins
+Body : *Laisser VIDE*
+
+router.get('/admin/:id', verifyAdmin, adminController.getAdmin)
+Methode : GET
+URL : http://localhost:3000/api/admin/admin/1
+Body : *Laisser VIDE*
+
+router.get("/tournaments", tournamentController.getTournaments)
+Methode : GET
+URL : http://localhost:3000/api/tournaments
+Body : *Laisser VIDE*
+
+router.get("/tournaments/community/:id", verifyAdmin, tournamentController.getTournamentsByAdmin)
+Methode : GET
+URL : http://localhost:3000/api/admin/tournaments/community/1
+Body : *Laisser VIDE*

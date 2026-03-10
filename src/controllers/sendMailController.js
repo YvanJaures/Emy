@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
 });
 
 export const sendMail=async(request,response)=>{
-      const details = await request.body.json();
+      const details = request.body;
   
   try {
     await transporter.sendMail({
@@ -20,7 +20,8 @@ export const sendMail=async(request,response)=>{
       subject: 'No reply',
       html: `
         <h1>Bonjour ${details.user_name}!</h1>
-        <p>Merci de vous être inscrit.</p>
+        <p>Ceci est un message automatisé, merci de ne pas y répondre.</p>
+        <button style="color:red;"><a href="emy.ca">clique ici</a></button>
       `
     });
     return response.status(201).json({ success: true });

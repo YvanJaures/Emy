@@ -10,6 +10,24 @@ export async function getMemberByEmail(email){
     const member= await prisma.member.findFirst({
         where:{
             email:email
+        },
+        select:{
+            user_name        :true,
+            name             :true,
+            surname          :true,
+            address          :true,
+            birth_date       :true,
+            country          :true,
+            email            :true,
+            phone            :true,
+            avatar           :true,
+            Admin            :true,
+            Community_member :true,
+            Employee         :true,
+            Player           :true,
+            Sponsor          :true,
+            Team             :true,
+            Team_member      :true
         }
     });
     return member
@@ -23,9 +41,53 @@ export async function getMemberByName(user_name){
     const member= await prisma.member.findUnique({
         where:{
             user_name:user_name
+        },
+        select:{
+            user_name        :true,
+            name             :true,
+            surname          :true,
+            address          :true,
+            birth_date       :true,
+            country          :true,
+            email            :true,
+            phone            :true,
+            avatar           :true,
+            Admin            :true,
+            Community_member :true,
+            Employee         :true,
+            Player           :true,
+            Sponsor          :true,
+            Team             :true,
+            Team_member      :true
         }
     });
     return member
+}
+export async function getMembersByCommunity(id_community){
+    const id=Number.parseInt(id_community)
+    const  community=await prisma.community.findUnique({
+        where:{
+            id_community:id
+        },
+        include:{
+            Community_member:true
+        }
+    })
+    const members=[]
+    for(const member of community.Community_member){
+        members.push(await getMemberByName(member.user_name))
+    }
+    return members
+}
+export async function getMemberPassword(user_name){
+    return await prisma.member.findUnique({
+        where:{
+            user_name:user_name
+        },
+        select:{
+            password:true
+        }
+    })
 }
 /**
  * Récupére la liste de tous les membres
@@ -33,7 +95,11 @@ export async function getMemberByName(user_name){
  */
 export async function getMembers(){
     console.log("Server:", process.env.DB_SERVER);
-    const members=await prisma.member.findMany()
+    const members=await prisma.member.findMany({
+        include:{
+            Admin:true
+        }
+    })
     console.log('correct')
     return members
 }
@@ -194,7 +260,7 @@ export async function pay(){
  * @param {*} user_name 
  * @param {*} new_password 
  */
-export async function updatePasswordMember(user_name,new_password){
+export async function updatePasswordMember(user_name,password){
     const client=await getMemberByName(user_name)
     if(client){
         await prisma.member.update({
@@ -202,7 +268,7 @@ export async function updatePasswordMember(user_name,new_password){
                 user_name:user_name
             },
             data:{
-                password:await bcrypt.hash(new_password,10)
+                password:await bcrypt.hash(password,10)
             }
         })
     }
@@ -214,19 +280,19 @@ export async function updatePasswordMember(user_name,new_password){
                     email:user_name
                 },
                 data:{
-                    password:await bcrypt.hash(new_password,10)
+                    password:await bcrypt.hash(password,10)
                 }
             })
         }
     }
 }
 
-export async function addCommunityMember(id_community,user_name,join_date){
+export async function addCommunityMember(id_community,user_name){
     await prisma.community_member.create({
         data:{
            id_community:id_community,
            user_name:user_name,
-           join_date:join_date 
+           join_date:new Date() 
         }
     })
 }

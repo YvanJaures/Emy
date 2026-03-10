@@ -9,16 +9,19 @@ GLOBAL USERS (DONE --------------------------------------------)
 54- Pacth: api/member/team/update (user_name);
 4- Post: api/member/pay
 
-SPONSORS
+TOURNAMENT  (DONE --------------------------------------------)
+55- GET: api/tournaments    (Pour tous les tournois)
+56- GET: api/tournaments/admin/*id_admin* 
 
+SPONSORS
 5- Post: api/member/sponsor (user_name,email,ame,surname,address,company_name,phone,title,birth_date,password);
 6- Post: api/member/sponsor/prize (id_prize,user_name);
 7- Post: api/member/sponsor/member ( user_name,name,surname,address,birth_date,phone,email,pasword)
 
-ADMINS
+ADMINS  (DONE --------------------------------------------)
 8- Post: api/admin/member (id_team,user_name);
 9- Delete: api/admin/member (id_team,user_name);
-10- Post: api/admin/tour (teams,location,start_date,end_date,status,avatar,id_admin,id_community);
+10- Post: api/admin/tour (teams,location,start_date,end_date,avatar,id_admin,id_community);
 11- Post: apidmin/prize (name,spots,group_spots,id_tour,id_type,id_admin,number);
 12- Delete: api/admin/prize (id_prize,id_tour);
 13- Patch: api/admin/prize (id_prize,id_tour,number)
@@ -42,7 +45,7 @@ GLOBAL USERS (DONE --------------------------------------------)
 28- Post: api/member/community/join (id_community,user_name,join_date)	// join a communtiy
 29- Post api/member/tour/join (id_tour,user_name)  // join a tournament and become a player
 
-ADMINS
+ADMINS  (DONE --------------------------------------------)
 30- Delete: api/admin/member/tour (id_tour,user_name)
 31- Delete: api/admin/member/community (id_community,user_name)
 32- Patch: api/admin/community/update (id_community,alias,new_info)
@@ -52,7 +55,7 @@ MANAGERS
 34- Delete: api/manager/community/remove (id_community,id_manager)
 
  								GETS
-COMMUNITY:
+COMMUNITY: (DONE --------------------------------------------)
 35- Get: api/communities
 36- Get: api/community	(id_community)
 
@@ -61,7 +64,7 @@ GLOBAL USERS: (DONE --------------------------------------------)
 39- Get: api/user (user_name)
 40- Get: api/users/names 
 
-ADMINS:
+ADMINS:  (DONE --------------------------------------------)
 41- Get: api/admins
 42- Get: api/admin (id_admin)
 

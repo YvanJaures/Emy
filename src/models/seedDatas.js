@@ -233,7 +233,7 @@ async function seedMembers() {
         email: 'yvanjaures@emy.com',
         phone: null,
         avatar: 'avatar7.jpg',
-        password:'yvan123456'
+        password:'$2b$10$N7nAO9pPMmABCFoeO/Jwl.x86jy6LVm4.fneuNIka.ZwrWoq4BCGK'
     },
     {
         user_name: 'emma',
@@ -244,7 +244,7 @@ async function seedMembers() {
         email: 'emmaraissa@emy.com',
         phone: null,
         avatar: 'avatar7.jpg',
-        password:'emma123456'
+        password:'$2b$10$N7nAO9pPMmABCFoeO/Jwl.x86jy6LVm4.fneuNIka.ZwrWoq4BCGK'
     },
     {
         user_name: 'mathieu',
@@ -255,7 +255,7 @@ async function seedMembers() {
         email: 'mathieularocque@emy.com',
         phone: null,
         avatar: null,
-        password:'mathieu123456'
+        password:'$2b$10$N7nAO9pPMmABCFoeO/Jwl.x86jy6LVm4.fneuNIka.ZwrWoq4BCGK'
     }
             ]
   await prisma.member.createMany({ data: members });

@@ -135,6 +135,7 @@ exports.Prisma.CommunityScalarFieldEnum = {
   members: 'members',
   location: 'location',
   id_manager: 'id_manager',
+  created: 'created',
   privacy: 'privacy'
 };
 
