@@ -11,6 +11,7 @@ routerAdmin.post('/member', verifyAdmin,isAdminConnecterApi, adminController.add
 routerAdmin.delete('/member', verifyAdmin,isAdminConnecterApi, adminController.deleteMemberFromTeam) //ok
 
 //Gestion des tournois
+routerAdmin.get('/tour/teams', verifyAdmin,isAdminConnecterApi, adminController.getTourTeams)
 routerAdmin.post('/tour', verifyAdmin,isAdminConnecterApi, adminController.createTour)               //ok
 routerAdmin.post('/tour&prizes', verifyAdmin,isAdminConnecterApi, adminController.createTourWithPrizes)               //ok
 routerAdmin.patch('/tour', verifyAdmin,isAdminConnecterApi, adminController.updateTourTeams)         //en attente de reconfiguration...

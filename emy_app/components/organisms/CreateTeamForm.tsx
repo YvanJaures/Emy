@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import InputText from "@/components/atoms/InputText";
 import Button from "@/components/atoms/Button";
 
-type TournamentMini = { id_tour: number; locations?: string | null };
+type TournamentMini = { id_tour: number; location?: string | null };
 
 function generateSecretCode(len = 8) {
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -154,7 +154,7 @@ export default function CreateTeamForm({
             <option value="">-- sélectionner --</option>
             {tournaments.map((t) => (
               <option key={t.id_tour} value={t.id_tour}>
-                {t.locations?.trim() ? t.locations : `Tournoi ${t.id_tour}`}
+                {t.location?.trim() ? t.location : `Tournoi ${t.id_tour}`}
               </option>
             ))}
           </select>

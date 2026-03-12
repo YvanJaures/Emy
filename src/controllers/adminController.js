@@ -449,3 +449,23 @@ export async function getAdmin(req, res) {
         res.status(500).json({ message: "Erreur serveur" });
     }
 }
+
+/**
+ * Recuperation des equipe selon l'id de leur communaute
+ */
+export async function getTourTeams(req, res) {
+  try {
+    const id_community = Number(req.query.id_community);
+
+    if (!id_community || Number.isNaN(id_community)) {
+      return res.status(400).json({ message: "id_community manquant ou invalide" });
+    }
+
+    const data = await adminModel.getTourTeamsByCommunity(id_community);
+
+    return res.status(200).json(data);
+  } catch (error) {
+    console.error("GET /tour/teams:", error);
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+}
