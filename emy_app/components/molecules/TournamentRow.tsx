@@ -23,8 +23,13 @@ export default function TournamentRow({
     onDelete(tournament.id_tour);
   };
 
+  const handleInscription = () => {
+    alert(`Inscription au tournoi ${tournament.id_tour}`);
+  };
+
   return (
-    <div className="grid grid-cols-1 gap-2 rounded-2xl bg-white px-5 py-3 shadow sm:grid-cols-3 sm:items-center">
+    <div className="grid grid-cols-1 gap-2 rounded-2xl bg-white px-5 py-3 shadow sm:grid-cols-4 sm:items-center">
+      
       <p className="text-xs text-black/80">{title}</p>
 
       <div className="flex justify-start sm:justify-center">
@@ -34,6 +39,16 @@ export default function TournamentRow({
         >
           Details
         </AppLink>
+      </div>
+
+      <div className="flex justify-start sm:justify-center">
+        <button
+          type="button"
+          onClick={handleInscription}
+          className="text-xs text-green-600 hover:underline underline-offset-4"
+        >
+          Inscription
+        </button>
       </div>
 
       <div className="flex justify-start sm:justify-end">
@@ -46,6 +61,7 @@ export default function TournamentRow({
           {isDeleting ? "Suppression..." : "Supprimer"}
         </button>
       </div>
+
     </div>
   );
 }
