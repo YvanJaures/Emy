@@ -62,6 +62,7 @@ export default function LoginForm(props:{route:string}) {
       // Succès
       setError("");
       if(props.route){
+
         location.href=props.route 
       }else{
         location.href='/communautes'
