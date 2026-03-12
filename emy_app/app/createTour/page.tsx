@@ -219,11 +219,13 @@ export default function CreateTournament() {
             <table className="w-full">
               <caption>LISTE DE COMMANDITES</caption>
               <thead className="bg-gray-200 p-2 flex justify-start items-center w-full">
+              <tr className="bg-gray-200 p-2 flex justify-start items-center w-full" >
                 <th className="flex-40">Nom de commandite</th>
                 <th className="flex-15">Valeur</th>
                 <th className="flex-10">Quotas</th>
                 <th className="flex-30">Places</th>
                 <th className="flex-5"></th>
+              </tr>
               </thead>
               <tbody id="tableBody">
                 {[...Array(tr)].map((_, i) => (

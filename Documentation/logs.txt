@@ -1,0 +1,33 @@
+12-03-2026 - Yvan:
+{
+    1 - user de test après un : "node ./src/models/seed.js"
+    " Il est possible que ce user n'existe alors faudrat utilisé l'api 
+     get : /api/membres" pour récuperer un membre"
+    Le mot de passe est : "12345678" pour tout le monde
+    {
+        "user_name": "Vernon13_34",
+        "name": "Fletcher",
+        "surname": "Ondricka",
+        "address": "1511 Weissnat Pass",
+        "birth_date": "1995-11-17T00:00:00.000Z",
+        "country": "Zimbabwe",
+        "email": "Salvatore_Altenwerth16@gmail.com",
+        "phone": "866.225.3754 x441",
+        "avatar": "https://avatars.githubusercontent.com/u/39957724",
+        "password": "$2b$10$RCTueJgjVjH4n9C/hf2fie85Eut1G6Cbxl9kfM2HG0sQjlo/kF03m",
+        "Admin": {
+          "id_admin": 7,
+          "id_community": 7,
+          "user_name": "Vernon13_34"
+        }
+      }
+    
+    2- Ancienne commande de seed toujours fonctionnelle :"node ./src/models/seedDatas.js"
+
+    3- Redirection à la connexion modifié vers la page comunauté 
+    avec apparition d'un bouclier dans le navbar en cas de membre avec 
+    un compte administrateur
+
+    4- Navbar membre modifié pour repondre aux besoins en cas de connexion et deconnexion
+
+}

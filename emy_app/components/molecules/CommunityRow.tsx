@@ -28,6 +28,7 @@ export default function CommunityRow({ community, member,isMine }: Props) {
   const [onError, setOnError] = useState(false);
   // Si il y'a une fênetre pop up
   const [onPopUp, setOnPopUp] = useState(false);
+  const date=(new Date(community.created))?.toLocaleDateString()
   useEffect(() => {
     (() => {
       try {
@@ -78,17 +79,18 @@ export default function CommunityRow({ community, member,isMine }: Props) {
   };
   return (
     <li
-      className={`${onPopUp ? "pointer-events-none blur-md" : ""} ${_isMine? '':'hidden'} flex flex-wrap justify-center items-center shadow-xl bg-white rounded-xl max-sm:flex-col hover:cursor-pointer`}
+      className={`${onPopUp ? "pointer-events-none blur-md" : ""} ${_isMine? '':'hidden'} flex flex-wrap justify-center items-center shadow-xl bg-white rounded-xl max-sm:flex-col hover:cursor-pointer transition-all`}
       onClick={() => setIsVisible(!isVisible)}
     >
       <span className="flex-40 object-contain overflow-hidden rounded-xl">
         <ImageDefault
           avatar={community.avatar ?? ""}
           title="image de couverture de la communauté"
+          className="w-80 h-40"
         />
       </span>
       <div
-        className={`flex flex-60 flex-col flex-nowrap p-2 justify-center items-center h-full overflow-hidden ${isVisible ? " max-sm:hidden" : "max-sm:flex"}`}
+        className={`flex flex-60 flex-col flex-nowrap p-2 justify-center items-center h-full overflow-hidden ${isVisible ? " max-sm:hidden" : "max-sm:flex"} transition-shadow`}
       >
         <Title
           as="h2"
@@ -119,7 +121,7 @@ export default function CommunityRow({ community, member,isMine }: Props) {
               <p>Adresse: {community.location}</p>
             </span>
             <p className="text-start w-full flex">
-              Créé le {community.created?.toLocaleDateString()} par{" "}
+              Créé le {date} par{" "}
               {community.Admin[0]?.user_name}
             </p>
           </span>

@@ -24,6 +24,7 @@ model Community {
   members          Int?
   location         String?            @db.VarChar(100)
   id_manager       Int?
+  created          String?
   privacy          Boolean?
   Admin            Admin[]
   Manager          Manager?           @relation(fields: [id_manager], references: [id_manager], onDelete: NoAction, onUpdate: NoAction, map: "FK_Community_Manager")
