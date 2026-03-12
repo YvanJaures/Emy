@@ -11,7 +11,7 @@ import { useAuth } from "@/hooks/useAuth";
 import LoadingAnimation from "@/components/organisms/LoadingAnimation";
 
 /**
-* Page permettant à un administrateur de créer un tournoi.
+ * Page permettant à un administrateur de créer un tournoi.
  *
  * Cette fonction :
  * - gère tous les états du formulaire (lieu, dates, type, avatar, frais, statut…)
@@ -31,8 +31,8 @@ export default function CreateTournament() {
   const [endDate, setEndDate] = useState("");
   const [fees, setFees] = useState("");
   const [status, setStatus] = useState("1");
-  const [idAdmin, setIdAdmin] = useState("");
-  const [idCommunity, setIdCommunity] = useState("");
+  //const [idAdmin, setIdAdmin] = useState("");
+  //const [idCommunity, setIdCommunity] = useState("");
 
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [_loading, setLoading] = useState(false);
@@ -48,9 +48,20 @@ export default function CreateTournament() {
     setError("");
     setSuccess("");
 
+    const id_admin = member?.Admin?.id_admin;
+    const id_community = member?.Admin?.id_community;
+
+    if (!id_admin || !id_community) {
+      setError(
+        "Impossible de déterminer votre admin/communauté. Reconnectez-vous.",
+      );
+      return;
+    }
+
     //  validation selon ton controller
-    if (!tourLocation || !startDate || !endDate || !idAdmin || !idCommunity) {
-      setError("Veuillez remplir: Nom/Lieu, dates, id_admin et id_community.");
+    // if (!tourLocation || !startDate || !endDate || !idAdmin || !idCommunity) {
+    if (!tourLocation || !startDate || !endDate) {
+      setError("Veuillez remplir: Nom/Lieu, dates");
       return;
     }
 
@@ -63,8 +74,10 @@ export default function CreateTournament() {
         end_date: endDate,
         status: status ? Number(status) : 1,
         avatar: avatarFile ? avatarFile.name : "",
-        id_admin: Number(idAdmin),
-        id_community: Number(idCommunity),
+        id_admin: Number(id_admin),
+        id_community: Number(id_community),
+        //id_admin: Number(idAdmin),
+        // id_community: Number(idCommunity),
       };
 
       const res = await fetch("/api/admin/tour", {
@@ -85,6 +98,9 @@ export default function CreateTournament() {
       }
 
       setSuccess("Tournoi créé ");
+      setTimeout(() => {
+        location.href = "/tournoisPage";
+      }, 300);
     } catch (err) {
       console.error(err);
       setError("Erreur serveur.");
@@ -172,7 +188,7 @@ export default function CreateTournament() {
 
           <section className="flex flex-col flex-wrap w-full mt-2">
             <div className="flex flex-row flew-wrap justify-center items-center gap-2">
-              <InputText
+              {/* <InputText
                 label="ID Admin"
                 containerClassName="flex flex-row flew-wrap justify-center items-center"
                 required
@@ -180,8 +196,8 @@ export default function CreateTournament() {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setIdAdmin(e.target.value)
                 }
-              />
-              <InputText
+              /> */}
+              {/* <InputText
                 label="ID Community"
                 containerClassName="flex flex-row flew-wrap justify-center items-center"
                 required
@@ -189,7 +205,7 @@ export default function CreateTournament() {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setIdCommunity(e.target.value)
                 }
-              />
+              /> */}
             </div>
 
             <div className="flex flex-row flew-wrap justify-center items-center gap-2">
@@ -292,9 +308,9 @@ export default function CreateTournament() {
               title={_loading ? "Création..." : "Creer"}
               type="submit"
               disabled={_loading}
-              onClick={() => {
-                location.href = "/tournoisPage";
-              }}
+              // onClick={() => {
+              //   location.href = "/tournoisPage";
+              // }}
             />
             <Button
               className="bg-red-400 border-none w-25"
