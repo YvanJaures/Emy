@@ -65,19 +65,19 @@ export default function TournamentRow({
 
       <div className="flex justify-start sm:justify-center">
         <button
-          type="button"
-          onClick={() =>
-            onToggleStatus(
-              tournament.id_tour,
-              tournament.id_community!,
-              tournament.status
-            )
-          }
-          className="text-xs text-blue-600 hover:underline underline-offset-4"
+        type="button"
+        onClick={() =>
+        onToggleStatus(
+        tournament.id_tour,
+        tournament.id_community!,
+        tournament.status
+      )
+      }
+        className="text-xs text-blue-500 hover:text-blue-800 hover:underline hover:cursor-pointer transition-colors duration-200"
         >
-          {tournament.status === 1
-            ? "Fermer inscriptions"
-            : "Ouvrir inscriptions"}
+        {tournament.status === 1
+          ? "Fermer inscriptions"
+          : "Ouvrir inscriptions"}
         </button>
       </div>
 
