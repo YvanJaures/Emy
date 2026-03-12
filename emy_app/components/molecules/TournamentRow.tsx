@@ -7,10 +7,16 @@ import type { TournamentDTO } from "@/hooks/Type_TournamentDTO";
 export default function TournamentRow({
   tournament,
   onDelete,
+  onToggleStatus,
   isDeleting,
 }: {
   tournament: TournamentDTO;
   onDelete: (id: number) => void;
+  onToggleStatus: (
+    id_tour: number,
+    id_community: number,
+    status: number
+  ) => void;
   isDeleting?: boolean;
 }) {
   const title = tournament.location?.trim()
@@ -28,10 +34,9 @@ export default function TournamentRow({
   };
 
   return (
-    <div className="grid grid-cols-1 gap-2 rounded-2xl bg-white px-5 py-3 shadow sm:grid-cols-4 sm:items-center">
+    <div className="grid grid-cols-1 gap-2 rounded-2xl bg-white px-5 py-3 shadow sm:grid-cols-5 sm:items-center">
 
       <p className="text-xs text-black/80">{title}</p>
-
       <div className="flex justify-start sm:justify-center">
         <AppLink
           href={`/tournois/${tournament.id_tour}`}
@@ -55,6 +60,24 @@ export default function TournamentRow({
           {tournament.status === 1
             ? "Inscription"
             : "Inscriptions fermées"}
+        </button>
+      </div>
+
+      <div className="flex justify-start sm:justify-center">
+        <button
+          type="button"
+          onClick={() =>
+            onToggleStatus(
+              tournament.id_tour,
+              tournament.id_community!,
+              tournament.status
+            )
+          }
+          className="text-xs text-blue-600 hover:underline underline-offset-4"
+        >
+          {tournament.status === 1
+            ? "Fermer inscriptions"
+            : "Ouvrir inscriptions"}
         </button>
       </div>
 
