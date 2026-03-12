@@ -7,21 +7,13 @@ import type { TournamentDTO } from "@/hooks/Type_TournamentDTO";
 export default function TournamentRow({
   tournament,
   onDelete,
-  isDeleting,
 }: {
   tournament: TournamentDTO;
   onDelete: (id: number) => void;
-  isDeleting?: boolean;
 }) {
   const title = tournament.location?.trim()
     ? tournament.location
     : `Tournoi ${tournament.id_tour}`;
-
-  const handleDeleteClick = () => {
-    const ok = window.confirm(`Supprimer "${title}" ?`);
-    if (!ok) return;
-    onDelete(tournament.id_tour);
-  };
 
   return (
     <div className="grid grid-cols-1 gap-2 rounded-2xl bg-white px-5 py-3 shadow sm:grid-cols-3 sm:items-center">
@@ -39,11 +31,10 @@ export default function TournamentRow({
       <div className="flex justify-start sm:justify-end">
         <button
           type="button"
-          onClick={handleDeleteClick}
-          disabled={Boolean(isDeleting)}
+          onClick={() => onDelete(tournament.id_tour)}
           className="text-xs text-red-500 hover:underline underline-offset-4"
         >
-          {isDeleting ? "Suppression..." : "Supprimer"}
+          Supprimer
         </button>
       </div>
     </div>
