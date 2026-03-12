@@ -30,4 +30,6 @@
 
     4- Navbar membre modifié pour repondre aux besoins en cas de connexion et deconnexion
 
+    5- Tournaments manquait une champ appelé membres qui était primordiale pour la fonction de les routes Tournaments donc il faut faire un npx prisma generate && npx prisma db push
+
 }

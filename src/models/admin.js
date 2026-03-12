@@ -26,19 +26,20 @@ export async function deleteMemberFromTeam(id_team,user_name){
 /**Créer tournoi*/
 export async function createTour(
     location,
+    members,
     start_date,
     end_date,
-    status,
     avatar,
     id_admin,
     id_community
 ){
     return await prisma.tournament.create({
+
         data:{
             location,
+            members,
             start_date: new Date(start_date),
             end_date: new Date(end_date),
-            status,
             avatar,
             id_admin,
             id_community
@@ -49,32 +50,33 @@ export async function createTour(
 //Créer tournoi
 export async function createTourWithPrizes(
     location,
+    members,
     start_date,
     end_date,
-    status,
     avatar,
     id_admin,
     id_community,
     prizes
 ){
-    console.log(prizes)
     return await prisma.tournament.create({
         data:{
             location,
+            members,
             start_date: new Date(start_date),
             end_date: new Date(end_date),
-            status,
             avatar,
             id_admin,
             id_community,
+
             Prize:{
-                create:prizes
+                create: prizes
             }
         },
         include:{
             Prize:true
         }
     });
+
 }
 //Modifier nombre d'équipes
 export async function updateTourTeams(id_tour,id_community,teams){
