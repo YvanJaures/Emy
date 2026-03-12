@@ -29,7 +29,7 @@ export default function TournamentRow({
 
   return (
     <div className="grid grid-cols-1 gap-2 rounded-2xl bg-white px-5 py-3 shadow sm:grid-cols-4 sm:items-center">
-      
+
       <p className="text-xs text-black/80">{title}</p>
 
       <div className="flex justify-start sm:justify-center">
@@ -44,10 +44,17 @@ export default function TournamentRow({
       <div className="flex justify-start sm:justify-center">
         <button
           type="button"
+          disabled={tournament.status === 0}
           onClick={handleInscription}
-          className="text-xs text-green-600 hover:underline underline-offset-4"
+          className={`text-xs underline-offset-4 ${
+            tournament.status === 1
+              ? "text-green-600 hover:underline"
+              : "text-gray-400 cursor-not-allowed"
+          }`}
         >
-          Inscription
+          {tournament.status === 1
+            ? "Inscription"
+            : "Inscriptions fermées"}
         </button>
       </div>
 
