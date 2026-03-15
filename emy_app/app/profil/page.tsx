@@ -18,10 +18,24 @@ export default function Profil(){
                 ) : (
                     <div className="bg-gray-100 min-h-screen flex flex-col">
 
+                        <div>
+
+                            <button
+                            type="button"
+                            aria-label="Close"
+                            className="absolute right-6 top-4 text-black/70 hover:text-black hover:cursor-pointer text-[40px] leading-none"
+                            onClick={() => history.back()}
+                            >
+                            ×
+                            </button>
+                        </div>
+
                         <MetaData 
                             seoTitle="Profil utilisateur"
                             seoDescription="informations de profil utilisateur"
                         />
+
+                       
 
                         <main className="flex flex-grow">
 
