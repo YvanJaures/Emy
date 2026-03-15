@@ -41,50 +41,39 @@ export default function Profil(){
                                     edit="pointer-events-all"
                                 />
 
-                                <div className="border rounded-lg p-4 mt-6 space-y-4">
+                                <div className="flex flex-row flex-wrap w-full h-fit justify-start items-start gap-5 rounded-xl p-6 shadow-xl mt-10 bg-white">
 
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-500">Nom:</span>
+                                    <div className="grid grid-cols-[200px_1fr] gap-y-4 gap-x-10 w-full max-w-2xl">
+
+                                        <span className="">Nom utilisateur:</span>
+                                        <span>{member?.user_name ?? "-"}</span>
+
+                                        <span className="">Nom:</span>
                                         <span>{member?.name ?? "-"}</span>
-                                    </div>
 
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-500">Prénom:</span>
+                                        <span className="">Prénom:</span>
                                         <span>{member?.surname ?? "-"}</span>
-                                    </div>
 
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-500">Email:</span>
+                                        <span className="">Email:</span>
                                         <span>{member?.email ?? "-"}</span>
-                                    </div>
 
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-500">Téléphone:</span>
+                                        <span className="">Téléphone:</span>
                                         <span>{member?.phone ?? "-"}</span>
-                                    </div>
 
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-500">Adresse:</span>
+                                        <span className="">Adresse:</span>
                                         <span>{member?.address ?? "-"}</span>
-                                    </div>
 
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-500">Date de naissance:</span>
+                                        <span className="">Date de naissance:</span>
                                         <span>
                                             {member?.birth_date
                                                 ? new Date(member.birth_date).toLocaleDateString()
                                                 : "-"}
                                         </span>
                                     </div>
-
                                 </div>
-
                             </div>
-
                         </main>
-
                         <Footer/>
-
                     </div>
                 )
             }
