@@ -217,6 +217,7 @@ exports.Prisma.Team_memberScalarFieldEnum = {
 
 exports.Prisma.TournamentScalarFieldEnum = {
   id_tour: 'id_tour',
+  name: 'name',
   location: 'location',
   start_date: 'start_date',
   end_date: 'end_date',
