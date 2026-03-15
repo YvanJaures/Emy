@@ -46,6 +46,16 @@ export default function CommunityList({communities,member}:Props){
                         <p className="group-hover:text-[#0F70AC]"> Rejoindre une communauté</p>
                     </li>)
                 }
+                {
+                    communities.length===0 &&
+                    (<li className="group hover:border-[#0F70AC] hover:cursor-pointer border border-dashed h-15 rounded-xl
+                        flex justify-center items-center flex-col"
+                        onClick={()=>''}>
+                        <IoAddCircleOutline 
+                        className="group-hover:text-[#0F70AC]"/>
+                        <p className="group-hover:text-[#0F70AC]"> Créer une communauté</p>
+                    </li>)
+                }
             </ul>
         </div>
     )

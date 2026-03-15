@@ -38,7 +38,17 @@ export async function getCommunityMembers(id_community:number){
         const members= await res.json()
         return members
     }   
-    return null
+    return []
+}
+export async function getCommunityTournaments(id_tour:number){
+    const res=await fetch('/api/tournament?id_community='+id_tour,{
+        credentials:"include"
+    })
+    if(res.ok){
+        const tournaments= await res.json()
+        return tournaments
+    }   
+    return []
 }
 export async function getCommunities(){
     const res=await fetch('/api/communities',{

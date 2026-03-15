@@ -1,10 +1,20 @@
-export default function ImageDefault(props:{avatar:string,title:string,className?:string}){
+type ImageProps={
+    
+    avatar:string,title:string,
+    className?:string,
+    onClick?: (event: React.MouseEvent<HTMLImageElement>) => void;
+
+}
+const ImageDefault:React.FC<ImageProps>=({avatar,title,className,onClick})=>
+    {
     return(
         <>
-            <img src={props.avatar? props.avatar:"/assets/avatars/avatar_prof_2.png"}
-             alt={props.title} className={props.className}
+            <img src={avatar? avatar:"/assets/avatars/avatar_prof_2.png"}
+             alt={title} className={className}
              onError={(e:any) =>(e.target.src="/assets/arrieres_plan/AutumnParkland.png")}
+             onClick={onClick}
             />
         </>
     )
 }
+export default ImageDefault

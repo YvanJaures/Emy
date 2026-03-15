@@ -78,7 +78,7 @@ export default function TableUser({title,headers,datas,id_community}:Props){
                   />
                 </th>
                 {headers?.map((header,i)=>(
-                  <th className={"flex-"+flex[i]+" justify-start items-center"} key={i}
+                  <th className={"flex-"+flex[i]+" justify-start items-center "} key={i}
                   onClick={()=>('e')}
                   >
                     <CiFilter/>{header} 
@@ -98,22 +98,22 @@ export default function TableUser({title,headers,datas,id_community}:Props){
                   <td className="p-2 flex-5 flex text-center justify-start items-center">
                     <input type="checkbox"/>
                   </td>
-                  <td className="p-2 flex-10 flex text-center justify-start items-center">
+                  <td className="p-2 flex-10 flex text-center justify-start items-center overflow-hidden">
                     {data?.user_name}
                   </td>
-                  <td className="p-2 flex-25 flex text-center justify-start items-center">
+                  <td className="p-2 flex-25 flex text-center justify-start items-center overflow-hidden">
                     {data?.email}
                   </td>
-                  <td className="p-2 flex-10 flex text-center justify-start items-center">
+                  <td className="p-2 flex-10 flex text-center justify-start items-center overflow-hidden">
                     {data?.birth_date ? data?.birth_date?.toString(): 'aucun'}
                   </td>
-                  <td className="p-2 flex-20 flex text-center justify-start items-center">
+                  <td className="p-2 flex-20 flex text-center justify-start items-center overflow-hidden">
                     {data?.phone ? data.phone: 'aucun.'}
                   </td>
-                  <td className="p-2 flex-5 flex text-center justify-start items-center">
+                  <td className="p-2 flex-5 flex text-center justify-start items-center overflow-hidden">
                     {data?.Employee ? "oui": 'non'}
                   </td>
-                  <td className="p-2 flex-20 flex text-center justify-start items-center">
+                  <td className="p-2 flex-20 flex text-center justify-start items-center overflow-hidden">
                     {data?.address ? data.address: 'aucun.'}
                   </td>
                   <td className="p-2 flex-5 p-2 text-center flex justify-start items-center">

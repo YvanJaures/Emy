@@ -30,4 +30,14 @@
 
     4- Navbar membre modifié pour repondre aux besoins en cas de connexion et deconnexion
 
+    5- Modification de la page de création de tournoi avec changement de
+      status par members
+   
+}
+
+14-03-2026 - Yvan{
+    1- changement du schema de tournament avec ajout de la ligne name
+    2- modification de la route tournament avec passage au query
+    3- ajout d'affichage de communauté onClick sur l'avatar
+    4- modifictaion du composant ImageDefault avec ajout d'onClick option
 }

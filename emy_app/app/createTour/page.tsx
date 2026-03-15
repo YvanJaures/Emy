@@ -30,7 +30,7 @@ export default function CreateTournament() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [fees, setFees] = useState("");
-  const [status, setStatus] = useState("1");
+  const [members, setMembers] = useState("0");
   //const [idAdmin, setIdAdmin] = useState("");
   //const [idCommunity, setIdCommunity] = useState("");
 
@@ -72,7 +72,7 @@ export default function CreateTournament() {
         location: tourLocation.trim(),
         start_date: startDate,
         end_date: endDate,
-        status: status ? Number(status) : 1,
+        members: members ? Number(members) : 0,
         avatar: avatarFile ? avatarFile.name : "",
         id_admin: Number(id_admin),
         id_community: Number(id_community),
@@ -210,11 +210,11 @@ export default function CreateTournament() {
 
             <div className="flex flex-row flew-wrap justify-center items-center gap-2">
               <InputText
-                label="Status (ex: 1)"
+                label="Capacité (ex: 100)"
                 containerClassName="flex flex-row flew-wrap justify-center items-center"
-                value={status}
+                value={members}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setStatus(e.target.value)
+                  setMembers(e.target.value)
                 }
               />
               <InputText
@@ -281,7 +281,7 @@ export default function CreateTournament() {
                     </td>
                     <td className="flex-5 p-2 text-center flex justify-center items-center">
                       <RiDeleteBin2Line
-                        className={trHaut}
+                        className={trHaut+" text-red-500 hover:cursor-pointer hover:opacity-80"}
                         onClick={() => setTr(tr - 1)}
                       />
                     </td>
