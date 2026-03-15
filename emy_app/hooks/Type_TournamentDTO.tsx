@@ -4,7 +4,7 @@ export type TournamentDTO = {
   location: string | null;
   start_date: string | null;
   end_date: string | null;
-  status: number;
+  status: number | null;
   avatar: string | null;
   fees: number | null;
   id_admin: number | null;
