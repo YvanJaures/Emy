@@ -221,6 +221,7 @@ exports.Prisma.TournamentScalarFieldEnum = {
   start_date: 'start_date',
   end_date: 'end_date',
   status: 'status',
+  members: 'members',
   avatar: 'avatar',
   id_admin: 'id_admin',
   id_community: 'id_community',

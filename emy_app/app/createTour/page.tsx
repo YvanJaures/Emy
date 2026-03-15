@@ -31,6 +31,7 @@ export default function CreateTournament() {
   const [endDate, setEndDate] = useState("");
   const [fees, setFees] = useState("");
   const [members, setMembers] = useState("0");
+  const [teams, setTeams] = useState("");
   //const [idAdmin, setIdAdmin] = useState("");
   //const [idCommunity, setIdCommunity] = useState("");
 
@@ -65,6 +66,16 @@ export default function CreateTournament() {
       return;
     }
 
+    if (Number(teams) < 0) {
+    setError("Le nombre d'équipes doit être supérieur ou égal à 0.");
+    return;
+    }
+
+    if (Number(teams) < 0) {
+    setError("Le nombre d'équipes doit être supérieur ou égal à 0.");
+    return;
+    }
+
     setLoading(true);
 
     try {
@@ -73,6 +84,7 @@ export default function CreateTournament() {
         start_date: startDate,
         end_date: endDate,
         members: members ? Number(members) : 0,
+        teams: Number(teams),
         avatar: avatarFile ? avatarFile.name : "",
         id_admin: Number(id_admin),
         id_community: Number(id_community),
@@ -225,6 +237,16 @@ export default function CreateTournament() {
                 value={fees}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setFees(e.target.value)
+                }
+              />
+              <InputText
+                label="Frais d'inscription"
+                containerClassName="flex flex-row flew-wrap justify-center items-center"
+                type="text"
+                required
+                value={fees}
+               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setFees(e.target.value)
                 }
               />
             </div>

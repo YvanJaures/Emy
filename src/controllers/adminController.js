@@ -146,37 +146,47 @@ export const addMemberToTeam = async (req, res) => {
     }
 };
 
+export const deleteMemberFromTeam = async (req,res)=>{
+    try{
 
-export const deleteMemberFromTeam = async (req, res) => {
-    try {
         const { id_team, user_name } = req.body;
 
-        if (!id_team || !user_name) {
-            return res.status(400).json({ message: "Paramètres manquants" });
+        if(!id_team || !user_name){
+            return res.status(400).json({
+                message:"Paramètres manquants"
+            });
         }
 
-        await adminModel.deleteMemberFromTeam(
+        const result = await adminModel.deleteMemberFromTeam(
             Number(id_team),
             user_name
         );
 
+        if(result.count === 0){
+            return res.status(404).json({
+                message:"Membre non trouvé dans l'équipe"
+            });
+        }
+
         res.status(200).json({
-            message: "Membre retiré de l'équipe"
+            message:"Membre retiré de l'équipe"
         });
 
-    } catch (error) {
-        console.error("DELETE MEMBER FROM TEAM:", error);
-        res.status(500).json({ message: "Erreur serveur" });
+    }catch(error){
+        console.error("DELETE MEMBER TEAM:", error);
+        res.status(500).json({message:"Erreur serveur"});
     }
-};
+}
+
 
 export const createTour = async (req, res) => {
     try {
+
         const {
             location,
             start_date,
             end_date,
-            status,
+            members,
             avatar,
             id_admin,
             id_community
@@ -190,9 +200,9 @@ export const createTour = async (req, res) => {
 
         await adminModel.createTour(
             location,
+            members,
             start_date,
             end_date,
-            Number(status),
             avatar,
             Number(id_admin),
             Number(id_community)
@@ -203,34 +213,42 @@ export const createTour = async (req, res) => {
         });
 
     } catch (error) {
+
         console.error("CREATE TOUR:", error);
-        res.status(500).json({ message: "Erreur serveur" });
+
+        res.status(500).json({
+            message: "Erreur serveur"
+        });
+
     }
 };
+
 export const createTourWithPrizes = async (req, res) => {
     try {
         const {
             location,
             start_date,
             end_date,
-            status,
+            members,
             avatar,
             id_admin,
             id_community,
             prizes
         } = req.body;
 
-        if (!location || !start_date || !end_date || !id_admin || !id_community || prizes?.length<=0) {
+        if (!location || !start_date || !end_date || !id_admin || !id_community || prizes?.length <= 0) {
+
             return res.status(400).json({
                 message: "Paramètres manquants"
             });
+
         }
 
         await adminModel.createTourWithPrizes(
             location,
+            members,
             start_date,
             end_date,
-            Number(status),
             avatar,
             Number(id_admin),
             Number(id_community),
@@ -242,8 +260,13 @@ export const createTourWithPrizes = async (req, res) => {
         });
 
     } catch (error) {
+
         console.error("CREATE TOUR:", error);
-        res.status(500).json({ message: "Erreur serveur" });
+
+        res.status(500).json({
+            message: "Erreur serveur"
+        });
+
     }
 };
 export const createPrize = async (req, res) => {

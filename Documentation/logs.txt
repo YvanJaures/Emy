@@ -32,7 +32,8 @@
 
     5- Modification de la page de création de tournoi avec changement de
       status par members
-   
+    6- Tournaments manquait une champ appelé membres qui était primordiale pour la fonction de les routes Tournaments donc il faut faire un npx prisma generate && npx prisma db push
+
 }
 
 14-03-2026 - Yvan{

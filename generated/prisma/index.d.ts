@@ -14493,6 +14493,7 @@ export namespace Prisma {
   export type TournamentAvgAggregateOutputType = {
     id_tour: number | null
     status: number | null
+    members: number | null
     id_admin: number | null
     id_community: number | null
     fees: number | null
@@ -14501,6 +14502,7 @@ export namespace Prisma {
   export type TournamentSumAggregateOutputType = {
     id_tour: number | null
     status: number | null
+    members: number | null
     id_admin: number | null
     id_community: number | null
     fees: number | null
@@ -14512,6 +14514,7 @@ export namespace Prisma {
     start_date: Date | null
     end_date: Date | null
     status: number | null
+    members: number | null
     avatar: string | null
     id_admin: number | null
     id_community: number | null
@@ -14524,6 +14527,7 @@ export namespace Prisma {
     start_date: Date | null
     end_date: Date | null
     status: number | null
+    members: number | null
     avatar: string | null
     id_admin: number | null
     id_community: number | null
@@ -14536,6 +14540,7 @@ export namespace Prisma {
     start_date: number
     end_date: number
     status: number
+    members: number
     avatar: number
     id_admin: number
     id_community: number
@@ -14547,6 +14552,7 @@ export namespace Prisma {
   export type TournamentAvgAggregateInputType = {
     id_tour?: true
     status?: true
+    members?: true
     id_admin?: true
     id_community?: true
     fees?: true
@@ -14555,6 +14561,7 @@ export namespace Prisma {
   export type TournamentSumAggregateInputType = {
     id_tour?: true
     status?: true
+    members?: true
     id_admin?: true
     id_community?: true
     fees?: true
@@ -14566,6 +14573,7 @@ export namespace Prisma {
     start_date?: true
     end_date?: true
     status?: true
+    members?: true
     avatar?: true
     id_admin?: true
     id_community?: true
@@ -14578,6 +14586,7 @@ export namespace Prisma {
     start_date?: true
     end_date?: true
     status?: true
+    members?: true
     avatar?: true
     id_admin?: true
     id_community?: true
@@ -14590,6 +14599,7 @@ export namespace Prisma {
     start_date?: true
     end_date?: true
     status?: true
+    members?: true
     avatar?: true
     id_admin?: true
     id_community?: true
@@ -14689,6 +14699,7 @@ export namespace Prisma {
     start_date: Date | null
     end_date: Date | null
     status: number | null
+    members: number | null
     avatar: string | null
     id_admin: number | null
     id_community: number | null
@@ -14720,6 +14731,7 @@ export namespace Prisma {
     start_date?: boolean
     end_date?: boolean
     status?: boolean
+    members?: boolean
     avatar?: boolean
     id_admin?: boolean
     id_community?: boolean
@@ -14740,13 +14752,14 @@ export namespace Prisma {
     start_date?: boolean
     end_date?: boolean
     status?: boolean
+    members?: boolean
     avatar?: boolean
     id_admin?: boolean
     id_community?: boolean
     fees?: boolean
   }
 
-  export type TournamentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_tour" | "location" | "start_date" | "end_date" | "status" | "avatar" | "id_admin" | "id_community" | "fees", ExtArgs["result"]["tournament"]>
+  export type TournamentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_tour" | "location" | "start_date" | "end_date" | "status" | "members" | "avatar" | "id_admin" | "id_community" | "fees", ExtArgs["result"]["tournament"]>
   export type TournamentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Player?: boolean | Tournament$PlayerArgs<ExtArgs>
     Prize?: boolean | Tournament$PrizeArgs<ExtArgs>
@@ -14771,6 +14784,7 @@ export namespace Prisma {
       start_date: Date | null
       end_date: Date | null
       status: number | null
+      members: number | null
       avatar: string | null
       id_admin: number | null
       id_community: number | null
@@ -15154,6 +15168,7 @@ export namespace Prisma {
     readonly start_date: FieldRef<"Tournament", 'DateTime'>
     readonly end_date: FieldRef<"Tournament", 'DateTime'>
     readonly status: FieldRef<"Tournament", 'Int'>
+    readonly members: FieldRef<"Tournament", 'Int'>
     readonly avatar: FieldRef<"Tournament", 'String'>
     readonly id_admin: FieldRef<"Tournament", 'Int'>
     readonly id_community: FieldRef<"Tournament", 'Int'>
@@ -16734,6 +16749,7 @@ export namespace Prisma {
     start_date: 'start_date',
     end_date: 'end_date',
     status: 'status',
+    members: 'members',
     avatar: 'avatar',
     id_admin: 'id_admin',
     id_community: 'id_community',
@@ -17548,6 +17564,7 @@ export namespace Prisma {
     start_date?: DateTimeNullableFilter<"Tournament"> | Date | string | null
     end_date?: DateTimeNullableFilter<"Tournament"> | Date | string | null
     status?: IntNullableFilter<"Tournament"> | number | null
+    members?: IntNullableFilter<"Tournament"> | number | null
     avatar?: StringNullableFilter<"Tournament"> | string | null
     id_admin?: IntNullableFilter<"Tournament"> | number | null
     id_community?: IntNullableFilter<"Tournament"> | number | null
@@ -17565,6 +17582,7 @@ export namespace Prisma {
     start_date?: SortOrderInput | SortOrder
     end_date?: SortOrderInput | SortOrder
     status?: SortOrderInput | SortOrder
+    members?: SortOrderInput | SortOrder
     avatar?: SortOrderInput | SortOrder
     id_admin?: SortOrderInput | SortOrder
     id_community?: SortOrderInput | SortOrder
@@ -17585,6 +17603,7 @@ export namespace Prisma {
     start_date?: DateTimeNullableFilter<"Tournament"> | Date | string | null
     end_date?: DateTimeNullableFilter<"Tournament"> | Date | string | null
     status?: IntNullableFilter<"Tournament"> | number | null
+    members?: IntNullableFilter<"Tournament"> | number | null
     avatar?: StringNullableFilter<"Tournament"> | string | null
     id_admin?: IntNullableFilter<"Tournament"> | number | null
     id_community?: IntNullableFilter<"Tournament"> | number | null
@@ -17602,6 +17621,7 @@ export namespace Prisma {
     start_date?: SortOrderInput | SortOrder
     end_date?: SortOrderInput | SortOrder
     status?: SortOrderInput | SortOrder
+    members?: SortOrderInput | SortOrder
     avatar?: SortOrderInput | SortOrder
     id_admin?: SortOrderInput | SortOrder
     id_community?: SortOrderInput | SortOrder
@@ -17622,6 +17642,7 @@ export namespace Prisma {
     start_date?: DateTimeNullableWithAggregatesFilter<"Tournament"> | Date | string | null
     end_date?: DateTimeNullableWithAggregatesFilter<"Tournament"> | Date | string | null
     status?: IntNullableWithAggregatesFilter<"Tournament"> | number | null
+    members?: IntNullableWithAggregatesFilter<"Tournament"> | number | null
     avatar?: StringNullableWithAggregatesFilter<"Tournament"> | string | null
     id_admin?: IntNullableWithAggregatesFilter<"Tournament"> | number | null
     id_community?: IntNullableWithAggregatesFilter<"Tournament"> | number | null
@@ -18343,6 +18364,7 @@ export namespace Prisma {
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     fees?: number | null
     Player?: PlayerCreateNestedManyWithoutTournamentInput
@@ -18358,6 +18380,7 @@ export namespace Prisma {
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     id_admin?: number | null
     id_community?: number | null
@@ -18372,6 +18395,7 @@ export namespace Prisma {
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     fees?: NullableFloatFieldUpdateOperationsInput | number | null
     Player?: PlayerUpdateManyWithoutTournamentNestedInput
@@ -18387,6 +18411,7 @@ export namespace Prisma {
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     id_admin?: NullableIntFieldUpdateOperationsInput | number | null
     id_community?: NullableIntFieldUpdateOperationsInput | number | null
@@ -18401,6 +18426,7 @@ export namespace Prisma {
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     id_admin?: number | null
     id_community?: number | null
@@ -18412,6 +18438,7 @@ export namespace Prisma {
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     fees?: NullableFloatFieldUpdateOperationsInput | number | null
   }
@@ -18422,6 +18449,7 @@ export namespace Prisma {
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     id_admin?: NullableIntFieldUpdateOperationsInput | number | null
     id_community?: NullableIntFieldUpdateOperationsInput | number | null
@@ -19173,6 +19201,7 @@ export namespace Prisma {
     start_date?: SortOrder
     end_date?: SortOrder
     status?: SortOrder
+    members?: SortOrder
     avatar?: SortOrder
     id_admin?: SortOrder
     id_community?: SortOrder
@@ -19182,6 +19211,7 @@ export namespace Prisma {
   export type TournamentAvgOrderByAggregateInput = {
     id_tour?: SortOrder
     status?: SortOrder
+    members?: SortOrder
     id_admin?: SortOrder
     id_community?: SortOrder
     fees?: SortOrder
@@ -19193,6 +19223,7 @@ export namespace Prisma {
     start_date?: SortOrder
     end_date?: SortOrder
     status?: SortOrder
+    members?: SortOrder
     avatar?: SortOrder
     id_admin?: SortOrder
     id_community?: SortOrder
@@ -19205,6 +19236,7 @@ export namespace Prisma {
     start_date?: SortOrder
     end_date?: SortOrder
     status?: SortOrder
+    members?: SortOrder
     avatar?: SortOrder
     id_admin?: SortOrder
     id_community?: SortOrder
@@ -19214,6 +19246,7 @@ export namespace Prisma {
   export type TournamentSumOrderByAggregateInput = {
     id_tour?: SortOrder
     status?: SortOrder
+    members?: SortOrder
     id_admin?: SortOrder
     id_community?: SortOrder
     fees?: SortOrder
@@ -20638,6 +20671,7 @@ export namespace Prisma {
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     fees?: number | null
     Player?: PlayerCreateNestedManyWithoutTournamentInput
@@ -20652,6 +20686,7 @@ export namespace Prisma {
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     id_community?: number | null
     fees?: number | null
@@ -20781,6 +20816,7 @@ export namespace Prisma {
     start_date?: DateTimeNullableFilter<"Tournament"> | Date | string | null
     end_date?: DateTimeNullableFilter<"Tournament"> | Date | string | null
     status?: IntNullableFilter<"Tournament"> | number | null
+    members?: IntNullableFilter<"Tournament"> | number | null
     avatar?: StringNullableFilter<"Tournament"> | string | null
     id_admin?: IntNullableFilter<"Tournament"> | number | null
     id_community?: IntNullableFilter<"Tournament"> | number | null
@@ -20846,6 +20882,7 @@ export namespace Prisma {
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     fees?: number | null
     Player?: PlayerCreateNestedManyWithoutTournamentInput
@@ -20860,6 +20897,7 @@ export namespace Prisma {
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     id_admin?: number | null
     fees?: number | null
@@ -21628,6 +21666,7 @@ export namespace Prisma {
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     fees?: number | null
     Prize?: PrizeCreateNestedManyWithoutTournamentInput
@@ -21642,6 +21681,7 @@ export namespace Prisma {
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     id_admin?: number | null
     id_community?: number | null
@@ -21720,6 +21760,7 @@ export namespace Prisma {
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     fees?: NullableFloatFieldUpdateOperationsInput | number | null
     Prize?: PrizeUpdateManyWithoutTournamentNestedInput
@@ -21734,6 +21775,7 @@ export namespace Prisma {
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     id_admin?: NullableIntFieldUpdateOperationsInput | number | null
     id_community?: NullableIntFieldUpdateOperationsInput | number | null
@@ -21747,6 +21789,7 @@ export namespace Prisma {
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     fees?: number | null
     Player?: PlayerCreateNestedManyWithoutTournamentInput
@@ -21761,6 +21804,7 @@ export namespace Prisma {
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     id_admin?: number | null
     id_community?: number | null
@@ -21822,6 +21866,7 @@ export namespace Prisma {
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     fees?: NullableFloatFieldUpdateOperationsInput | number | null
     Player?: PlayerUpdateManyWithoutTournamentNestedInput
@@ -21836,6 +21881,7 @@ export namespace Prisma {
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     id_admin?: NullableIntFieldUpdateOperationsInput | number | null
     id_community?: NullableIntFieldUpdateOperationsInput | number | null
@@ -22114,6 +22160,7 @@ export namespace Prisma {
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     fees?: number | null
     Player?: PlayerCreateNestedManyWithoutTournamentInput
@@ -22128,6 +22175,7 @@ export namespace Prisma {
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     id_admin?: number | null
     id_community?: number | null
@@ -22220,6 +22268,7 @@ export namespace Prisma {
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     fees?: NullableFloatFieldUpdateOperationsInput | number | null
     Player?: PlayerUpdateManyWithoutTournamentNestedInput
@@ -22234,6 +22283,7 @@ export namespace Prisma {
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     id_admin?: NullableIntFieldUpdateOperationsInput | number | null
     id_community?: NullableIntFieldUpdateOperationsInput | number | null
@@ -22751,6 +22801,7 @@ export namespace Prisma {
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     id_community?: number | null
     fees?: number | null
@@ -22761,6 +22812,7 @@ export namespace Prisma {
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     fees?: NullableFloatFieldUpdateOperationsInput | number | null
     Player?: PlayerUpdateManyWithoutTournamentNestedInput
@@ -22775,6 +22827,7 @@ export namespace Prisma {
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     id_community?: NullableIntFieldUpdateOperationsInput | number | null
     fees?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -22789,6 +22842,7 @@ export namespace Prisma {
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     id_community?: NullableIntFieldUpdateOperationsInput | number | null
     fees?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -22808,6 +22862,7 @@ export namespace Prisma {
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     id_admin?: number | null
     fees?: number | null
@@ -22851,6 +22906,7 @@ export namespace Prisma {
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     fees?: NullableFloatFieldUpdateOperationsInput | number | null
     Player?: PlayerUpdateManyWithoutTournamentNestedInput
@@ -22865,6 +22921,7 @@ export namespace Prisma {
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     id_admin?: NullableIntFieldUpdateOperationsInput | number | null
     fees?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -22879,6 +22936,7 @@ export namespace Prisma {
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     id_admin?: NullableIntFieldUpdateOperationsInput | number | null
     fees?: NullableFloatFieldUpdateOperationsInput | number | null
