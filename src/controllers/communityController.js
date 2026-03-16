@@ -11,7 +11,8 @@ export const getCommunityByIdC=async(req,res)=>{
 export const getCommunitiesC=async(req,res)=>{
     try{
         const communities=await getCommunities()
-        res.status(200).json(communities)
+        if(communities) res.status(200).json(communities)
+        else throw new Error ({message:'une erreur s est produite'})
     }catch(e){
         res.status(500).json({msg:"une erreur est survenu"})
         console.error(e)

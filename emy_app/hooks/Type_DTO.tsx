@@ -158,19 +158,21 @@ export type Team_memberDTO ={
  */
 export type TournamentDTO = {
   id_tour        : number;
+  name           :string;
   location       : string | null;
-  start_date     : Date   | null;
-  end_date       : Date   | null;
+  start_date     : Date   ;
+  end_date       : Date   ;
   status         : number | null;
   avatar         : string | null;
   fees           : number | null;
   id_admin       : number | null;
   id_community   : number | null;
+  members        :number ;
   Player        ?: PlayerDTO[];
   Prize         ?: PrizeDTO[];
   Team          ?: TeamDTO[];
   Admin         ?: AdminDTO  ;  
-  Community     ?: CommunityDTO;
+  Community      : CommunityDTO;
 }
 /**
  * object représentant les types de commandites

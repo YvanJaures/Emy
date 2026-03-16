@@ -14510,6 +14510,7 @@ export namespace Prisma {
 
   export type TournamentMinAggregateOutputType = {
     id_tour: number | null
+    name: string | null
     location: string | null
     start_date: Date | null
     end_date: Date | null
@@ -14523,6 +14524,7 @@ export namespace Prisma {
 
   export type TournamentMaxAggregateOutputType = {
     id_tour: number | null
+    name: string | null
     location: string | null
     start_date: Date | null
     end_date: Date | null
@@ -14536,6 +14538,7 @@ export namespace Prisma {
 
   export type TournamentCountAggregateOutputType = {
     id_tour: number
+    name: number
     location: number
     start_date: number
     end_date: number
@@ -14569,6 +14572,7 @@ export namespace Prisma {
 
   export type TournamentMinAggregateInputType = {
     id_tour?: true
+    name?: true
     location?: true
     start_date?: true
     end_date?: true
@@ -14582,6 +14586,7 @@ export namespace Prisma {
 
   export type TournamentMaxAggregateInputType = {
     id_tour?: true
+    name?: true
     location?: true
     start_date?: true
     end_date?: true
@@ -14595,6 +14600,7 @@ export namespace Prisma {
 
   export type TournamentCountAggregateInputType = {
     id_tour?: true
+    name?: true
     location?: true
     start_date?: true
     end_date?: true
@@ -14695,6 +14701,7 @@ export namespace Prisma {
 
   export type TournamentGroupByOutputType = {
     id_tour: number
+    name: string | null
     location: string | null
     start_date: Date | null
     end_date: Date | null
@@ -14727,6 +14734,7 @@ export namespace Prisma {
 
   export type TournamentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id_tour?: boolean
+    name?: boolean
     location?: boolean
     start_date?: boolean
     end_date?: boolean
@@ -14748,6 +14756,7 @@ export namespace Prisma {
 
   export type TournamentSelectScalar = {
     id_tour?: boolean
+    name?: boolean
     location?: boolean
     start_date?: boolean
     end_date?: boolean
@@ -14759,7 +14768,7 @@ export namespace Prisma {
     fees?: boolean
   }
 
-  export type TournamentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_tour" | "location" | "start_date" | "end_date" | "status" | "members" | "avatar" | "id_admin" | "id_community" | "fees", ExtArgs["result"]["tournament"]>
+  export type TournamentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_tour" | "name" | "location" | "start_date" | "end_date" | "status" | "members" | "avatar" | "id_admin" | "id_community" | "fees", ExtArgs["result"]["tournament"]>
   export type TournamentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Player?: boolean | Tournament$PlayerArgs<ExtArgs>
     Prize?: boolean | Tournament$PrizeArgs<ExtArgs>
@@ -14780,6 +14789,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id_tour: number
+      name: string | null
       location: string | null
       start_date: Date | null
       end_date: Date | null
@@ -15164,6 +15174,7 @@ export namespace Prisma {
    */
   interface TournamentFieldRefs {
     readonly id_tour: FieldRef<"Tournament", 'Int'>
+    readonly name: FieldRef<"Tournament", 'String'>
     readonly location: FieldRef<"Tournament", 'String'>
     readonly start_date: FieldRef<"Tournament", 'DateTime'>
     readonly end_date: FieldRef<"Tournament", 'DateTime'>
@@ -16745,6 +16756,7 @@ export namespace Prisma {
 
   export const TournamentScalarFieldEnum: {
     id_tour: 'id_tour',
+    name: 'name',
     location: 'location',
     start_date: 'start_date',
     end_date: 'end_date',
@@ -17560,6 +17572,7 @@ export namespace Prisma {
     OR?: TournamentWhereInput[]
     NOT?: TournamentWhereInput | TournamentWhereInput[]
     id_tour?: IntFilter<"Tournament"> | number
+    name?: StringNullableFilter<"Tournament"> | string | null
     location?: StringNullableFilter<"Tournament"> | string | null
     start_date?: DateTimeNullableFilter<"Tournament"> | Date | string | null
     end_date?: DateTimeNullableFilter<"Tournament"> | Date | string | null
@@ -17578,6 +17591,7 @@ export namespace Prisma {
 
   export type TournamentOrderByWithRelationInput = {
     id_tour?: SortOrder
+    name?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
     start_date?: SortOrderInput | SortOrder
     end_date?: SortOrderInput | SortOrder
@@ -17599,6 +17613,7 @@ export namespace Prisma {
     AND?: TournamentWhereInput | TournamentWhereInput[]
     OR?: TournamentWhereInput[]
     NOT?: TournamentWhereInput | TournamentWhereInput[]
+    name?: StringNullableFilter<"Tournament"> | string | null
     location?: StringNullableFilter<"Tournament"> | string | null
     start_date?: DateTimeNullableFilter<"Tournament"> | Date | string | null
     end_date?: DateTimeNullableFilter<"Tournament"> | Date | string | null
@@ -17617,6 +17632,7 @@ export namespace Prisma {
 
   export type TournamentOrderByWithAggregationInput = {
     id_tour?: SortOrder
+    name?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
     start_date?: SortOrderInput | SortOrder
     end_date?: SortOrderInput | SortOrder
@@ -17638,6 +17654,7 @@ export namespace Prisma {
     OR?: TournamentScalarWhereWithAggregatesInput[]
     NOT?: TournamentScalarWhereWithAggregatesInput | TournamentScalarWhereWithAggregatesInput[]
     id_tour?: IntWithAggregatesFilter<"Tournament"> | number
+    name?: StringNullableWithAggregatesFilter<"Tournament"> | string | null
     location?: StringNullableWithAggregatesFilter<"Tournament"> | string | null
     start_date?: DateTimeNullableWithAggregatesFilter<"Tournament"> | Date | string | null
     end_date?: DateTimeNullableWithAggregatesFilter<"Tournament"> | Date | string | null
@@ -18360,6 +18377,7 @@ export namespace Prisma {
   }
 
   export type TournamentCreateInput = {
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -18376,6 +18394,7 @@ export namespace Prisma {
 
   export type TournamentUncheckedCreateInput = {
     id_tour?: number
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -18391,6 +18410,7 @@ export namespace Prisma {
   }
 
   export type TournamentUpdateInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -18407,6 +18427,7 @@ export namespace Prisma {
 
   export type TournamentUncheckedUpdateInput = {
     id_tour?: IntFieldUpdateOperationsInput | number
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -18422,6 +18443,7 @@ export namespace Prisma {
   }
 
   export type TournamentCreateManyInput = {
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -18434,6 +18456,7 @@ export namespace Prisma {
   }
 
   export type TournamentUpdateManyMutationInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -18445,6 +18468,7 @@ export namespace Prisma {
 
   export type TournamentUncheckedUpdateManyInput = {
     id_tour?: IntFieldUpdateOperationsInput | number
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -19197,6 +19221,7 @@ export namespace Prisma {
 
   export type TournamentCountOrderByAggregateInput = {
     id_tour?: SortOrder
+    name?: SortOrder
     location?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
@@ -19219,6 +19244,7 @@ export namespace Prisma {
 
   export type TournamentMaxOrderByAggregateInput = {
     id_tour?: SortOrder
+    name?: SortOrder
     location?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
@@ -19232,6 +19258,7 @@ export namespace Prisma {
 
   export type TournamentMinOrderByAggregateInput = {
     id_tour?: SortOrder
+    name?: SortOrder
     location?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
@@ -20667,6 +20694,7 @@ export namespace Prisma {
   }
 
   export type TournamentCreateWithoutAdminInput = {
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -20682,6 +20710,7 @@ export namespace Prisma {
 
   export type TournamentUncheckedCreateWithoutAdminInput = {
     id_tour?: number
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -20812,6 +20841,7 @@ export namespace Prisma {
     OR?: TournamentScalarWhereInput[]
     NOT?: TournamentScalarWhereInput | TournamentScalarWhereInput[]
     id_tour?: IntFilter<"Tournament"> | number
+    name?: StringNullableFilter<"Tournament"> | string | null
     location?: StringNullableFilter<"Tournament"> | string | null
     start_date?: DateTimeNullableFilter<"Tournament"> | Date | string | null
     end_date?: DateTimeNullableFilter<"Tournament"> | Date | string | null
@@ -20878,6 +20908,7 @@ export namespace Prisma {
   }
 
   export type TournamentCreateWithoutCommunityInput = {
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -20893,6 +20924,7 @@ export namespace Prisma {
 
   export type TournamentUncheckedCreateWithoutCommunityInput = {
     id_tour?: number
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -21662,6 +21694,7 @@ export namespace Prisma {
   }
 
   export type TournamentCreateWithoutPlayerInput = {
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -21677,6 +21710,7 @@ export namespace Prisma {
 
   export type TournamentUncheckedCreateWithoutPlayerInput = {
     id_tour?: number
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -21756,6 +21790,7 @@ export namespace Prisma {
   }
 
   export type TournamentUpdateWithoutPlayerInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21771,6 +21806,7 @@ export namespace Prisma {
 
   export type TournamentUncheckedUpdateWithoutPlayerInput = {
     id_tour?: IntFieldUpdateOperationsInput | number
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21785,6 +21821,7 @@ export namespace Prisma {
   }
 
   export type TournamentCreateWithoutPrizeInput = {
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -21800,6 +21837,7 @@ export namespace Prisma {
 
   export type TournamentUncheckedCreateWithoutPrizeInput = {
     id_tour?: number
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -21862,6 +21900,7 @@ export namespace Prisma {
   }
 
   export type TournamentUpdateWithoutPrizeInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -21877,6 +21916,7 @@ export namespace Prisma {
 
   export type TournamentUncheckedUpdateWithoutPrizeInput = {
     id_tour?: IntFieldUpdateOperationsInput | number
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22156,6 +22196,7 @@ export namespace Prisma {
   }
 
   export type TournamentCreateWithoutTeamInput = {
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -22171,6 +22212,7 @@ export namespace Prisma {
 
   export type TournamentUncheckedCreateWithoutTeamInput = {
     id_tour?: number
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -22264,6 +22306,7 @@ export namespace Prisma {
   }
 
   export type TournamentUpdateWithoutTeamInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22279,6 +22322,7 @@ export namespace Prisma {
 
   export type TournamentUncheckedUpdateWithoutTeamInput = {
     id_tour?: IntFieldUpdateOperationsInput | number
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22797,6 +22841,7 @@ export namespace Prisma {
   }
 
   export type TournamentCreateManyAdminInput = {
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -22808,6 +22853,7 @@ export namespace Prisma {
   }
 
   export type TournamentUpdateWithoutAdminInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22823,6 +22869,7 @@ export namespace Prisma {
 
   export type TournamentUncheckedUpdateWithoutAdminInput = {
     id_tour?: IntFieldUpdateOperationsInput | number
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22838,6 +22885,7 @@ export namespace Prisma {
 
   export type TournamentUncheckedUpdateManyWithoutAdminInput = {
     id_tour?: IntFieldUpdateOperationsInput | number
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22858,6 +22906,7 @@ export namespace Prisma {
   }
 
   export type TournamentCreateManyCommunityInput = {
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
@@ -22902,6 +22951,7 @@ export namespace Prisma {
   }
 
   export type TournamentUpdateWithoutCommunityInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22917,6 +22967,7 @@ export namespace Prisma {
 
   export type TournamentUncheckedUpdateWithoutCommunityInput = {
     id_tour?: IntFieldUpdateOperationsInput | number
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22932,6 +22983,7 @@ export namespace Prisma {
 
   export type TournamentUncheckedUpdateManyWithoutCommunityInput = {
     id_tour?: IntFieldUpdateOperationsInput | number
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
