@@ -19,7 +19,6 @@ export default function LoginForm(props:{route:string}) {
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
-  // Désactive LOG IN seulement si email OU password est vide
   const canSubmit = email.trim() !== "" && password.trim() !== "";
 
   async function onSubmit(e: React.FormEvent) {
@@ -37,10 +36,8 @@ export default function LoginForm(props:{route:string}) {
       const payload = {
         email: email.trim(),
         password: password.trim(),
-        ...(adminId.trim() ? { adminId: adminId.trim() } : {}), // adminId optionnel
+        ...(adminId.trim() ? { adminId: adminId.trim() } : {}),
       };
-
-      // MON API
 
       const res = await fetch(`/api/connexion`, {
         method: "POST",
@@ -59,27 +56,29 @@ export default function LoginForm(props:{route:string}) {
         return;
       }
 
-      // Succès
       setError("");
       if(props.route){
-
         location.href=props.route 
       }else{
         location.href='/communautes'
       }
-      //setError("email/username or password incorrect...");
+
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <form onSubmit={onSubmit} className="flex w-full flex-col items-center">
+    <form
+      onSubmit={onSubmit}
+      className="flex w-full flex-col items-center text-gray-900 dark:text-gray-100"
+    >
       <Title as="p" className="mb-3 text-xs">
         LOG IN
       </Title>
 
       <div className="w-[220px]">
+
         {/* email / username */}
         <LabeledField
           placeholder="email or username"
@@ -99,13 +98,13 @@ export default function LoginForm(props:{route:string}) {
           containerClassName="my-2"
         />
 
-        {/* petit texte comme sur la capture (optionnel) */}
-        <div className="my-1 flex items-center gap-2 text-xs text-black/80">
-          <span className="inline-flex h-3 w-3 items-center justify-center rounded-full border border-black/60" />
+        {/* admin helper text */}
+        <div className="my-1 flex items-center gap-2 text-xs text-black/80 dark:text-gray-300">
+          <span className="inline-flex h-3 w-3 items-center justify-center rounded-full border border-black/60 dark:border-gray-400" />
           <span>are you an admin?</span>
         </div>
 
-        {/* admin ID (toujours visible) */}
+        {/* admin ID */}
         <LabeledField
           placeholder="ID"
           value={adminId}
@@ -119,13 +118,14 @@ export default function LoginForm(props:{route:string}) {
         </div>
 
         <div className="mt-2 grid grid-cols-2 gap-3">
+
           <Button
             type="submit"
             title="LOG IN"
             disabled={!canSubmit || loading}
             size="text-[10px]"
             className="py-2 w-full"
-            color="bg-black/80 border-black/80 text-white hover:bg-black/90"
+            color="bg-black/80 border-black/80 text-white hover:bg-black/90 dark:bg-gray-700 dark:border-gray-700 dark:hover:bg-gray-600"
           />
 
           <Button
@@ -134,16 +134,21 @@ export default function LoginForm(props:{route:string}) {
             disabled={false}
             size="text-[10px]"
             className="py-2 w-full"
-            color="bg-white/80 border-white/80 text-black hover:bg-white"
+            color="bg-white/80 border-white/80 text-black hover:bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700"
             onClick={() => (window.location.href = "/register")}
           />
+
         </div>
 
         <div className="mt-3 text-center">
-          <AppLink href="/forgot-password" className="text-[11px]">
+          <AppLink
+            href="/forgot-password"
+            className="text-[11px] text-black dark:text-gray-300 hover:underline"
+          >
             forgot password ?
           </AppLink>
         </div>
+
       </div>
     </form>
   );
