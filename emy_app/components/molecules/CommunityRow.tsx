@@ -105,7 +105,10 @@ export default function CommunityRow({ community, member, isMine }: Props) {
     <li
       className={`${onPopUp ? "pointer-events-none blur-md" : ""} ${_isMine? '':'hidden'} 
         flex flex-wrap justify-center items-center 
-        shadow-xl bg-white rounded-xl max-sm:flex-col hover:cursor-pointer transition-all`}
+        shadow-xl dark:shadow-black/30
+        bg-white dark:bg-gray-800
+        text-gray-900 dark:text-gray-100
+        rounded-xl max-sm:flex-col hover:cursor-pointer transition-all`}
       onClick={() => setIsVisible(!isVisible)}
     >
       <span className="flex-50 overflow-hidden rounded-xl w-full">
