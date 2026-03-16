@@ -31,7 +31,10 @@ export default function Confirmation({ title, message,onConfirmed,showConfirm}: 
        
     if(!isVisible) return
     return(
-      <div className={"bg-white flex absolute flex-col justify-center"+
+    <>
+    <div className="absolute top-0 left-0 w-dvw h-lvh backdrop-blur-md bg-black/5 z-20">
+    </div>
+    <div className={"z-99 bg-white flex absolute fixed flex-col justify-center"+
             "items-center gap-5 top-1/2 left-1/2 "+
             "-translate-x-1/2 -translate-y-1/2 p-2 rounded-sm"}>
         <h2 className="bold text-[30px] text-center bg-gray-200 w-full">
@@ -52,6 +55,6 @@ export default function Confirmation({ title, message,onConfirmed,showConfirm}: 
             onClick={()=>handleCancel()}/>
         </span>
       </div>
-
+    </>
     )
 }

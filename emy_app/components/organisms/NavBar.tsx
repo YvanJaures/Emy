@@ -98,10 +98,10 @@ export default function Navbar() {
           (
             <span className="group hover:cursor-pointer"
               onClick={()=>setNotif(!notif)}>
-              <GoBell className="h-10 w-5 group-hover:text-blue-700 hover:cursor-pointer"/>
+              <GoBell className="h-10 w-5 group-hover:text-[#0F70AC] hover:cursor-pointer"/>
               { 
                 notifications &&(<p className="bg-red-500 rounded-full w-4 h-4 text-white text-[8px] text-center
-                flex justify-center items-center absolute -translate-y-8 translate-x-1/2">99+</p>)}
+                flex justify-center items-center absolute -translate-y-8 translate-x-1/2 animate-ping">99+</p>)}
             </span> 
           )}
           {

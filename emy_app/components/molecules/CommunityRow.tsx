@@ -10,6 +10,7 @@ import OnError from "../organisms/OnError";
 import { LuUsers } from "react-icons/lu";
 import { TbTournament } from "react-icons/tb";
 import { GrMapLocation } from "react-icons/gr";
+import CommunityBlock from "../organisms/CommunityBlock";
 type Props = {
   community: CommunityDTO;
   member: MemberDTO | null;
@@ -28,6 +29,10 @@ export default function CommunityRow({ community, member,isMine }: Props) {
   const [onError, setOnError] = useState(false);
   // Si il y'a une fênetre pop up
   const [onPopUp, setOnPopUp] = useState(false);
+  // afficher la communauté
+  const [showCom,setShowCom]=useState(false);
+
+  const date=(new Date(community.created))?.toLocaleDateString()
   useEffect(() => {
     (() => {
       try {
@@ -76,19 +81,32 @@ export default function CommunityRow({ community, member,isMine }: Props) {
       setOnPopUp(true);
     }
   };
+  /**
+   * Affiche la communauté
+   */
+  const handleShow=()=>{
+    setShowCom(!showCom)
+  }
   return (
+    <>
     <li
-      className={`${onPopUp ? "pointer-events-none blur-md" : ""} ${_isMine? '':'hidden'} flex flex-wrap justify-center items-center shadow-xl bg-white rounded-xl max-sm:flex-col hover:cursor-pointer`}
+      className={`${onPopUp ? "pointer-events-none blur-md" : ""} ${_isMine? '':'hidden'} 
+        flex flex-wrap justify-center items-center 
+        shadow-xl bg-white rounded-xl max-sm:flex-col hover:cursor-pointer transition-all`}
       onClick={() => setIsVisible(!isVisible)}
     >
-      <span className="flex-40 object-contain overflow-hidden rounded-xl">
+      <span className="flex-50 overflow-hidden rounded-xl w-full">
         <ImageDefault
           avatar={community.avatar ?? ""}
           title="image de couverture de la communauté"
+          className="w-full h-50 object-cover"
+          onClick={()=>handleShow()}
         />
       </span>
       <div
-        className={`flex flex-60 flex-col flex-nowrap p-2 justify-center items-center h-full overflow-hidden ${isVisible ? " max-sm:hidden" : "max-sm:flex"}`}
+        className={`flex flex-50 flex-col flex-nowrap p-2 justify-center items-center h-full
+           overflow-hidden ${isVisible ? " max-sm:hidden" : "max-sm:flex"} transition-shadow
+           w-full`}
       >
         <Title
           as="h2"
@@ -105,33 +123,37 @@ export default function CommunityRow({ community, member,isMine }: Props) {
           />
         ) : (
           <Button
-            disabled={isMember}
             title={isMember ? "AFFICHER" : "REJOINDRE"}
             color="[#0F70AC]"
             className="bg-[#0F70AC] text-white disabled:cursor-not-allowed border-none flex-20"
-            onClick={() => handleJoin()}
+            onClick={() => {
+                              if(!isMember) handleJoin();
+                              if(isMember) handleShow();
+                            }}
           />
         )}
         <footer className="flex flex-row justify-between items-center w-full flex-20">
           <span className="flex-50 flex flex-col justify-start items-center">
             <span className="text-start w-full flex gap-1">
               <GrMapLocation className="justify-center items-center hidden max-sm:flex" />
-              <p>Adresse: {community.location}</p>
+              <p className="max-sm:hidden">Adresse:</p>
+              {community.location}
             </span>
             <p className="text-start w-full flex">
-              Créé le {community.created?.toLocaleDateString()} par{" "}
+              Créé le {date} par{" "}
               {community.Admin[0]?.user_name}
             </p>
           </span>
           <span className="flex-50 flex flex-col justify-end items-center">
             <span className="text-end w-full flex gap-1 justify-end">
               <LuUsers className="justify-center items-center hidden max-sm:flex" />
-              {community.Community_member?.length} Membres
+              {community.Community_member?.length}
+              <p className="max-sm:hidden">Membres</p>
             </span>
             <span className="text-end w-full flex gap-1 justify-end">
               <TbTournament className="justify-center items-center hidden max-sm:flex" />
               {community.Tournament ? community.Tournament.length : "0"}{" "}
-              Tournois
+              <p className="max-sm:hidden">Tournois</p>
             </span>
           </span>
         </footer>
@@ -155,5 +177,12 @@ export default function CommunityRow({ community, member,isMine }: Props) {
         />
       )}
     </li>
+      {
+        showCom &&(
+          <CommunityBlock community={community}
+            onShown={(res)=>setShowCom(res)}/>
+        )
+      }
+    </>
   );
 }

@@ -22,6 +22,8 @@ export default function Communautes(){
                 setCommunities(communities)
                 setLoading(false)
             }catch(error){
+                alert(error)
+                console.error(error)
                 setOnError(true)
             }
 
