@@ -88,7 +88,7 @@ export default function Navbar() {
 
         </nav>
 
-        {/* Right actions */}
+        {/* Actions à droite */}
         <div className="flex items-center flex-20 justify-end gap-2 w-[10%] mr-2 max-lg:w-[20%]">
 
           {/* Dark mode button */}
@@ -97,7 +97,7 @@ export default function Navbar() {
             aria-label="Activer/Désactiver le mode sombre"
             className="rounded-full p-2 text-black/80 dark:text-gray-300 hover:bg-black/5 dark:hover:bg-white/10"
             onClick={() => {
-              // TODO toggle
+              // TODO: ton toggle dark mode
             }}
           >
             <FaMoon className="h-6 w-5" />

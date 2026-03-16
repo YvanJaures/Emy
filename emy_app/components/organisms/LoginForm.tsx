@@ -37,9 +37,10 @@ export default function LoginForm(props:{route:string}) {
       const payload = {
         email: email.trim(),
         password: password.trim(),
-        ...(adminId.trim() ? { adminId: adminId.trim() } : {}),
+        ...(adminId.trim() ? { adminId: adminId.trim() } : {}), // adminId optionnel
       };
 
+       // MON API
       const res = await fetch(`/api/connexion`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -56,14 +57,14 @@ export default function LoginForm(props:{route:string}) {
         setError(msg);
         return;
       }
-
+      // Succès
       setError("");
       if(props.route){
         location.href=props.route 
       }else{
         location.href='/communautes'
       }
-
+      //setError("email/username or password incorrect...");
     } finally {
       setLoading(false);
     }

@@ -72,6 +72,7 @@ export default function CommunityRow({ community, member, isMine }: Props) {
 
   /**
    * ajoute le membre à la communauté après vérification
+   * de son appartenance ou non
    */
   const handleJoin = async () => {
     try {
@@ -81,12 +82,14 @@ export default function CommunityRow({ community, member, isMine }: Props) {
         id_community: community.id_community,
         user_name: member?.user_name,
       };
-
+      //ajout le membre grâce au fetch de l'api d'ajout
       await addCommunityMember(payload);
-
+      //définit le membre comme appartenant à la communauté
       setIsMember(true);
     } catch (error) {
+      // affiche un message d'erreur
       setOnError(true);
+      // floutte l'arrière plan de la pop up
       setOnPopUp(true);
     }
   };
