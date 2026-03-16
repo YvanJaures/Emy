@@ -31,7 +31,7 @@ const privacyLinks: FooterLink[] = [
  */
 export default function Footer() {
   return (
-    <footer className="bg-[#0b78b9] text-white w-full">
+    <footer className="bg-[#0b78b9] dark:bg-gray-800 text-white dark:text-gray-100 w-full ">
       <div className="mx-auto flex w-full flex-col gap-10 px-6 py-10 max-sm:flex-col-reverse md:flex-row md:items-start md:justify-between">
         {/* Logo */}
         <div className="flex items-center md:w-[220px] max-sm:w-[100%] max-sm:justify-center">
