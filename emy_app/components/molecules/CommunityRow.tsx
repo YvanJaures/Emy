@@ -21,10 +21,14 @@ type Props = {
  * block représentant une communauté
  */
 export default function CommunityRow({ community, member, isMine }: Props) {
+  // le membre est-il membre de cette communauté?
   const [isVisible, setIsVisible] = useState(true);
+  // le membre est-il membre de cette communauté? pour le tri
   const [isMember, setIsMember] = useState(false);
   const [_isMine, setIsMine] = useState(false);
+  // y'a t il eu une erreur lors de l'ajout à la communauté?
   const [onError, setOnError] = useState(false);
+  // Si il y'a une fênetre pop up
   const [onPopUp, setOnPopUp] = useState(false);
 
   const date = new Date(community.created)?.toLocaleDateString();
@@ -35,7 +39,7 @@ export default function CommunityRow({ community, member, isMine }: Props) {
         if (member) {
           member.Community_member?.forEach((element) => {
             if (element.id_community === community.id_community) {
-              console.log("hey");
+              console.log('hey');
               setIsMember(true);
             }
           });

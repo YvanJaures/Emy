@@ -50,7 +50,7 @@ export default function Navbar() {
           />
         </div>
 
-        {/* Desktop menu */}
+        {/* Menu centré (Desktop) */}
         <nav className="hidden lg:flex items-center justify-evenly w-[70%]">
 
           {member && (

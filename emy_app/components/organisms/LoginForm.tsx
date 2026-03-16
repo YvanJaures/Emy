@@ -19,6 +19,7 @@ export default function LoginForm(props:{route:string}) {
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
+   // Désactive LOG IN seulement si email OU password est vide
   const canSubmit = email.trim() !== "" && password.trim() !== "";
 
   async function onSubmit(e: React.FormEvent) {
@@ -98,13 +99,13 @@ export default function LoginForm(props:{route:string}) {
           containerClassName="my-2"
         />
 
-        {/* admin helper text */}
+        {/* petit texte comme sur la capture (optionnel)*/}
         <div className="my-1 flex items-center gap-2 text-xs text-black/80 dark:text-gray-300">
           <span className="inline-flex h-3 w-3 items-center justify-center rounded-full border border-black/60 dark:border-gray-400" />
           <span>are you an admin?</span>
         </div>
 
-        {/* admin ID */}
+        {/* admin ID (toujours visible) */}
         <LabeledField
           placeholder="ID"
           value={adminId}
