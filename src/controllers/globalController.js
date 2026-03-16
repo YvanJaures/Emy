@@ -261,3 +261,41 @@ export const deconnexion=async (request, response, next) => {
         response.status(200).end();
     });
 };
+
+/**Modifier le details dune equipe */
+export const updateTeamC = async (req, res) => {
+  try {
+    const { id_team, name, id_tour, open, key_team } = req.body;
+    if (!id_team) return res.status(400).json({ message: "id_team manquant" });
+
+    await globalModel.updateTeam(Number(id_team), {
+      name,
+      id_tour: id_tour !== undefined ? Number(id_tour) : undefined,
+      open,
+      key_team,
+    });
+
+    return res.status(200).json({ message: "Équipe mise à jour" });
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+};
+
+/**Afficher details d une equipe */
+export const getTeamDetailsC = async (req, res) => {
+  try {
+    const id_team = Number(req.query.id_team);
+    if (!id_team || Number.isNaN(id_team)) {
+      return res.status(400).json({ message: "id_team invalide" });
+    }
+
+    const team = await globalModel.getTeamDetails(id_team);
+    if (!team) return res.status(404).json({ message: "Équipe introuvable" });
+
+    return res.status(200).json(team);
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+};

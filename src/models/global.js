@@ -304,3 +304,32 @@ export async function addPlayer(id_tour,user_name){
         }
     })
 }
+
+/**Modifier une equipe */
+export async function updateTeam(id_team, patch) {
+  const data = {};
+  if (patch.name !== undefined) data.name = patch.name;
+  if (patch.id_tour !== undefined) data.id_tour = patch.id_tour;
+  if (patch.open !== undefined) data.open = patch.open;
+  if (patch.key_team !== undefined) data.key_team = patch.key_team;
+
+  return await prisma.team.update({
+    where: { id_team },
+    data,
+  });
+}
+
+/**Afficher details d'une equipe */
+export async function getTeamDetails(id_team) {
+  return await prisma.team.findUnique({
+    where: { id_team },
+    select: {
+      id_team: true,
+      name: true,
+      id_tour: true,
+      open: true,
+      key_team: true,
+      Team_member: { select: { user_name: true } },
+    },
+  });
+}

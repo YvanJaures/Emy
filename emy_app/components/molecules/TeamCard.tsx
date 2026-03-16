@@ -52,14 +52,14 @@ export default function TeamCard({ team }: { team: TeamMiniDTO }) {
         ))}
       </div>
 
-      <div className="mt-1">
+      {/* <div className="mt-1">
         <AppLink
           href={`/equipes/${team.id_team}`}
           className="text-[11px] !text-blue-600 hover:underline underline-offset-4"
         >
           Details
         </AppLink>
-      </div>
+      </div> */}
     </div>
   );
 }
