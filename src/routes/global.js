@@ -33,7 +33,7 @@ router.post('/sendMail',sendMail)
 
 //router.patch('/',globalController)
 router.patch('/member/update',connecterApi,globalController.updateMemberC)
-router.patch('/member/team/update',connecterApi,globalController.addTeamMemberC) // Cette route ajoute plutot un membre
+//router.patch('/member/team/update',connecterApi,globalController.addTeamMemberC) // Cette route ajoute plutot un membre
 router.patch("/member/team/update", connecterApi, globalController.updateTeamC);
 router.patch('/member/password',connecterApi,motDePasseValide,globalController.updatePasswordMemberC)
 

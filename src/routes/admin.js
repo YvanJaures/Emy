@@ -17,7 +17,7 @@ routerAdmin.post('/tour', verifyAdmin,isAdminConnecterApi, adminController.creat
 routerAdmin.post('/tour&prizes', verifyAdmin,isAdminConnecterApi, adminController.createTourWithPrizes)               //ok
 routerAdmin.patch('/tour', verifyAdmin,isAdminConnecterApi, adminController.updateTourTeams)         //en attente de reconfiguration...
 routerAdmin.patch('/tour/status', verifyAdmin,isAdminConnecterApi, adminController.updateTourStatus) //ok
-routerAdmin.patch("/team", verifyAdmin, isAdminConnecterApi, adminController.patchTeam);
+//routerAdmin.patch("/team", verifyAdmin, isAdminConnecterApi, adminController.patchTeam);
 routerAdmin.delete('/team', verifyAdmin,isAdminConnecterApi, adminController.deleteTeamFromTour)     //ok
 routerAdmin.delete('/tour', verifyAdmin, adminController.deleteTour);  
 

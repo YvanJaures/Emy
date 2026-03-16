@@ -2,7 +2,7 @@ import { addCommunityMember, addMember,
          addPlayer, addTeam, addTeamMember, addTeamMemberWait, 
          getMemberByEmail, getMemberByName, getMembers, 
          getMembersUserNames, updateMember, 
-         updatePasswordMember,getMembersByCommunity } from '../models/global.js';
+         updatePasswordMember,getMembersByCommunity, getTeamDetails, updateTeam } from '../models/global.js';
 import '../services/auth.js'
 import passport from 'passport';
 import 'dotenv/config'
@@ -266,19 +266,27 @@ export const deconnexion=async (request, response, next) => {
 export const updateTeamC = async (req, res) => {
   try {
     const { id_team, name, id_tour, open, key_team } = req.body;
-    if (!id_team) return res.status(400).json({ message: "id_team manquant" });
 
-    await globalModel.updateTeam(Number(id_team), {
-      name,
-      id_tour: id_tour !== undefined ? Number(id_tour) : undefined,
-      open,
-      key_team,
-    });
+    if (!id_team || Number.isNaN(Number(id_team))) {
+      return res.status(400).json({ message: "id_team invalide" });
+    }
+
+    const data = {};
+
+    if (name !== undefined) data.name = name;
+    if (id_tour !== undefined && id_tour !== "") data.id_tour = Number(id_tour);
+    if (open !== undefined) data.open = Boolean(open);
+    if (key_team !== undefined) data.key_team = key_team;
+
+    await updateTeam(Number(id_team), data);
 
     return res.status(200).json({ message: "Équipe mise à jour" });
   } catch (e) {
-    console.error(e);
-    return res.status(500).json({ message: "Erreur serveur" });
+    console.error("updateTeamC error:", e);
+    return res.status(500).json({
+      message: "Erreur serveur",
+      error: e.message,
+    });
   }
 };
 
@@ -286,16 +294,23 @@ export const updateTeamC = async (req, res) => {
 export const getTeamDetailsC = async (req, res) => {
   try {
     const id_team = Number(req.query.id_team);
+
     if (!id_team || Number.isNaN(id_team)) {
       return res.status(400).json({ message: "id_team invalide" });
     }
 
-    const team = await globalModel.getTeamDetails(id_team);
-    if (!team) return res.status(404).json({ message: "Équipe introuvable" });
+    const team = await getTeamDetails(id_team);
+
+    if (!team) {
+      return res.status(404).json({ message: "Équipe introuvable" });
+    }
 
     return res.status(200).json(team);
   } catch (e) {
-    console.error(e);
-    return res.status(500).json({ message: "Erreur serveur" });
+    console.error("getTeamDetailsC error:", e);
+    return res.status(500).json({
+      message: "Erreur serveur",
+      error: e.message,
+    });
   }
 };

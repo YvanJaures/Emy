@@ -322,7 +322,7 @@ export async function updateTeam(id_team, patch) {
 /**Afficher details d'une equipe */
 export async function getTeamDetails(id_team) {
   return await prisma.team.findUnique({
-    where: { id_team },
+    where: { id_team: id_team },
     select: {
       id_team: true,
       name: true,
