@@ -42,7 +42,7 @@ export default function Profil(){
 
                         <div className="flex-1 p-8">
 
-                            <h1 className="text-lg font-semibold underline underline-offset-4 mb-6">
+                            <h1 className="text-lg underline underline-offset-4 mb-6">
                                 PROFIL
                             </h1>
 
