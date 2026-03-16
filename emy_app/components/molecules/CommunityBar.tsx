@@ -8,8 +8,11 @@ export default function CommunityBar(props:{number:number,img:string,title:strin
     return(
     <div className='w-[100%] flex gap-5 flex-wrap 
         justify-evenly items-center text-center
-        flex-100 h-20 bg-white p-2 rounded-xl'>
-        <p className='text-center text-gray-400 text-xl italic flex-10'>
+        flex-100 h-20 bg-white dark:bg-gray-800
+        text-gray-900 dark:text-gray-100
+        shadow-xl dark:shadow-black/30
+        p-2 rounded-xl'>
+        <p className='text-center text-gray-400 dark:text-gray-400 text-xl italic flex-10'>
             {props.number}.
         </p>
         <img src={props.img} alt="image de la communauté" 
@@ -20,7 +23,7 @@ export default function CommunityBar(props:{number:number,img:string,title:strin
         </span>
         <span className='flex flex-col gap-2 align-center flex-20'>
             <SousTexte details={`${props.size} Membres`}></SousTexte>
-            <p className='text-0F70AC hover:cursor-pointer text-[#0F70AC]' 
+            <p className='text-[#0F70AC] hover:cursor-pointer dark:text-blue-400 hover:underline' 
                 onClick={() => router.push("/login")}>+ REJOINDRE</p>
         </span>
     </div>
