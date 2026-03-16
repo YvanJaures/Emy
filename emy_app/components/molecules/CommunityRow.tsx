@@ -10,32 +10,32 @@ import OnError from "../organisms/OnError";
 import { LuUsers } from "react-icons/lu";
 import { TbTournament } from "react-icons/tb";
 import { GrMapLocation } from "react-icons/gr";
+
 type Props = {
   community: CommunityDTO;
   member: MemberDTO | null;
-  isMine:boolean
+  isMine: boolean;
 };
+
 /**
  * block représentant une communauté
  */
-export default function CommunityRow({ community, member,isMine }: Props) {
+export default function CommunityRow({ community, member, isMine }: Props) {
   const [isVisible, setIsVisible] = useState(true);
-  // le membre est-il membre de cette communauté?
   const [isMember, setIsMember] = useState(false);
-  // le membre est-il membre de cette communauté? pour le tri
   const [_isMine, setIsMine] = useState(false);
-  // y'a t il eu une erreur lors de l'ajout à la communauté?
   const [onError, setOnError] = useState(false);
-  // Si il y'a une fênetre pop up
   const [onPopUp, setOnPopUp] = useState(false);
-  const date=(new Date(community.created))?.toLocaleDateString()
+
+  const date = new Date(community.created)?.toLocaleDateString();
+
   useEffect(() => {
     (() => {
       try {
         if (member) {
           member.Community_member?.forEach((element) => {
             if (element.id_community === community.id_community) {
-              console.log('hey')
+              console.log("hey");
               setIsMember(true);
             }
           });
@@ -45,41 +45,60 @@ export default function CommunityRow({ community, member,isMine }: Props) {
       }
     })();
   }, [member, community]);
+
   useEffect(() => {
-    console.log('hey2')
-    if(!isMine && !isMember) {setIsMine(true) ;return}
-    if(isMember && !isMine){ setIsMine(false);return}
-    if(!isMember && isMine){ setIsMine(false);return}
+    console.log("hey2");
+    if (!isMine && !isMember) {
+      setIsMine(true);
+      return;
+    }
+    if (isMember && !isMine) {
+      setIsMine(false);
+      return;
+    }
+    if (!isMember && isMine) {
+      setIsMine(false);
+      return;
+    }
     if (isMine && isMember) {
       setIsMine(true);
-      return
+      return;
     }
-  }, [isMine,isMember]);
+  }, [isMine, isMember]);
+
   /**
    * ajoute le membre à la communauté après vérification
-   * de son appartenance ou non
-  */
+   */
   const handleJoin = async () => {
     try {
       if (!member) location.href = "/login";
+
       const payload = {
         id_community: community.id_community,
         user_name: member?.user_name,
       };
-      //ajout le membre grâce au fetch de l'api d'ajout
+
       await addCommunityMember(payload);
-      //définit le membre comme appartenant à la communauté
+
       setIsMember(true);
     } catch (error) {
-      // affiche un message d'erreur
       setOnError(true);
-      // floutte l'arrière plan de la pop up
       setOnPopUp(true);
     }
   };
+
   return (
     <li
-      className={`${onPopUp ? "pointer-events-none blur-md" : ""} ${_isMine? '':'hidden'} flex flex-wrap justify-center items-center shadow-xl bg-white rounded-xl max-sm:flex-col hover:cursor-pointer transition-all`}
+      className={`${onPopUp ? "pointer-events-none blur-md" : ""}
+      ${_isMine ? "" : "hidden"}
+      flex flex-wrap justify-center items-center
+      shadow-xl dark:shadow-black/30
+      bg-white dark:bg-gray-800
+      text-gray-900 dark:text-gray-100
+      rounded-xl
+      max-sm:flex-col
+      hover:cursor-pointer
+      transition-all`}
       onClick={() => setIsVisible(!isVisible)}
     >
       <span className="flex-40 object-contain overflow-hidden rounded-xl">
@@ -89,15 +108,22 @@ export default function CommunityRow({ community, member,isMine }: Props) {
           className="w-80 h-40"
         />
       </span>
+
       <div
-        className={`flex flex-60 flex-col flex-nowrap p-2 justify-center items-center h-full overflow-hidden ${isVisible ? " max-sm:hidden" : "max-sm:flex"} transition-shadow`}
+        className={`flex flex-60 flex-col flex-nowrap p-2 justify-center items-center h-full overflow-hidden
+        ${isVisible ? " max-sm:hidden" : "max-sm:flex"}
+        transition-shadow`}
       >
         <Title
           as="h2"
           children={community.name?.toUpperCase()}
           className="flex-10"
         />
-        <p className="flex-50 text-center  w-full">{community.details}</p>
+
+        <p className="flex-50 text-center w-full text-gray-700 dark:text-gray-300">
+          {community.details}
+        </p>
+
         {community.privacy ? (
           <Button
             disabled={community.privacy}
@@ -114,38 +140,47 @@ export default function CommunityRow({ community, member,isMine }: Props) {
             onClick={() => handleJoin()}
           />
         )}
-        <footer className="flex flex-row justify-between items-center w-full flex-20">
+
+        <footer className="flex flex-row justify-between items-center w-full flex-20 text-gray-700 dark:text-gray-300">
           <span className="flex-50 flex flex-col justify-start items-center">
             <span className="text-start w-full flex gap-1">
               <GrMapLocation className="justify-center items-center hidden max-sm:flex" />
               <p>Adresse: {community.location}</p>
             </span>
+
             <p className="text-start w-full flex">
-              Créé le {date} par{" "}
-              {community.Admin[0]?.user_name}
+              Créé le {date} par {community.Admin[0]?.user_name}
             </p>
           </span>
+
           <span className="flex-50 flex flex-col justify-end items-center">
             <span className="text-end w-full flex gap-1 justify-end">
               <LuUsers className="justify-center items-center hidden max-sm:flex" />
               {community.Community_member?.length} Membres
             </span>
+
             <span className="text-end w-full flex gap-1 justify-end">
               <TbTournament className="justify-center items-center hidden max-sm:flex" />
-              {community.Tournament ? community.Tournament.length : "0"}{" "}
-              Tournois
+              {community.Tournament ? community.Tournament.length : "0"} Tournois
             </span>
           </span>
         </footer>
       </div>
+
       <Title
         as="h2"
         children={community.name?.toUpperCase()}
-        className={`flex-10 hidden p-2 ${isVisible ? " max-sm:flex" : "max-sm:hidden"}`}
+        className={`flex-10 hidden p-2 ${
+          isVisible ? " max-sm:flex" : "max-sm:hidden"
+        }`}
       />
+
       <IoIosArrowDown
-        className={`hover:cursor-pointer hidden max-sm:flex ${isVisible ? "" : "rotate-180"}`}
+        className={`hover:cursor-pointer hidden max-sm:flex text-gray-700 dark:text-gray-300 ${
+          isVisible ? "" : "rotate-180"
+        }`}
       />
+
       {onError && (
         <OnError
           title="REJOINDRE"
