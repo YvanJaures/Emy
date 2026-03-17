@@ -18,7 +18,7 @@ model Admin {
 
 model Community {
   id_community     Int                @id(map: "PK__Communit__5EB0F0780885BDE2") @default(autoincrement())
-  name             String?
+  name             String?            @db.VarChar(100)
   details          String?
   avatar           String?            @db.VarChar(255)
   members          Int?
@@ -145,10 +145,12 @@ model Test {
 
 model Tournament {
   id_tour      Int        @id(map: "PK__Tourname__C9304CF6ECB8D893") @default(autoincrement())
+  name         String?    @db.VarChar(100)
   location     String?    @db.VarChar(100)
   start_date   DateTime?  @db.Date
   end_date     DateTime?  @db.Date
-  status       Int?
+  status       Int?       @default(0)
+  members      Int?
   avatar       String?    @db.VarChar(255)
   id_admin     Int?
   id_community Int?

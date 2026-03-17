@@ -9,7 +9,7 @@ export default function ProfileCard(props:{imgUrl:string,name:string,user_name:s
 const [avatar,setAvatar]=useState(props.imgUrl)
     return(
         <div className="flex flex-row flex-wrap w-full h-fit
-            jutsify-center items-center gap-5 rounded-xl p-5 min-w-20 shadow-xl">
+            jutsify-center items-center gap-5 rounded-xl p-5 min-w-20 shadow-xl bg-white dark:bg-gray-800">
             <span className="flex justify-center items-center rounded-full flex-30">
                 <img src={avatar} alt="image de profil" 
                     className="w-[150px] object-contain"

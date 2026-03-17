@@ -14493,6 +14493,7 @@ export namespace Prisma {
   export type TournamentAvgAggregateOutputType = {
     id_tour: number | null
     status: number | null
+    members: number | null
     id_admin: number | null
     id_community: number | null
     fees: number | null
@@ -14501,6 +14502,7 @@ export namespace Prisma {
   export type TournamentSumAggregateOutputType = {
     id_tour: number | null
     status: number | null
+    members: number | null
     id_admin: number | null
     id_community: number | null
     fees: number | null
@@ -14508,10 +14510,12 @@ export namespace Prisma {
 
   export type TournamentMinAggregateOutputType = {
     id_tour: number | null
+    name: string | null
     location: string | null
     start_date: Date | null
     end_date: Date | null
     status: number | null
+    members: number | null
     avatar: string | null
     id_admin: number | null
     id_community: number | null
@@ -14520,10 +14524,12 @@ export namespace Prisma {
 
   export type TournamentMaxAggregateOutputType = {
     id_tour: number | null
+    name: string | null
     location: string | null
     start_date: Date | null
     end_date: Date | null
     status: number | null
+    members: number | null
     avatar: string | null
     id_admin: number | null
     id_community: number | null
@@ -14532,10 +14538,12 @@ export namespace Prisma {
 
   export type TournamentCountAggregateOutputType = {
     id_tour: number
+    name: number
     location: number
     start_date: number
     end_date: number
     status: number
+    members: number
     avatar: number
     id_admin: number
     id_community: number
@@ -14547,6 +14555,7 @@ export namespace Prisma {
   export type TournamentAvgAggregateInputType = {
     id_tour?: true
     status?: true
+    members?: true
     id_admin?: true
     id_community?: true
     fees?: true
@@ -14555,6 +14564,7 @@ export namespace Prisma {
   export type TournamentSumAggregateInputType = {
     id_tour?: true
     status?: true
+    members?: true
     id_admin?: true
     id_community?: true
     fees?: true
@@ -14562,10 +14572,12 @@ export namespace Prisma {
 
   export type TournamentMinAggregateInputType = {
     id_tour?: true
+    name?: true
     location?: true
     start_date?: true
     end_date?: true
     status?: true
+    members?: true
     avatar?: true
     id_admin?: true
     id_community?: true
@@ -14574,10 +14586,12 @@ export namespace Prisma {
 
   export type TournamentMaxAggregateInputType = {
     id_tour?: true
+    name?: true
     location?: true
     start_date?: true
     end_date?: true
     status?: true
+    members?: true
     avatar?: true
     id_admin?: true
     id_community?: true
@@ -14586,10 +14600,12 @@ export namespace Prisma {
 
   export type TournamentCountAggregateInputType = {
     id_tour?: true
+    name?: true
     location?: true
     start_date?: true
     end_date?: true
     status?: true
+    members?: true
     avatar?: true
     id_admin?: true
     id_community?: true
@@ -14685,10 +14701,12 @@ export namespace Prisma {
 
   export type TournamentGroupByOutputType = {
     id_tour: number
+    name: string | null
     location: string | null
     start_date: Date | null
     end_date: Date | null
     status: number | null
+    members: number | null
     avatar: string | null
     id_admin: number | null
     id_community: number | null
@@ -14716,10 +14734,12 @@ export namespace Prisma {
 
   export type TournamentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id_tour?: boolean
+    name?: boolean
     location?: boolean
     start_date?: boolean
     end_date?: boolean
     status?: boolean
+    members?: boolean
     avatar?: boolean
     id_admin?: boolean
     id_community?: boolean
@@ -14736,17 +14756,19 @@ export namespace Prisma {
 
   export type TournamentSelectScalar = {
     id_tour?: boolean
+    name?: boolean
     location?: boolean
     start_date?: boolean
     end_date?: boolean
     status?: boolean
+    members?: boolean
     avatar?: boolean
     id_admin?: boolean
     id_community?: boolean
     fees?: boolean
   }
 
-  export type TournamentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_tour" | "location" | "start_date" | "end_date" | "status" | "avatar" | "id_admin" | "id_community" | "fees", ExtArgs["result"]["tournament"]>
+  export type TournamentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_tour" | "name" | "location" | "start_date" | "end_date" | "status" | "members" | "avatar" | "id_admin" | "id_community" | "fees", ExtArgs["result"]["tournament"]>
   export type TournamentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Player?: boolean | Tournament$PlayerArgs<ExtArgs>
     Prize?: boolean | Tournament$PrizeArgs<ExtArgs>
@@ -14767,10 +14789,12 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id_tour: number
+      name: string | null
       location: string | null
       start_date: Date | null
       end_date: Date | null
       status: number | null
+      members: number | null
       avatar: string | null
       id_admin: number | null
       id_community: number | null
@@ -15150,10 +15174,12 @@ export namespace Prisma {
    */
   interface TournamentFieldRefs {
     readonly id_tour: FieldRef<"Tournament", 'Int'>
+    readonly name: FieldRef<"Tournament", 'String'>
     readonly location: FieldRef<"Tournament", 'String'>
     readonly start_date: FieldRef<"Tournament", 'DateTime'>
     readonly end_date: FieldRef<"Tournament", 'DateTime'>
     readonly status: FieldRef<"Tournament", 'Int'>
+    readonly members: FieldRef<"Tournament", 'Int'>
     readonly avatar: FieldRef<"Tournament", 'String'>
     readonly id_admin: FieldRef<"Tournament", 'Int'>
     readonly id_community: FieldRef<"Tournament", 'Int'>
@@ -16730,10 +16756,12 @@ export namespace Prisma {
 
   export const TournamentScalarFieldEnum: {
     id_tour: 'id_tour',
+    name: 'name',
     location: 'location',
     start_date: 'start_date',
     end_date: 'end_date',
     status: 'status',
+    members: 'members',
     avatar: 'avatar',
     id_admin: 'id_admin',
     id_community: 'id_community',
@@ -17544,10 +17572,12 @@ export namespace Prisma {
     OR?: TournamentWhereInput[]
     NOT?: TournamentWhereInput | TournamentWhereInput[]
     id_tour?: IntFilter<"Tournament"> | number
+    name?: StringNullableFilter<"Tournament"> | string | null
     location?: StringNullableFilter<"Tournament"> | string | null
     start_date?: DateTimeNullableFilter<"Tournament"> | Date | string | null
     end_date?: DateTimeNullableFilter<"Tournament"> | Date | string | null
     status?: IntNullableFilter<"Tournament"> | number | null
+    members?: IntNullableFilter<"Tournament"> | number | null
     avatar?: StringNullableFilter<"Tournament"> | string | null
     id_admin?: IntNullableFilter<"Tournament"> | number | null
     id_community?: IntNullableFilter<"Tournament"> | number | null
@@ -17561,10 +17591,12 @@ export namespace Prisma {
 
   export type TournamentOrderByWithRelationInput = {
     id_tour?: SortOrder
+    name?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
     start_date?: SortOrderInput | SortOrder
     end_date?: SortOrderInput | SortOrder
     status?: SortOrderInput | SortOrder
+    members?: SortOrderInput | SortOrder
     avatar?: SortOrderInput | SortOrder
     id_admin?: SortOrderInput | SortOrder
     id_community?: SortOrderInput | SortOrder
@@ -17581,10 +17613,12 @@ export namespace Prisma {
     AND?: TournamentWhereInput | TournamentWhereInput[]
     OR?: TournamentWhereInput[]
     NOT?: TournamentWhereInput | TournamentWhereInput[]
+    name?: StringNullableFilter<"Tournament"> | string | null
     location?: StringNullableFilter<"Tournament"> | string | null
     start_date?: DateTimeNullableFilter<"Tournament"> | Date | string | null
     end_date?: DateTimeNullableFilter<"Tournament"> | Date | string | null
     status?: IntNullableFilter<"Tournament"> | number | null
+    members?: IntNullableFilter<"Tournament"> | number | null
     avatar?: StringNullableFilter<"Tournament"> | string | null
     id_admin?: IntNullableFilter<"Tournament"> | number | null
     id_community?: IntNullableFilter<"Tournament"> | number | null
@@ -17598,10 +17632,12 @@ export namespace Prisma {
 
   export type TournamentOrderByWithAggregationInput = {
     id_tour?: SortOrder
+    name?: SortOrderInput | SortOrder
     location?: SortOrderInput | SortOrder
     start_date?: SortOrderInput | SortOrder
     end_date?: SortOrderInput | SortOrder
     status?: SortOrderInput | SortOrder
+    members?: SortOrderInput | SortOrder
     avatar?: SortOrderInput | SortOrder
     id_admin?: SortOrderInput | SortOrder
     id_community?: SortOrderInput | SortOrder
@@ -17618,10 +17654,12 @@ export namespace Prisma {
     OR?: TournamentScalarWhereWithAggregatesInput[]
     NOT?: TournamentScalarWhereWithAggregatesInput | TournamentScalarWhereWithAggregatesInput[]
     id_tour?: IntWithAggregatesFilter<"Tournament"> | number
+    name?: StringNullableWithAggregatesFilter<"Tournament"> | string | null
     location?: StringNullableWithAggregatesFilter<"Tournament"> | string | null
     start_date?: DateTimeNullableWithAggregatesFilter<"Tournament"> | Date | string | null
     end_date?: DateTimeNullableWithAggregatesFilter<"Tournament"> | Date | string | null
     status?: IntNullableWithAggregatesFilter<"Tournament"> | number | null
+    members?: IntNullableWithAggregatesFilter<"Tournament"> | number | null
     avatar?: StringNullableWithAggregatesFilter<"Tournament"> | string | null
     id_admin?: IntNullableWithAggregatesFilter<"Tournament"> | number | null
     id_community?: IntNullableWithAggregatesFilter<"Tournament"> | number | null
@@ -18339,10 +18377,12 @@ export namespace Prisma {
   }
 
   export type TournamentCreateInput = {
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     fees?: number | null
     Player?: PlayerCreateNestedManyWithoutTournamentInput
@@ -18354,10 +18394,12 @@ export namespace Prisma {
 
   export type TournamentUncheckedCreateInput = {
     id_tour?: number
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     id_admin?: number | null
     id_community?: number | null
@@ -18368,10 +18410,12 @@ export namespace Prisma {
   }
 
   export type TournamentUpdateInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     fees?: NullableFloatFieldUpdateOperationsInput | number | null
     Player?: PlayerUpdateManyWithoutTournamentNestedInput
@@ -18383,10 +18427,12 @@ export namespace Prisma {
 
   export type TournamentUncheckedUpdateInput = {
     id_tour?: IntFieldUpdateOperationsInput | number
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     id_admin?: NullableIntFieldUpdateOperationsInput | number | null
     id_community?: NullableIntFieldUpdateOperationsInput | number | null
@@ -18397,10 +18443,12 @@ export namespace Prisma {
   }
 
   export type TournamentCreateManyInput = {
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     id_admin?: number | null
     id_community?: number | null
@@ -18408,20 +18456,24 @@ export namespace Prisma {
   }
 
   export type TournamentUpdateManyMutationInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     fees?: NullableFloatFieldUpdateOperationsInput | number | null
   }
 
   export type TournamentUncheckedUpdateManyInput = {
     id_tour?: IntFieldUpdateOperationsInput | number
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     id_admin?: NullableIntFieldUpdateOperationsInput | number | null
     id_community?: NullableIntFieldUpdateOperationsInput | number | null
@@ -19169,10 +19221,12 @@ export namespace Prisma {
 
   export type TournamentCountOrderByAggregateInput = {
     id_tour?: SortOrder
+    name?: SortOrder
     location?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
     status?: SortOrder
+    members?: SortOrder
     avatar?: SortOrder
     id_admin?: SortOrder
     id_community?: SortOrder
@@ -19182,6 +19236,7 @@ export namespace Prisma {
   export type TournamentAvgOrderByAggregateInput = {
     id_tour?: SortOrder
     status?: SortOrder
+    members?: SortOrder
     id_admin?: SortOrder
     id_community?: SortOrder
     fees?: SortOrder
@@ -19189,10 +19244,12 @@ export namespace Prisma {
 
   export type TournamentMaxOrderByAggregateInput = {
     id_tour?: SortOrder
+    name?: SortOrder
     location?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
     status?: SortOrder
+    members?: SortOrder
     avatar?: SortOrder
     id_admin?: SortOrder
     id_community?: SortOrder
@@ -19201,10 +19258,12 @@ export namespace Prisma {
 
   export type TournamentMinOrderByAggregateInput = {
     id_tour?: SortOrder
+    name?: SortOrder
     location?: SortOrder
     start_date?: SortOrder
     end_date?: SortOrder
     status?: SortOrder
+    members?: SortOrder
     avatar?: SortOrder
     id_admin?: SortOrder
     id_community?: SortOrder
@@ -19214,6 +19273,7 @@ export namespace Prisma {
   export type TournamentSumOrderByAggregateInput = {
     id_tour?: SortOrder
     status?: SortOrder
+    members?: SortOrder
     id_admin?: SortOrder
     id_community?: SortOrder
     fees?: SortOrder
@@ -20634,10 +20694,12 @@ export namespace Prisma {
   }
 
   export type TournamentCreateWithoutAdminInput = {
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     fees?: number | null
     Player?: PlayerCreateNestedManyWithoutTournamentInput
@@ -20648,10 +20710,12 @@ export namespace Prisma {
 
   export type TournamentUncheckedCreateWithoutAdminInput = {
     id_tour?: number
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     id_community?: number | null
     fees?: number | null
@@ -20777,10 +20841,12 @@ export namespace Prisma {
     OR?: TournamentScalarWhereInput[]
     NOT?: TournamentScalarWhereInput | TournamentScalarWhereInput[]
     id_tour?: IntFilter<"Tournament"> | number
+    name?: StringNullableFilter<"Tournament"> | string | null
     location?: StringNullableFilter<"Tournament"> | string | null
     start_date?: DateTimeNullableFilter<"Tournament"> | Date | string | null
     end_date?: DateTimeNullableFilter<"Tournament"> | Date | string | null
     status?: IntNullableFilter<"Tournament"> | number | null
+    members?: IntNullableFilter<"Tournament"> | number | null
     avatar?: StringNullableFilter<"Tournament"> | string | null
     id_admin?: IntNullableFilter<"Tournament"> | number | null
     id_community?: IntNullableFilter<"Tournament"> | number | null
@@ -20842,10 +20908,12 @@ export namespace Prisma {
   }
 
   export type TournamentCreateWithoutCommunityInput = {
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     fees?: number | null
     Player?: PlayerCreateNestedManyWithoutTournamentInput
@@ -20856,10 +20924,12 @@ export namespace Prisma {
 
   export type TournamentUncheckedCreateWithoutCommunityInput = {
     id_tour?: number
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     id_admin?: number | null
     fees?: number | null
@@ -21624,10 +21694,12 @@ export namespace Prisma {
   }
 
   export type TournamentCreateWithoutPlayerInput = {
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     fees?: number | null
     Prize?: PrizeCreateNestedManyWithoutTournamentInput
@@ -21638,10 +21710,12 @@ export namespace Prisma {
 
   export type TournamentUncheckedCreateWithoutPlayerInput = {
     id_tour?: number
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     id_admin?: number | null
     id_community?: number | null
@@ -21716,10 +21790,12 @@ export namespace Prisma {
   }
 
   export type TournamentUpdateWithoutPlayerInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     fees?: NullableFloatFieldUpdateOperationsInput | number | null
     Prize?: PrizeUpdateManyWithoutTournamentNestedInput
@@ -21730,10 +21806,12 @@ export namespace Prisma {
 
   export type TournamentUncheckedUpdateWithoutPlayerInput = {
     id_tour?: IntFieldUpdateOperationsInput | number
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     id_admin?: NullableIntFieldUpdateOperationsInput | number | null
     id_community?: NullableIntFieldUpdateOperationsInput | number | null
@@ -21743,10 +21821,12 @@ export namespace Prisma {
   }
 
   export type TournamentCreateWithoutPrizeInput = {
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     fees?: number | null
     Player?: PlayerCreateNestedManyWithoutTournamentInput
@@ -21757,10 +21837,12 @@ export namespace Prisma {
 
   export type TournamentUncheckedCreateWithoutPrizeInput = {
     id_tour?: number
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     id_admin?: number | null
     id_community?: number | null
@@ -21818,10 +21900,12 @@ export namespace Prisma {
   }
 
   export type TournamentUpdateWithoutPrizeInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     fees?: NullableFloatFieldUpdateOperationsInput | number | null
     Player?: PlayerUpdateManyWithoutTournamentNestedInput
@@ -21832,10 +21916,12 @@ export namespace Prisma {
 
   export type TournamentUncheckedUpdateWithoutPrizeInput = {
     id_tour?: IntFieldUpdateOperationsInput | number
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     id_admin?: NullableIntFieldUpdateOperationsInput | number | null
     id_community?: NullableIntFieldUpdateOperationsInput | number | null
@@ -22110,10 +22196,12 @@ export namespace Prisma {
   }
 
   export type TournamentCreateWithoutTeamInput = {
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     fees?: number | null
     Player?: PlayerCreateNestedManyWithoutTournamentInput
@@ -22124,10 +22212,12 @@ export namespace Prisma {
 
   export type TournamentUncheckedCreateWithoutTeamInput = {
     id_tour?: number
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     id_admin?: number | null
     id_community?: number | null
@@ -22216,10 +22306,12 @@ export namespace Prisma {
   }
 
   export type TournamentUpdateWithoutTeamInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     fees?: NullableFloatFieldUpdateOperationsInput | number | null
     Player?: PlayerUpdateManyWithoutTournamentNestedInput
@@ -22230,10 +22322,12 @@ export namespace Prisma {
 
   export type TournamentUncheckedUpdateWithoutTeamInput = {
     id_tour?: IntFieldUpdateOperationsInput | number
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     id_admin?: NullableIntFieldUpdateOperationsInput | number | null
     id_community?: NullableIntFieldUpdateOperationsInput | number | null
@@ -22747,20 +22841,24 @@ export namespace Prisma {
   }
 
   export type TournamentCreateManyAdminInput = {
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     id_community?: number | null
     fees?: number | null
   }
 
   export type TournamentUpdateWithoutAdminInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     fees?: NullableFloatFieldUpdateOperationsInput | number | null
     Player?: PlayerUpdateManyWithoutTournamentNestedInput
@@ -22771,10 +22869,12 @@ export namespace Prisma {
 
   export type TournamentUncheckedUpdateWithoutAdminInput = {
     id_tour?: IntFieldUpdateOperationsInput | number
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     id_community?: NullableIntFieldUpdateOperationsInput | number | null
     fees?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -22785,10 +22885,12 @@ export namespace Prisma {
 
   export type TournamentUncheckedUpdateManyWithoutAdminInput = {
     id_tour?: IntFieldUpdateOperationsInput | number
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     id_community?: NullableIntFieldUpdateOperationsInput | number | null
     fees?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -22804,10 +22906,12 @@ export namespace Prisma {
   }
 
   export type TournamentCreateManyCommunityInput = {
+    name?: string | null
     location?: string | null
     start_date?: Date | string | null
     end_date?: Date | string | null
     status?: number | null
+    members?: number | null
     avatar?: string | null
     id_admin?: number | null
     fees?: number | null
@@ -22847,10 +22951,12 @@ export namespace Prisma {
   }
 
   export type TournamentUpdateWithoutCommunityInput = {
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     fees?: NullableFloatFieldUpdateOperationsInput | number | null
     Player?: PlayerUpdateManyWithoutTournamentNestedInput
@@ -22861,10 +22967,12 @@ export namespace Prisma {
 
   export type TournamentUncheckedUpdateWithoutCommunityInput = {
     id_tour?: IntFieldUpdateOperationsInput | number
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     id_admin?: NullableIntFieldUpdateOperationsInput | number | null
     fees?: NullableFloatFieldUpdateOperationsInput | number | null
@@ -22875,10 +22983,12 @@ export namespace Prisma {
 
   export type TournamentUncheckedUpdateManyWithoutCommunityInput = {
     id_tour?: IntFieldUpdateOperationsInput | number
+    name?: NullableStringFieldUpdateOperationsInput | string | null
     location?: NullableStringFieldUpdateOperationsInput | string | null
     start_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     end_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     status?: NullableIntFieldUpdateOperationsInput | number | null
+    members?: NullableIntFieldUpdateOperationsInput | number | null
     avatar?: NullableStringFieldUpdateOperationsInput | string | null
     id_admin?: NullableIntFieldUpdateOperationsInput | number | null
     fees?: NullableFloatFieldUpdateOperationsInput | number | null

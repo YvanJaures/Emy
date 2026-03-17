@@ -31,7 +31,7 @@ export default function MemberCommunity() {
   if (loading) return <LoadingAnimation />;
   return (
     <div className="flex flex-col justify-between gap-5">
-      <NavBarAdmin id_community={4} />
+      <NavBarAdmin id_community={member?.Admin?.id_community ?? 0} />
       <main className="p-5 flex-80">
         <TableUser
           title="Liste des membres"

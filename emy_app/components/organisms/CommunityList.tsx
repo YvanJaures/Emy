@@ -4,6 +4,8 @@ import { CommunityDTO,MemberDTO } from "@/hooks/Type_DTO"
 import { CiFilter  } from "react-icons/ci";
 import Title from "../atoms/Title"
 import CommunityRow from "../molecules/CommunityRow";
+import { IoAddCircleOutline } from "react-icons/io5";
+
 import {useState,useEffect} from 'react'
 type Props={
     communities:CommunityDTO[],
@@ -11,9 +13,8 @@ type Props={
 }
 export default function CommunityList({communities,member}:Props){
     const [_communities,setCommunities]=useState(communities)
-    const [isClicked,setIsClicked]=useState(false)
     // le membre est-il membre de cette communauté? pour le tri
-    const [_isMine, setIsMine] = useState(false);
+    const [isClicked,setIsClicked]=useState(false)
     return(
         <div className="w-full p-2">
             <span className="w-full flex justify-center items-center">
@@ -34,6 +35,26 @@ export default function CommunityList({communities,member}:Props){
                         key={community.id_community}
                         isMine={isClicked? true:false}/>
                     ))
+                }
+                {
+                    isClicked &&
+                    (<li className="group hover:border-[#0F70AC] hover:cursor-pointer border border-dashed h-15 rounded-xl
+                        flex justify-center items-center flex-col"
+                        onClick={()=>setIsClicked(!isClicked)}>
+                        <IoAddCircleOutline 
+                        className="group-hover:text-[#0F70AC]"/>
+                        <p className="group-hover:text-[#0F70AC]"> Rejoindre une communauté</p>
+                    </li>)
+                }
+                {
+                    communities.length===0 &&
+                    (<li className="group hover:border-[#0F70AC] hover:cursor-pointer border border-dashed h-15 rounded-xl
+                        flex justify-center items-center flex-col"
+                        onClick={()=>''}>
+                        <IoAddCircleOutline 
+                        className="group-hover:text-[#0F70AC]"/>
+                        <p className="group-hover:text-[#0F70AC]"> Créer une communauté</p>
+                    </li>)
                 }
             </ul>
         </div>
