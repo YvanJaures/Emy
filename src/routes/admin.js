@@ -11,10 +11,13 @@ routerAdmin.post('/member', verifyAdmin,isAdminConnecterApi, adminController.add
 routerAdmin.delete('/member', verifyAdmin,isAdminConnecterApi, adminController.deleteMemberFromTeam) //ok
 
 //Gestion des tournois
+routerAdmin.get('/tour/teams', verifyAdmin,isAdminConnecterApi, adminController.getTourTeams) // afficher liste d equipe par tournoi
+routerAdmin.get("/tour/:id_tour/teams", verifyAdmin, isAdminConnecterApi, adminController.getTeamsByTour);  // afficher le detail des equipes
 routerAdmin.post('/tour', verifyAdmin,isAdminConnecterApi, adminController.createTour)               //ok
 routerAdmin.post('/tour&prizes', verifyAdmin,isAdminConnecterApi, adminController.createTourWithPrizes)               //ok
 routerAdmin.patch('/tour', verifyAdmin,isAdminConnecterApi, adminController.updateTourTeams)         //en attente de reconfiguration...
 routerAdmin.patch('/tour/status', verifyAdmin,isAdminConnecterApi, adminController.updateTourStatus) //ok
+//routerAdmin.patch("/team", verifyAdmin, isAdminConnecterApi, adminController.patchTeam);
 routerAdmin.delete('/team', verifyAdmin,isAdminConnecterApi, adminController.deleteTeamFromTour)     //ok
 routerAdmin.delete('/tour', verifyAdmin, adminController.deleteTour);  
 

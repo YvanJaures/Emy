@@ -473,6 +473,25 @@ export async function getAdmin(req, res) {
     }
 }
 
+/**
+ * Recuperation des equipe selon l'id de leur communaute
+ */
+export async function getTourTeams(req, res) {
+  try {
+    const id_community = Number(req.query.id_community);
+
+    if (!id_community || Number.isNaN(id_community)) {
+      return res.status(400).json({ message: "id_community manquant ou invalide" });
+    }
+
+    const data = await adminModel.getTourTeamsByCommunity(id_community);
+
+    return res.status(200).json(data);
+  } catch (error) {
+    console.error("GET /tour/teams:", error);
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+}
 /** Controller pour supprimer un tournoi */
 export const deleteTour = async (req, res) => {
   try {
@@ -501,3 +520,54 @@ export const deleteTour = async (req, res) => {
     return res.status(500).json({ message: "Erreur serveur" });
   }
 };
+
+/**Afficher les details de toutes les equipes d'un tournoi */
+export async function getTeamsByTour(req, res) {
+  try {
+    const id_tour = Number(req.params.id_tour);
+    if (!id_tour || Number.isNaN(id_tour)) {
+      return res.status(400).json({ message: "id_tour invalide" });
+    }
+
+    const data = await adminModel.getTeamsByTour(id_tour);
+    if (!data) return res.status(404).json({ message: "Tournoi introuvable" });
+
+    return res.status(200).json(data);
+  } catch (e) {
+    console.error("GET TEAMS BY TOUR:", e);
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+}
+
+/** Modifier une equipe */
+// models/adminModel.js
+export async function patchTeam(id_team, id_tour, patch) {
+  const data = {};
+  if (patch.name !== undefined) data.name = patch.name;
+  if (patch.open !== undefined) data.open = patch.open;
+  if (patch.key_team !== undefined) data.key_team = patch.key_team;
+  if (patch.members !== undefined) data.members = patch.members;
+
+  // rien à modifier
+  if (Object.keys(data).length === 0) {
+    return await prisma.team.findUnique({ where: { id_team } });
+  }
+
+  // si id_tour est fourni, on sécurise (updateMany) pour éviter modifier une team d’un autre tournoi
+  if (id_tour !== undefined) {
+    await prisma.team.updateMany({
+      where: { id_team, id_tour },
+      data,
+    });
+
+    return await prisma.team.findFirst({
+      where: { id_team, id_tour },
+    });
+  }
+
+  // sinon update direct
+  return await prisma.team.update({
+    where: { id_team },
+    data,
+  });
+}

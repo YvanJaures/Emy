@@ -8,7 +8,9 @@ import Image from "next/image";
 export default function TeamCard({ team }: { team: TeamMiniDTO }) {
   // Avatars des membres (max 4)
   const avatars =
-    team.Team_member?.map((tm) => tm.Member?.avatar).filter(Boolean).slice(0, 4) ?? [];
+    team.Team_member?.map((tm) => tm.Member?.avatar)
+      .filter(Boolean)
+      .slice(0, 4) ?? [];
 
   // Slots vides pour compléter à 4 (équipe = 4 joueurs) :contentReference[oaicite:3]{index=3}
   const emptySlots = Math.max(0, 4 - avatars.length);
@@ -22,6 +24,8 @@ export default function TeamCard({ team }: { team: TeamMiniDTO }) {
           src="/assets/arrieres_plan/CoastalCarolina.png"
           alt="team"
           className="h-full w-full object-cover"
+          width={1200}
+          height={400}
         />
       </div>
 
@@ -48,14 +52,14 @@ export default function TeamCard({ team }: { team: TeamMiniDTO }) {
         ))}
       </div>
 
-      <div className="mt-1">
+      {/* <div className="mt-1">
         <AppLink
           href={`/equipes/${team.id_team}`}
           className="text-[11px] !text-blue-600 hover:underline underline-offset-4"
         >
           Details
         </AppLink>
-      </div>
+      </div> */}
     </div>
   );
 }
