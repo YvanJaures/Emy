@@ -127,7 +127,7 @@ export async function getMembersUserNames() {
  * @param {String} avatar    lien vers l'avatar de profil
  * @param {String} password  mot de passe
  */
-export async function addMember(user_name,name,surname,address,birth_date,country,email,avatar,password){
+export async function addMember(user_name,name,surname,address,birth_date,country,email,avatar,password, phone){
     const hash_password=await bcrypt.hash(password,10)
     const birth=new Date(birth_date)
     const member=await prisma.member.create({
@@ -140,7 +140,8 @@ export async function addMember(user_name,name,surname,address,birth_date,countr
             country:country,
             email:email,
             avatar:avatar,
-            password:hash_password
+            password:hash_password,
+            phone: phone
         }
     });
 }

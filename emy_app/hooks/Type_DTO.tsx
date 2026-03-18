@@ -182,3 +182,20 @@ export type TypeDTO ={
   name    :string | null;
   Prize  ?:PrizeDTO[]
 }
+
+/**
+ * object représentant les utilisateurs qui cree un compte
+ */
+export type SignupFormData = {
+  user_name: string;
+  name: string;
+  surname: string;
+  address: string;
+  email: string;
+  birth_date: string;
+  avatar: string;
+  password: string;
+  confirmPassword: string;
+  acceptTerms: boolean;
+  phone: string;
+};

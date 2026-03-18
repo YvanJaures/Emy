@@ -111,7 +111,8 @@ export const addMemberC=async(request,response)=>{
             request.body.country,
             request.body.email,
             request.body.avatar,
-            request.body.password
+            request.body.password,
+            request.body.phone
         )
         response.status(201).end()
     }catch(error){
