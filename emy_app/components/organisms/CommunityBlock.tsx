@@ -15,16 +15,25 @@ import {MemberDTO,TournamentDTO} from '@/hooks/Type_DTO'
 import UserViewList from "../molecules/UserViewList"
 import TourViewList from "../molecules/TourViewList"
 import OnError from "./OnError";
+import Constructing from "./Constructing";
+import NavBarCommunity from "./NavBarCommunity";
+import OnPrivate from "./OnPrivate";
 type Props={
     community:CommunityDTO,
     onShown:(shown:boolean)=>void
 }
+/**
+ * Affiche les données sur la communauté
+ * @param community 
+ * @param OnShow 
+ * @returns la page de detail de communauté
+ */
 export default function CommunityBlock({community,onShown}:Props){
     const [members,setMembers]=useState<MemberDTO[]>([])
     const [tournaments,setTournaments]=useState<TournamentDTO[]>([])
     const [onError,setOnError]=useState(false)
     const [loading,setLoading]=useState(false)
-    const [view,setView]=useState(0)
+    const [view,setView]=useState(1)
     const handleShow=()=>{
         onShown(false)
     }
@@ -61,8 +70,8 @@ export default function CommunityBlock({community,onShown}:Props){
     return(
         <div className="z-150 absolute fixed flex flex-col top-0 left-0 
             bg-white h-lvh w-full overflow-scroll max-sm:h-full">
-            <header className="flex-5 absolute fixed top-0 left-0
-                flex justify-between items-center w-full p-3 bg-white/70">
+            <header className="flex-5 absolute sticky top-0 left-0
+                flex justify-between items-center w-full p-3 bg-white/70 z-99">
                 <RiArrowLeftSLine 
                     onClick={()=>handleShow()}
                     className="hover:cursor-pointer hover:bg-gray-200 rounded-full stroke-2"/>
@@ -112,56 +121,39 @@ export default function CommunityBlock({community,onShown}:Props){
                                 className="hover:cursor-pointer hover:text-[#0F70AC] hidden max-sm:block"/>
                         </a>
                     </span>
-                    <nav className="absolute bg-white z-99 mt-2 w-full flex justify-between items-center p-3">
-                        <p className="hover:underline hover:cursor-pointer hover:text-[#0F70AC] text-center max-sm:text-[15px] bold overflow-hidden hover:bg-gray-200 rounded-3xl p-2"
-                            onClick={()=>setView(0)}>
-                            Tous
-                        </p>
-                        <p className="hover:underline hover:cursor-pointer hover:text-[#0F70AC] text-center max-sm:text-[15px] bold overflow-hidden hover:bg-gray-200 rounded-3xl p-2"
-                            onClick={()=>setView(1)}>
-                            Tournois
-                        </p>
-                        <p className="hover:underline hover:cursor-pointer hover:text-[#0F70AC] text-center max-sm:text-[15px] bold overflow-hidden hover:bg-gray-200 rounded-3xl p-2"
-                            onClick={()=>setView(2)}>
-                            Membres
-                        </p>
-                        <p className="hover:underline hover:cursor-pointer hover:text-[#0F70AC] text-center max-sm:text-[15px] bold overflow-hidden hover:bg-gray-200 rounded-3xl p-2"
-                            onClick={()=>setView(3)}>
-                            A propos
-                        </p>
-                        <p className="hover:underline hover:cursor-pointer hover:text-[#0F70AC] text-center max-sm:text-[15px] bold overflow-hidden hover:bg-gray-200 rounded-3xl p-2"
-                        onClick={()=>setView(4)}>
-                            Infos
-                        </p>
-                    </nav>
+                    <NavBarCommunity
+                        setView={(view)=>setView(view)}/>
                     {loading && (
                         <p className="italic text-sm">chargement...</p>
                     )}
-                    {   view===0 &&(
-                        <ul className="absolute w-full mt-17 p-3 flex flex-col justify-start items-center">
-                            {community.Tournament?.map((tour)=>(
-                                <li key={tour.id_tour}>
-                                    {tour.location}
-                                </li>
-                            ))}
-                        </ul>
+                    {   community.privacy && (
+                        <OnPrivate/>
+                    )
+
+                    }
+                    {   view===0 &&!community.privacy &&(
+                        <Constructing/>
                     )
                     }
-                    {   view===1 &&(
+                    {   view===1&&!community.privacy &&(
                         <TourViewList
                             tournaments={tournaments}/>
                             
                     )
                     }
-                    {   view===2 &&(
+                    {   view===2&&!community.privacy &&(
                         <UserViewList
                             members={members}/>
                     )
                     }
-                    {   view===3 &&(
+                    {   view===3&&!community.privacy &&(
                         <p className="absolute w-full mt-17 p-3 flex flex-col justify-start items-center">
                             {community.details}
                         </p>
+                    )
+                    }
+                    {   view===4&&!community.privacy &&(
+                        <Constructing/>
                     )
                     }
                 </div>
