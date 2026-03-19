@@ -18,26 +18,43 @@ import OnError from "./OnError";
 import Constructing from "./Constructing";
 import NavBarCommunity from "./NavBarCommunity";
 import OnPrivate from "./OnPrivate";
+import { useConnexion } from "@/hooks/useAuth";
 type Props={
     community:CommunityDTO,
+    _isMember:boolean,
     onShown:(shown:boolean)=>void
 }
 /**
  * Affiche les données sur la communauté
  * @param community 
  * @param OnShow 
+ * @param isMember 
  * @returns la page de detail de communauté
  */
-export default function CommunityBlock({community,onShown}:Props){
+export default function CommunityBlock({community,_isMember,onShown}:Props){
     const [members,setMembers]=useState<MemberDTO[]>([])
     const [tournaments,setTournaments]=useState<TournamentDTO[]>([])
     const [onError,setOnError]=useState(false)
     const [loading,setLoading]=useState(false)
+    const [isMember,SetIsMember]=useState(_isMember)
     const [view,setView]=useState(1)
+    const {member}=useConnexion()
     const handleShow=()=>{
         onShown(false)
     }
+
+    
     useEffect(()=>{
+        const handleIsMember=()=>{
+            community.Community_member?.forEach((memb)=>{
+                if(memb.user_name===member?.user_name){
+                    SetIsMember(true)
+                    console.log('i'+memb.user_name===member?.user_name) 
+                    }
+                return 
+            })
+        }
+        handleIsMember()
         const fetchMembers=async()=>{
             try{
                 setLoading(true)
@@ -46,6 +63,14 @@ export default function CommunityBlock({community,onShown}:Props){
                 if(res){
                     setMembers(res)
                     setLoading(false)
+                    res.forEach((memb:MemberDTO)=>{
+                        console.log('hryfge')
+                    if(memb.user_name===member?.user_name){
+                        SetIsMember(true)
+                        console.log('i'+memb.user_name===member?.user_name)
+                        console.log(member) 
+                    }
+            })
                 }
             }catch(error){
                 setOnError(true)
@@ -126,33 +151,33 @@ export default function CommunityBlock({community,onShown}:Props){
                     {loading && (
                         <p className="italic text-sm">chargement...</p>
                     )}
-                    {   community.privacy && (
+                    {   community.privacy && !isMember && (
                         <OnPrivate/>
                     )
 
                     }
-                    {   view===0 &&!community.privacy &&(
+                    {   view===0  &&(
                         <Constructing/>
                     )
                     }
-                    {   view===1&&!community.privacy &&(
+                    {   view===1 &&(
                         <TourViewList
                             tournaments={tournaments}/>
                             
                     )
                     }
-                    {   view===2&&!community.privacy &&(
+                    {   view===2 &&(
                         <UserViewList
                             members={members}/>
                     )
                     }
-                    {   view===3&&!community.privacy &&(
+                    {   view===3 &&(
                         <p className="absolute w-full mt-17 p-3 flex flex-col justify-start items-center">
                             {community.details}
                         </p>
                     )
                     }
-                    {   view===4&&!community.privacy &&(
+                    {   view===4 &&(
                         <Constructing/>
                     )
                     }
