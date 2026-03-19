@@ -86,6 +86,7 @@ model Player {
 model Prize {
   id_prize      Int             @id(map: "PK__Prize__D8A0CD8857767C01") @default(autoincrement())
   name          String?         @db.VarChar(50)
+  value         Float?
   spots         Int?
   group_spot    Int?
   id_tour       Int?

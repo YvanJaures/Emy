@@ -132,6 +132,7 @@ export default function CreateTournament() {
         id_community: Number(id_community),
         prizes: prizes.map((prize) => ({
           name: prize.name.trim(),
+          value: Number(prize.value),
           spots: Number(prize.places),
           group_spot: Number(prize.quotas),
         })),
