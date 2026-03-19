@@ -2,6 +2,7 @@
 
 import React from "react";
 import AppLink from "../atoms/AppLink";
+import  {useState} from 'react';
 import type { TournamentDTO } from "@/hooks/Type_TournamentDTO";
 
 export default function TournamentRow({
@@ -19,10 +20,10 @@ export default function TournamentRow({
   ) => void;
   isDeleting?: boolean;
 }) {
-  const title = tournament.location?.trim()
-    ? tournament.location
+  const title = tournament.name?.trim()
+    ? tournament.name
     : `Tournoi ${tournament.id_tour}`;
-
+  const [status,setStatus]=useState(tournament.status)
   const handleDeleteClick = () => {
     const ok = window.confirm(`Supprimer "${title}" ?`);
     if (!ok) return;
@@ -30,7 +31,7 @@ export default function TournamentRow({
   };
 
   const handleInscription = () => {
-    alert(`Inscription au tournoi ${tournament.id_tour}`);
+    alert(`Inscriptions au tournoi ${tournament.id_tour}`);
   };
 
   return (
@@ -51,13 +52,13 @@ export default function TournamentRow({
           type="button"
           disabled={tournament.status === 0}
           onClick={handleInscription}
-          className={`text-xs underline-offset-4 ${
-            tournament.status === 1
+          className={`text-xs underline-offset-4 hover:cursor-pointer ${
+            status === 1
               ? "text-green-600 hover:underline"
               : "text-gray-400 cursor-not-allowed"
           }`}
         >
-          {tournament.status === 1
+          {status === 1
             ? "Inscription"
             : "Inscriptions fermées"}
         </button>
@@ -67,15 +68,17 @@ export default function TournamentRow({
         <button
         type="button"
         onClick={() =>
-        onToggleStatus(
+        {onToggleStatus(
         tournament.id_tour,
         tournament.id_community!,
-        tournament.status
-      )
+        status
+        );
+        setStatus(status===1 ? 0:1)
+        }
       }
         className="text-xs text-blue-500 hover:text-blue-800 hover:underline hover:cursor-pointer transition-colors duration-200"
         >
-        {tournament.status === 1
+        {status === 1
           ? "Fermer inscriptions"
           : "Ouvrir inscriptions"}
         </button>
@@ -86,7 +89,7 @@ export default function TournamentRow({
           type="button"
           onClick={handleDeleteClick}
           disabled={Boolean(isDeleting)}
-          className="text-xs text-red-500 hover:underline underline-offset-4"
+          className="text-xs text-red-500 hover:underline underline-offset-4 hover:cursor-pointer"
         >
           {isDeleting ? "Suppression..." : "Supprimer"}
         </button>

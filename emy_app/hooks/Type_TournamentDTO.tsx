@@ -1,5 +1,6 @@
 // types/tournament.ts
 export type TournamentDTO = {
+  name: any;
   id_tour: number;
   location: string | null;
   start_date: string | null;

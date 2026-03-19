@@ -7,6 +7,7 @@ import { SlMagnifier } from "react-icons/sl";
 import { deleteMemberCommunity } from "@/fetchs/global";
 import Confirmation from "@/components/organisms/Confirmation";
 import OnError from "../organisms/OnError";
+import InputText from "../atoms/InputText";
 type Props={
     title:string,
     headers:Array<string>,
@@ -53,23 +54,22 @@ export default function TableUser({title,headers,datas,id_community}:Props){
   useEffect(()=>{
     (async()=>deleteMember(toDelete,confirm))()
   },[toDelete,confirm])
-  const flex=['10','25','10','20','5','20']
   console.log(showConfirm)
     return(
       <>
-        <table className={`w-full ${onError ? "pointer-events-none blur-md" : ""} ${onPopUp ? "pointer-events-none blur-md" : ""} `}>
+        <table className={`w-full ${onError ? "pointer-events-none blur-md" : ""} ${onPopUp ? "pointer-events-none blur-md" : ""} max-sm:text-[11px]`}>
             <caption className="bold gap-5 flex flex-col">
               <div className="flex gap-3 justify-center items-center w-full">
                 <label htmlFor="input">Rechercher</label>
                 <input type="search" 
                   placeholder="Entrer l'identifiant du membre"
                   onChange={(e)=>(setSearch(e.target.value ? e.target.value:''))}
-                  className="outline-red-200 border rounded-xl flex-70 p-2"/>
+                  className="outline-red-200 border rounded-xl flex-70 p-1"/>
                 <SlMagnifier />
               </div>
               {title.toUpperCase()}
             </caption>
-            <thead className="bg-gray-200 p-2 flex gap-5 justify-center items-center w-full">
+            <thead className="bg-gray-200 p-1 flex gap-5 justify-center items-center w-full">
               <tr className="w-full flex justify-start items-center">
                 <th className="flex-5">
                   <label>Tous</label>
@@ -77,14 +77,44 @@ export default function TableUser({title,headers,datas,id_community}:Props){
                   onChange={()=>(setChecked(!checked))}
                   />
                 </th>
-                {headers?.map((header,i)=>(
+                {/*headers?.map((header,i)=>(
                   <th className={"flex-"+flex[i]+" justify-start items-center "} key={i}
                   onClick={()=>('e')}
                   >
                     <CiFilter/>{header} 
                   </th>
-                ))}
-              </tr>
+                ))*/}
+                <th className={"flex-10 flex justify-center items-center "}
+                  onClick={()=>('e')}
+                  >
+                    Identifiant<CiFilter/> 
+                </th>
+                <th className={"flex-25 flex  justify-center items-center "}
+                  onClick={()=>('e')}
+                  >
+                    Email<CiFilter/> 
+                </th>
+                <th className={"flex-10 flex justify-center items-center max-sm:hidden"}
+                  onClick={()=>('e')}
+                  >
+                    Naissance<CiFilter/> 
+                </th>
+                <th className={"flex-20 flex justify-center items-center max-sm:hidden"}
+                  onClick={()=>('e')}
+                  >
+                    Telephone<CiFilter/> 
+                </th>
+                <th className={"flex-5 flex justify-center items-center "}
+                  onClick={()=>('e')}
+                  >
+                    Employe?<CiFilter/> 
+                </th>
+                <th className={"flex-20 flex justify-center items-center "}
+                  onClick={()=>('e')}
+                  >
+                    Adresse<CiFilter/> 
+                </th>
+                </tr>
             </thead>
             <tbody id="tableBody">
               {(!members || members.length===0) && (
@@ -95,28 +125,28 @@ export default function TableUser({title,headers,datas,id_community}:Props){
               }
               {members?.map((data) => (
                 <tr key={data?.user_name} className="m-0 flex w-full has:input['checked']:bg-black-200">
-                  <td className="p-2 flex-5 flex text-center justify-start items-center">
+                  <td className="p-1 flex-5 flex text-center justify-start items-center">
                     <input type="checkbox"/>
                   </td>
-                  <td className="p-2 flex-10 flex text-center justify-start items-center overflow-hidden">
+                  <td className="p-1 flex-10 flex text-center justify-start items-center overflow-hidden">
                     {data?.user_name}
                   </td>
-                  <td className="p-2 flex-25 flex text-center justify-start items-center overflow-hidden">
+                  <td className="p-1 flex-25 flex text-center justify-start items-center overflow-hidden">
                     {data?.email}
                   </td>
-                  <td className="p-2 flex-10 flex text-center justify-start items-center overflow-hidden">
-                    {data?.birth_date ? data?.birth_date?.toString(): 'aucun'}
+                  <td className="p-1 flex-10 flex text-center justify-start items-center overflow-hidden max-sm:hidden">
+                    {data?.birth_date ? (new Date(data?.birth_date)).toLocaleDateString(): 'aucun'}
                   </td>
-                  <td className="p-2 flex-20 flex text-center justify-start items-center overflow-hidden">
+                  <td className="p-1 flex-20 flex text-center justify-start items-center overflow-hidden max-sm:hidden">
                     {data?.phone ? data.phone: 'aucun.'}
                   </td>
-                  <td className="p-2 flex-5 flex text-center justify-start items-center overflow-hidden">
+                  <td className="p-1 flex-5 flex text-center justify-start items-center overflow-hidden">
                     {data?.Employee ? "oui": 'non'}
                   </td>
-                  <td className="p-2 flex-20 flex text-center justify-start items-center overflow-hidden">
+                  <td className="p-1 flex-20 flex text-center justify-start items-center overflow-hidden">
                     {data?.address ? data.address: 'aucun.'}
                   </td>
-                  <td className="p-2 flex-5 p-2 text-center flex justify-start items-center">
+                  <td className="p-1 flex-5 p-1 text-center flex justify-start items-center">
                     <RiDeleteBin2Line
                       className="text-red-500 hover:cursor-pointer"
                       onClick={()=>{setShowConfirm(!showConfirm);
@@ -127,6 +157,15 @@ export default function TableUser({title,headers,datas,id_community}:Props){
                 </tr>
               ))}
             </tbody>
+            <tfoot className="bg-gray-200 p-1 flex gap-5 justify-center items-center w-full">
+              <tr>
+                <td>
+                  <label htmlFor="input">Lignes</label>
+                  <input type="text" name="lgnes" id="lignes"
+                   className="bg-white rounded-xl" />
+                </td>
+              </tr>
+            </tfoot>
         </table>
         <Confirmation
         title="Suppression"

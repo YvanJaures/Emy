@@ -25,6 +25,7 @@ export default function TournamentList({
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          role:"admin"
         },
         body: JSON.stringify({
           id_tour,
@@ -34,11 +35,8 @@ export default function TournamentList({
       });
 
       if (!response.ok) {
-        throw new Error("Failed to update tournament status");
+        throw new Error(response.status+' '+await response.json());
       }
-
-      window.location.reload();
-
     } catch (error) {
       console.error("Status update failed:", error);
     }

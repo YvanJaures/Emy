@@ -13,6 +13,7 @@ import MetaData from "@/components/organisms/MetaData";
 import type { TournamentDTO } from "@/hooks/Type_TournamentDTO";
 import { useAuth } from "@/hooks/useAuth";
 import OnError from "@/components/organisms/OnError";
+import { getCommunityTournaments } from "@/fetchs/global";
 
 /**
  * Page listant tous les tournois de la communauté.
@@ -44,9 +45,8 @@ export default function TournoisPage() {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch(TOURNAMENTS_URL, { cache: "no-store" });
-        if (!res.ok) throw new Error("Erreur chargement tournois");
-        const data = (await res.json()) as TournamentDTO[];
+        const data = await getCommunityTournaments(member?.Admin?.id_community ?? -1)
+        console.log(data)
         setTournaments(data);
       } catch (e) {
         console.error(e);
@@ -54,7 +54,7 @@ export default function TournoisPage() {
         setLoading(false);
       }
     })();
-  }, [TOURNAMENTS_URL]);
+  }, [TOURNAMENTS_URL,member]);
 
   const handleDelete = async (id_tour: number) => {
     const id_community = member?.Admin?.id_community;
@@ -71,7 +71,7 @@ export default function TournoisPage() {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          role: "admin", // ⚠️ selon ton verifyAdmin actuel
+          role: "admin",
         },
         body: JSON.stringify({ id_tour, id_community }),
       });

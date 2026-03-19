@@ -27,6 +27,7 @@ export default function CreateTournament() {
   // l’API
   const [tourLocation, setTourLocation] = useState("");
   const [typeTour, setTypeTour] = useState("");
+  const [name, setName] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [fees, setFees] = useState("");
@@ -61,11 +62,11 @@ export default function CreateTournament() {
 
     //  validation selon ton controller
     // if (!tourLocation || !startDate || !endDate || !idAdmin || !idCommunity) {
-    if (!tourLocation || !startDate || !endDate) {
+    if (!tourLocation || !startDate || !endDate || !name) {
       setError("Veuillez remplir: Nom/Lieu, dates");
       return;
     }
-
+/*
     if (Number(teams) < 0) {
     setError("Le nombre d'équipes doit être supérieur ou égal à 0.");
     return;
@@ -75,23 +76,24 @@ export default function CreateTournament() {
     setError("Le nombre d'équipes doit être supérieur ou égal à 0.");
     return;
     }
-
+*/
     setLoading(true);
 
     try {
       const payload = {
+        name:name.trim(),
         location: tourLocation.trim(),
         start_date: startDate,
         end_date: endDate,
         members: members ? Number(members) : 0,
-        teams: Number(teams),
+        //teams: Number(teams),
         avatar: avatarFile ? avatarFile.name : "",
-        id_admin: Number(id_admin),
+        //id_admin: Number(id_admin),
         id_community: Number(id_community),
         //id_admin: Number(idAdmin),
         // id_community: Number(idCommunity),
       };
-
+      console.log(payload)
       const res = await fetch("/api/admin/tour", {
         method: "POST",
         headers: { "Content-Type": "application/json", role: "admin" },
@@ -145,9 +147,9 @@ export default function CreateTournament() {
                 label="Nom du tournoi"
                 containerClassName="flex flex-row flew-wrap justify-center items-center"
                 required
-                value={tourLocation}
+                value={name}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setTourLocation(e.target.value)
+                  setName(e.target.value)
                 }
               />
 
@@ -196,6 +198,15 @@ export default function CreateTournament() {
                 setAvatarFile(e.target.files?.[0] ?? null)
               }
             />
+            <InputText
+                label="Adresse"
+                containerClassName="flex flex-row flew-wrap justify-center items-center"
+                required
+                value={tourLocation}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setTourLocation(e.target.value)
+                }
+              />
           </section>
 
           <section className="flex flex-col flex-wrap w-full mt-2">
@@ -237,16 +248,6 @@ export default function CreateTournament() {
                 value={fees}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setFees(e.target.value)
-                }
-              />
-              <InputText
-                label="Frais d'inscription"
-                containerClassName="flex flex-row flew-wrap justify-center items-center"
-                type="text"
-                required
-                value={fees}
-               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setFees(e.target.value)
                 }
               />
             </div>

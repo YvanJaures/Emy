@@ -83,14 +83,12 @@ export const addAdmin = async (req, res) => {
             return res.status(400).json({ message: "Paramètres manquants" });
         }
 
-        await adminModel.addAdmin(
+        const admin=await adminModel.addAdmin(
             user_name,
             Number(id_community)
         );
 
-        res.status(201).json({
-            message: "Administrateur ajouté"
-        });
+        res.status(201).json(admin);
 
     } catch (error) {
         console.error("ADD ADMIN:", error);
@@ -183,28 +181,28 @@ export const createTour = async (req, res) => {
     try {
 
         const {
+            name,
             location,
             start_date,
             end_date,
             members,
             avatar,
-            id_admin,
             id_community
         } = req.body;
 
-        if (!location || !start_date || !end_date || !id_admin || !id_community) {
+        if (!location || !start_date || !end_date || !id_community) {
             return res.status(400).json({
                 message: "Paramètres manquants"
             });
         }
 
         await adminModel.createTour(
+            name,
             location,
-            members,
+            Number(members),
             start_date,
             end_date,
             avatar,
-            Number(id_admin),
             Number(id_community)
         );
 
@@ -226,6 +224,7 @@ export const createTour = async (req, res) => {
 export const createTourWithPrizes = async (req, res) => {
     try {
         const {
+            name,
             location,
             start_date,
             end_date,
@@ -236,7 +235,7 @@ export const createTourWithPrizes = async (req, res) => {
             prizes
         } = req.body;
 
-        if (!location || !start_date || !end_date || !id_admin || !id_community || prizes?.length <= 0) {
+        if (!location || !start_date || !end_date || !id_community || prizes?.length <= 0) {
 
             return res.status(400).json({
                 message: "Paramètres manquants"
@@ -245,12 +244,12 @@ export const createTourWithPrizes = async (req, res) => {
         }
 
         await adminModel.createTourWithPrizes(
+            name,
             location,
             members,
             start_date,
             end_date,
             avatar,
-            Number(id_admin),
             Number(id_community),
             prizes
         );
@@ -273,22 +272,18 @@ export const createPrize = async (req, res) => {
     try {
         const {
             name,
-            spots,
-            group_spot,
             id_tour,
             id_type,
             id_admin,
             number
         } = req.body;
 
-        if(!name || spots == null || group_spot == null || !id_tour){
+        if(!name ){
             return res.status(400).json({ message: "Paramètres manquants" });
         }
 
         await adminModel.createPrize(
             name,
-            Number(spots),
-            Number(group_spot),
             Number(id_tour),
             Number(id_type),
             Number(id_admin)

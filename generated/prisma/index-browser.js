@@ -224,7 +224,6 @@ exports.Prisma.TournamentScalarFieldEnum = {
   status: 'status',
   members: 'members',
   avatar: 'avatar',
-  id_admin: 'id_admin',
   id_community: 'id_community',
   fees: 'fees'
 };
