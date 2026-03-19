@@ -10,21 +10,19 @@ import { RiDeleteBin2Line } from "react-icons/ri";
 import { useAuth } from "@/hooks/useAuth";
 import LoadingAnimation from "@/components/organisms/LoadingAnimation";
 
+type PrizeRow = {
+  name: string;
+  value: string;
+  quotas: string;
+  places: string;
+};
+
 /**
  * Page permettant à un administrateur de créer un tournoi.
- *
- * Cette fonction :
- * - gère tous les états du formulaire (lieu, dates, type, avatar, frais, statut…)
- * - récupère l'utilisateur connecté via useAuth() pour vérifier l'accès admin
- * - affiche une animation de chargement tant que l’authentification n’est pas prête
- * - construit le payload et envoie la requête POST vers /api/admin/tour
- * - affiche les messages d’erreur ou de succès selon la réponse du serveur
- * - rend le formulaire complet de création de tournoi, incluant la table des commandites (UI)
  */
 export default function CreateTournament() {
   const [tr, setTr] = useState(1);
 
-  // l’API
   const [tourLocation, setTourLocation] = useState("");
   const [typeTour, setTypeTour] = useState("");
   const [name, setName] = useState("");
@@ -32,69 +30,116 @@ export default function CreateTournament() {
   const [endDate, setEndDate] = useState("");
   const [fees, setFees] = useState("");
   const [members, setMembers] = useState("0");
-  const [teams, setTeams] = useState("");
-  //const [idAdmin, setIdAdmin] = useState("");
-  //const [idCommunity, setIdCommunity] = useState("");
 
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const [_loading, setLoading] = useState(false);
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
+
+  const [prizes, setPrizes] = useState<PrizeRow[]>([
+    { name: "", value: "", quotas: "", places: "" },
+  ]);
+
   const { member, loading } = useAuth();
 
   let trHaut = "";
   if (tr < 2) trHaut = "pointer-events-none";
+
+  function addPrizeRow() {
+    setTr((prev) => prev + 1);
+    setPrizes((prev) => [
+      ...prev,
+      { name: "", value: "", quotas: "", places: "" },
+    ]);
+  }
+
+  function removePrizeRow(index: number) {
+    if (prizes.length <= 1) return;
+    setTr((prev) => prev - 1);
+    setPrizes((prev) => prev.filter((_, i) => i !== index));
+  }
+
+  function updatePrize(index: number, field: keyof PrizeRow, value: string) {
+    setPrizes((prev) =>
+      prev.map((prize, i) =>
+        i === index ? { ...prize, [field]: value } : prize,
+      ),
+    );
+  }
+
+  function validatePrizes() {
+    if (prizes.length <= 0) {
+      return "Veuillez ajouter au moins une commandite.";
+    }
+
+    for (let i = 0; i < prizes.length; i++) {
+      const prize = prizes[i];
+
+      if (
+        !prize.name.trim() ||
+        !prize.value.trim() ||
+        !prize.quotas.trim() ||
+        !prize.places.trim()
+      ) {
+        return `Veuillez remplir tous les champs de la commandite ${i + 1}.`;
+      }
+
+      if (
+        Number.isNaN(Number(prize.value)) ||
+        Number.isNaN(Number(prize.quotas)) ||
+        Number.isNaN(Number(prize.places))
+      ) {
+        return `Les valeurs numériques de la commandite ${i + 1} sont invalides.`;
+      }
+    }
+
+    return "";
+  }
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
     setSuccess("");
 
-    const id_admin = member?.Admin?.id_admin;
     const id_community = member?.Admin?.id_community;
 
-    if (!id_admin || !id_community) {
-      setError(
-        "Impossible de déterminer votre admin/communauté. Reconnectez-vous.",
-      );
+    if (!id_community) {
+      setError("Impossible de déterminer votre communauté. Reconnectez-vous.");
       return;
     }
 
-    //  validation selon ton controller
-    // if (!tourLocation || !startDate || !endDate || !idAdmin || !idCommunity) {
     if (!tourLocation || !startDate || !endDate || !name) {
       setError("Veuillez remplir: Nom/Lieu, dates");
       return;
     }
-/*
-    if (Number(teams) < 0) {
-    setError("Le nombre d'équipes doit être supérieur ou égal à 0.");
-    return;
+
+    const prizesError = validatePrizes();
+    if (prizesError) {
+      setError(prizesError);
+      return;
     }
 
-    if (Number(teams) < 0) {
-    setError("Le nombre d'équipes doit être supérieur ou égal à 0.");
-    return;
-    }
-*/
     setLoading(true);
 
     try {
       const payload = {
-        name:name.trim(),
+        name: name.trim(),
         location: tourLocation.trim(),
         start_date: startDate,
         end_date: endDate,
         members: members ? Number(members) : 0,
-        //teams: Number(teams),
         avatar: avatarFile ? avatarFile.name : "",
-        //id_admin: Number(id_admin),
         id_community: Number(id_community),
-        //id_admin: Number(idAdmin),
-        // id_community: Number(idCommunity),
+        prizes: prizes.map((prize) => ({
+          name: prize.name.trim(),
+          spots: Number(prize.places),
+          group_spot: Number(prize.quotas),
+        })),
       };
-      console.log(payload)
-      const res = await fetch("/api/admin/tour", {
+
+      console.log(payload);
+
+      const res = await fetch("/api/admin/tour&prizes", {
         method: "POST",
         headers: { "Content-Type": "application/json", role: "admin" },
         credentials: "include",
@@ -111,7 +156,7 @@ export default function CreateTournament() {
         return;
       }
 
-      setSuccess("Tournoi créé ");
+      setSuccess("Tournoi créé");
       setTimeout(() => {
         location.href = "/tournoisPage";
       }, 300);
@@ -124,19 +169,21 @@ export default function CreateTournament() {
   }
 
   if (loading) return <LoadingAnimation />;
+
   return (
     <div className="bg-gray-100">
       {member?.Admin?.id_community && (
         <NavBarAdmin id_community={member.Admin.id_community} />
       )}
+
       <MetaData
         seoTitle="Création de tournoi"
         seoDescription="creation de tournoi par un administrateur"
       ></MetaData>
+
       <main className="flex flex-col gap-2 p-5 justify-center items-center rounded-xl m-2 bg-white shadow-xl">
         <h1>CREATION D UN TOURNOI</h1>
 
-        {/* form submit */}
         <form
           onSubmit={onSubmit}
           className="flex flex-col justify-center items-center w-full p-5"
@@ -153,7 +200,6 @@ export default function CreateTournament() {
                 }
               />
 
-              {/* UI only */}
               <InputText
                 label="Type de tournoi"
                 containerClassName="flex flex-row flew-wrap justify-center items-center"
@@ -176,6 +222,7 @@ export default function CreateTournament() {
                   setStartDate(e.target.value)
                 }
               />
+
               <InputText
                 label="Date de fin"
                 containerClassName="flex flex-row flew-wrap justify-center items-center"
@@ -188,7 +235,6 @@ export default function CreateTournament() {
               />
             </div>
 
-            {/* avatar (UI) */}
             <InputText
               label="Avatar"
               containerClassName="flex flex-row flew-wrap justify-center items-center gap-6"
@@ -198,38 +244,20 @@ export default function CreateTournament() {
                 setAvatarFile(e.target.files?.[0] ?? null)
               }
             />
+
             <InputText
-                label="Adresse"
-                containerClassName="flex flex-row flew-wrap justify-center items-center"
-                required
-                value={tourLocation}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setTourLocation(e.target.value)
-                }
-              />
+              label="Adresse"
+              containerClassName="flex flex-row flew-wrap justify-center items-center"
+              required
+              value={tourLocation}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setTourLocation(e.target.value)
+              }
+            />
           </section>
 
           <section className="flex flex-col flex-wrap w-full mt-2">
-            <div className="flex flex-row flew-wrap justify-center items-center gap-2">
-              {/* <InputText
-                label="ID Admin"
-                containerClassName="flex flex-row flew-wrap justify-center items-center"
-                required
-                value={idAdmin}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setIdAdmin(e.target.value)
-                }
-              /> */}
-              {/* <InputText
-                label="ID Community"
-                containerClassName="flex flex-row flew-wrap justify-center items-center"
-                required
-                value={idCommunity}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setIdCommunity(e.target.value)
-                }
-              /> */}
-            </div>
+            <div className="flex flex-row flew-wrap justify-center items-center gap-2"></div>
 
             <div className="flex flex-row flew-wrap justify-center items-center gap-2">
               <InputText
@@ -240,6 +268,7 @@ export default function CreateTournament() {
                   setMembers(e.target.value)
                 }
               />
+
               <InputText
                 label="Frais d'inscription"
                 containerClassName="flex flex-row flew-wrap justify-center items-center"
@@ -253,21 +282,21 @@ export default function CreateTournament() {
             </div>
           </section>
 
-          {/* Table commandites (UI - pas envoyé à createTour pour le moment) */}
-          <section className="flex flex-col flex-wrap w-full">
+          <section className="flex flex-col flex-wrap w-full relative">
             <table className="w-full">
               <caption>LISTE DE COMMANDITES</caption>
               <thead className="bg-gray-200 p-2 flex justify-start items-center w-full">
-              <tr className="bg-gray-200 p-2 flex justify-start items-center w-full" >
-                <th className="flex-40">Nom de commandite</th>
-                <th className="flex-15">Valeur</th>
-                <th className="flex-10">Quotas</th>
-                <th className="flex-30">Places</th>
-                <th className="flex-5"></th>
-              </tr>
+                <tr className="bg-gray-200 p-2 flex justify-start items-center w-full">
+                  <th className="flex-40">Nom de commandite</th>
+                  <th className="flex-15">Valeur</th>
+                  <th className="flex-10">Quotas</th>
+                  <th className="flex-30">Places</th>
+                  <th className="flex-5"></th>
+                </tr>
               </thead>
+
               <tbody id="tableBody">
-                {[...Array(tr)].map((_, i) => (
+                {prizes.map((prize, i) => (
                   <tr key={i} className="m-0 flex w-full">
                     <td className="flex-40 flex text-center justify-center items-center">
                       <input
@@ -275,8 +304,11 @@ export default function CreateTournament() {
                         placeholder="nom"
                         className="w-full p-2 text-center"
                         required
+                        value={prize.name}
+                        onChange={(e) => updatePrize(i, "name", e.target.value)}
                       />
                     </td>
+
                     <td className="flex-15 flex text-center justify-center items-center">
                       $
                       <input
@@ -284,28 +316,46 @@ export default function CreateTournament() {
                         placeholder="valeur"
                         className="w-full p-2 text-center"
                         required
+                        value={prize.value}
+                        onChange={(e) =>
+                          updatePrize(i, "value", e.target.value)
+                        }
                       />
                     </td>
+
                     <td className="flex-10 flex text-center justify-center items-center">
                       <input
                         type="text"
                         placeholder="quota"
                         className="w-full p-2 text-center"
                         required
+                        value={prize.quotas}
+                        onChange={(e) =>
+                          updatePrize(i, "quotas", e.target.value)
+                        }
                       />
                     </td>
+
                     <td className="flex-30 flex text-center justify-center items-center">
                       <input
                         type="text"
                         placeholder="places disponibles"
                         className="w-full p-2 text-center"
                         required
+                        value={prize.places}
+                        onChange={(e) =>
+                          updatePrize(i, "places", e.target.value)
+                        }
                       />
                     </td>
+
                     <td className="flex-5 p-2 text-center flex justify-center items-center">
                       <RiDeleteBin2Line
-                        className={trHaut+" text-red-500 hover:cursor-pointer hover:opacity-80"}
-                        onClick={() => setTr(tr - 1)}
+                        className={
+                          trHaut +
+                          " text-red-500 hover:cursor-pointer hover:opacity-80"
+                        }
+                        onClick={() => removePrizeRow(i)}
                       />
                     </td>
                   </tr>
@@ -314,14 +364,13 @@ export default function CreateTournament() {
             </table>
 
             <Button
-              className="bg-black-20 w-5 border-none absolute right-0 -translate-4 -translate-y-8"
+              className="bg-black-20 w-5 border-none absolute right-0 -translate-4 -translate-y-8 mt-10"
               title="+"
               type="button"
-              onClick={() => setTr(tr + 1)}
+              onClick={addPrizeRow}
             />
           </section>
 
-          {/* messages */}
           {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
           {success && <p className="mt-3 text-sm text-green-600">{success}</p>}
 
@@ -331,9 +380,6 @@ export default function CreateTournament() {
               title={_loading ? "Création..." : "Creer"}
               type="submit"
               disabled={_loading}
-              // onClick={() => {
-              //   location.href = "/tournoisPage";
-              // }}
             />
             <Button
               className="bg-red-400 border-none w-25"
