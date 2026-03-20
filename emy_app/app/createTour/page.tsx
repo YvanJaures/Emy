@@ -18,7 +18,7 @@ type PrizeRow = {
 };
 
 /**
- * Page permettant à un administrateur de créer un tournoi.
+ * Page qui permet de creer un tournoi
  */
 export default function CreateTournament() {
   const [tr, setTr] = useState(1);
@@ -113,6 +113,16 @@ export default function CreateTournament() {
       return;
     }
 
+    if (!fees.trim()) {
+      setError("Veuillez remplir les frais d'inscription.");
+      return;
+    }
+
+    if (Number.isNaN(Number(fees))) {
+      setError("Les frais d'inscription doivent être numériques.");
+      return;
+    }
+
     const prizesError = validatePrizes();
     if (prizesError) {
       setError(prizesError);
@@ -130,6 +140,7 @@ export default function CreateTournament() {
         members: members ? Number(members) : 0,
         avatar: avatarFile ? avatarFile.name : "",
         id_community: Number(id_community),
+        fees: Number(fees),
         prizes: prizes.map((prize) => ({
           name: prize.name.trim(),
           value: Number(prize.value),
@@ -201,7 +212,7 @@ export default function CreateTournament() {
                 }
               />
 
-              <InputText
+              {/* <InputText
                 label="Type de tournoi"
                 containerClassName="flex flex-row flew-wrap justify-center items-center"
                 required
@@ -209,7 +220,7 @@ export default function CreateTournament() {
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                   setTypeTour(e.target.value)
                 }
-              />
+              /> */}
             </div>
 
             <div className="flex flex-row flew-wrap justify-center items-center gap-2">
@@ -258,8 +269,6 @@ export default function CreateTournament() {
           </section>
 
           <section className="flex flex-col flex-wrap w-full mt-2">
-            <div className="flex flex-row flew-wrap justify-center items-center gap-2"></div>
-
             <div className="flex flex-row flew-wrap justify-center items-center gap-2">
               <InputText
                 label="Capacité (ex: 100)"

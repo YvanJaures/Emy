@@ -334,3 +334,17 @@ export async function getTeamDetails(id_team) {
     },
   });
 }
+
+
+/**Recuperer le detail d un tournoi + prizes */
+export async function getTourAndPrizes(id_tour, id_community) {
+  return await prisma.tournament.findFirst({
+    where: {
+      id_tour: id_tour,
+      id_community: id_community,
+    },
+    include: {
+      Prize: true,
+    },
+  });
+}
