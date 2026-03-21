@@ -7,6 +7,7 @@ import MetaData from "@/components/organisms/MetaData";
 import LoadingAnimation from "@/components/organisms/LoadingAnimation";
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
+import TeamCardProfil from "@/components/molecules/TeamCardProfil";
 
 export default function Profil() {
     const { member, loading } = useAuth();
@@ -102,17 +103,25 @@ export default function Profil() {
                                 </>
                             )}
 
-                            {activeView === "activites" && (
-                                <>
-                                    <h1 className="text-lg underline underline-offset-4 mb-6">
-                                        ACTIVITÉS
-                                    </h1>
+                            {activeView === "equipes" && (
+                             <>
+                            <h1 className="text-lg underline underline-offset-4 mb-6">
+                            MES ÉQUIPES
+                            </h1>
 
-                                    <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl">
-                                        <p></p>
-                                    </div>
-                                </>
+                            <div className="flex flex-col gap-6">
+
+                            {member?.Team_member?.map((tm) =>
+                                tm.Team ? (
+                                <TeamCardProfil
+                                    key={tm.Team.id_team}
+                                    team={tm.Team}
+                                />
+                                ) : null
                             )}
+                            </div>
+        </>
+                        )}
                         </div>
                     </main>
                     <Footer />
