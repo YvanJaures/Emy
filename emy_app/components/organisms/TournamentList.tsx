@@ -4,15 +4,21 @@ import React from "react";
 import TournamentRow from "../molecules/TournamentRow";
 import type { TournamentDTO } from "@/hooks/Type_TournamentDTO";
 
+type TournamentListProps = {
+  tournaments: TournamentDTO[];
+  onDelete: (id: number) => void;
+  onDetails: (id_tour: number, id_community: number) => void;
+  deletingId: number | null;
+};
+/**
+ * Affiche la liste des tournois
+ */
 export default function TournamentList({
   tournaments,
   onDelete,
+  onDetails,
   deletingId,
-}: {
-  tournaments: TournamentDTO[];
-  onDelete: (id: number) => void;
-  deletingId: number | null;
-}) {
+}: TournamentListProps) {
   async function toggleTourStatus(
     id_tour: number,
     id_community: number,
@@ -25,7 +31,7 @@ export default function TournamentList({
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          role:"admin"
+          role: "admin",
         },
         body: JSON.stringify({
           id_tour,
@@ -35,12 +41,13 @@ export default function TournamentList({
       });
 
       if (!response.ok) {
-        throw new Error(response.status+' '+await response.json());
+        throw new Error(response.status + " " + (await response.json()));
       }
     } catch (error) {
       console.error("Status update failed:", error);
     }
   }
+
   return (
     <div className="mt-6 space-y-3">
       {tournaments.map((t) => (
@@ -48,6 +55,7 @@ export default function TournamentList({
           key={t.id_tour}
           tournament={t}
           onDelete={onDelete}
+          onDetails={onDetails}
           onToggleStatus={toggleTourStatus}
           isDeleting={deletingId === t.id_tour}
         />

@@ -56,6 +56,7 @@ export async function createTourWithPrizes(
     end_date,
     avatar,
     id_community,
+    fees,
     prizes
 ){
     return await prisma.tournament.create({
@@ -67,6 +68,7 @@ export async function createTourWithPrizes(
             end_date: new Date(end_date),
             avatar:avatar,
             id_community:id_community,
+            fees: fees,
 
             Prize:{
                 create: prizes
@@ -426,5 +428,53 @@ export async function patchTeam(id_team, id_tour, patch) {
   return await prisma.team.update({
     where: { id_team },
     data,
+  });
+}
+
+/**Modification tournoi et pizes */
+export async function updateTourAndPrizes(
+  id_tour,
+  id_community,
+  name,
+  location,
+  members,
+  start_date,
+  end_date,
+  avatar,
+  fees,
+  prizes
+) {
+  return await prisma.$transaction(async (tx) => {
+    await tx.tournament.updateMany({
+      where: {
+        id_tour: id_tour,
+        id_community: id_community,
+      },
+      data: {
+        name: name,
+        location: location,
+        members: members,
+        start_date: new Date(start_date),
+        end_date: new Date(end_date),
+        avatar: avatar,
+        fees: fees
+      },
+    });
+
+    await tx.prize.deleteMany({
+      where: {
+        id_tour: id_tour,
+      },
+    });
+
+    await tx.prize.createMany({
+      data: prizes.map((prize) => ({
+        name: prize.name,
+        value: prize.value,
+        spots: prize.spots,
+        group_spot: prize.group_spot,
+        id_tour: id_tour,
+      })),
+    });
   });
 }

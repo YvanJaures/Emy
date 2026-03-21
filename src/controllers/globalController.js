@@ -2,7 +2,7 @@ import { addCommunityMember, addMember,
          addPlayer, addTeam, addTeamMember, addTeamMemberWait, 
          getMemberByEmail, getMemberByName, getMembers, 
          getMembersUserNames, updateMember, 
-         updatePasswordMember,getMembersByCommunity, getTeamDetails, updateTeam } from '../models/global.js';
+         updatePasswordMember,getMembersByCommunity, getTeamDetails, updateTeam, getTourAndPrizes } from '../models/global.js';
 import '../services/auth.js'
 import passport from 'passport';
 import 'dotenv/config'
@@ -312,6 +312,37 @@ export const getTeamDetailsC = async (req, res) => {
     return res.status(500).json({
       message: "Erreur serveur",
       error: e.message,
+    });
+  }
+};
+
+/**Recuperer le detail d un tournoi + prizes */
+export const getTourAndPrizesC = async (req, res) => {
+  try {
+    const { id_tour, id_community } = req.query;
+
+    if (!id_tour || !id_community) {
+      return res.status(400).json({
+        message: "Paramètres manquants",
+      });
+    }
+
+    const tournament = await getTourAndPrizes(
+      Number(id_tour),
+      Number(id_community)
+    );
+
+    if (!tournament) {
+      return res.status(404).json({
+        message: "Tournoi introuvable",
+      });
+    }
+
+    return res.status(200).json(tournament);
+  } catch (error) {
+    console.error("GET TOUR DETAILS:", error);
+    return res.status(500).json({
+      message: "Erreur serveur",
     });
   }
 };

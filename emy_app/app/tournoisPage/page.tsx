@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import NavBarAdmin from "@/components/organisms/NavBarAdmin";
 import Footer from "@/components/organisms/Footer";
 import LoadingAnimation from "@/components/organisms/LoadingAnimation";
-
 import Button from "@/components/atoms/Button";
 import ImageBackground from "@/components/atoms/ImageBackground";
 import SectionPillTitle from "@/components/molecules/SectionPillTitle";
@@ -14,47 +13,45 @@ import type { TournamentDTO } from "@/hooks/Type_TournamentDTO";
 import { useAuth } from "@/hooks/useAuth";
 import OnError from "@/components/organisms/OnError";
 import { getCommunityTournaments } from "@/fetchs/global";
-
-/**
- * Page listant tous les tournois de la communauté.
- *
- * Cette fonction :
- * - charge les tournois depuis l’endpoint /api/tournaments
- * - utilise useAuth() pour récupérer l’utilisateur connecté et afficher la barre admin
- * - affiche une animation de chargement tant que les données ne sont pas disponibles
- * - rend la liste des tournois via TournamentList
- * - permet la suppression d’un tournoi via handleDelete()
- * - propose un bouton pour créer un nouveau tournoi
- */
+import TournamentDetailsPopUp from "@/components/organisms/TournamentDetailsPopUp";
 
 type ApiMessage = { message?: string };
 
+/**
+ * Page qui affiche la liste des tournoi. Lorsqu'on clique sur le 
+ * boutton <details> on peux voir les informations d'un tournoi et 
+ * aussi le modifier si necessaire. On peut aussi supprimer un tournoi
+ * en cliquant sur le boutton <supprimer>
+ */
 export default function TournoisPage() {
   const [tournaments, setTournaments] = useState<TournamentDTO[]>([]);
   const [loading, setLoading] = useState(true);
-    const [deletingId, setDeletingId] = useState<number | null>(null);
-  const {member}=useAuth()
+  const [deletingId, setDeletingId] = useState<number | null>(null);
+  const { member } = useAuth();
   const [onError, setOnError] = useState(false);
-  const [onPopUp,setOnPopUp]=useState(false)
 
-  // const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? "";
-  //const TOURNAMENTS_URL = `${API_BASE}/api/tournaments`;
-  // ADAPTER LE NOM DE LA ROUTE
-  const TOURNAMENTS_URL = `/api/tournaments`;
-  //console.log(member)
+  const [selectedTour, setSelectedTour] = useState<{
+    id_tour: number;
+    id_community: number;
+  } | null>(null);
+
+  async function loadTournaments() {
+    try {
+      setLoading(true);
+      const data = await getCommunityTournaments(
+        member?.Admin?.id_community ?? -1
+      );
+      setTournaments(data);
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
-    (async () => {
-      try {
-        const data = await getCommunityTournaments(member?.Admin?.id_community ?? -1)
-        console.log(data)
-        setTournaments(data);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setLoading(false);
-      }
-    })();
-  }, [TOURNAMENTS_URL,member]);
+    loadTournaments();
+  }, [member]);
 
   const handleDelete = async (id_tour: number) => {
     const id_community = member?.Admin?.id_community;
@@ -84,18 +81,15 @@ export default function TournoisPage() {
 
       setTournaments((prev) => prev.filter((t) => t.id_tour !== id_tour));
     } catch (e: unknown) {
-  //     console.error(e);
-  //     setOnError(true);
-  //     setOnPopUp(true)
-  //   }
-  // };
-  console.error(e);
-      alert(
-        e instanceof Error ? e.message : "Impossible de supprimer ce tournoi.",
-      );
+      console.error(e);
+      setOnError(true);
     } finally {
       setDeletingId(null);
     }
+  };
+
+  const handleDetails = (id_tour: number, id_community: number) => {
+    setSelectedTour({ id_tour, id_community });
   };
 
   return (
@@ -108,11 +102,12 @@ export default function TournoisPage() {
             seoTitle="Tournois de la communauté"
             seoDescription="Tournois de la communauté"
           ></MetaData>
+
           {member?.Admin?.id_community && (
             <NavBarAdmin id_community={member.Admin.id_community} />
           )}
+
           <main className="mx-auto w-full max-w-6xl px-6 py-8">
-            {/* Bandeau pâle + bouton vert */}
             <section className="mb-6 rounded-3xl bg-gradient-to-r from-rose-50 to-green-50 p-8">
               <div className="flex justify-center">
                 <Button
@@ -127,7 +122,6 @@ export default function TournoisPage() {
               </div>
             </section>
 
-            {/* Bloc image + liste */}
             <ImageBackground imageUrl="/assets/arrieres_plan/CarolinaLowcountry.png">
               <div className="flex justify-center pt-2">
                 <SectionPillTitle text="Liste des tournois" />
@@ -139,6 +133,7 @@ export default function TournoisPage() {
                 <TournamentList
                   tournaments={tournaments}
                   onDelete={handleDelete}
+                  onDetails={handleDetails}
                   deletingId={deletingId}
                 />
               )}
@@ -146,17 +141,25 @@ export default function TournoisPage() {
           </main>
 
           <Footer />
+
           {onError && (
-          <OnError
-            title="Suppression"
-            message="Une erreur est survenue! Impossible de supprimer ce tournoi. Veuillez réessayer plus tard."
-            onConfirmed={(res) =>{ setOnError(res);setOnPopUp(res)}}
-          />
-        )}
+            <OnError
+              title="Suppression"
+              message="Une erreur est survenue! Impossible de supprimer ce tournoi. Veuillez réessayer plus tard."
+              onConfirmed={(res) => setOnError(res)}
+            />
+          )}
+
+          {selectedTour && (
+            <TournamentDetailsPopUp
+              idTour={selectedTour.id_tour}
+              idCommunity={selectedTour.id_community}
+              onClose={() => setSelectedTour(null)}
+              onUpdated={loadTournaments}
+            />
+          )}
         </div>
       )}
-     
     </>
   );
 }
-

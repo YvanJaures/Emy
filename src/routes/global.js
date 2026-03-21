@@ -21,6 +21,7 @@ router.get('/members/community',globalController.getMembersByCommunityC)
 router.get('/member/user_name',globalController.getMemberByNameC)
 router.get('/members/names',globalController.getMembersUserNamesC)
 router.get("/member/team/details", connecterApi, globalController.getTeamDetailsC);  // Afficher les details d une equipe
+router.get("/tour&prizes/details", globalController.getTourAndPrizesC);
 
 //router.post('/',globalController)
 router.post('/member/add',motDePasseValide,courrielValide,globalController.addMemberC)

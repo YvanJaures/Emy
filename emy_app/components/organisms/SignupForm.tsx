@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Title from "../atoms/Title";
 import FormError from "../atoms/FormError";
 import Button from "../atoms/Button";
@@ -29,7 +29,7 @@ function courrielEstValide(courriel: string) {
   return (
     typeof courriel === "string" &&
     /(?:[a-z0-9!#$%&'*+\x2f=?^_`\x7b-\x7d~\x2d]+(?:\.[a-z0-9!#$%&'*+\x2f=?^_`\x7b-\x7d~\x2d]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9\x2d]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9\x2d]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9\x2d]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(
-      courriel
+      courriel,
     )
   );
 }
@@ -47,16 +47,20 @@ function FieldError({ message }: { message?: string }) {
   return <p className="mt-1 text-[11px] text-red-600">{message}</p>;
 }
 
+/**
+ * Formulaire de creation d'un compte
+ */
 export default function SignupForm() {
   const [form, setForm] = useState<SignupFormData>(initialForm);
   const [errors, setErrors] = useState<SignupErrors>({});
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [checkingUsername, setCheckingUsername] = useState(false);
 
   function validateField<K extends keyof SignupFormData>(
     field: K,
     value: SignupFormData[K],
-    currentForm: SignupFormData
+    currentForm: SignupFormData,
   ): string {
     switch (field) {
       case "user_name":
@@ -143,15 +147,23 @@ export default function SignupForm() {
       address: validateField("address", currentForm.address, currentForm),
       email: validateField("email", currentForm.email, currentForm),
       phone: validateField("phone", currentForm.phone, currentForm),
-      birth_date: validateField("birth_date", currentForm.birth_date, currentForm),
+      birth_date: validateField(
+        "birth_date",
+        currentForm.birth_date,
+        currentForm,
+      ),
       avatar: validateField("avatar", currentForm.avatar, currentForm),
       password: validateField("password", currentForm.password, currentForm),
       confirmPassword: validateField(
         "confirmPassword",
         currentForm.confirmPassword,
-        currentForm
+        currentForm,
       ),
-      acceptTerms: validateField("acceptTerms", currentForm.acceptTerms, currentForm),
+      acceptTerms: validateField(
+        "acceptTerms",
+        currentForm.acceptTerms,
+        currentForm,
+      ),
     };
   }
 
@@ -161,7 +173,7 @@ export default function SignupForm() {
 
   function updateField<K extends keyof SignupFormData>(
     field: K,
-    value: SignupFormData[K]
+    value: SignupFormData[K],
   ) {
     const updatedForm = { ...form, [field]: value };
     setForm(updatedForm);
@@ -174,7 +186,7 @@ export default function SignupForm() {
             confirmPassword: validateField(
               "confirmPassword",
               updatedForm.confirmPassword,
-              updatedForm
+              updatedForm,
             ),
           }
         : {}),
@@ -183,11 +195,81 @@ export default function SignupForm() {
     setError("");
   }
 
+  useEffect(() => {
+    const username = form.user_name.trim();
+
+    if (!username) {
+      setCheckingUsername(false);
+      return;
+    }
+
+    if (
+      errors.user_name &&
+      errors.user_name !== "Ce nom d'utilisateur est déjà utilisé."
+    ) {
+      setCheckingUsername(false);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      try {
+        setCheckingUsername(true);
+
+        const res = await fetch(
+          `/api/member/user_name?user_name=${encodeURIComponent(username)}`,
+        );
+
+        if (!res.ok) {
+          setCheckingUsername(false);
+          return;
+        }
+
+        const data = await res.json();
+
+        setErrors((prev) => ({
+          ...prev,
+          user_name: data ? "Ce nom d'utilisateur est déjà utilisé." : "",
+        }));
+      } catch {
+        setError(
+          "Impossible de vérifier le nom d'utilisateur pour le moment. Veuillez reessayer plutard",
+        );
+      } finally {
+        setCheckingUsername(false);
+      }
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [form.user_name, errors.user_name]);
+
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
 
     const validationErrors = validateForm(form);
+
+    if (!validationErrors.user_name && form.user_name.trim()) {
+      try {
+        const res = await fetch(
+          `/api/member/user_name?user_name=${encodeURIComponent(
+            form.user_name.trim(),
+          )}`,
+        );
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data) {
+            validationErrors.user_name =
+              "Ce nom d'utilisateur est déjà utilisé.";
+          }
+        }
+      } catch {
+        setError(
+          "Impossible de vérifier le nom d'utilisateur pour le moment. Veuillez reessayer plutard",
+        );
+      }
+    }
+
     setErrors(validationErrors);
 
     if (hasErrors(validationErrors)) {
@@ -256,6 +338,11 @@ export default function SignupForm() {
               errors.user_name ? "border-red-500" : ""
             }`}
           />
+          {checkingUsername && !errors.user_name && (
+            <p className="mt-1 text-[11px] text-gray-500">
+              Vérification du nom d utilisateur...
+            </p>
+          )}
           <FieldError message={errors.user_name} />
         </div>
 
@@ -391,7 +478,7 @@ export default function SignupForm() {
           <Button
             type="submit"
             title={loading ? "LOADING..." : "CONFIRM"}
-            disabled={loading}
+            disabled={loading || checkingUsername}
             size="text-[10px]"
             className="w-full py-2"
             color="bg-black/80 border-black/80 text-white hover:bg-black/90"

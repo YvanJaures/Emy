@@ -1,16 +1,12 @@
 "use client";
 
-import React from "react";
-import AppLink from "../atoms/AppLink";
-import  {useState} from 'react';
+import React, { useState } from "react";
 import type { TournamentDTO } from "@/hooks/Type_TournamentDTO";
 
-export default function TournamentRow({
-  tournament,
-  onDelete,
-  onToggleStatus,
-  isDeleting,
-}: {
+/**
+ * Ligne qui permet d'afficher un tournoi dans la liste de tournoi
+ */
+type TournamentRowProps = {
   tournament: TournamentDTO;
   onDelete: (id: number) => void;
   onToggleStatus: (
@@ -18,12 +14,23 @@ export default function TournamentRow({
     id_community: number,
     status: number
   ) => void;
+  onDetails: (id_tour: number, id_community: number) => void;
   isDeleting?: boolean;
-}) {
+};
+
+export default function TournamentRow({
+  tournament,
+  onDelete,
+  onToggleStatus,
+  onDetails,
+  isDeleting,
+}: TournamentRowProps) {
   const title = tournament.name?.trim()
     ? tournament.name
     : `Tournoi ${tournament.id_tour}`;
-  const [status,setStatus]=useState(tournament.status)
+
+  const [status, setStatus] = useState(tournament.status);
+
   const handleDeleteClick = () => {
     const ok = window.confirm(`Supprimer "${title}" ?`);
     if (!ok) return;
@@ -39,15 +46,18 @@ export default function TournamentRow({
       <p className="text-xs text-black/80">{title}</p>
 
       <div className="flex justify-start sm:justify-center">
-        <AppLink
-          href={`/tournois/${tournament.id_tour}`}
-          className="!text-black/70 text-xs hover:underline underline-offset-4"
+        <button
+          type="button"
+          onClick={() =>
+            onDetails(tournament.id_tour, tournament.id_community!)
+          }
+          className="text-xs text-black/70 hover:underline underline-offset-4"
         >
           Details
-        </AppLink>
+        </button>
       </div>
 
-       <div className="flex justify-start sm:justify-center">
+      <div className="flex justify-start sm:justify-center">
         <button
           type="button"
           disabled={tournament.status === 0}
@@ -58,29 +68,24 @@ export default function TournamentRow({
               : "text-gray-400 cursor-not-allowed"
           }`}
         >
-          {status === 1
-            ? "Inscription"
-            : "Inscriptions fermées"}
+          {status === 1 ? "Inscription" : "Inscriptions fermées"}
         </button>
       </div>
 
       <div className="flex justify-start sm:justify-center">
         <button
-        type="button"
-        onClick={() =>
-        {onToggleStatus(
-        tournament.id_tour,
-        tournament.id_community!,
-        status
-        );
-        setStatus(status===1 ? 0:1)
-        }
-      }
-        className="text-xs text-blue-500 hover:text-blue-800 hover:underline hover:cursor-pointer transition-colors duration-200"
+          type="button"
+          onClick={() => {
+            onToggleStatus(
+              tournament.id_tour,
+              tournament.id_community!,
+              status
+            );
+            setStatus(status === 1 ? 0 : 1);
+          }}
+          className="text-xs text-blue-500 hover:text-blue-800 hover:underline hover:cursor-pointer transition-colors duration-200"
         >
-        {status === 1
-          ? "Fermer inscriptions"
-          : "Ouvrir inscriptions"}
+          {status === 1 ? "Fermer inscriptions" : "Ouvrir inscriptions"}
         </button>
       </div>
 

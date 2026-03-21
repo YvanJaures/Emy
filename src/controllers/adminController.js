@@ -232,6 +232,7 @@ export const createTourWithPrizes = async (req, res) => {
             avatar,
             id_admin,
             id_community,
+            fees,
             prizes
         } = req.body;
 
@@ -251,6 +252,7 @@ export const createTourWithPrizes = async (req, res) => {
             end_date,
             avatar,
             Number(id_community),
+            fees,
             prizes
         );
 
@@ -566,3 +568,59 @@ export async function patchTeam(id_team, id_tour, patch) {
     data,
   });
 }
+
+/**Modification tournoi et prizes */
+export const updateTourAndPrizes = async (req, res) => {
+  try {
+    const {
+      id_tour,
+      id_community,
+      name,
+      location,
+      start_date,
+      end_date,
+      members,
+      avatar,
+      fees,
+      prizes,
+    } = req.body;
+
+    if (
+      !id_tour ||
+      !id_community ||
+      !name ||
+      !location ||
+      !start_date ||
+      !end_date ||
+      !fees ||
+      !prizes ||
+      prizes.length <= 0
+    ) {
+      return res.status(400).json({
+        message: "Paramètres manquants",
+      });
+    }
+
+    await adminModel.updateTourAndPrizes(
+      Number(id_tour),
+      Number(id_community),
+      name,
+      location,
+      Number(members),
+      start_date,
+      end_date,
+      avatar,
+      fees,
+      prizes
+    );
+
+    return res.status(200).json({
+      message: "Tournoi modifié",
+    });
+  } catch (error) {
+    console.error("UPDATE TOUR:", error);
+    return res.status(500).json({
+      message: "Erreur serveur",
+    });
+  }
+};

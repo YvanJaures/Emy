@@ -9357,6 +9357,7 @@ export namespace Prisma {
 
   export type PrizeAvgAggregateOutputType = {
     id_prize: number | null
+    value: number | null
     spots: number | null
     group_spot: number | null
     id_tour: number | null
@@ -9366,6 +9367,7 @@ export namespace Prisma {
 
   export type PrizeSumAggregateOutputType = {
     id_prize: number | null
+    value: number | null
     spots: number | null
     group_spot: number | null
     id_tour: number | null
@@ -9376,6 +9378,7 @@ export namespace Prisma {
   export type PrizeMinAggregateOutputType = {
     id_prize: number | null
     name: string | null
+    value: number | null
     spots: number | null
     group_spot: number | null
     id_tour: number | null
@@ -9386,6 +9389,7 @@ export namespace Prisma {
   export type PrizeMaxAggregateOutputType = {
     id_prize: number | null
     name: string | null
+    value: number | null
     spots: number | null
     group_spot: number | null
     id_tour: number | null
@@ -9396,6 +9400,7 @@ export namespace Prisma {
   export type PrizeCountAggregateOutputType = {
     id_prize: number
     name: number
+    value: number
     spots: number
     group_spot: number
     id_tour: number
@@ -9407,6 +9412,7 @@ export namespace Prisma {
 
   export type PrizeAvgAggregateInputType = {
     id_prize?: true
+    value?: true
     spots?: true
     group_spot?: true
     id_tour?: true
@@ -9416,6 +9422,7 @@ export namespace Prisma {
 
   export type PrizeSumAggregateInputType = {
     id_prize?: true
+    value?: true
     spots?: true
     group_spot?: true
     id_tour?: true
@@ -9426,6 +9433,7 @@ export namespace Prisma {
   export type PrizeMinAggregateInputType = {
     id_prize?: true
     name?: true
+    value?: true
     spots?: true
     group_spot?: true
     id_tour?: true
@@ -9436,6 +9444,7 @@ export namespace Prisma {
   export type PrizeMaxAggregateInputType = {
     id_prize?: true
     name?: true
+    value?: true
     spots?: true
     group_spot?: true
     id_tour?: true
@@ -9446,6 +9455,7 @@ export namespace Prisma {
   export type PrizeCountAggregateInputType = {
     id_prize?: true
     name?: true
+    value?: true
     spots?: true
     group_spot?: true
     id_tour?: true
@@ -9543,6 +9553,7 @@ export namespace Prisma {
   export type PrizeGroupByOutputType = {
     id_prize: number
     name: string | null
+    value: number | null
     spots: number | null
     group_spot: number | null
     id_tour: number | null
@@ -9572,6 +9583,7 @@ export namespace Prisma {
   export type PrizeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id_prize?: boolean
     name?: boolean
+    value?: boolean
     spots?: boolean
     group_spot?: boolean
     id_tour?: boolean
@@ -9588,6 +9600,7 @@ export namespace Prisma {
   export type PrizeSelectScalar = {
     id_prize?: boolean
     name?: boolean
+    value?: boolean
     spots?: boolean
     group_spot?: boolean
     id_tour?: boolean
@@ -9595,7 +9608,7 @@ export namespace Prisma {
     id_admin?: boolean
   }
 
-  export type PrizeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_prize" | "name" | "spots" | "group_spot" | "id_tour" | "id_type" | "id_admin", ExtArgs["result"]["prize"]>
+  export type PrizeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_prize" | "name" | "value" | "spots" | "group_spot" | "id_tour" | "id_type" | "id_admin", ExtArgs["result"]["prize"]>
   export type PrizeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Tournament?: boolean | Prize$TournamentArgs<ExtArgs>
     Type?: boolean | Prize$TypeArgs<ExtArgs>
@@ -9613,6 +9626,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id_prize: number
       name: string | null
+      value: number | null
       spots: number | null
       group_spot: number | null
       id_tour: number | null
@@ -9992,6 +10006,7 @@ export namespace Prisma {
   interface PrizeFieldRefs {
     readonly id_prize: FieldRef<"Prize", 'Int'>
     readonly name: FieldRef<"Prize", 'String'>
+    readonly value: FieldRef<"Prize", 'Float'>
     readonly spots: FieldRef<"Prize", 'Int'>
     readonly group_spot: FieldRef<"Prize", 'Int'>
     readonly id_tour: FieldRef<"Prize", 'Int'>
@@ -16603,6 +16618,7 @@ export namespace Prisma {
   export const PrizeScalarFieldEnum: {
     id_prize: 'id_prize',
     name: 'name',
+    value: 'value',
     spots: 'spots',
     group_spot: 'group_spot',
     id_tour: 'id_tour',
@@ -17166,6 +17182,7 @@ export namespace Prisma {
     NOT?: PrizeWhereInput | PrizeWhereInput[]
     id_prize?: IntFilter<"Prize"> | number
     name?: StringNullableFilter<"Prize"> | string | null
+    value?: FloatNullableFilter<"Prize"> | number | null
     spots?: IntNullableFilter<"Prize"> | number | null
     group_spot?: IntNullableFilter<"Prize"> | number | null
     id_tour?: IntNullableFilter<"Prize"> | number | null
@@ -17179,6 +17196,7 @@ export namespace Prisma {
   export type PrizeOrderByWithRelationInput = {
     id_prize?: SortOrder
     name?: SortOrderInput | SortOrder
+    value?: SortOrderInput | SortOrder
     spots?: SortOrderInput | SortOrder
     group_spot?: SortOrderInput | SortOrder
     id_tour?: SortOrderInput | SortOrder
@@ -17195,6 +17213,7 @@ export namespace Prisma {
     OR?: PrizeWhereInput[]
     NOT?: PrizeWhereInput | PrizeWhereInput[]
     name?: StringNullableFilter<"Prize"> | string | null
+    value?: FloatNullableFilter<"Prize"> | number | null
     spots?: IntNullableFilter<"Prize"> | number | null
     group_spot?: IntNullableFilter<"Prize"> | number | null
     id_tour?: IntNullableFilter<"Prize"> | number | null
@@ -17208,6 +17227,7 @@ export namespace Prisma {
   export type PrizeOrderByWithAggregationInput = {
     id_prize?: SortOrder
     name?: SortOrderInput | SortOrder
+    value?: SortOrderInput | SortOrder
     spots?: SortOrderInput | SortOrder
     group_spot?: SortOrderInput | SortOrder
     id_tour?: SortOrderInput | SortOrder
@@ -17226,6 +17246,7 @@ export namespace Prisma {
     NOT?: PrizeScalarWhereWithAggregatesInput | PrizeScalarWhereWithAggregatesInput[]
     id_prize?: IntWithAggregatesFilter<"Prize"> | number
     name?: StringNullableWithAggregatesFilter<"Prize"> | string | null
+    value?: FloatNullableWithAggregatesFilter<"Prize"> | number | null
     spots?: IntNullableWithAggregatesFilter<"Prize"> | number | null
     group_spot?: IntNullableWithAggregatesFilter<"Prize"> | number | null
     id_tour?: IntNullableWithAggregatesFilter<"Prize"> | number | null
@@ -17995,6 +18016,7 @@ export namespace Prisma {
 
   export type PrizeCreateInput = {
     name?: string | null
+    value?: number | null
     spots?: number | null
     group_spot?: number | null
     id_admin?: number | null
@@ -18006,6 +18028,7 @@ export namespace Prisma {
   export type PrizeUncheckedCreateInput = {
     id_prize?: number
     name?: string | null
+    value?: number | null
     spots?: number | null
     group_spot?: number | null
     id_tour?: number | null
@@ -18016,6 +18039,7 @@ export namespace Prisma {
 
   export type PrizeUpdateInput = {
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
     spots?: NullableIntFieldUpdateOperationsInput | number | null
     group_spot?: NullableIntFieldUpdateOperationsInput | number | null
     id_admin?: NullableIntFieldUpdateOperationsInput | number | null
@@ -18027,6 +18051,7 @@ export namespace Prisma {
   export type PrizeUncheckedUpdateInput = {
     id_prize?: IntFieldUpdateOperationsInput | number
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
     spots?: NullableIntFieldUpdateOperationsInput | number | null
     group_spot?: NullableIntFieldUpdateOperationsInput | number | null
     id_tour?: NullableIntFieldUpdateOperationsInput | number | null
@@ -18037,6 +18062,7 @@ export namespace Prisma {
 
   export type PrizeCreateManyInput = {
     name?: string | null
+    value?: number | null
     spots?: number | null
     group_spot?: number | null
     id_tour?: number | null
@@ -18046,6 +18072,7 @@ export namespace Prisma {
 
   export type PrizeUpdateManyMutationInput = {
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
     spots?: NullableIntFieldUpdateOperationsInput | number | null
     group_spot?: NullableIntFieldUpdateOperationsInput | number | null
     id_admin?: NullableIntFieldUpdateOperationsInput | number | null
@@ -18054,6 +18081,7 @@ export namespace Prisma {
   export type PrizeUncheckedUpdateManyInput = {
     id_prize?: IntFieldUpdateOperationsInput | number
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
     spots?: NullableIntFieldUpdateOperationsInput | number | null
     group_spot?: NullableIntFieldUpdateOperationsInput | number | null
     id_tour?: NullableIntFieldUpdateOperationsInput | number | null
@@ -18880,6 +18908,17 @@ export namespace Prisma {
     id_tour?: SortOrder
   }
 
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type TypeNullableScalarRelationFilter = {
     is?: TypeWhereInput | null
     isNot?: TypeWhereInput | null
@@ -18898,6 +18937,7 @@ export namespace Prisma {
   export type PrizeCountOrderByAggregateInput = {
     id_prize?: SortOrder
     name?: SortOrder
+    value?: SortOrder
     spots?: SortOrder
     group_spot?: SortOrder
     id_tour?: SortOrder
@@ -18907,6 +18947,7 @@ export namespace Prisma {
 
   export type PrizeAvgOrderByAggregateInput = {
     id_prize?: SortOrder
+    value?: SortOrder
     spots?: SortOrder
     group_spot?: SortOrder
     id_tour?: SortOrder
@@ -18917,6 +18958,7 @@ export namespace Prisma {
   export type PrizeMaxOrderByAggregateInput = {
     id_prize?: SortOrder
     name?: SortOrder
+    value?: SortOrder
     spots?: SortOrder
     group_spot?: SortOrder
     id_tour?: SortOrder
@@ -18927,6 +18969,7 @@ export namespace Prisma {
   export type PrizeMinOrderByAggregateInput = {
     id_prize?: SortOrder
     name?: SortOrder
+    value?: SortOrder
     spots?: SortOrder
     group_spot?: SortOrder
     id_tour?: SortOrder
@@ -18936,11 +18979,28 @@ export namespace Prisma {
 
   export type PrizeSumOrderByAggregateInput = {
     id_prize?: SortOrder
+    value?: SortOrder
     spots?: SortOrder
     group_spot?: SortOrder
     id_tour?: SortOrder
     id_type?: SortOrder
     id_admin?: SortOrder
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | null
+    notIn?: number[] | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type PrizeNullableScalarRelationFilter = {
@@ -19077,17 +19137,6 @@ export namespace Prisma {
     id_team?: SortOrder
   }
 
-  export type FloatNullableFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
-  }
-
   export type PrizeListRelationFilter = {
     every?: PrizeWhereInput
     some?: PrizeWhereInput
@@ -19151,22 +19200,6 @@ export namespace Prisma {
     members?: SortOrder
     id_community?: SortOrder
     fees?: SortOrder
-  }
-
-  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel> | null
-    in?: number[] | null
-    notIn?: number[] | null
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedFloatNullableFilter<$PrismaModel>
-    _min?: NestedFloatNullableFilter<$PrismaModel>
-    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type TypeCountOrderByAggregateInput = {
@@ -19808,6 +19841,14 @@ export namespace Prisma {
     connect?: Prize_sponsorWhereUniqueInput | Prize_sponsorWhereUniqueInput[]
   }
 
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type TournamentUpdateOneWithoutPrizeNestedInput = {
     create?: XOR<TournamentCreateWithoutPrizeInput, TournamentUncheckedCreateWithoutPrizeInput>
     connectOrCreate?: TournamentCreateOrConnectWithoutPrizeInput
@@ -20096,14 +20137,6 @@ export namespace Prisma {
     connectOrCreate?: TeamCreateOrConnectWithoutTournamentInput | TeamCreateOrConnectWithoutTournamentInput[]
     createMany?: TeamCreateManyTournamentInputEnvelope
     connect?: TeamWhereUniqueInput | TeamWhereUniqueInput[]
-  }
-
-  export type NullableFloatFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type PlayerUpdateManyWithoutTournamentNestedInput = {
@@ -21720,6 +21753,7 @@ export namespace Prisma {
 
   export type PrizeCreateWithoutPrize_sponsorInput = {
     name?: string | null
+    value?: number | null
     spots?: number | null
     group_spot?: number | null
     id_admin?: number | null
@@ -21730,6 +21764,7 @@ export namespace Prisma {
   export type PrizeUncheckedCreateWithoutPrize_sponsorInput = {
     id_prize?: number
     name?: string | null
+    value?: number | null
     spots?: number | null
     group_spot?: number | null
     id_tour?: number | null
@@ -21772,6 +21807,7 @@ export namespace Prisma {
 
   export type PrizeUpdateWithoutPrize_sponsorInput = {
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
     spots?: NullableIntFieldUpdateOperationsInput | number | null
     group_spot?: NullableIntFieldUpdateOperationsInput | number | null
     id_admin?: NullableIntFieldUpdateOperationsInput | number | null
@@ -21782,6 +21818,7 @@ export namespace Prisma {
   export type PrizeUncheckedUpdateWithoutPrize_sponsorInput = {
     id_prize?: IntFieldUpdateOperationsInput | number
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
     spots?: NullableIntFieldUpdateOperationsInput | number | null
     group_spot?: NullableIntFieldUpdateOperationsInput | number | null
     id_tour?: NullableIntFieldUpdateOperationsInput | number | null
@@ -22310,6 +22347,7 @@ export namespace Prisma {
 
   export type PrizeCreateWithoutTournamentInput = {
     name?: string | null
+    value?: number | null
     spots?: number | null
     group_spot?: number | null
     id_admin?: number | null
@@ -22320,6 +22358,7 @@ export namespace Prisma {
   export type PrizeUncheckedCreateWithoutTournamentInput = {
     id_prize?: number
     name?: string | null
+    value?: number | null
     spots?: number | null
     group_spot?: number | null
     id_type?: number | null
@@ -22436,6 +22475,7 @@ export namespace Prisma {
     NOT?: PrizeScalarWhereInput | PrizeScalarWhereInput[]
     id_prize?: IntFilter<"Prize"> | number
     name?: StringNullableFilter<"Prize"> | string | null
+    value?: FloatNullableFilter<"Prize"> | number | null
     spots?: IntNullableFilter<"Prize"> | number | null
     group_spot?: IntNullableFilter<"Prize"> | number | null
     id_tour?: IntNullableFilter<"Prize"> | number | null
@@ -22499,6 +22539,7 @@ export namespace Prisma {
 
   export type PrizeCreateWithoutTypeInput = {
     name?: string | null
+    value?: number | null
     spots?: number | null
     group_spot?: number | null
     id_admin?: number | null
@@ -22509,6 +22550,7 @@ export namespace Prisma {
   export type PrizeUncheckedCreateWithoutTypeInput = {
     id_prize?: number
     name?: string | null
+    value?: number | null
     spots?: number | null
     group_spot?: number | null
     id_tour?: number | null
@@ -22847,6 +22889,7 @@ export namespace Prisma {
 
   export type PrizeCreateManyTournamentInput = {
     name?: string | null
+    value?: number | null
     spots?: number | null
     group_spot?: number | null
     id_type?: number | null
@@ -22878,6 +22921,7 @@ export namespace Prisma {
 
   export type PrizeUpdateWithoutTournamentInput = {
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
     spots?: NullableIntFieldUpdateOperationsInput | number | null
     group_spot?: NullableIntFieldUpdateOperationsInput | number | null
     id_admin?: NullableIntFieldUpdateOperationsInput | number | null
@@ -22888,6 +22932,7 @@ export namespace Prisma {
   export type PrizeUncheckedUpdateWithoutTournamentInput = {
     id_prize?: IntFieldUpdateOperationsInput | number
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
     spots?: NullableIntFieldUpdateOperationsInput | number | null
     group_spot?: NullableIntFieldUpdateOperationsInput | number | null
     id_type?: NullableIntFieldUpdateOperationsInput | number | null
@@ -22898,6 +22943,7 @@ export namespace Prisma {
   export type PrizeUncheckedUpdateManyWithoutTournamentInput = {
     id_prize?: IntFieldUpdateOperationsInput | number
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
     spots?: NullableIntFieldUpdateOperationsInput | number | null
     group_spot?: NullableIntFieldUpdateOperationsInput | number | null
     id_type?: NullableIntFieldUpdateOperationsInput | number | null
@@ -22937,6 +22983,7 @@ export namespace Prisma {
 
   export type PrizeCreateManyTypeInput = {
     name?: string | null
+    value?: number | null
     spots?: number | null
     group_spot?: number | null
     id_tour?: number | null
@@ -22945,6 +22992,7 @@ export namespace Prisma {
 
   export type PrizeUpdateWithoutTypeInput = {
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
     spots?: NullableIntFieldUpdateOperationsInput | number | null
     group_spot?: NullableIntFieldUpdateOperationsInput | number | null
     id_admin?: NullableIntFieldUpdateOperationsInput | number | null
@@ -22955,6 +23003,7 @@ export namespace Prisma {
   export type PrizeUncheckedUpdateWithoutTypeInput = {
     id_prize?: IntFieldUpdateOperationsInput | number
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
     spots?: NullableIntFieldUpdateOperationsInput | number | null
     group_spot?: NullableIntFieldUpdateOperationsInput | number | null
     id_tour?: NullableIntFieldUpdateOperationsInput | number | null
@@ -22965,6 +23014,7 @@ export namespace Prisma {
   export type PrizeUncheckedUpdateManyWithoutTypeInput = {
     id_prize?: IntFieldUpdateOperationsInput | number
     name?: NullableStringFieldUpdateOperationsInput | string | null
+    value?: NullableFloatFieldUpdateOperationsInput | number | null
     spots?: NullableIntFieldUpdateOperationsInput | number | null
     group_spot?: NullableIntFieldUpdateOperationsInput | number | null
     id_tour?: NullableIntFieldUpdateOperationsInput | number | null
