@@ -370,3 +370,26 @@ export async function getRegistrationFees(id_tour) {
 
   return tournament;
 }
+
+/** Inscription a un tournoi */
+export async function registrationPlayer(id_tour, user_name) {
+  const existingPlayer = await prisma.player.findFirst({
+    where: {
+      id_tour: Number(id_tour),
+      user_name: user_name
+    }
+  });
+
+  if (existingPlayer) {
+    throw new Error("Ce membre est déjà inscrit à ce tournoi");
+  }
+
+  const player = await prisma.player.create({
+    data: {
+      id_tour: Number(id_tour),
+      user_name: user_name
+    }
+  });
+
+  return player;
+}

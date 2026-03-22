@@ -16,6 +16,7 @@ import {
   updateTeam,
   getTourAndPrizes,
   getRegistrationFees,
+  registrationPlayer
 } from "../models/global.js";
 import "../services/auth.js";
 import passport from "passport";
@@ -383,6 +384,31 @@ export const getRegistrationFeesC = async (request, response) => {
     return response.status(500).json({
       message: "Erreur lors de la récupération des frais d'inscription",
       error: error.message,
+    });
+  }
+};
+
+/** Inscription a un tournoi */
+export const registrationPlayerC = async (request, response) => {
+  try {
+    const { id_tour, user_name } = request.body;
+
+    if (!id_tour || !user_name) {
+      return response.status(400).json({
+        message: "id_tour et user_name sont requis"
+      });
+    }
+
+    const player = await registrationPlayer(id_tour, user_name);
+
+    return response.status(201).json({
+      message: "Inscription au tournoi réussie",
+      player
+    });
+  } catch (error) {
+    return response.status(400).json({
+      message: "Erreur lors de l'inscription au tournoi",
+      error: error.message
     });
   }
 };

@@ -33,6 +33,7 @@ router.post('/member/team/add',connecterApi,globalController.addTeamMemberWaitC)
 router.post('/member/pay',connecterApi,globalController.payC)
 router.post('/member/community/join',connecterApi,globalController.addCommunityMemberC)
 router.post('/member/tour/join',connecterApi,globalController.addPlayerC)
+router.post('/member/tournament/registration',connecterApi,globalController.registrationPlayerC)
 router.post('/sendMail',sendMail)
 
 //router.patch('/',globalController)
