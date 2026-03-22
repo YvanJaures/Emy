@@ -11,6 +11,7 @@ import { useState } from "react";
 export default function Profil() {
     const { member, loading } = useAuth();
     const [activeView, setActiveView] = useState("profil");
+    const [modify,setModify]=useState(false)
 
     return (
         <>
@@ -53,6 +54,8 @@ export default function Profil() {
                                         user_name={member?.user_name ?? ""}
                                         imgUrl={member?.avatar ?? "null"}
                                         email={member?.email ?? ""}
+                                        admin={false}
+                                        onModify={(mod)=>(setModify(mod))}
                                         edit="pointer-events-all"
                                     />
 
