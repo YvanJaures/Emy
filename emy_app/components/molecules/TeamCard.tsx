@@ -4,8 +4,9 @@ import React from "react";
 import AppLink from "../atoms/AppLink";
 import type { TeamMiniDTO } from "@/hooks/Type_Teams";
 import Image from "next/image";
+import { MemberDTO } from "@/hooks/Type_DTO";
 
-export default function TeamCard({ team }: { team: TeamMiniDTO }) {
+export default function TeamCard({ team,member }: { team: TeamMiniDTO,member:MemberDTO|null }) {
   // Avatars des membres (max 4)
   const avatars =
     team.Team_member?.map((tm) => tm.Member?.avatar)
@@ -16,7 +17,7 @@ export default function TeamCard({ team }: { team: TeamMiniDTO }) {
   const emptySlots = Math.max(0, 4 - avatars.length);
 
   return (
-    <div className="w-[140px]">
+    <div className="w-[160px] p-2 rounded-lg shadow-sm">
       {/* Image thumbnail (placeholder) */}
       <div className="h-[90px] w-full overflow-hidden rounded-md bg-black/10">
         {/* Si tu veux une vraie image d’équipe, remplace par <Image /> */}
@@ -34,13 +35,13 @@ export default function TeamCard({ team }: { team: TeamMiniDTO }) {
       </p>
 
       {/* Avatars / slots */}
-      <div className="mt-1 flex items-center gap-1">
+      <div className="mt-1 flex items-center justify-start gap-1">
         {avatars.map((a, idx) => (
           <img
             key={`${a}-${idx}`}
             src={a as string}
             alt="player"
-            className="h-4 w-4 rounded-full object-cover"
+            className="h-4 w-4 rounded-full object-cover drop-shadow-md"
           />
         ))}
 
@@ -50,16 +51,16 @@ export default function TeamCard({ team }: { team: TeamMiniDTO }) {
             className="inline-block h-4 w-4 rounded-full border border-dashed border-black/30"
           />
         ))}
+          { !member?.Admin &&
+            (<AppLink
+            href={`/equipes/${team.id_team}`}
+            className="text-[10px] !text-blue-600 hover:underline text-center underline-offset-4"
+          >
+            REJOINDRE
+          </AppLink>)
+          }
       </div>
 
-      {/* <div className="mt-1">
-        <AppLink
-          href={`/equipes/${team.id_team}`}
-          className="text-[11px] !text-blue-600 hover:underline underline-offset-4"
-        >
-          Details
-        </AppLink>
-      </div> */}
     </div>
   );
 }
