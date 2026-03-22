@@ -64,13 +64,14 @@ export default function TourViewList(props:{tournaments:TournamentDTO[]}){
             { props.tournaments.length>0 ?
                 (props.tournaments.map((tournament,i)=>(
                     <li key={tournament.id_tour} className="group hover:cursor-pointer hover:bg-black/10 p-1 flex justify-start items-center w-full gap-1"
-                        onClick={()=> location.href='/community/'+tournament.Community.id_community+'/tournament?id='+tournament.id_tour}>
+                        onClick={()=> location.href='/communautes/tournois/'+tournament.id_tour}>
                         <ImageDefault
                         avatar={tournament.avatar ?? ''}
                         title='image de profil du membre'
-                        onClick={()=> location.href='/community/'+tournament.Community.id_community+'/tournament?id='+tournament.id_tour}
+                        onClick={()=> location.href='/communautes/tournois/'+tournament.id_tour}
                         className='w-10 h-10 rounded-full p-1'/>
                         <p className=" flex-25 max-sm:text-[13px] text-gray-500 italic"><sub>@</sub>{tournament.name ?? 'name'}</p>
+                        <p className=" flex-25 max-sm:text-[13px] text-gray-500 italic"><sub>@</sub>{tournament.id_tour ?? 'id'}</p>
                         <p className="flex flex-45 justify-start items-center gap-1 flex-10 max-sm:text-[13px] text-gray-500 italic">
                             {
                                 etats[i]===-2 &&
