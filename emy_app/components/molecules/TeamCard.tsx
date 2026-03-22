@@ -6,7 +6,7 @@ import type { TeamMiniDTO } from "@/hooks/Type_Teams";
 import Image from "next/image";
 import { MemberDTO } from "@/hooks/Type_DTO";
 
-export default function TeamCard({ team,member }: { team: TeamMiniDTO,member:MemberDTO|null }) {
+export default function TeamCard({ team,admin }: { team: TeamMiniDTO,admin:boolean }) {
   // Avatars des membres (max 4)
   const avatars =
     team.Team_member?.map((tm) => tm.Member?.avatar)
@@ -51,7 +51,7 @@ export default function TeamCard({ team,member }: { team: TeamMiniDTO,member:Mem
             className="inline-block h-4 w-4 rounded-full border border-dashed border-black/30"
           />
         ))}
-          { !member?.Admin &&
+          { !admin &&
             (<AppLink
             href={`/equipes/${team.id_team}`}
             className="text-[10px] !text-blue-600 hover:underline text-center underline-offset-4"

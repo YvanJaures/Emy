@@ -8,8 +8,7 @@ import { useRouter } from "next/navigation";
 import Button from "../atoms/Button";
 import { useConnexion } from "@/hooks/useAuth";
 
-export default function TournamentTeamsBlock({ t }: { t: TournamentDTO }) {
-  const {member}=useConnexion()
+export default function TournamentTeamsBlock({ t,admin }: { t: TournamentDTO,admin:boolean }) {
   const title = t?.name?.trim() ? t.name : `Tournoi ${t?.id_tour}`;
     const router = useRouter();
 
@@ -20,13 +19,13 @@ export default function TournamentTeamsBlock({ t }: { t: TournamentDTO }) {
 
       <div className="mt-3 flex gap-5 overflow-x-auto pb-2">
         {t?.Team?.map((team) => (
-          <TeamCard key={team.id_team} team={team} member={member} />
+          <TeamCard key={team.id_team} team={team} admin={admin} />
         ))}
-        { !member?.Admin &&(<span className="w-20 min-h-45 rounded-lg border flex justify-center items-center border-dotted text-center hover:cursor-pointer ">
+        { !admin &&(<span className="w-20 min-h-45 rounded-lg border flex justify-center items-center border-dotted text-center hover:cursor-pointer ">
             +
         </span>)}
       </div>
-      { member?.Admin && (
+      { admin && (
         <div className="absolute bottom-3 right-4">
           <AppLink
             //href={`/tournois/${t.id_tour}/equipes`}

@@ -148,7 +148,8 @@ export default function TournamentBlockSlug({tournament}:Props){
                 <section className="p-3 ">
                     <p>EQUIPES</p>
                     <TournamentTeamsBlock
-                        t={tournament}/>
+                        t={tournament}
+                        admin={false}/>
                 </section>
                 <section>
                     <TablePrize

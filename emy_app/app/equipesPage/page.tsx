@@ -11,7 +11,7 @@ import SectionPillTitle from "@/components/molecules/SectionPillTitle";
 import LoadingAnimation from "@/components/organisms/LoadingAnimation";
 
 import TournamentTeamsBlock from "@/components/organisms/TournamentTeamsBlock";
-import type { TournamentTeamsDTO } from "@/hooks/Type_Teams";
+import type { TournamentDTO } from "@/hooks/Type_DTO";
 import { useAuth } from "@/hooks/useAuth";
 
 /**
@@ -27,7 +27,7 @@ import { useAuth } from "@/hooks/useAuth";
  */
 
 export default function EquipesPage() {
-  const [data, setData] = useState<TournamentTeamsDTO[]>([]);
+  const [data, setData] = useState<TournamentDTO[]>([]);
   const [_loading, setLoading] = useState(true);
   const {member,loading}=useAuth()
   
@@ -44,7 +44,7 @@ useEffect(() => {
 
       if (!res.ok) throw new Error("Erreur chargement équipes");
 
-      const json = (await res.json()) as TournamentTeamsDTO[];
+      const json = (await res.json()) as TournamentDTO[];
       setData(json);
     } catch (e) {
       console.error(e);
@@ -86,7 +86,7 @@ useEffect(() => {
             {_loading ? (
               <p className="text-xs text-white/90">Chargement...</p>
             ) : (
-              data.map((t) => <TournamentTeamsBlock key={t.id_tour} t={t} />)
+              data.map((t) => <TournamentTeamsBlock key={t.id_tour} t={t} admin={true} />)
             )}
           </div>
         </ImageBackground>
