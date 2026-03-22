@@ -1,7 +1,6 @@
 "use client"
 
 import { CommunityDTO } from "@/hooks/Type_DTO"
-import { RiArrowLeftSLine } from "react-icons/ri";
 import { SlMagnifier } from "react-icons/sl";
 import { FaGlobeAmericas } from "react-icons/fa";
 import { LuUsers } from "react-icons/lu";
@@ -20,32 +19,26 @@ import NavBarCommunity from "./NavBarCommunity";
 import OnPrivate from "./OnPrivate";
 import { useConnexion } from "@/hooks/useAuth";
 type Props={
-    community:CommunityDTO,
-    _isMember:boolean,
-    onShown:(shown:boolean)=>void
+    community:CommunityDTO
 }
 /**
  * Affiche les données sur la communauté
  * @param community 
- * @param OnShow 
- * @param isMember 
+ * @param member 
  * @returns la page de detail de communauté
  */
-export default function CommunityBlock({community,_isMember,onShown}:Props){
+export default function CommunityBlockSlug({community}:Props){
     const [members,setMembers]=useState<MemberDTO[]>([])
     const [tournaments,setTournaments]=useState<TournamentDTO[]>([])
     const [onError,setOnError]=useState(false)
     const [loading,setLoading]=useState(false)
-    const [isMember,SetIsMember]=useState(_isMember)
+    const [isMember,SetIsMember]=useState(false)
     const [view,setView]=useState(1)
     const {member}=useConnexion()
-    const handleShow=()=>{
-        onShown(false)
-    }
-
     
     useEffect(()=>{
         const handleIsMember=()=>{
+            console.log(community)
             community.Community_member?.forEach((memb)=>{
                 if(memb.user_name===member?.user_name){
                     SetIsMember(true)
@@ -91,15 +84,12 @@ export default function CommunityBlock({community,_isMember,onShown}:Props){
             }
         }
         fetchTournaments()
-    },[])
+    },[member])
     return(
         <div className="z-150 absolute fixed flex flex-col top-0 left-0 
             bg-white h-lvh w-full overflow-scroll max-sm:h-full">
             <header className="flex-5 absolute sticky top-0 left-0
                 flex justify-between items-center w-full p-3 bg-white/70 z-99">
-                <RiArrowLeftSLine 
-                    onClick={()=>handleShow()}
-                    className="hover:cursor-pointer hover:bg-gray-200 rounded-full stroke-2"/>
                 <Title
                     children={community.name}
                     as='h2'
