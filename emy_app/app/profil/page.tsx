@@ -6,13 +6,45 @@ import Sidebar from "@/components/organisms/SideBar";
 import MetaData from "@/components/organisms/MetaData";
 import LoadingAnimation from "@/components/organisms/LoadingAnimation";
 import { useAuth } from "@/hooks/useAuth";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TeamCardProfil from "@/components/molecules/TeamCardProfil";
+import Constructing from "@/components/organisms/Constructing";
 
 export default function Profil() {
     const { member, loading } = useAuth();
     const [activeView, setActiveView] = useState("profil");
-    const [modify,setModify]=useState(false)
+    const [modify, setModify] = useState(false);
+    const [teams, setTeams] = useState<any[]>([]);
+
+    console.log("MEMBER:", member);
+    console.log("TEAM_MEMBER:", member?.Team_member);
+
+    useEffect(() => {
+        const fetchTeams = async () => {
+            if (!member?.Team_member) return;
+
+            const results = await Promise.all(
+                member.Team_member.map(async (tm: any) => {
+                    if (!tm.id_team) return null;
+
+                    const res = await fetch(
+                        `/api/member/team/details?id_team=${tm.id_team}`,
+                        { credentials: "include" }
+                    );
+
+                    if (res.ok) {
+                        return await res.json();
+                    }
+
+                    return null;
+                })
+            );
+
+            setTeams(results.filter(Boolean));
+        };
+
+        fetchTeams();
+    }, [member]);
 
     return (
         <>
@@ -56,7 +88,7 @@ export default function Profil() {
                                         imgUrl={member?.avatar ?? "null"}
                                         email={member?.email ?? ""}
                                         admin={false}
-                                        onModify={(mod)=>(setModify(mod))}
+                                        onModify={(mod) => (setModify(mod))}
                                         edit="pointer-events-all"
                                     />
 
@@ -97,36 +129,42 @@ export default function Profil() {
                             {activeView === "equipes" && (
                                 <>
                                     <h1 className="text-lg underline underline-offset-4 mb-6">
-                                        MES ÉQUIPES
+                                    MES ÉQUIPES
                                     </h1>
 
-                                    <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl">
-                                        <p></p>
+                                    {teams.length === 0 ? (
+                                    <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl text-center">
+                                        <p className="text-gray-500">
+                                        Vous n'avez rejoint aucune équipe
+                                        </p>
+
+                                        <button className="mt-4 text-blue-500 hover:underline">
+                                        Rejoindre une équipe
+                                        </button>
                                     </div>
+                                    ) : (
+                                    <div className="flex flex-col gap-6">
+                                        {teams.map((team: any) => (
+                                        <TeamCardProfil key={team.id_team} team={team} />
+                                        ))}
+                                    </div>
+                                    )}
                                 </>
-                            )}
+                                )}
+                                {activeView === "activites" && (
+                                    <>
+                                        <h1 className="text-lg underline underline-offset-4 mb-6">
+                                        ACTIVITÉS
+                                        </h1>
 
-                            {activeView === "equipes" && (
-                             <>
-                            <h1 className="text-lg underline underline-offset-4 mb-6">
-                            MES ÉQUIPES
-                            </h1>
-
-                            <div className="flex flex-col gap-6">
-
-                            {member?.Team_member?.map((tm) =>
-                                tm.Team ? (
-                                <TeamCardProfil
-                                    key={tm.Team.id_team}
-                                    team={tm.Team}
-                                />
-                                ) : null
-                            )}
-                            </div>
-        </>
-                        )}
+                                        <div className="w-full h-[400px]">
+                                        <Constructing />
+                                        </div>
+                                    </>
+                                    )}
                         </div>
                     </main>
+
                     <Footer />
                 </div>
             )}
