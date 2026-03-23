@@ -232,7 +232,7 @@ export async function addTeamMemberWait(id_team,user_name){
         data:{
             id_team:id_team,
             user_name:user_name,
-            status:0
+            status:false
         }
     })
 }
@@ -246,7 +246,7 @@ export async function addTeamMember(user_name){
             user_name:user_name
         },
         data:{
-            status:1
+            status:true
         }
     });
 }

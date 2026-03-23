@@ -279,7 +279,7 @@ export async function getAdminById(id_admin) {
  */
 export async function getTourTeamsByCommunity(id_community) {
   return await prisma.tournament.findMany({
-    where: { id_community },
+    where: { id_community:id_community },
     select: {
       id_tour: true,
       location: true,
