@@ -34,7 +34,7 @@ export default function Profil() {
             const fullMember = await res.json();
              console.log("FULL MEMBER:", fullMember);
 
-            setTeams(
+                        setTeams(
                 fullMember?.Team_member
                     ?.map((tm: any) => tm.Team)
                     .filter(Boolean) || []
