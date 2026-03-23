@@ -162,10 +162,11 @@ export const addTeamC = async (request, response) => {
       request.body.name,
       request.body.id_tour,
       request.body.key_team,
+      request.body.user_name
     );
     response.status(201).end();
   } catch (error) {
-    response.status(400).end();
+    response.status(400).json({error});
   }
 };
 /**

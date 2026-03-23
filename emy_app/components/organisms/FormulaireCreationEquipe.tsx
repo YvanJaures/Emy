@@ -5,7 +5,7 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import PopUp from "../atoms/PopUp";
 import Montant from "../molecules/Montant";
-import Formulaire, { FormulaireData } from "@/components/templates/Formulaire";
+import FormulaireEquipe, { FormulaireData } from "@/components/templates/FormulaireEquipe";
 import { useConnexion } from "@/hooks/useAuth";
 
 type Props = {
@@ -18,21 +18,23 @@ type FormErrors = Partial<Record<keyof FormulaireData, string>> & {
   general?: string;
 };
 /** Formulaire de payement pour l'inscription a un tournoi */
-export default function FormulaireInscription({
+export default function FormulaireCreationEquipe({
   isOpen,
   onClose,
   id_tour,
 }: Props) {
   const { member, loading } = useConnexion();
   const router = useRouter();
-
   const [successMessage, setSuccessMessage] = useState("");
+
   const [amount, setAmount] = useState<number>(0);
   const [submitting, setSubmitting] = useState(false);
 
   const [formData, setFormData] = useState<FormulaireData>({
     user_name: "",
     email: "",
+    team_name:"",
+    team_key:"",
     payment_method: "",
     card_number: "",
     card_name: "",
@@ -54,7 +56,7 @@ export default function FormulaireInscription({
   }, [member]);
 
   const handleAmountLoaded = (loadedAmount: number) => {
-    setAmount(loadedAmount);
+    setAmount(loadedAmount*3);
   };
 
   const handleChange = (
@@ -84,7 +86,12 @@ export default function FormulaireInscription({
     if (!formData.email.trim()) {
       newErrors.email = "L'email est obligatoire";
     }
-
+    if (!formData.team_name.trim()) {
+      newErrors.team_name = "Le nom est obligatoire";
+    }
+    if (!formData.team_key.trim()) {
+      newErrors.team_key = "La clé est obligatoire";
+    }
     if (!formData.payment_method.trim()) {
       newErrors.payment_method = "Le mode de paiement est obligatoire";
     }
@@ -145,29 +152,28 @@ export default function FormulaireInscription({
       setErrors({});
       setSuccessMessage("");
 
-      const response = await fetch(`/api/member/tournament/registration`, {
+      const response = await fetch(`/api/member/team`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         credentials: "include",
         body: JSON.stringify({
-          id_tour,
+          name:formData.team_name,
+          id_tour:id_tour,
+          key_team:formData.team_key,
           user_name: member.user_name,
         }),
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
         setErrors({
-          general:
-            data?.message || "Erreur lors du paiement ou de l'inscription",
+          general:"Erreur lors du paiement ou de la création"+(await response.json()).error,
         });
         return;
       }
 
-      setSuccessMessage("Payement effectué avec succès");
+      setSuccessMessage("Payement effectué avec succès! Création en cours...");
 
       setTimeout(() => {
         onClose();
@@ -178,8 +184,9 @@ export default function FormulaireInscription({
       // location.href = "/profil";
     } catch (error) {
       setErrors({
-        general: "Une erreur est survenue. Veuillez réessayer.",
+        general: "Une erreur est survenue. Veuillez réessayer."+error,
       });
+      console.log(error)
     } finally {
       setSubmitting(false);
     }
@@ -190,12 +197,12 @@ export default function FormulaireInscription({
   return (
     <PopUp onClose={onClose}>
       <div className="w-full p-6">
-        <h2 className="mb-6 text-2xl font-bold">Formulaire dinscription</h2>
+        <h2 className="mb-6 text-2xl font-bold">Formulaire de création d'équipe</h2>
 
         <div className="space-y-4">
           <Montant id_tour={id_tour} onAmountLoaded={handleAmountLoaded} />
 
-          <Formulaire
+          <FormulaireEquipe
             formData={formData}
             errors={errors}
             onChange={handleChange}
@@ -203,7 +210,7 @@ export default function FormulaireInscription({
 
           {amount > 0 && (
             <p className="text-sm text-gray-600">
-              Montant à payer :{" "}
+              Montant à payer :{amount/3+' * '+'3 = '}
               <span className="font-semibold">{amount} $</span>
             </p>
           )}
@@ -222,7 +229,7 @@ export default function FormulaireInscription({
             <button
               type="button"
               onClick={onClose}
-              className="rounded-md border px-4 py-2"
+              className="rounded-md border px-4 py-2 hover:cursor-pointer"
             >
               Annuler
             </button>
@@ -231,7 +238,7 @@ export default function FormulaireInscription({
               type="button"
               onClick={handleSubmit}
               disabled={submitting}
-              className="rounded-md bg-blue-600 px-4 py-2 text-white disabled:opacity-50"
+              className="rounded-md bg-blue-600 px-4 py-2 text-white disabled:opacity-50 hover:cursor-pointer"
             >
               {submitting ? "Paiement..." : "Payer"}
             </button>

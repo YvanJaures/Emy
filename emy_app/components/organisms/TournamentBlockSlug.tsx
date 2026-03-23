@@ -11,6 +11,9 @@ import Button from "../atoms/Button";
 import TournamentTeamsBlock from "./TournamentTeamsBlock";
 import TablePrize from "../molecules/TablePrize";
 import FormulaireInscription from "./FormulaireInscription";
+import FormulaireCreationEquipe from "./FormulaireCreationEquipe";
+import Confirmation from "./Confirmation";
+import { useConnexion } from "@/hooks/useAuth";
 
 type Props = {
   tournament: TournamentDTO;
@@ -18,8 +21,11 @@ type Props = {
 export default function TournamentBlockSlug({ tournament }: Props) {
   const [selectedPrizes, setSelectedPrizes] = useState<PrizeDTO[] | null>(null);
   const [openRegistration, setOpenRegistration] = useState(false);
+  const [onConfirmation,SetOnConfirmation]=useState(false)
   const [registrationError, setRegistrationError] = useState("");
-
+  const [creationError, setCreationError] = useState("");
+  const [openCreation, setOpenCreation] = useState(false);
+  const {member}=useConnexion()
   /**
    * compare les date du tournois à la date actuelle pour determiner si
    * elle auras, a ou a eu lieu
@@ -62,6 +68,11 @@ export default function TournamentBlockSlug({ tournament }: Props) {
   }, [tournament]);
 
   const handleRegistrationClick = () => {
+    if(!member){
+      SetOnConfirmation(true)
+      return
+    }
+    SetOnConfirmation(false)
     if (etat === -1 || etat === 0) {
       setRegistrationError("");
       setOpenRegistration(true);
@@ -70,11 +81,26 @@ export default function TournamentBlockSlug({ tournament }: Props) {
       setOpenRegistration(false);
     }
   };
-
+  const handleCreationClick = () => {
+      if(!member){
+      SetOnConfirmation(true)
+      return
+    }
+    SetOnConfirmation(false)
+    if (etat === -1 || etat === 0) {
+      setCreationError("");
+      setOpenCreation(true);
+    } else {
+      setCreationError("Tournoi terminé");
+      setOpenCreation(false);
+    }
+  };
   const handleCloseRegistration = () => {
     setOpenRegistration(false);
   };
-
+  const handleCloseCreation = () => {
+    setOpenCreation(false);
+  };
   return (
     <>
       <div className="flex flex-col">
@@ -170,7 +196,7 @@ export default function TournamentBlockSlug({ tournament }: Props) {
         </section>
         <section className="p-3 ">
           <p>EQUIPES</p>
-          <TournamentTeamsBlock t={tournament} admin={false} />
+          <TournamentTeamsBlock t={tournament} admin={false} onCreate={(res)=>{ if(res) handleCreationClick()}}/>
         </section>
         <section>
           <TablePrize
@@ -179,12 +205,23 @@ export default function TournamentBlockSlug({ tournament }: Props) {
           />
         </section>
       </div>
-
+      <FormulaireCreationEquipe
+        isOpen={openCreation}
+        onClose={handleCloseCreation}
+        id_tour={tournament.id_tour}
+      />
       <FormulaireInscription
         isOpen={openRegistration}
         onClose={handleCloseRegistration}
         id_tour={tournament.id_tour}
       />
+      {onConfirmation &&(
+        <Confirmation
+          title="Redirection"
+          message="Vous allez être rediriger vers la page de connexion. Continuer?"
+          onConfirmed={(res)=>{SetOnConfirmation(false);if(res) location.href='/login'}}
+          showConfirm={onConfirmation}/>
+      )}
     </>
   );
 }

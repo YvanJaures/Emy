@@ -13,6 +13,7 @@ import Button from "../atoms/Button";
 export default function TeamCard({ team,admin }: { team: TeamDTO,admin:boolean }) {
   const {member}=useConnexion()
   const [onConfirmation,SetOnConfirmation]=useState(false)
+  const [cantJoin,SetCantJoin]=useState(team.members===4)
   const [avatars,setAvatars]=useState(team.Team_member?.map((tm) => tm.Member?.avatar)
       .filter(Boolean)
       .slice(0, 4) ?? [])
@@ -29,12 +30,15 @@ export default function TeamCard({ team,admin }: { team: TeamDTO,admin:boolean }
       setIsMember(is?? false)
   },[])
   const handleJoin=async ()=>{
+    SetOnConfirmation(false)
     if(!team.open) return
+    if(cantJoin) return
     if(isMember) return
     if(!member){
       SetOnConfirmation(true)
       return
     }
+    SetCantJoin(true)
     SetOnConfirmation(false)
     const payload={
       id_team:team.id_team,
@@ -92,9 +96,9 @@ export default function TeamCard({ team,admin }: { team: TeamDTO,admin:boolean }
         ))}
           { !admin &&
             (<button
-            disabled={isMember||avatars.length>=4}
+            disabled={isMember||avatars.length>=4||cantJoin}
             onClick={()=>handleJoin()}
-            className={` ${isMember||avatars.length>=4? 'text-gray-400 hover:cursor-not-allowed text-[10px]':'bg-none hover:cursor-pointer text-[10px] text-blue-400 hover:underline'}`}
+            className={` ${isMember||avatars.length>=4||cantJoin? 'text-gray-400 hover:cursor-not-allowed text-[10px]':'bg-none hover:cursor-pointer text-[10px] text-blue-400 hover:underline'}`}
           >
             {isMember?'MEMBRE':'REJOINDRE'}
           </button>)
@@ -104,7 +108,7 @@ export default function TeamCard({ team,admin }: { team: TeamDTO,admin:boolean }
             <Confirmation
               title="Redirection"
               message="Vous allez être rediriger vers la page de connexion. Continuer?"
-              onConfirmed={(res)=>{SetOnConfirmation(!res);location.href='/login'}}
+              onConfirmed={(res)=>{SetOnConfirmation(false);if(res) location.href='/login'}}
               showConfirm={onConfirmation}/>
           )}
     </div>

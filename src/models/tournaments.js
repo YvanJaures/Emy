@@ -48,6 +48,7 @@ export async function getTournamentsByCommunity(id_community) {
                 name: true,
                 id_tour: true,
                 open: true,
+                players:true,
                 key_team: true,
                 members: true,
                 Team_member: {
