@@ -232,7 +232,7 @@ export async function addTeamMemberWait(id_team,user_name){
         data:{
             id_team:id_team,
             user_name:user_name,
-            status:0
+            status: false
         }
     })
 }

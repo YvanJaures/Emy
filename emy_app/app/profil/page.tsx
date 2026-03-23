@@ -17,35 +17,32 @@ export default function Profil() {
     const [teams, setTeams] = useState<any[]>([]);
 
     console.log("MEMBER:", member);
-    console.log("TEAM_MEMBER:", member?.Team_member);
+    console.log("TEAMS:", teams);
+    
 
     useEffect(() => {
         const fetchTeams = async () => {
-            if (!member?.Team_member) return;
+            if (!member?.user_name) return;
 
-            const results = await Promise.all(
-                member.Team_member.map(async (tm: any) => {
-                    if (!tm.id_team) return null;
-
-                    const res = await fetch(
-                        `/api/member/team/details?id_team=${tm.id_team}`,
-                        { credentials: "include" }
-                    );
-
-                    if (res.ok) {
-                        return await res.json();
-                    }
-
-                    return null;
-                })
+            const res = await fetch(
+                `/api/member/user_name?user_name=${member.user_name}`,
+                { credentials: "include" }
             );
 
-            setTeams(results.filter(Boolean));
+            if (!res.ok) return;
+
+            const fullMember = await res.json();
+             console.log("FULL MEMBER:", fullMember);
+
+            setTeams(
+                fullMember?.Team_member
+                    ?.map((tm: any) => tm.Team)
+                    .filter(Boolean) || []
+            );
         };
 
         fetchTeams();
     }, [member]);
-
     return (
         <>
             {loading ? (
@@ -138,9 +135,38 @@ export default function Profil() {
                                         Vous n'avez rejoint aucune équipe
                                         </p>
 
-                                        <button className="mt-4 text-blue-500 hover:underline">
-                                        Rejoindre une équipe
-                                        </button>
+                                <button
+                                onClick={async () => {
+                                    if (!member?.user_name) return;
+
+                                    const res = await fetch('/api/member/team/add', {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    credentials: 'include',
+                                    body: JSON.stringify({
+                                        id_team: 1,
+                                        user_name: member.user_name
+                                    })
+                                    });
+
+                                    let data = null;
+
+                                try {
+                                data = await res.json();
+                                } catch (e) {
+                                console.log("No JSON response");
+                                }
+
+                                console.log("RESPONSE:", res.status, data);
+
+                                    if (res.ok) {
+                                    location.reload();
+                                    }
+                                }}
+                                className="mt-4 text-blue-500 hover:underline"
+                                >
+                                Rejoindre une équipe
+                                </button>
                                     </div>
                                     ) : (
                                     <div className="flex flex-col gap-6">
