@@ -87,6 +87,20 @@ export async function addCommunityMember(payload:Object){
 
     }
 }
+export async function addTeamMemberWait(payload:Object){
+    try{
+        const res=await fetch('/api/member/team/add',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(payload)
+        })
+        if(!res.ok){
+            throw new Error('ajout impossible')
+        }
+    }catch(error){
+
+    }
+}
 export async function deleteMemberCommunity(user_name:string,id_community:number){
     try {
         const res = await fetch('/api/member/community', {

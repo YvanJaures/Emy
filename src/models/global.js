@@ -242,7 +242,7 @@ export async function addTeamMemberWait(id_team, user_name) {
     data: {
       id_team: id_team,
       user_name: user_name,
-      status: 0,
+      status:false,
     },
   });
 }
@@ -250,15 +250,15 @@ export async function addTeamMemberWait(id_team, user_name) {
  * Modifie le status d'un memebre d'équipe à status =1 indiquant que le membre est définitif
  * @param {*} user_name nom de l'utilisateur
  */
-export async function addTeamMember(user_name) {
-  await prisma.team_member.update({
-    where: {
-      user_name: user_name,
-    },
-    data: {
-      status: 1,
-    },
-  });
+export async function addTeamMember(user_name){
+    await prisma.team_member.update({
+        where:{
+            user_name:user_name
+        },
+        data:{
+            status:true
+        }
+    });
 }
 /**
  * Effectue le paiement
