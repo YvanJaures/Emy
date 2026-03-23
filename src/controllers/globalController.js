@@ -406,6 +406,12 @@ export const registrationPlayerC = async (request, response) => {
       player
     });
   } catch (error) {
+    if (error.message === "Ce membre est déjà inscrit à ce tournoi") {
+      return response.status(400).json({
+        message: "Vous êtes déjà inscrit à ce tournoi"
+      });
+    }
+
     return response.status(400).json({
       message: "Erreur lors de l'inscription au tournoi",
       error: error.message
