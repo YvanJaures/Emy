@@ -25,6 +25,7 @@ export default function FormulaireInscription({
 }: Props) {
   const { member, loading } = useAuth();
   const router = useRouter();
+  const [successMessage, setSuccessMessage] = useState("");
 
   const [amount, setAmount] = useState<number>(0);
   const [submitting, setSubmitting] = useState(false);
@@ -141,6 +142,8 @@ export default function FormulaireInscription({
 
     try {
       setSubmitting(true);
+      setErrors({});
+      setSuccessMessage("");
 
       const response = await fetch(`/api/member/tournament/registration`, {
         method: "POST",
@@ -164,8 +167,15 @@ export default function FormulaireInscription({
         return;
       }
 
-      onClose();
-      location.href = "/profil";
+      setSuccessMessage("Payement effectué avec succès");
+
+      setTimeout(() => {
+        onClose();
+        setSuccessMessage("");
+      }, 3000);
+
+      // onClose();
+      // location.href = "/profil";
     } catch (error) {
       setErrors({
         general: "Une erreur est survenue. Veuillez réessayer.",
@@ -200,6 +210,12 @@ export default function FormulaireInscription({
 
           {errors.general && (
             <p className="text-sm text-red-600">{errors.general}</p>
+          )}
+
+          {successMessage && (
+            <p className="text-sm text-green-600 font-medium">
+              {successMessage}
+            </p>
           )}
 
           <div className="flex justify-end gap-3 pt-4">
