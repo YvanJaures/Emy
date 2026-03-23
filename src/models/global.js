@@ -393,3 +393,17 @@ export async function registrationPlayer(id_tour, user_name) {
 
   return player;
 }
+
+/**Afficher toutes les équipes + détails d’un membre */
+export async function getAllTeams() {
+  return await prisma.team.findMany({
+    include: {
+      Tournament: true,
+      Team_member: {
+        include: {
+          Member: true
+        }
+      }
+    }
+  });
+}

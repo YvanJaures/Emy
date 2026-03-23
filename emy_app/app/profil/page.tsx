@@ -19,30 +19,24 @@ export default function Profil() {
     console.log("MEMBER:", member);
     console.log("TEAMS:", teams);
     
+    
 
     useEffect(() => {
-        const fetchTeams = async () => {
-            if (!member?.user_name) return;
+    const fetchTeams = async () => {
+        const res = await fetch(`/api/member/my-teams`, {
+            credentials: "include"
+        });
 
-            const res = await fetch(
-                `/api/member/user_name?user_name=${member.user_name}`,
-                { credentials: "include" }
-            );
+        if (!res.ok) return;
 
-            if (!res.ok) return;
+        const data = await res.json();
+        console.log("MY TEAMS:", data);
 
-            const fullMember = await res.json();
-             console.log("FULL MEMBER:", fullMember);
+        setTeams(data.teams || []);
+    };
 
-                        setTeams(
-                fullMember?.Team_member
-                    ?.map((tm: any) => tm.Team)
-                    .filter(Boolean) || []
-            );
-        };
-
-        fetchTeams();
-    }, [member]);
+    fetchTeams();
+}, []);
     return (
         <>
             {loading ? (

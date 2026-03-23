@@ -21,6 +21,7 @@ import {
 import "../services/auth.js";
 import passport from "passport";
 import "dotenv/config";
+import { getAllTeams } from "../models/global.js";
 // copier et adapter
 /*
 export const basefunction=async(request,response)=>{
@@ -414,6 +415,41 @@ export const registrationPlayerC = async (request, response) => {
 
     return response.status(400).json({
       message: "Erreur lors de l'inscription au tournoi",
+      error: error.message
+    });
+  }
+};
+/**Récupérer les détails d'un équipe a partir d'un user_name */
+export const getMyTeamsC = async (request, response) => {
+  try {
+
+    const user_name = request.user?.user_name;
+
+    if (!user_name) {
+      return response.status(401).json({
+        message: "Utilisateur non connecté"
+      });
+    }
+
+    const data = await getTeamsDetailsByUser(user_name);
+
+    const teams = data?.Team_member
+      ?.map(tm => tm.Team)
+      .filter(Boolean)
+      .map(team => ({
+        ...team,
+        current: team.Team_member.filter(m => m.status === true),
+        pending: team.Team_member.filter(m => m.status === false),
+      })) || [];
+
+    return response.status(200).json({
+      message: "Équipes récupérées avec succès",
+      teams
+    });
+
+  } catch (error) {
+    return response.status(400).json({
+      message: "Erreur lors de la récupération des équipes",
       error: error.message
     });
   }
