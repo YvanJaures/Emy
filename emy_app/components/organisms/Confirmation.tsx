@@ -8,6 +8,14 @@ type Props={
     onConfirmed:(conf:boolean)=>void,
     showConfirm:boolean
 }
+/**
+ *  Valide le choix de l'utilisateur
+ * @param title titre du pop up 
+ * @param message message à afficher
+ * @param showConfirm boolean de visibilité du pop up 
+ * @param onConfirmed Si le message est confirmé 
+ * @returns true si confirmation
+ */
 export default function Confirmation({ title, message,onConfirmed,showConfirm}: Props){
     const [isVisible,setIsVisible]=useState(false)
     useEffect(()=>{
