@@ -1,7 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GrMapLocation, GrShare } from "react-icons/gr";
-import { TournamentDTO, PrizeDTO } from "@/hooks/Type_DTO";
+import { TournamentDTO, PrizeDTO, TeamDTO } from "@/hooks/Type_DTO";
 import ImageDefault from "../atoms/ImageDefault";
 import { useMemo } from "react";
 import { CiGlobe, CiBadgeDollar } from "react-icons/ci";
@@ -20,12 +20,35 @@ type Props = {
 };
 export default function TournamentBlockSlug({ tournament }: Props) {
   const [selectedPrizes, setSelectedPrizes] = useState<PrizeDTO[] | null>(null);
+  const [_tour,setTour]=useState<TournamentDTO>(tournament)
+  const [last,setLast]=useState(-1)
   const [openRegistration, setOpenRegistration] = useState(false);
   const [onConfirmation,SetOnConfirmation]=useState(false)
   const [registrationError, setRegistrationError] = useState("");
   const [creationError, setCreationError] = useState("");
   const [openCreation, setOpenCreation] = useState(false);
   const {member}=useConnexion()
+
+  useEffect(()=>{
+
+    (async()=>{
+      const response=await fetch('/api/member/team/last')
+      if(response.ok){
+        const data=await response.json() as TeamDTO
+        setLast(data.id_team)
+      }
+    })()
+  },[])
+  const handleNewTeam=(team:TeamDTO)=>{
+    console.log('hey')
+    console.log(team)
+    const tour=_tour
+    if(team){
+      tour.Team?.push(team)
+      setTour(tour)
+    }
+    console.log(tour)
+  }
   /**
    * compare les date du tournois à la date actuelle pour determiner si
    * elle auras, a ou a eu lieu
@@ -124,7 +147,7 @@ export default function TournamentBlockSlug({ tournament }: Props) {
             <p>{tournament?.Community.details}</p>
             <span className="flex">
               <p className="">
-                groupes : {tournament?.members ? tournament?.members : "0"}{" "}
+                groupes : {tournament?.Team?.length} /{tournament?.members/4}
                 <br />
                 début:{" "}
                 {new Date(
@@ -170,7 +193,7 @@ export default function TournamentBlockSlug({ tournament }: Props) {
           </section>
           <span className="flex-20 h-full text-lg">
             <p className="flex justify-start items-center gap-2">
-              <LuUsers className="" /> {tournament?.Player?.length ?? 0}
+              <LuUsers className="" /> {tournament?.Player?.length ?? 0}/{tournament?.members}
             </p>
             <a
               href={`https://www.google.com/maps/place/${tournament?.location ?? "/"}`}
@@ -180,7 +203,7 @@ export default function TournamentBlockSlug({ tournament }: Props) {
             >
               <GrMapLocation className="hover:cursor-pointer hover:text-[#0F70AC]" />
               <p className="max-sm:hidden overflow-hidden">
-                {tournament?.location}
+                {tournament?.location }
               </p>
             </a>
             <p className="flex justify-start items-center gap-2">
@@ -196,7 +219,7 @@ export default function TournamentBlockSlug({ tournament }: Props) {
         </section>
         <section className="p-3 ">
           <p>EQUIPES</p>
-          <TournamentTeamsBlock t={tournament} admin={false} onCreate={(res)=>{ if(res) handleCreationClick()}}/>
+          <TournamentTeamsBlock t={_tour} admin={false} onCreate={(res)=>{ if(res) handleCreationClick()}}/>
         </section>
         <section>
           <TablePrize
@@ -209,6 +232,8 @@ export default function TournamentBlockSlug({ tournament }: Props) {
         isOpen={openCreation}
         onClose={handleCloseCreation}
         id_tour={tournament.id_tour}
+        onCreate={(team)=>handleNewTeam(team)}
+        last_team={last}
       />
       <FormulaireInscription
         isOpen={openRegistration}

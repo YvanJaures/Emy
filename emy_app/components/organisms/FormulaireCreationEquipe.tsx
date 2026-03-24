@@ -7,11 +7,14 @@ import PopUp from "../atoms/PopUp";
 import Montant from "../molecules/Montant";
 import FormulaireEquipe, { FormulaireData } from "@/components/templates/FormulaireEquipe";
 import { useConnexion } from "@/hooks/useAuth";
+import { TeamDTO } from "@/hooks/Type_DTO";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
+  onCreate: (team:TeamDTO) => void;
   id_tour: number;
+  last_team:number;
 };
 
 type FormErrors = Partial<Record<keyof FormulaireData, string>> & {
@@ -21,7 +24,9 @@ type FormErrors = Partial<Record<keyof FormulaireData, string>> & {
 export default function FormulaireCreationEquipe({
   isOpen,
   onClose,
+  onCreate,
   id_tour,
+  last_team
 }: Props) {
   const { member, loading } = useConnexion();
   const router = useRouter();
@@ -173,6 +178,17 @@ export default function FormulaireCreationEquipe({
         return;
       }
 
+      onCreate(
+      {id_team:last_team+1,
+        name:formData.team_name,
+        id_tour:id_tour,
+        key_team:formData.team_key,
+        user_name: member.user_name,
+        players:0,
+        members:0,
+        open:false
+      })
+      console.log(last_team)
       setSuccessMessage("Payement effectué avec succès! Création en cours...");
 
       setTimeout(() => {

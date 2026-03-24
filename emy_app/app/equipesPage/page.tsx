@@ -86,7 +86,7 @@ useEffect(() => {
             {_loading ? (
               <p className="text-xs text-white/90">Chargement...</p>
             ) : (
-              data.map((t) => <TournamentTeamsBlock key={t.id_tour} t={t} admin={true} />)
+              data.map((t) => <TournamentTeamsBlock key={t.id_tour} t={t} admin={true} onCreate={()=>('')}/>)
             )}
           </div>
         </ImageBackground>

@@ -314,7 +314,14 @@ export async function addPlayer(id_tour, user_name) {
     },
   });
 }
-
+/**
+ * Récupère la dernière équipe
+ * @returns la dernière équipe
+ */
+export async function getLastTeam(){
+  const teams= await prisma.team.findMany({})
+  return teams[teams.length-1]
+}
 /**Modifier une equipe */
 export async function updateTeam(id_team, patch) {
   const data = {};

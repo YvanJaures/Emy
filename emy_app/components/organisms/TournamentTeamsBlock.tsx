@@ -10,7 +10,7 @@ import { useConnexion } from "@/hooks/useAuth";
 
 export default function TournamentTeamsBlock({ t,admin,onCreate }: { t: TournamentDTO,admin:boolean,onCreate:(create:boolean)=>void }) {
   const title = t?.name?.trim() ? t.name : `Tournoi ${t?.id_tour}`;
-    const router = useRouter();
+  const router = useRouter();
   const handleCreate=()=>{
     onCreate(true)
   }

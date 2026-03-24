@@ -16,7 +16,8 @@ import {
   updateTeam,
   getTourAndPrizes,
   getRegistrationFees,
-  registrationPlayer
+  registrationPlayer,
+  getLastTeam
 } from "../models/global.js";
 import "../services/auth.js";
 import passport from "passport";
@@ -109,6 +110,14 @@ export const getMembersUserNamesC = async (request, response) => {
     response.status(400).end();
   }
 };
+export const getLastTeamC=async(request,response)=>{
+  try{
+    const team=await getLastTeam()
+    response.status(200).json(team)
+  } catch (error) {
+    response.status(400).json({message:'une erreur est survenue :'+error});
+  }
+}
 /**
  * ajoute un membre
  * @param {*} request
