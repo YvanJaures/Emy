@@ -11,6 +11,7 @@ const router=express.Router()
 
 // Routes GLOBAL
 // connexion, deconnexion
+router.get('/stream',globalController.stream)
 router.post('/connexion',deConnecterApi,globalController.connexion)
 router.post('/deconnexion',connecterApi,globalController.deconnexion)
 //router.get('/',globalController)
@@ -21,7 +22,7 @@ router.get('/members/community',globalController.getMembersByCommunityC)
 router.get('/member/user_name',globalController.getMemberByNameC)
 router.get('/members/names',globalController.getMembersUserNamesC)
 router.get("/member/team/details", connecterApi, globalController.getTeamDetailsC);  // Afficher les details d une equipe
-router.get("/member/my-teams", connecterApi, globalController.getMyTeamsC);
+router.get("/member/team/last", globalController.getLastTeamC);  // Afficher la dernière équipe
 router.get("/tour&prizes/details", globalController.getTourAndPrizesC);
 router.get("/member/registration/fees", connecterApi, globalController.getRegistrationFeesC); // Recuperer le prix d inscription d un tournoi
 

@@ -16,7 +16,8 @@ import {
   updateTeam,
   getTourAndPrizes,
   getRegistrationFees,
-  registrationPlayer
+  registrationPlayer,
+  getLastTeam
 } from "../models/global.js";
 import "../services/auth.js";
 import passport from "passport";
@@ -31,6 +32,14 @@ export const basefunction=async(request,response)=>{
         response.status(400).end()
     }
 }*/
+/**
+ * controlleur du sse pour réactiviter en direct
+ * @param {*} request 
+ * @param {*} response 
+ */
+export const stream=async (request, response) => {
+    response.initStream();    
+}
 /**
  * recupére l'utilisateur connecté
  * @param {*} request
@@ -110,6 +119,14 @@ export const getMembersUserNamesC = async (request, response) => {
     response.status(400).end();
   }
 };
+export const getLastTeamC=async(request,response)=>{
+  try{
+    const team=await getLastTeam()
+    response.status(200).json(team)
+  } catch (error) {
+    response.status(400).json({message:'une erreur est survenue :'+error});
+  }
+}
 /**
  * ajoute un membre
  * @param {*} request
@@ -163,10 +180,12 @@ export const addTeamC = async (request, response) => {
       request.body.name,
       request.body.id_tour,
       request.body.key_team,
+      request.body.user_name,
+      request.body.open
     );
     response.status(201).end();
   } catch (error) {
-    response.status(400).end();
+    response.status(400).json({error});
   }
 };
 /**
@@ -257,6 +276,7 @@ export const connexion = async (request, response, next) => {
     if (!user) return response.status(401).json(info);
     request.logIn(user, (error) => {
       if (error) return next(error);
+      response.pushJson({data:request.user},'connexion')
       response.sendStatus(200);
     });
   })(request, response, next);

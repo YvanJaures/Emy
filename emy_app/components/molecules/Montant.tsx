@@ -51,7 +51,7 @@ export default function Montant({ id_tour, token, onAmountLoaded }: Props) {
   return (
     <div className="w-full">
       <LabeledField
-        label="Montant"
+        label="Montant unitaire"
         value={amount}
         readOnly
         disabled

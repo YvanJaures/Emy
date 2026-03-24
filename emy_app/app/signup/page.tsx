@@ -2,8 +2,12 @@
 
 import SignupForm from "@/components/organisms/SignupForm";
 import MetaData from "@/components/organisms/MetaData";
+import {  useConnexion } from "@/hooks/useAuth";
 
 export default function RegisterPage() {
+  const {member,loading}=useConnexion();
+  const route='/communautes'
+  if(member) location.href=route
   return (
     <>
       <MetaData

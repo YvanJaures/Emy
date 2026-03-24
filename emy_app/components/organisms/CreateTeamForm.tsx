@@ -162,7 +162,7 @@ console.log("data =", data);
           id_team,
           name: teamName.trim(),
           id_tour: Number(idTour),
-          open,
+          open:open,
           key_team: keyTeam.trim() ? keyTeam.trim() : null,
           players,
           reserveOnly,
