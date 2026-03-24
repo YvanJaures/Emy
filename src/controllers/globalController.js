@@ -452,7 +452,11 @@ export const getMyTeamsC = async (request, response) => {
 
     const data = await getMemberByName(user_name);
 
-    const teams = data?.Team || [];
+    const teams = data?.Team?.map(team => ({
+  ...team,
+    current: team.Team_member?.filter(m => m.status === true) || [],
+    pending: team.Team_member?.filter(m => m.status === false) || []
+  })) || [];
 
     return response.status(200).json({
       message: "Équipes récupérées avec succès",

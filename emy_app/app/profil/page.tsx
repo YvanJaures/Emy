@@ -9,6 +9,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useState, useEffect } from "react";
 import TeamCardProfil from "@/components/molecules/TeamCardProfil";
 import Constructing from "@/components/organisms/Constructing";
+import Link from "next/link";
 
 export default function Profil() {
     const { member, loading } = useAuth();
@@ -126,41 +127,15 @@ export default function Profil() {
                                     {teams.length === 0 ? (
                                     <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl text-center">
                                         <p className="text-gray-500">
-                                        Vous n'avez rejoint aucune équipe
+                                        Vous n'êtes pas inscrit dans une équipe.
                                         </p>
 
-                                <button
-                                onClick={async () => {
-                                    if (!member?.user_name) return;
-
-                                    const res = await fetch('/api/member/team/add', {
-                                    method: 'POST',
-                                    headers: { 'Content-Type': 'application/json' },
-                                    credentials: 'include',
-                                    body: JSON.stringify({
-                                        id_team: 1,
-                                        user_name: member.user_name
-                                    })
-                                    });
-
-                                    let data = null;
-
-                                try {
-                                data = await res.json();
-                                } catch (e) {
-                                console.log("No JSON response");
-                                }
-
-                                console.log("RESPONSE:", res.status, data);
-
-                                    if (res.ok) {
-                                    location.reload();
-                                    }
-                                }}
-                                className="mt-4 text-blue-500 hover:underline"
-                                >
-                                Rejoindre une équipe
-                                </button>
+                                        <Link
+                                        href="/communities"
+                                        className="mt-4 inline-block text-blue-500 hover:underline"
+                                        >
+                                        Rejoindre une équipe
+                                        </Link>
                                     </div>
                                     ) : (
                                     <div className="flex flex-col gap-6">
