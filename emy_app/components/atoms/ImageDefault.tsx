@@ -1,6 +1,6 @@
 type ImageProps={
     
-    avatar:string|null,title:string,
+    avatar:string,title:string,
     className?:string,
     onClick?: (event: React.MouseEvent<HTMLImageElement>) => void;
 

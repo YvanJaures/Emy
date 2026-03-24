@@ -1,7 +1,4 @@
-export default function Sidebar({ setActiveView, activeView }: {
-  setActiveView: (view: string) => void;
-  activeView: string;
-}) {
+export default function Sidebar() {
   return (
     <div className="w-52 p-5 bg-white dark:bg-gray-900 shadow-xl gap-5 ">
 
@@ -11,40 +8,20 @@ export default function Sidebar({ setActiveView, activeView }: {
 
       <ul className="space-y-4">
 
-        <li
-          onClick={() => setActiveView("profil")}
-          className={`cursor-pointer underline underline-offset-4 ${
-            activeView === "profil"
-              ? "text-blue-500 font-medium"
-              : "hover:text-black dark:text-gray-300 dark:hover:text-gray-100"
-          }`}
-        >
+        <li className="text-blue-500 font-medium cursor-pointer underline underline-offset-4">
           Profil
         </li>
 
-        <li
-          onClick={() => setActiveView("equipes")}
-          className={`cursor-pointer underline underline-offset-4 ${
-            activeView === "equipes"
-              ? "text-blue-500 font-medium"
-              : "hover:text-black dark:text-gray-300 dark:hover:text-gray-100"
-          }`}
-        >
+        <li className="cursor-pointer hover:text-black dark:text-gray-300 dark:hover:text-gray-100 underline underline-offset-4">
           Mes équipes
         </li>
 
-        <li
-          onClick={() => setActiveView("activites")}
-          className={`cursor-pointer underline underline-offset-4 ${
-            activeView === "activites"
-              ? "text-blue-500 font-medium"
-              : "hover:text-black dark:text-gray-300 dark:hover:text-gray-100"
-          }`}
-        >
+        <li className="cursor-pointer hover:text-black dark:text-gray-300 dark:hover:text-gray-100 underline underline-offset-4">
           Activités
         </li>
 
       </ul>
+
     </div>
   );
 }

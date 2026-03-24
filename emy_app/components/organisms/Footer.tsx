@@ -105,10 +105,10 @@ export default function Footer() {
               <p>
                 <span className="font-semibold">GMAIL :</span>{" "}
                 <AppLink
-                  href="mailto:noreplyemyco@gmail.com"
+                  href="mailto:example@gmail.com"
                   className="text-xs text-white/90 hover:text-white hover:underline"
                 >
-                  noreplyemyco@gmail.com
+                  example@gmail.com
                 </AppLink>
               </p>
             </div>

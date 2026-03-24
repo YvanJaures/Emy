@@ -52,7 +52,7 @@ async function main() {
   // ─── 3. Member (30) ───────────────────────────────────────────────────────
   console.log("Creating Members...");
   const members = await Promise.all(
-    Array.from({ length: 250 }, (_, i) => {
+    Array.from({ length: 50 }, (_, i) => {
       const username = `${faker.internet.username().replace(/[^a-zA-Z0-9_]/g, "").slice(0, 40)}_${i}`;
       return prisma.member.create({
         data: {
@@ -102,7 +102,7 @@ async function main() {
   // ─── 6. Community (30) ────────────────────────────────────────────────────
   console.log("Creating Communities...");
   const communities = await Promise.all(
-    Array.from({ length: 15 }, () =>
+    Array.from({ length: 10 }, () =>
       prisma.community.create({
         data: {
           name: `${faker.word.adjective()} ${faker.word.noun()} Club`,
@@ -140,12 +140,12 @@ async function main() {
       const end = new Date(start.getTime() + faker.number.int({ min: 1, max: 10 }) * 86400000);
       return prisma.tournament.create({
         data: {
-          name:'tournoi-'+faker.internet.username(),
           location: faker.location.city().slice(0, 100),
           start_date: start,
           end_date: end,
           status: faker.number.int({ min: 0, max: 3 }),
           avatar: faker.image.url(),
+          id_admin: pick(admins).id_admin,
           id_community: pick(communities).id_community,
           fees: parseFloat(faker.commerce.price({ min: 0, max: 500 })),
         },
@@ -153,12 +153,12 @@ async function main() {
     })
   );
 
-  // ─── 9. Community_member (250) ─────────────────────────────────────────────
+  // ─── 9. Community_member (30) ─────────────────────────────────────────────
   console.log("Creating Community members...");
   const usedCombos = new Set();
   const communityMembersData = [];
 
-  while (communityMembersData.length < 250) {
+  while (communityMembersData.length < 30) {
     const member = pick(members);
     const community = pick(communities);
     const key = `${member.user_name}-${community.id_community}`;
