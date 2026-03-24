@@ -8,6 +8,7 @@ import Footer from "@/components/organisms/Footer";
 import Navbar from "@/components/organisms/NavBar";
 import MetaData from "@/components/organisms/MetaData";
 import Founders from "@/components/organisms/Founders";
+import Constructing from "@/components/organisms/Constructing"
 import LoadingAnimation from "@/components/organisms/LoadingAnimation";
 import { useAuth } from "@/hooks/useAuth";
 
@@ -74,6 +75,7 @@ export default function Home() {
       <PopCommunity list={list_communautes}></PopCommunity>
       <Button title="GO TO profile" onClick={() => router.push("/profilAdmin")} />
       <Founders/>
+      <Constructing/>
       <Footer />
     </div>
   );

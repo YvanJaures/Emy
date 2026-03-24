@@ -6,7 +6,8 @@ import Footer from "@/components/organisms/Footer";
 import CreateTeamForm from "@/components/organisms/CreateTeamForm";
 import LoadingAnimation from "@/components/organisms/LoadingAnimation";
 import { useAuth } from "@/hooks/useAuth";
-
+import React, { useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 /**
  * Page permettant à un administrateur de créer une nouvelle équipe.
  * 
@@ -19,6 +20,10 @@ import { useAuth } from "@/hooks/useAuth";
  */
 export default function CreateTeamPage() {
   const { member, loading } = useAuth();
+  const searchParams = useSearchParams();
+
+  const editMode = useMemo(() => searchParams.get("edit") === "1", [searchParams]);
+  const id_team = useMemo(() => Number(searchParams.get("id_team")), [searchParams]);
   if (loading) return <LoadingAnimation />;
   return (
     <div className="min-h-screen bg-white">
@@ -28,10 +33,18 @@ export default function CreateTeamPage() {
 
       <main className="mx-auto w-full max-w-6xl px-6 py-8">
         <CreateTeamForm
+          // teamUrl="/api/member/team"
+          // tournamentsUrl="/api/tournaments"
+          // onSuccessRedirectTo="/equipes"
+          // onCancel={() => (location.href = "/equipesPage")}
+
           teamUrl="/api/member/team"
-          tournamentsUrl="/api/tournaments"
-          onSuccessRedirectTo="/equipes"
-          onCancel={() => (location.href = "/equipesPage")}
+        tournamentsUrl="/api/tournaments"
+        // ✅ nouveaux props
+        editMode={editMode}
+        id_team={id_team}
+        detailsUrl="/api/member/team/details"
+        updateUrl="/api/member/team/update"
         />
       </main>
 

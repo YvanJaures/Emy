@@ -13,7 +13,7 @@ model Admin {
   user_name    String?      @db.VarChar(50) @unique
   Community    Community?   @relation(fields: [id_community], references: [id_community], onDelete: NoAction, onUpdate: NoAction, map: "FK__Admin__id_commun__6D0D32F4")
   Member       Member?      @relation(fields: [user_name], references: [user_name], onDelete: NoAction, onUpdate: NoAction, map: "FK_Admin_Member")
-  Tournament   Tournament[]
+ // Tournament   Tournament[]
 }
 
 model Community {
@@ -85,6 +85,7 @@ model Player {
 model Prize {
   id_prize      Int             @id(map: "PK__Prize__D8A0CD8857767C01") @default(autoincrement())
   name          String?         @db.VarChar(50)
+  value         Float?
   spots         Int?
   group_spot    Int?
   id_tour       Int?
@@ -151,13 +152,13 @@ model Tournament {
   status       Int?       @default(0)
   members      Int?       
   avatar       String?    @db.VarChar(255)
-  id_admin     Int?
+  //id_admin     Int?
   id_community Int?
   fees         Float?
   Player       Player[]
   Prize        Prize[]
   Team         Team[]
-  Admin        Admin?     @relation(fields: [id_admin], references: [id_admin], onDelete: NoAction, onUpdate: NoAction, map: "FK_Tournament_Admin")
+ // Admin        Admin?     @relation(fields: [id_admin], references: [id_admin], onDelete: NoAction, onUpdate: NoAction, map: "FK_Tournament_Admin")
   Community    Community? @relation(fields: [id_community], references: [id_community], onDelete: NoAction, onUpdate: NoAction, map: "FK_Tournament_Community")
 }
 

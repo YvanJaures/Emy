@@ -60,7 +60,8 @@ export default function LoginForm(props:{route:string}) {
       // Succès
       setError("");
       if(props.route){
-        location.href=props.route 
+        history.back()
+        //location.href=props.route 
       }else{
         location.href='/communautes'
       }
@@ -137,7 +138,7 @@ export default function LoginForm(props:{route:string}) {
             size="text-[10px]"
             className="py-2 w-full"
             color="bg-white/80 border-white/80 text-black hover:bg-white dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700"
-            onClick={() => (window.location.href = "/register")}
+            onClick={() => (window.location.href = "/signup")}
           />
 
         </div>

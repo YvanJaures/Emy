@@ -15,20 +15,46 @@ import {MemberDTO,TournamentDTO} from '@/hooks/Type_DTO'
 import UserViewList from "../molecules/UserViewList"
 import TourViewList from "../molecules/TourViewList"
 import OnError from "./OnError";
+import Constructing from "./Constructing";
+import NavBarCommunity from "./NavBarCommunity";
+import OnPrivate from "./OnPrivate";
+import { useConnexion } from "@/hooks/useAuth";
 type Props={
     community:CommunityDTO,
+    _isMember:boolean,
     onShown:(shown:boolean)=>void
 }
-export default function CommunityBlock({community,onShown}:Props){
+/**
+ * Affiche les données sur la communauté
+ * @param community 
+ * @param OnShow 
+ * @param isMember 
+ * @returns la page de detail de communauté
+ */
+export default function CommunityBlock({community,_isMember,onShown}:Props){
     const [members,setMembers]=useState<MemberDTO[]>([])
     const [tournaments,setTournaments]=useState<TournamentDTO[]>([])
     const [onError,setOnError]=useState(false)
     const [loading,setLoading]=useState(false)
-    const [view,setView]=useState(0)
+    const [isMember,SetIsMember]=useState(_isMember)
+    const [view,setView]=useState(1)
+    const {member}=useConnexion()
     const handleShow=()=>{
         onShown(false)
     }
+
+    
     useEffect(()=>{
+        const handleIsMember=()=>{
+            community.Community_member?.forEach((memb)=>{
+                if(memb.user_name===member?.user_name){
+                    SetIsMember(true)
+                    console.log('i'+memb.user_name===member?.user_name) 
+                    }
+                return 
+            })
+        }
+        handleIsMember()
         const fetchMembers=async()=>{
             try{
                 setLoading(true)
@@ -37,6 +63,14 @@ export default function CommunityBlock({community,onShown}:Props){
                 if(res){
                     setMembers(res)
                     setLoading(false)
+                    res.forEach((memb:MemberDTO)=>{
+                        console.log('hryfge')
+                    if(memb.user_name===member?.user_name){
+                        SetIsMember(true)
+                        console.log('i'+memb.user_name===member?.user_name)
+                        console.log(member) 
+                    }
+            })
                 }
             }catch(error){
                 setOnError(true)
@@ -61,8 +95,8 @@ export default function CommunityBlock({community,onShown}:Props){
     return(
         <div className="z-150 absolute fixed flex flex-col top-0 left-0 
             bg-white h-lvh w-full overflow-scroll max-sm:h-full">
-            <header className="flex-5 absolute fixed top-0 left-0
-                flex justify-between items-center w-full p-3 bg-white/70">
+            <header className="flex-5 absolute sticky top-0 left-0
+                flex justify-between items-center w-full p-3 bg-white/70 z-99">
                 <RiArrowLeftSLine 
                     onClick={()=>handleShow()}
                     className="hover:cursor-pointer hover:bg-gray-200 rounded-full stroke-2"/>
@@ -70,6 +104,7 @@ export default function CommunityBlock({community,onShown}:Props){
                     children={community.name}
                     as='h2'
                     className="bold"/>
+                <p>Identifiant : {community.id_community}</p>
                 <SlMagnifier 
                     className="hover:cursor-pointer stroke-2"/>
             </header>
@@ -112,57 +147,43 @@ export default function CommunityBlock({community,onShown}:Props){
                                 className="hover:cursor-pointer hover:text-[#0F70AC] hidden max-sm:block"/>
                         </a>
                     </span>
-                    <nav className="absolute bg-white z-99 mt-2 w-full flex justify-between items-center p-3">
-                        <p className="hover:underline hover:cursor-pointer hover:text-[#0F70AC] text-center max-sm:text-[15px] bold overflow-hidden hover:bg-gray-200 rounded-3xl p-2"
-                            onClick={()=>setView(0)}>
-                            Tous
-                        </p>
-                        <p className="hover:underline hover:cursor-pointer hover:text-[#0F70AC] text-center max-sm:text-[15px] bold overflow-hidden hover:bg-gray-200 rounded-3xl p-2"
-                            onClick={()=>setView(1)}>
-                            Tournois
-                        </p>
-                        <p className="hover:underline hover:cursor-pointer hover:text-[#0F70AC] text-center max-sm:text-[15px] bold overflow-hidden hover:bg-gray-200 rounded-3xl p-2"
-                            onClick={()=>setView(2)}>
-                            Membres
-                        </p>
-                        <p className="hover:underline hover:cursor-pointer hover:text-[#0F70AC] text-center max-sm:text-[15px] bold overflow-hidden hover:bg-gray-200 rounded-3xl p-2"
-                            onClick={()=>setView(3)}>
-                            A propos
-                        </p>
-                        <p className="hover:underline hover:cursor-pointer hover:text-[#0F70AC] text-center max-sm:text-[15px] bold overflow-hidden hover:bg-gray-200 rounded-3xl p-2"
-                        onClick={()=>setView(4)}>
-                            Infos
-                        </p>
-                    </nav>
+                    <NavBarCommunity
+                        setView={(view)=>setView(view)}/>
                     {loading && (
                         <p className="italic text-sm">chargement...</p>
                     )}
-                    {   view===0 &&(
-                        <ul className="absolute w-full mt-17 p-3 flex flex-col justify-start items-center">
-                            {community.Tournament?.map((tour)=>(
-                                <li key={tour.id_tour}>
-                                    {tour.location}
-                                </li>
-                            ))}
-                        </ul>
+                    {   community.privacy && !isMember ? (
+                        <OnPrivate/>
+                    ):(
+                        <>
+                        {   view===0  &&(
+                            <Constructing/>
+                        )
+                        }
+                        {   view===1 &&(
+                            <TourViewList
+                                tournaments={tournaments}/>
+                                
+                        )
+                        }
+                        {   view===2 &&(
+                            <UserViewList
+                                members={members}/>
+                        )
+                        }
+                        {   view===3 &&(
+                            <p className="absolute w-full mt-17 p-3 flex flex-col justify-start items-center">
+                                {community.details}
+                            </p>
+                        )
+                        }
+                        {   view===4 &&(
+                            <Constructing/>
+                        )
+                        }
+                        </>
                     )
-                    }
-                    {   view===1 &&(
-                        <TourViewList
-                            tournaments={tournaments}/>
-                            
-                    )
-                    }
-                    {   view===2 &&(
-                        <UserViewList
-                            members={members}/>
-                    )
-                    }
-                    {   view===3 &&(
-                        <p className="absolute w-full mt-17 p-3 flex flex-col justify-start items-center">
-                            {community.details}
-                        </p>
-                    )
+
                     }
                 </div>
 
