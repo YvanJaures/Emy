@@ -19,18 +19,27 @@ type Props = {
   tournament: TournamentDTO;
 };
 export default function TournamentBlockSlug({ tournament }: Props) {
+  // Les commandites sélectionnés
   const [selectedPrizes, setSelectedPrizes] = useState<PrizeDTO[] | null>(null);
+  // Le tournoi actuel
   const [_tour,setTour]=useState<TournamentDTO>(tournament)
+  // L_id de la dernière team créée
   const [last,setLast]=useState(-1)
+  // Affichage ou non du formulaire d'inscription
   const [openRegistration, setOpenRegistration] = useState(false);
+  // Affichage ou non de la redirection vers la page de connxion
   const [onConfirmation,SetOnConfirmation]=useState(false)
+  // Erreur lors de l'inscription
   const [registrationError, setRegistrationError] = useState("");
+  // Erreur lors de la création d'équipe
   const [creationError, setCreationError] = useState("");
+  // Ouverture ou non du formulaire de création d'équipe
   const [openCreation, setOpenCreation] = useState(false);
+  // Membre connecté (si un)
   const {member}=useConnexion()
 
+  // Récupére l'id de la dernière équipe créé
   useEffect(()=>{
-
     (async()=>{
       const response=await fetch('/api/member/team/last')
       if(response.ok){
@@ -39,6 +48,11 @@ export default function TournamentBlockSlug({ tournament }: Props) {
       }
     })()
   },[])
+
+  /**
+   * Ajoute l'équipe créé à la liste des équipes du tournoi 
+   * @param team équipe créée
+   */
   const handleNewTeam=(team:TeamDTO)=>{
     console.log('hey')
     console.log(team)
@@ -89,7 +103,10 @@ export default function TournamentBlockSlug({ tournament }: Props) {
     console.log(etat);
     return etat;
   }, [tournament]);
-
+  /**
+   * Gére le clique sur le bouton s'inscrire en ajoutant le membre au tournoi
+   * @returns 
+   */
   const handleRegistrationClick = () => {
     if(!member){
       SetOnConfirmation(true)
@@ -104,6 +121,10 @@ export default function TournamentBlockSlug({ tournament }: Props) {
       setOpenRegistration(false);
     }
   };
+  /**
+   * Gére le clique sur le bouton de création d'équipe en affichant le formulaire et l'équipe par la suite.
+   * @returns 
+   */
   const handleCreationClick = () => {
       if(!member){
       SetOnConfirmation(true)
@@ -118,9 +139,15 @@ export default function TournamentBlockSlug({ tournament }: Props) {
       setOpenCreation(false);
     }
   };
+  /**
+   * Ferme le formulaire d'inscription au tournoi
+   */
   const handleCloseRegistration = () => {
     setOpenRegistration(false);
   };
+  /**
+   * Ferme le formulaire de création d'équipes
+   */
   const handleCloseCreation = () => {
     setOpenCreation(false);
   };
@@ -228,6 +255,7 @@ export default function TournamentBlockSlug({ tournament }: Props) {
           />
         </section>
       </div>
+      {/** Formulaire de création d'équipe */}
       <FormulaireCreationEquipe
         isOpen={openCreation}
         onClose={handleCloseCreation}
@@ -235,11 +263,13 @@ export default function TournamentBlockSlug({ tournament }: Props) {
         onCreate={(team)=>handleNewTeam(team)}
         last_team={last}
       />
+      {/**Formulaire d'inscription à un tournoi */}
       <FormulaireInscription
         isOpen={openRegistration}
         onClose={handleCloseRegistration}
         id_tour={tournament.id_tour}
       />
+      {/** Confirmation de redirection vers la page de connexion */}
       {onConfirmation &&(
         <Confirmation
           title="Redirection"

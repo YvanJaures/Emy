@@ -42,6 +42,7 @@ export async function getTournamentsByCommunity(id_community) {
             start_date: true,
             end_date: true,
             avatar: true,
+            name:true,
             Team: {
                 select: {
                 id_team: true,
