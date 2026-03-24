@@ -7,82 +7,108 @@ import { useConnexion } from "@/hooks/useAuth";
 import { addTeamMemberWait } from "@/fetchs/global";
 import Confirmation from "../organisms/Confirmation";
 
-export default function TeamCard({ team,admin }: { team: TeamDTO,admin:boolean }) {
-  const {member}=useConnexion()
+export default function TeamCard({
+  team,
+  admin,
+  cant,
+  onIsMember,
+}: {
+  team: TeamDTO;
+  admin: boolean;
+  cant: boolean;
+  onIsMember: (is: boolean) => void;
+}) {
+  const { member } = useConnexion();
   // confirmation pour la connexion
-  const [onConfirmation,SetOnConfirmation]=useState(false)
+  const [onConfirmation, SetOnConfirmation] = useState(false);
   // l'utilisateur ne peut pas rejoindre l'équipe
-  const [cantJoin,SetCantJoin]=useState(team.members===4)
+  const [cantJoin, SetCantJoin] = useState(cant||member? false:true);
   // la clé d'accès écrite par le user
-  const [cle,setCle]=useState('')
+  const [cle, setCle] = useState("");
   // message d'erreur
-  const [error,setError]=useState('')
+  const [error, setError] = useState("");
   // quand le user clique sur rejoindre
-  const [onJoin,setOnJoin]=useState(false)
+  const [onJoin, setOnJoin] = useState(false);
   // avatars des membres de l'équipe
-  const [avatars,setAvatars]=useState(team.Team_member?.map((tm) => tm.Member?.avatar)
-      .filter(Boolean).slice(0, 4) ?? [])
+  const [avatars, setAvatars] = useState(
+    team.Team_member?.map((tm) => tm.Member?.avatar)
+      .filter(Boolean)
+      .slice(0, 4) ?? [],
+  );
   // le user est il déjà membre de l'équipe?
-  const [isMember,setIsMember]=useState(true)
-   
+  const [isMember, setIsMember] = useState(true);
+
   // détermine si il est membre de l'équipe
-  useEffect(()=>{
-    let is= team.Team_member?.some(
-      (tm) => tm.user_name === member?.user_name
-    );
-      setIsMember(is?? false)
-  },[])
+  useEffect(() => {
+    let is = team.Team_member?.some((tm) => tm.user_name === member?.user_name);
+    if (is) {
+      console.log('ehh')
+      setIsMember(is);
+      onIsMember(true);
+      return;
+    }
+    else setIsMember(false);
+  }, []);
 
   /**
    * ajoute un membre à une équipe
-   * @returns 
+   * @returns
    */
-  const handleJoin=async ()=>{
-    SetOnConfirmation(false)
-    if(!team.open){ if(!handleCle()) return}
-    if(cantJoin) return
-    if(isMember) return
-    if(!member) return
-    SetCantJoin(true)
-    SetOnConfirmation(false)
-    const payload={
-      id_team:team.id_team,
-      user_name:member?.user_name
+  const handleJoin = async () => {
+    SetOnConfirmation(false);
+    if (!team.open) {
+      if (!handleCle()) return;
     }
-    await addTeamMemberWait(payload)
-    let avatars2=avatars
-    avatars2.push(member.avatar)
-    setAvatars(avatars2)
-    setIsMember(true)
-  }
+    if (cantJoin) return;
+    if (isMember) return;
+    if (!member) return;
+    SetCantJoin(true);
+    SetOnConfirmation(false);
+    const payload = {
+      id_team: team.id_team,
+      user_name: member?.user_name,
+    };
+    await addTeamMemberWait(payload);
+    let avatars2 = avatars;
+    avatars2.push(member.avatar);
+    setAvatars(avatars2);
+    setIsMember(true);
+    onIsMember(true)
+  };
 
   /**
    * Gére la saisie de la clé
    * @returns true si la clé est correcte
    */
-  const handleCle=()=>{
-    setError('')
-    if(!cle.trim()) {setError('veuillez remplir le champs!');return false}
-    if(cle!==team.key_team) {setError('Clé incorrecte! Réessayer');return false}
-    setOnJoin(false)
-    return true
-  }
+  const handleCle = () => {
+    setError("");
+    if (!cle.trim()) {
+      setError("veuillez remplir le champs!");
+      return false;
+    }
+    if (cle !== team.key_team) {
+      setError("Clé incorrecte! Réessayer");
+      return false;
+    }
+    setOnJoin(false);
+    return true;
+  };
 
   /**
    * Vérifie si le membre existe et si la team est ouverte (pas besoin de clé pour rejoindre)
    * @returns rien si il n'y a pas de user ou que la team est ouverte
    */
-  const handleJoinButton=()=>{
-    if(!member){
-      SetOnConfirmation(true)
-      return
+  const handleJoinButton = () => {
+    if (!member) {
+      SetOnConfirmation(true);
+      return;
     }
-    if(!team.open){ 
-      setOnJoin(true)
-      return
+    if (!team.open) {
+      setOnJoin(true);
+      return;
     }
-    handleJoin()
-  }
+    handleJoin();
+  };
   // Avatars des membres (max 4)
   /*const avatars =
     team.Team_member?.map((tm) => tm.Member?.avatar)
@@ -128,39 +154,64 @@ export default function TeamCard({ team,admin }: { team: TeamDTO,admin:boolean }
           />
         ))}
         {/** Affiche uniquement si l'utilisateur n'est pas administrateur */}
-          { !admin &&
-            (<button
-            disabled={isMember||avatars.length>=4||cantJoin}
+        {!admin && (
+          <button
+            disabled={isMember || avatars.length >= 4 || cantJoin}
             onClick={handleJoinButton}
-            className={` ${isMember||avatars.length>=4||cantJoin? 'text-gray-400 hover:cursor-not-allowed text-[10px]':'bg-none hover:cursor-pointer text-[10px] text-blue-400 hover:underline'}`}
+            className={` ${isMember || avatars.length >= 4 || cantJoin ? "text-gray-400 hover:cursor-not-allowed text-[10px]" : "bg-none hover:cursor-pointer text-[10px] text-blue-400 hover:underline"}`}
           >
-            {isMember?'MEMBRE':'REJOINDRE'}
-          </button>)
-          }
-      </div >
-      {/** Lorsqu'il clique sur rejoindre l'équipe */}
-      {onJoin &&( <div className="mt-1 flex flex-col items-center justify-start gap-2">
-              <input type="text" name="cle" id="cle" className="w-full h-5 rounded-sm p-2 text-[13px] outline-blue-500"
-                placeholder="Entrer la clé d'accès..."
-                value={cle}
-                onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{setCle(e.target.value);}}
-                onFocus={(e)=>e.target.value=''}/>
-              <p className="text-red-400 text-[11px] w-full">{error}</p>
-              <span className="flex justify-evenly items-center w-full">
-                <button className="bg-blue-500 text-white text-sm p-0.5 rounded-sm hover:bg-blue-600 hover:cursor-pointer"
-                  onClick={handleJoin}>Valider</button>
-                <button className="bg-red-500 text-white text-sm p-0.5 rounded-sm hover:bg-red-600 hover:cursor-pointer"
-                  onClick={()=>{setOnJoin(false);setError('');setCle('')}}>Annuler</button>
-              </span>
-        </div>)}
-        {/** Confirmation de redirection vers la page de connexion */}
-        {onConfirmation &&(
-          <Confirmation
-            title="Redirection"
-            message="Vous allez être rediriger vers la page de connexion. Continuer?"
-            onConfirmed={(res)=>{SetOnConfirmation(false);if(res) location.href='/login'}}
-            showConfirm={onConfirmation}/>
+            {isMember ? "MEMBRE" : "REJOINDRE"}
+          </button>
         )}
+      </div>
+      {/** Lorsqu'il clique sur rejoindre l'équipe */}
+      {onJoin && (
+        <div className="mt-1 flex flex-col items-center justify-start gap-2">
+          <input
+            type="text"
+            name="cle"
+            id="cle"
+            className="w-full h-5 rounded-sm p-2 text-[13px] outline-blue-500"
+            placeholder="Entrer la clé d'accès..."
+            value={cle}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setCle(e.target.value);
+            }}
+            onFocus={(e) => (e.target.value = "")}
+          />
+          <p className="text-red-400 text-[11px] w-full">{error}</p>
+          <span className="flex justify-evenly items-center w-full">
+            <button
+              className="bg-blue-500 text-white text-sm p-0.5 rounded-sm hover:bg-blue-600 hover:cursor-pointer"
+              onClick={handleJoin}
+            >
+              Valider
+            </button>
+            <button
+              className="bg-red-500 text-white text-sm p-0.5 rounded-sm hover:bg-red-600 hover:cursor-pointer"
+              onClick={() => {
+                setOnJoin(false);
+                setError("");
+                setCle("");
+              }}
+            >
+              Annuler
+            </button>
+          </span>
+        </div>
+      )}
+      {/** Confirmation de redirection vers la page de connexion */}
+      {onConfirmation && (
+        <Confirmation
+          title="Redirection"
+          message="Vous allez être rediriger vers la page de connexion. Continuer?"
+          onConfirmed={(res) => {
+            SetOnConfirmation(false);
+            if (res) location.href = "/login";
+          }}
+          showConfirm={onConfirmation}
+        />
+      )}
     </div>
   );
 }

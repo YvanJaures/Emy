@@ -32,6 +32,14 @@ export const basefunction=async(request,response)=>{
     }
 }*/
 /**
+ * controlleur du sse pour réactiviter en direct
+ * @param {*} request 
+ * @param {*} response 
+ */
+export const stream=async (request, response) => {
+    response.initStream();    
+}
+/**
  * recupére l'utilisateur connecté
  * @param {*} request
  * @param {*} response
@@ -267,6 +275,7 @@ export const connexion = async (request, response, next) => {
     if (!user) return response.status(401).json(info);
     request.logIn(user, (error) => {
       if (error) return next(error);
+      response.pushJson({data:request.user},'connexion')
       response.sendStatus(200);
     });
   })(request, response, next);

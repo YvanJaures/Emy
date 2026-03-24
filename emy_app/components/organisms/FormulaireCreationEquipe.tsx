@@ -14,7 +14,6 @@ type Props = {
   onClose: () => void;
   onCreate: (team:TeamDTO) => void;
   id_tour: number;
-  last_team:number;
 };
 
 type FormErrors = Partial<Record<keyof FormulaireData, string>> & {
@@ -25,12 +24,13 @@ export default function FormulaireCreationEquipe({
   isOpen,
   onClose,
   onCreate,
-  id_tour,
-  last_team
+  id_tour
 }: Props) {
   const { member, loading } = useConnexion();
   const router = useRouter();
   const [successMessage, setSuccessMessage] = useState("");
+  // L_id de la dernière team créée
+  const [last, setLast] = useState(-1);
 
   const [amount, setAmount] = useState<number>(0);
   const [submitting, setSubmitting] = useState(false);
@@ -49,6 +49,16 @@ export default function FormulaireCreationEquipe({
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
+  // Récupére l'id de la dernière équipe créé
+  React.useEffect(() => {
+    (async () => {
+      const response = await fetch("/api/member/team/last");
+      if (response.ok) {
+        const data = (await response.json()) as TeamDTO;
+        setLast(data.id_team);
+      }
+    })();
+  }, []);
 
   React.useEffect(() => {
     if (member) {
@@ -180,7 +190,7 @@ export default function FormulaireCreationEquipe({
       }
 
       onCreate(
-      {id_team:last_team+1,
+      {id_team:last+1,
         name:formData.team_name,
         id_tour:id_tour,
         key_team:formData.team_key,
@@ -189,7 +199,7 @@ export default function FormulaireCreationEquipe({
         members:0,
         open:false
       })
-      console.log(last_team)
+      console.log(last)
       setSuccessMessage("Payement effectué avec succès! Création en cours...");
 
       setTimeout(() => {

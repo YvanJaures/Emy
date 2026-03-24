@@ -11,6 +11,7 @@ const router=express.Router()
 
 // Routes GLOBAL
 // connexion, deconnexion
+router.get('/stream',globalController.stream)
 router.post('/connexion',deConnecterApi,globalController.connexion)
 router.post('/deconnexion',connecterApi,globalController.deconnexion)
 //router.get('/',globalController)
