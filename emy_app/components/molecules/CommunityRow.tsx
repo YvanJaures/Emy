@@ -210,9 +210,7 @@ export default function CommunityRow({ community, member, isMine }: Props) {
     </li>
       {
         showCom &&(
-          <CommunityBlock 
-            community={community}
-            _isMember={isMember}
+          <CommunityBlock community={community}
             onShown={(res)=>setShowCom(res)}/>
         )
       }

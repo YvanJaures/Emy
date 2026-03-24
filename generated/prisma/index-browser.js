@@ -178,7 +178,6 @@ exports.Prisma.PlayerScalarFieldEnum = {
 exports.Prisma.PrizeScalarFieldEnum = {
   id_prize: 'id_prize',
   name: 'name',
-  value: 'value',
   spots: 'spots',
   group_spot: 'group_spot',
   id_tour: 'id_tour',
@@ -225,6 +224,7 @@ exports.Prisma.TournamentScalarFieldEnum = {
   status: 'status',
   members: 'members',
   avatar: 'avatar',
+  id_admin: 'id_admin',
   id_community: 'id_community',
   fees: 'fees'
 };

@@ -5,11 +5,10 @@ type Props = {
   href: string;
   children: React.ReactNode;
   className?: string;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 
-export default function AppLink({ href, children, className = "",onClick }: Props) {
+export default function AppLink({ href, children, className = "" }: Props) {
   return (
     <Link
       href={href}

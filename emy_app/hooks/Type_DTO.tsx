@@ -7,9 +7,12 @@ export type AdminDTO = {
   id_admin: number;
   user_name: string | null;
   id_community: number;
+  Member: MemberDTO;
+  Community?:CommunityDTO;
   Tournament?:TournamentDTO[];
-  Member:MemberDTO;
-  Community?: CommunityDTO ;
+  // Member?:MemberDTO;
+  // Community?: CommunityDTO ;
+  // Tournament?: TournamentDTO;
 };
 /**
  * object représentant les membres ou utilisateurs de l'application
@@ -162,13 +165,13 @@ export type TournamentDTO = {
   status         : number | null;
   avatar         : string | null;
   fees           : number | null;
-//  id_admin       : number | null;
+  id_admin       : number | null;
   id_community   : number | null;
   members        :number ;
   Player        ?: PlayerDTO[];
   Prize         ?: PrizeDTO[];
   Team          ?: TeamDTO[];
-//  Admin         ?: AdminDTO  ;  
+  Admin         ?: AdminDTO  ;  
   Community      : CommunityDTO;
 }
 /**
@@ -179,20 +182,3 @@ export type TypeDTO ={
   name    :string | null;
   Prize  ?:PrizeDTO[]
 }
-
-/**
- * object représentant les utilisateurs qui cree un compte
- */
-export type SignupFormData = {
-  user_name: string;
-  name: string;
-  surname: string;
-  address: string;
-  email: string;
-  birth_date: string;
-  avatar: string;
-  password: string;
-  confirmPassword: string;
-  acceptTerms: boolean;
-  phone: string;
-};

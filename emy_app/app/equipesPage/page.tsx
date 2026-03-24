@@ -11,7 +11,7 @@ import SectionPillTitle from "@/components/molecules/SectionPillTitle";
 import LoadingAnimation from "@/components/organisms/LoadingAnimation";
 
 import TournamentTeamsBlock from "@/components/organisms/TournamentTeamsBlock";
-import type { TournamentDTO } from "@/hooks/Type_DTO";
+import type { TournamentTeamsDTO } from "@/hooks/Type_Teams";
 import { useAuth } from "@/hooks/useAuth";
 
 /**
@@ -27,33 +27,31 @@ import { useAuth } from "@/hooks/useAuth";
  */
 
 export default function EquipesPage() {
-  const [data, setData] = useState<TournamentDTO[]>([]);
+  const [data, setData] = useState<TournamentTeamsDTO[]>([]);
   const [_loading, setLoading] = useState(true);
+  // a copier coller dans les autres pages
   const {member,loading}=useAuth()
-  
-useEffect(() => {
-  const idCommunity = member?.Admin?.id_community;
-  if (!idCommunity) return;
 
-  (async () => {
-    try {
-      const res = await fetch(`/api/admin/tour/teams?id_community=${idCommunity}`, {
-        cache: "no-store",
-        headers: { role: "admin" },
-      });
+  // adapte le nom du endpoint
+  const TEAMS_URL = "/api/admin/tour/teams";
 
-      if (!res.ok) throw new Error("Erreur chargement équipes");
-
-      const json = (await res.json()) as TournamentDTO[];
-      setData(json);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
-  })();
-}, [member?.Admin?.id_community]);
-
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch(TEAMS_URL, {
+          cache: "no-store",
+          headers: { role: "admin" }, 
+        });
+        if (!res.ok) throw new Error("Erreur chargement équipes");
+        const json = (await res.json()) as TournamentTeamsDTO[];
+        setData(json);
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoading(false);
+      }
+    })();
+  }, []);
   if(loading) return <LoadingAnimation/>
   return (
     // a copier coller dans les autres pages
@@ -86,7 +84,7 @@ useEffect(() => {
             {_loading ? (
               <p className="text-xs text-white/90">Chargement...</p>
             ) : (
-              data.map((t) => <TournamentTeamsBlock key={t.id_tour} t={t} admin={true} onCreate={()=>('')}/>)
+              data.map((t) => <TournamentTeamsBlock key={t.id_tour} t={t} />)
             )}
           </div>
         </ImageBackground>

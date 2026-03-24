@@ -36,7 +36,7 @@ export default function ProfilAdmin(){
                             <NavBarAdmin id_community={member.Admin.id_community} />
                         )}
                         <main className="mb-80 mt-5 flex flex-col justify-center items-center m-2">
-                            <ProfileCard name={member?.name ?? ""} user_name={member?.user_name ?? ""} imgUrl={member?.avatar ?? "null"} email={member?.email ?? ""} admin={true} onModify={()=>('')} edit="pointer-events-all"/>
+                            <ProfileCard name={member?.name ?? ""} user_name={member?.user_name ?? ""} imgUrl={member?.avatar ?? "null"} email={member?.email ?? ""} edit="pointer-events-all"/>
                         </main>
                         <Footer/>
                     </div>

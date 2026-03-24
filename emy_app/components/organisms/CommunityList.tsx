@@ -17,7 +17,7 @@ export default function CommunityList({communities,member}:Props){
     const [isClicked,setIsClicked]=useState(false)
     return(
         <div className="w-full p-2">
-            <span className="w-full flex justify-center items-center p-2">
+            <span className="w-full flex justify-center items-center">
                 <Title
                 children={isClicked? 'MES COMMUNAUTES':'COMMUNAUTES'}
                 as='h2'

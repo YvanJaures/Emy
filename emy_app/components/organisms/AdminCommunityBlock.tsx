@@ -49,13 +49,9 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
   const handleDelete = async (id_admin: number) => {
     const admin = admins.find((a) => a.id_admin === id_admin);
     if (!admin) return;
-    console.log({
-          id_admin: admin.id_admin,
-          user_name: admin.user_name,
-          id_community: admin.id_community,
-        })
+
     try {
-      const res = await fetch("/api/admin", {
+      const res = await fetch("/api/admin/admin", {
         method: "DELETE",
         headers: { "Content-Type": "application/json", role: "admin" },
         credentials: "include",
@@ -65,7 +61,7 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
           id_community: admin.id_community,
         }),
       });
-      if (!res.ok) throw new Error("Suppression échouée "+res.status);
+      if (!res.ok) throw new Error("Suppression échouée");
       setAdmins((prev) => prev.filter((a) => a.id_admin !== id_admin));
     } catch (e) {
       console.error(e);
@@ -90,7 +86,7 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
         setSelectedMembers([]);
         return;
       }
-      let addedAdmin:AdminDTO[]=[]
+
       for (const selectedMember of membersToAdd) {
         const res = await fetch("/api/admin/admin", {
           method: "POST",
@@ -108,19 +104,16 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
         if (!res.ok) {
           throw new Error("Ajout d'administrateur échoué");
         }
-        if(res.ok){
-          addedAdmin.push(await res.json())
-        }
       }
 
-      /*const newAdmins: AdminDTO[] = membersToAdd.map(
+      const newAdmins: AdminDTO[] = membersToAdd.map(
         (selectedMember, index) => ({
           id_admin: -(Date.now() + index),
           user_name: selectedMember.user_name,
-          id_community: community.id_community
+          id_community: community.id_community,
         }),
-      );*/
-      const newAdmins: AdminDTO[]=addedAdmin
+      );
+
       setAdmins((prev) => [...prev, ...newAdmins]);
       setSelectedMembers([]);
       setDisplay("hidden");
