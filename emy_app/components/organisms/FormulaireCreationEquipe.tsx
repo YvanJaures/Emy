@@ -168,6 +168,7 @@ export default function FormulaireCreationEquipe({
           id_tour:id_tour,
           key_team:formData.team_key,
           user_name: member.user_name,
+          open:false
         }),
       });
 

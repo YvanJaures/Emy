@@ -34,7 +34,7 @@ export default function TeamCard({ team,admin }: { team: TeamDTO,admin:boolean }
   },[])
   const handleJoin=async ()=>{
     SetOnConfirmation(false)
-    if(!team.open) if(!handleCle()) return
+    if(!team.open){ if(!handleCle()) return}
     if(cantJoin) return
     if(isMember) return
     if(!member){
@@ -61,7 +61,11 @@ export default function TeamCard({ team,admin }: { team: TeamDTO,admin:boolean }
     return true
   }
   const handleJoinButton=()=>{
-    setOnJoin(true)
+    if(!team.open){ 
+      setOnJoin(true)
+      return
+    }
+    handleJoin()
   }
   // Avatars des membres (max 4)
   /*const avatars =
