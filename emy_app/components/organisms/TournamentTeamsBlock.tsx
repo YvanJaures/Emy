@@ -8,10 +8,12 @@ import { useRouter } from "next/navigation";
 import Button from "../atoms/Button";
 import { useConnexion } from "@/hooks/useAuth";
 
-export default function TournamentTeamsBlock({ t,admin }: { t: TournamentDTO,admin:boolean }) {
+export default function TournamentTeamsBlock({ t,admin,onCreate }: { t: TournamentDTO,admin:boolean,onCreate:(create:boolean)=>void }) {
   const title = t?.name?.trim() ? t.name : `Tournoi ${t?.id_tour}`;
-    const router = useRouter();
-
+  const router = useRouter();
+  const handleCreate=()=>{
+    onCreate(true)
+  }
 
   return (
     <section className="relative w-full rounded-2xl bg-white p-4 shadow">
@@ -21,7 +23,8 @@ export default function TournamentTeamsBlock({ t,admin }: { t: TournamentDTO,adm
         {t?.Team?.map((team) => (
           <TeamCard key={team.id_team} team={team} admin={admin} />
         ))}
-        { !admin &&(<span className="w-20 min-h-45 rounded-lg border flex justify-center items-center border-dotted text-center hover:cursor-pointer ">
+        { !admin &&(<span className="w-20 min-h-45 rounded-lg border flex justify-center items-center border-dotted text-center hover:cursor-pointer "
+          onClick={()=>{handleCreate()}}>
             +
         </span>)}
       </div>

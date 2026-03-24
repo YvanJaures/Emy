@@ -16,7 +16,8 @@ import {
   updateTeam,
   getTourAndPrizes,
   getRegistrationFees,
-  registrationPlayer
+  registrationPlayer,
+  getLastTeam
 } from "../models/global.js";
 import "../services/auth.js";
 import passport from "passport";
@@ -109,6 +110,14 @@ export const getMembersUserNamesC = async (request, response) => {
     response.status(400).end();
   }
 };
+export const getLastTeamC=async(request,response)=>{
+  try{
+    const team=await getLastTeam()
+    response.status(200).json(team)
+  } catch (error) {
+    response.status(400).json({message:'une erreur est survenue :'+error});
+  }
+}
 /**
  * ajoute un membre
  * @param {*} request
@@ -162,10 +171,11 @@ export const addTeamC = async (request, response) => {
       request.body.name,
       request.body.id_tour,
       request.body.key_team,
+      request.body.user_name
     );
     response.status(201).end();
   } catch (error) {
-    response.status(400).end();
+    response.status(400).json({error});
   }
 };
 /**

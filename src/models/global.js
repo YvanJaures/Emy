@@ -222,13 +222,15 @@ export async function updateMember(user_name, alias, new_info) {
  * @param {*} id_tour identifiant du tournoi associé
  * @param {*} key_team clé d'accès à l'équipe
  */
-export async function addTeam(name, id_tour, key_team) {
+export async function addTeam(name, id_tour, key_team,user_name) {
   await prisma.team.create({
     data: {
       name: name,
       id_tour: id_tour,
       key_team: key_team,
-      players: 4,
+      user_name:user_name,
+      open:false,
+      players:0
     },
   });
 }
@@ -312,7 +314,14 @@ export async function addPlayer(id_tour, user_name) {
     },
   });
 }
-
+/**
+ * Récupère la dernière équipe
+ * @returns la dernière équipe
+ */
+export async function getLastTeam(){
+  const teams= await prisma.team.findMany({})
+  return teams[teams.length-1]
+}
 /**Modifier une equipe */
 export async function updateTeam(id_team, patch) {
   const data = {};

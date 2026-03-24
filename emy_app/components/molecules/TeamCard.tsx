@@ -13,6 +13,10 @@ import Button from "../atoms/Button";
 export default function TeamCard({ team,admin }: { team: TeamDTO,admin:boolean }) {
   const {member}=useConnexion()
   const [onConfirmation,SetOnConfirmation]=useState(false)
+  const [cantJoin,SetCantJoin]=useState(team.members===4)
+  const [cle,setCle]=useState('')
+  const [error,setError]=useState('')
+  const [onJoin,setOnJoin]=useState(false)
   const [avatars,setAvatars]=useState(team.Team_member?.map((tm) => tm.Member?.avatar)
       .filter(Boolean)
       .slice(0, 4) ?? [])
@@ -29,12 +33,15 @@ export default function TeamCard({ team,admin }: { team: TeamDTO,admin:boolean }
       setIsMember(is?? false)
   },[])
   const handleJoin=async ()=>{
-    if(!team.open) return
+    SetOnConfirmation(false)
+    if(!team.open) if(!handleCle()) return
+    if(cantJoin) return
     if(isMember) return
     if(!member){
       SetOnConfirmation(true)
       return
     }
+    SetCantJoin(true)
     SetOnConfirmation(false)
     const payload={
       id_team:team.id_team,
@@ -46,6 +53,16 @@ export default function TeamCard({ team,admin }: { team: TeamDTO,admin:boolean }
     setAvatars(avatars2)
     setIsMember(true)
   }
+  const handleCle=()=>{
+    setError('')
+    if(!cle.trim()) {setError('veuillez remplir le champs!');return false}
+    if(cle!==team.key_team) {setError('Clé incorrecte! Réessayer');console.log(team.key_team);return false}
+    setOnJoin(false)
+    return true
+  }
+  const handleJoinButton=()=>{
+    setOnJoin(true)
+  }
   // Avatars des membres (max 4)
   /*const avatars =
     team.Team_member?.map((tm) => tm.Member?.avatar)
@@ -56,7 +73,7 @@ export default function TeamCard({ team,admin }: { team: TeamDTO,admin:boolean }
   const emptySlots = Math.max(0, 4 - avatars.length);
 
   return (
-    <div className="w-[160px] p-2 rounded-lg shadow-sm">
+    <div className="min-w-[160px] p-2 rounded-lg shadow-sm">
       {/* Image thumbnail (placeholder) */}
       <div className="h-[90px] w-full overflow-hidden rounded-md bg-black/10">
         {/* Si tu veux une vraie image d’équipe, remplace par <Image /> */}
@@ -92,19 +109,32 @@ export default function TeamCard({ team,admin }: { team: TeamDTO,admin:boolean }
         ))}
           { !admin &&
             (<button
-            disabled={isMember||avatars.length>=4}
-            onClick={()=>handleJoin()}
-            className={` ${isMember||avatars.length>=4? 'text-gray-400 hover:cursor-not-allowed text-[10px]':'bg-none hover:cursor-pointer text-[10px] text-blue-400 hover:underline'}`}
+            disabled={isMember||avatars.length>=4||cantJoin}
+            onClick={handleJoinButton}
+            className={` ${isMember||avatars.length>=4||cantJoin? 'text-gray-400 hover:cursor-not-allowed text-[10px]':'bg-none hover:cursor-pointer text-[10px] text-blue-400 hover:underline'}`}
           >
             {isMember?'MEMBRE':'REJOINDRE'}
           </button>)
           }
-      </div>
+      </div >
+     {onJoin &&( <div className="mt-1 flex flex-col items-center justify-start gap-2">
+            <input type="text" name="cle" id="cle" className="w-full h-5 rounded-sm p-2 text-[13px] outline-blue-500"
+              placeholder="Entrer la clé d'accès..."
+              value={cle}
+              onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setCle(e.target.value)}/>
+            <p className="text-red-400 text-[11px] w-full">{error}</p>
+            <span className="flex justify-evenly items-center w-full">
+              <button className="bg-blue-500 text-white text-sm p-0.5 rounded-sm hover:bg-blue-600 hover:cursor-pointer"
+                onClick={handleJoin}>Valider</button>
+              <button className="bg-red-500 text-white text-sm p-0.5 rounded-sm hover:bg-red-600 hover:cursor-pointer"
+                onClick={()=>{setOnJoin(false);setError('');setCle('')}}>Annuler</button>
+            </span>
+      </div>)}
           {onConfirmation &&(
             <Confirmation
               title="Redirection"
               message="Vous allez être rediriger vers la page de connexion. Continuer?"
-              onConfirmed={(res)=>{SetOnConfirmation(!res);location.href='/login'}}
+              onConfirmed={(res)=>{SetOnConfirmation(false);if(res) location.href='/login'}}
               showConfirm={onConfirmation}/>
           )}
     </div>
