@@ -25,6 +25,21 @@ export default function AvatarPicker({
     { label: "Avatar 1", value: "assets/avatars/avatar_prof_1.png" },
     { label: "Avatar 2", value: "assets/avatars/avatar_prof_2.png" },
     { label: "Avatar 3", value: "assets/avatars/avatar_prof_3.png" },
+    { label: "Avatar 4", value: "assets/avatars/avatar_prof_4.png" },
+    { label: "Avatar 5", value: "assets/avatars/avatar_prof_5.png" },
+    { label: "Avatar 6", value: "assets/avatars/avatar_prof_6.png" },
+    { label: "Avatar 7", value: "assets/avatars/avatar_prof_7.png" },
+    { label: "Avatar 8", value: "assets/avatars/avatar_prof_8.png" },
+    { label: "Avatar 9", value: "assets/avatars/avatar_prof_9.png" },
+    { label: "Avatar 10",value: "assets/avatars/avatar_prof_10.png" },
+    { label: "Avatar 11",value: "assets/avatars/avatar_prof_11.png" },
+    { label: "Avatar 12",value: "assets/avatars/avatar_prof_12.png" },
+    { label: "Avatar 13",value: "assets/avatars/avatar_prof_13.png" },
+    { label: "Avatar 14",value: "assets/avatars/avatar_prof_14.png" },
+    { label: "Avatar 15",value: "assets/avatars/avatar_prof_15.png" },
+    { label: "Avatar 16",value: "assets/avatars/avatar_prof_16.png" },
+    { label: "Avatar 17",value: "assets/avatars/avatar_prof_17.png" },
+    { label: "Avatar 18",value: "assets/avatars/avatar_prof_18.png" },
   ];
 
   const selectedAvatar =

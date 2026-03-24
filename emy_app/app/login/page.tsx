@@ -18,8 +18,7 @@ import { useAuth } from "@/hooks/useAuth";
 export default function LoginPage() {
   const {member,loading}=useAuth();
   const route='/communautes'
-  console.log(member)
-  
+  if(member) location.href=route
   return (
     <>
     <MetaData seoTitle="Log in" seoDescription="page de connexion"></MetaData>
