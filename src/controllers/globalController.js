@@ -22,7 +22,6 @@ import {
 import "../services/auth.js";
 import passport from "passport";
 import "dotenv/config";
-import { getAllTeams } from "../models/global.js";
 // copier et adapter
 /*
 export const basefunction=async(request,response)=>{
@@ -451,16 +450,9 @@ export const getMyTeamsC = async (request, response) => {
       });
     }
 
-    const data = await getTeamsDetailsByUser(user_name);
+    const data = await getMemberByName(user_name);
 
-    const teams = data?.Team_member
-      ?.map(tm => tm.Team)
-      .filter(Boolean)
-      .map(team => ({
-        ...team,
-        current: team.Team_member.filter(m => m.status === true),
-        pending: team.Team_member.filter(m => m.status === false),
-      })) || [];
+    const teams = data?.Team || [];
 
     return response.status(200).json({
       message: "Équipes récupérées avec succès",
