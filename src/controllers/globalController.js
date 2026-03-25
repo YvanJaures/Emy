@@ -205,10 +205,13 @@ export const addTeamMemberWaitC = async (request, response) => {
  * @param {*} request
  * @param {*} response
  */
-export const addTeamMemberC = async (request, response) => {
+export const addTeamMemberC = async (req, res) => {
   try {
-    await addTeamMember(request.body.user_name);
-    response.status(200).end();
+    const { id_team, user_name } = req.body;
+
+    await addTeamMember(id_team, user_name);
+
+    response.status(200).json({ message: "Membre ajouté" });
   } catch (error) {
     response.status(400).end();
   }
