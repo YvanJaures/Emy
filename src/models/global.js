@@ -55,7 +55,13 @@ export async function getMemberByName(user_name) {
       Admin: true,
       Community_member: true,
       Employee: true,
-      Player: true,
+
+      Player: {
+        include: {
+          Tournament: true
+        }
+      },
+
       Sponsor: true,
 
       Team: {
@@ -332,13 +338,52 @@ export async function addCommunityMember(id_community, user_name) {
     },
   });
 }
+
 export async function addPlayer(id_tour, user_name) {
-  await prisma.tournament.create({
-    data: {
-      id_tour: id_tour,
-      user_name: user_name,
-    },
-  });
+  try {
+    let tournament = await prisma.tournament.findUnique({
+      where: { id_tour: Number(id_tour) }
+    });
+
+    if (!tournament) {
+      tournament = await prisma.tournament.create({
+        data: {
+          id_tour: Number(id_tour),
+          name: "Fake Tournament " + id_tour,
+          start_date: new Date(),
+          end_date: new Date(Date.now() + 86400000),
+          location: "Test",
+        },
+      });
+
+      console.log("Fake tournament created:", tournament);
+    }
+
+    const existing = await prisma.player.findFirst({
+      where: {
+        id_tour: Number(id_tour),
+        user_name: user_name
+      }
+    });
+
+    if (existing) {
+      console.log("Player already registered");
+      return existing;
+    }
+
+    const player = await prisma.player.create({
+      data: {
+        id_tour: Number(id_tour),
+        user_name: user_name,
+      },
+    });
+
+    return player;
+
+  } catch (error) {
+    console.error("addPlayer error:", error);
+    throw error;
+  }
 }
 /**
  * Récupère la dernière équipe

@@ -487,3 +487,38 @@ export const getMyTeamsC = async (request, response) => {
     });
   }
 };
+
+export const getMyTournamentsC = async (request, response) => {
+  try {
+
+    const user_name = request.user?.user_name;
+
+    if (!user_name) {
+      return response.status(401).json({
+        message: "Utilisateur non connecté"
+      });
+    }
+
+    const data = await getMemberByName(user_name);
+
+    const tournaments = data?.Player?.map(player => ({
+      id_tour: player.Tournament?.id_tour,
+      name: player.Tournament?.name,
+      start_date: player.Tournament?.start_date,
+      end_date: player.Tournament?.end_date,
+      location: player.Tournament?.location,
+      avatar: player.Tournament?.avatar
+    })) || [];
+
+    return response.status(200).json({
+      message: "Tournois récupérés avec succès",
+      tournaments
+    });
+
+  } catch (error) {
+    return response.status(400).json({
+      message: "Erreur lors de la récupération des tournois",
+      error: error.message
+    });
+  }
+};

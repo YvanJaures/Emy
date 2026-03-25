@@ -9,12 +9,15 @@ import { useAuth } from "@/hooks/useAuth";
 import { useState, useEffect } from "react";
 import TeamCardProfil from "@/components/molecules/TeamCardProfil";
 import Link from "next/link";
+import ProfileTourViewList from "@/components/molecules/ProfileTourViewList";
 
 export default function Profil() {
     const { member, loading } = useAuth();
     const [activeView, setActiveView] = useState("profil");
     const [modify, setModify] = useState(false);
     const [teams, setTeams] = useState<any[]>([]);
+
+    const [tournaments, setTournaments] = useState<any[]>([]);
 
     const [formData, setFormData] = useState({
         name: "",
@@ -58,6 +61,30 @@ export default function Profil() {
 
         fetchTeams();
     }, []);
+
+    useEffect(() => {
+    const fetchTournaments = async () => {
+        try {
+            const res = await fetch(`/api/member/my-tournaments`, {
+                credentials: "include",
+            });
+
+            if (!res.ok) {
+                console.error("Erreur API tournaments");
+                return;
+            }
+
+            const data = await res.json();
+            console.log("TOURNAMENTS:", data);
+
+            setTournaments(data.tournaments ?? []);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
+    fetchTournaments();
+}, []);
 
     const handleSave = async () => {
         try {
@@ -166,7 +193,6 @@ export default function Profil() {
 
                                             <h2 className="mb-4 font-semibold">Modifier le profil</h2>
 
-                                            {/* NOM */}
                                             <input
                                                 value={formData.name}
                                                 onChange={(e) =>
@@ -176,7 +202,6 @@ export default function Profil() {
                                                 className="border p-2 mb-2 w-full rounded"
                                             />
 
-                                            {/* PRENOM */}
                                             <input
                                                 value={formData.surname}
                                                 onChange={(e) =>
@@ -186,7 +211,6 @@ export default function Profil() {
                                                 className="border p-2 mb-2 w-full rounded"
                                             />
 
-                                            {/* EMAIL */}
                                             <input
                                                 value={formData.email}
                                                 onChange={(e) =>
@@ -196,7 +220,6 @@ export default function Profil() {
                                                 className="border p-2 mb-2 w-full rounded"
                                             />
 
-                                            {/* PHONE */}
                                             <input
                                                 value={formData.phone}
                                                 onChange={(e) =>
@@ -206,7 +229,6 @@ export default function Profil() {
                                                 className="border p-2 mb-2 w-full rounded"
                                             />
 
-                                            {/* ADDRESS */}
                                             <input
                                                 value={formData.address}
                                                 onChange={(e) =>
@@ -216,7 +238,6 @@ export default function Profil() {
                                                 className="border p-2 mb-2 w-full rounded"
                                             />
 
-                                            {/* DATE */}
                                             <input
                                                 type="date"
                                                 value={formData.birth_date}
@@ -259,8 +280,18 @@ export default function Profil() {
                             {activeView === "activites" && (
                             <>
                                 <h1 className="text-lg underline underline-offset-4 mb-6">
-                                ACTIVITÉS
+                                    ACTIVITÉS
                                 </h1>
+
+                                {tournaments.length === 0 ? (
+                                    <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl text-center">
+                                        <p className="text-gray-500">
+                                            Vous n'êtes inscrit à aucun tournoi.
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <ProfileTourViewList tournaments={tournaments} />
+                                )}
                             </>
                             )}
 
