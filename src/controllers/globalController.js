@@ -207,7 +207,8 @@ export const addTeamMemberWaitC = async (request, response) => {
  */
 export const addTeamMemberC = async (request, response) => {
   try {
-    const { id_team, user_name } = req.body;
+    console.log("BODY RECEIVED:", request.body);
+    const { id_team, user_name } = request.body;
 
     await addTeamMember(id_team, user_name);
 

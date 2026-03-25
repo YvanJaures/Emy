@@ -9,6 +9,8 @@ export default function TeamCardProfil({ team }: { team: TeamMiniDTO }) {
   const [localTeam, setLocalTeam] = useState(team);
 
 const handleAdd = async (tm: any) => {
+  console.log("tm:", tm);
+  console.log("Member:", tm.Member);
   try {
       const res = await fetch("/api/member/team/confirm", {
       method: "PATCH",
@@ -25,7 +27,7 @@ const handleAdd = async (tm: any) => {
     const data = await res.json();
 
     if (!res.ok) {
-      console.error("404", data);
+      console.error("ERROR", res.status, data);
       throw new Error(data.message || "Erreur");
     }
 

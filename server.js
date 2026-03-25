@@ -27,7 +27,11 @@ const app=express()
 const MemoryStore=memorystore(session)
 
 //app.use(helmet())
-app.use(cors())
+app.use(cors({
+  origin: true,
+  credentials: true
+}))
+
 app.use(compression())
 app.use(express.json())
 app.use(session({

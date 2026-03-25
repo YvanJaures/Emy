@@ -9,14 +9,12 @@ import { useAuth } from "@/hooks/useAuth";
 import { useState, useEffect } from "react";
 import TeamCardProfil from "@/components/molecules/TeamCardProfil";
 import Link from "next/link";
-import TourViewList from "@/components/molecules/TourViewList";
 
 export default function Profil() {
     const { member, loading } = useAuth();
     const [activeView, setActiveView] = useState("profil");
     const [modify, setModify] = useState(false);
     const [teams, setTeams] = useState<any[]>([]);
-    const [tournaments, setTournaments] = useState<any[]>([]);
 
     console.log("MEMBER:", member);
     console.log("TEAMS:", teams);
@@ -24,36 +22,26 @@ export default function Profil() {
     
     useEffect(() => {
     const fetchTeams = async () => {
+        try {
         const res = await fetch(`/api/member/my-teams`, {
-            credentials: "include"
+            credentials: "include",
         });
 
-        if (!res.ok) return;
+        if (!res.ok) {
+            console.error("Erreur fetch teams:", res.status);
+            return;
+        }
 
         const data = await res.json();
         console.log("MY TEAMS:", data);
 
-        setTeams(data.teams || []);
+        setTeams(data.teams || data || []);
+        } catch (err) {
+        console.error("Erreur:", err);
+        }
     };
 
     fetchTeams();
-    }, []);
-
-    useEffect(() => {
-    const fetchTournaments = async () => {
-        const res = await fetch(`/api/member/my-tournaments`, {
-            credentials: "include"
-        });
-
-        if (!res.ok) return;
-
-        const data = await res.json();
-        console.log("MY TOURNAMENTS:", data);
-
-        setTournaments(data.tournaments || []);
-    };
-
-    fetchTournaments();
     }, []);
     return (
         <>
@@ -218,16 +206,6 @@ export default function Profil() {
                                 <h1 className="text-lg underline underline-offset-4 mb-6">
                                 ACTIVITÉS
                                 </h1>
-
-                                {tournaments.length === 0 ? (
-                                <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl text-center">
-                                    <p className="text-gray-500">
-                                        Vous n'êtes inscrit à aucun tournoi.
-                                    </p>
-                                </div>
-                                ) : (
-                                <TourViewList tournaments={tournaments} />
-                                )}
                             </>
                             )}
                         </div>

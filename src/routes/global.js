@@ -49,6 +49,6 @@ router.patch("/member/team/confirm", connecterApi, globalController.addTeamMembe
 
 //Routes ADMIN ET TOURNAMENTS
 router.use('/admin',connecterApi,adminRoutes)
-router.use('/', tournamentRoutes)
+
 // ne pas supprimer
 export default router;
