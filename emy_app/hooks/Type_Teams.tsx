@@ -12,8 +12,15 @@ export type TeamMiniDTO = {
   id_tour?: number | null;
   open?: boolean | null;      
   key_team?: string | null;   
-  members?: number | null;    
-  Team_member?: { Member?: MemberMiniDTO | null }[]; // pour avatar
+  members?: number | null;
+  
+  Tournament?: {              
+    name?: string | null;
+  } | null;
+
+  Team_member?: { 
+  status?: boolean | null; //pour TeamCardProfil ---> garder la structure de prisma
+  Member?: MemberMiniDTO | null }[]; // pour avatar
 };
 
 export type TournamentTeamsDTO = {

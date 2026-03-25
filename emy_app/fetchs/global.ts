@@ -147,3 +147,18 @@ export async function base(payload:Object){
 
     }
 }
+/**
+ * Fonctione fetch qui permet d'aller chercher les membres d'un equipe
+ * et de l'afficher.
+ */
+export async function getUserTeamsDetails() {
+    const res = await fetch('/api/member/team/details', {
+        credentials: "include"
+    });
+
+    if (res.ok) {
+        return await res.json();
+    }
+
+    return [];
+}
