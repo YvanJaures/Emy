@@ -21,6 +21,8 @@ type Props = {
 export default function TournamentBlockSlug({ tournament }: Props) {
   // Les commandites sélectionnés
   const [selectedPrizes, setSelectedPrizes] = useState<PrizeDTO[] | null>(null);
+  // l'utilisateur est il déjà inscrit au tournoi
+  const [isPlayer,setIsPlayer]=useState(true)
   // Le tournoi actuel
   const [_tour, setTour] = useState<TournamentDTO>(tournament);
   // Affichage ou non du formulaire d'inscription
@@ -36,6 +38,15 @@ export default function TournamentBlockSlug({ tournament }: Props) {
   // Membre connecté (si un)
   const { member } = useConnexion();
 
+  useEffect(()=>{
+    if(member){
+      const isPlayer=tournament.Player?.some((player)=>player.user_name===member.user_name)?? false
+      setIsPlayer(isPlayer)
+      console.log(tournament.Player)
+      return
+    }
+    console.log('no user')
+  },[member])
   /**
    * Ajoute l'équipe créé à la liste des équipes du tournoi
    * @param team équipe créée
@@ -204,8 +215,9 @@ export default function TournamentBlockSlug({ tournament }: Props) {
               <span className="boder flex-50 flex justify-center items-end">
                 {etat === -1 && (
                   <Button
-                    title="S'inscrire"
-                    className="bg-[#0F70AC] bg-#0F70AC flex justify-center border-none"
+                    title={isPlayer?"Déjà inscrit":"S'inscrire"}
+                    disabled={isPlayer}
+                    className={isPlayer?"hover:cursor-not-allowed border-none":"bg-[#0F70AC] bg-#0F70AC flex justify-center border-none"}
                     onClick={handleRegistrationClick}
                   />
                 )}
