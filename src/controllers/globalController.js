@@ -158,14 +158,27 @@ export const addMemberC = async (request, response) => {
  */
 export const updateMemberC = async (request, response) => {
   try {
-    await updateMember(
-      request.body.user_name,
-      request.body.alias,
-      request.body.new_info,
-    );
-    response.status(200).end();
+    if (request.body.name || request.body.email) {
+
+      const { user_name, ...rest } = request.body;
+
+      await updateMember(user_name, rest);
+
+    } 
+    else {
+
+      await updateMember(
+        request.body.user_name,
+        request.body.alias,
+        request.body.new_info,
+      );
+
+    }
+    response.status(200).json({ message: "Profil mis à jour" });
+
   } catch (error) {
-    response.status(400).end();
+    console.error(error);
+    response.status(400).json({ message: "Erreur lors de la mise à jour" });
   }
 };
 /**

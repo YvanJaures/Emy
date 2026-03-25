@@ -189,58 +189,56 @@ export async function addMember(
  * @param {*} alias     mot clé de la valeure à modifier
  * @param {*} new_info  nouvelle valeure
  */
-export async function updateMember(user_name, alias, new_info) {
+export async function updateMember(user_name, aliasOrData, new_info) {
+  
+  if (typeof aliasOrData === "object") {
+    return prisma.member.update({
+      where: { user_name },
+      data: {
+        name: aliasOrData.name,
+        surname: aliasOrData.surname,
+        email: aliasOrData.email,
+        phone: aliasOrData.phone,
+        address: aliasOrData.address,
+        birth_date: aliasOrData.birth_date
+          ? new Date(aliasOrData.birth_date)
+          : null,
+      },
+    });
+  }
+
+  const alias = aliasOrData;
+
   switch (alias) {
     case "name":
-      await prisma.member.update({
-        where: {
-          user_name: user_name,
-        },
-        data: {
-          name: new_info,
-        },
+      return prisma.member.update({
+        where: { user_name },
+        data: { name: new_info },
       });
-      break;
+
     case "address":
-      await prisma.member.update({
-        where: {
-          user_name: user_name,
-        },
-        data: {
-          address: new_info,
-        },
+      return prisma.member.update({
+        where: { user_name },
+        data: { address: new_info },
       });
-      break;
+
     case "avatar":
-      await prisma.member.update({
-        where: {
-          user_name: user_name,
-        },
-        data: {
-          avatar: new_info,
-        },
+      return prisma.member.update({
+        where: { user_name },
+        data: { avatar: new_info },
       });
-      break;
+
     case "birth_date":
-      await prisma.member.update({
-        where: {
-          user_name: user_name,
-        },
-        data: {
-          birth_date: new_info,
-        },
+      return prisma.member.update({
+        where: { user_name },
+        data: { birth_date: new Date(new_info) },
       });
-      break;
+
     default:
-      await prisma.member.update({
-        where: {
-          user_name: user_name,
-        },
-        data: {
-          phone: new_info,
-        },
+      return prisma.member.update({
+        where: { user_name },
+        data: { phone: new_info },
       });
-      break;
   }
 }
 /**
