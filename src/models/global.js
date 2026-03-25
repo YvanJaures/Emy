@@ -279,10 +279,11 @@ export async function addTeamMemberWait(id_team, user_name) {
  * Modifie le status d'un memebre d'équipe à status =1 indiquant que le membre est définitif
  * @param {*} user_name nom de l'utilisateur
  */
-export async function addTeamMember(user_name){
-    await prisma.team_member.update({
+export async function addTeamMember(id_team, user_name){
+    await prisma.team_member.updateMany({
         where:{
-            user_name:user_name
+            user_name: user_name,
+            id_team: id_team
         },
         data:{
             status:true
