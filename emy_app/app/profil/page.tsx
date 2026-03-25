@@ -8,7 +8,6 @@ import LoadingAnimation from "@/components/organisms/LoadingAnimation";
 import { useAuth } from "@/hooks/useAuth";
 import { useState, useEffect } from "react";
 import TeamCardProfil from "@/components/molecules/TeamCardProfil";
-import Constructing from "@/components/organisms/Constructing";
 import Link from "next/link";
 import TourViewList from "@/components/molecules/TourViewList";
 
@@ -23,7 +22,6 @@ export default function Profil() {
     console.log("TEAMS:", teams);
     
     
-
     useEffect(() => {
     const fetchTeams = async () => {
         const res = await fetch(`/api/member/my-teams`, {
@@ -94,6 +92,18 @@ export default function Profil() {
                                         PROFIL
                                     </h1>
 
+                                    {!modify && (
+                                        <div className="flex justify-end mb-2">
+                                            <button
+                                            onClick={() => setModify(true)}
+                                            className="text-blue-500 text-sm hover:underline"
+                                            >
+                                            Modifier le profil
+                                            </button>
+                                        </div>
+                                    )}
+
+                                    {!modify && (
                                     <ProfileCard
                                         name={member?.name ?? ""}
                                         user_name={member?.user_name ?? ""}
@@ -103,6 +113,42 @@ export default function Profil() {
                                         onModify={(mod) => (setModify(mod))}
                                         edit="pointer-events-all"
                                     />
+                                    )}
+
+                                    {modify && (
+                                        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl">
+                                            <h2 className="mb-4 font-semibold">Modifier le profil</h2>
+
+                                            <input
+                                            className="border p-2 mb-2 w-full"
+                                            defaultValue={member?.name ?? ""}
+                                            placeholder="Nom"
+                                            />
+
+                                            <input
+                                            className="border p-2 mb-2 w-full"
+                                            defaultValue={member?.email ?? ""}
+                                            placeholder="Email"
+                                            />
+
+                                            <div className="flex gap-3 mt-4">
+                                                <button
+                                                    onClick={() => setModify(false)}
+                                                    className="text-red-500"
+                                                >
+                                                    Annuler
+                                                </button>
+
+                                                <button
+                                                    className="text-green-500"
+                                                >
+                                                    Sauvegarder
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                                    
+                                    
 
                                     <div className="flex flex-row flex-wrap w-full h-fit justify-start items-start gap-5
                                     rounded-xl p-6 shadow-xl mt-10 bg-white dark:bg-gray-800 dark:shadow-black/30">
