@@ -198,7 +198,7 @@ export default function Profil() {
                                         </p>
 
                                         <Link
-                                        href="/communities"
+                                        href="/communautes"
                                         className="mt-4 inline-block text-blue-500 hover:underline"
                                         >
                                         Rejoindre une équipe
