@@ -6,17 +6,54 @@ import type { TeamMiniDTO } from "@/hooks/Type_Teams";
 
 export default function TeamCardProfil({ team }: { team: TeamMiniDTO }) {
   const [showMembers, setShowMembers] = useState(false);
+  const [localTeam, setLocalTeam] = useState(team);
+
+const handleAdd = async (tm: any) => {
+  try {
+      const res = await fetch("/api/member/team/confirm", {
+      method: "PATCH",
+      headers: {
+      "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+      id_team: team.id_team,
+      user_name: tm.Member?.user_name ?? "",
+    }),
+  });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      console.error("404", data);
+      throw new Error(data.message || "Erreur");
+    }
+
+    console.log("Ajout réussi", data);
+
+    setLocalTeam(prev => ({
+      ...prev,
+      Team_member: prev.Team_member?.map(m =>
+        m.Member?.user_name === tm.Member?.user_name
+          ? { ...m, status: true }
+          : m
+      ) ?? []
+    }));
+  } catch (err) {
+    console.error(err);
+  }
+};
 
   const avatars =
-    team.Team_member?.map((tm) => tm.Member?.avatar)
+    localTeam.Team_member?.map((tm) => tm.Member?.avatar)
       .filter(Boolean)
       .slice(0, 4) ?? [];
 
   const currentMembers =
-    team.Team_member?.filter((tm) => tm.status === true) ?? [];
+    localTeam.Team_member?.filter((tm) => tm.status === true) ?? [];
 
   const pendingMembers =
-    team.Team_member?.filter((tm) => tm.status === false) ?? [];
+    localTeam.Team_member?.filter((tm) => tm.status === false) ?? [];
 
   return (
     <div className="w-[600px] bg-white dark:bg-gray-800 rounded-xl shadow-md p-4">
@@ -149,7 +186,10 @@ export default function TeamCardProfil({ team }: { team: TeamMiniDTO }) {
                     </span>
                   </div>
 
-                  <button className="text-blue-500 text-xs whitespace-nowrap hover:underline">
+                  <button
+                    onClick={() => handleAdd(tm)}
+                    className="text-blue-500 text-xs whitespace-nowrap hover:underline"
+                  >
                     AJOUTER
                   </button>
                 </div>
