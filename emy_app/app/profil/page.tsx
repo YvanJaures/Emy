@@ -10,12 +10,14 @@ import { useState, useEffect } from "react";
 import TeamCardProfil from "@/components/molecules/TeamCardProfil";
 import Constructing from "@/components/organisms/Constructing";
 import Link from "next/link";
+import TourViewList from "@/components/molecules/TourViewList";
 
 export default function Profil() {
     const { member, loading } = useAuth();
     const [activeView, setActiveView] = useState("profil");
     const [modify, setModify] = useState(false);
     const [teams, setTeams] = useState<any[]>([]);
+    const [tournaments, setTournaments] = useState<any[]>([]);
 
     console.log("MEMBER:", member);
     console.log("TEAMS:", teams);
@@ -37,7 +39,24 @@ export default function Profil() {
     };
 
     fetchTeams();
-}, []);
+    }, []);
+
+    useEffect(() => {
+    const fetchTournaments = async () => {
+        const res = await fetch(`/api/member/my-tournaments`, {
+            credentials: "include"
+        });
+
+        if (!res.ok) return;
+
+        const data = await res.json();
+        console.log("MY TOURNAMENTS:", data);
+
+        setTournaments(data.tournaments || []);
+    };
+
+    fetchTournaments();
+    }, []);
     return (
         <>
             {loading ? (
@@ -48,7 +67,8 @@ export default function Profil() {
                     <button
                         type="button"
                         aria-label="Close"
-                        className="absolute right-6 top-4 text-black/70 dark:text-white/70 hover:text-black dark:hover:text-white hover:cursor-pointer text-[40px] leading-none"
+                        className="absolute right-6 top-4 text-black/70 dark:text-white/70 hover:text-black
+                        dark:hover:text-white hover:cursor-pointer text-[40px] leading-none"
                         onClick={() => history.back()}
                     >
                         ×
@@ -84,7 +104,8 @@ export default function Profil() {
                                         edit="pointer-events-all"
                                     />
 
-                                    <div className="flex flex-row flex-wrap w-full h-fit justify-start items-start gap-5 rounded-xl p-6 shadow-xl mt-10 bg-white dark:bg-gray-800 dark:shadow-black/30">
+                                    <div className="flex flex-row flex-wrap w-full h-fit justify-start items-start gap-5
+                                    rounded-xl p-6 shadow-xl mt-10 bg-white dark:bg-gray-800 dark:shadow-black/30">
 
                                         <div className="grid grid-cols-[200px_1fr] gap-y-4 gap-x-10 w-full max-w-2xl">
 
@@ -146,17 +167,23 @@ export default function Profil() {
                                     )}
                                 </>
                                 )}
-                                {activeView === "activites" && (
-                                    <>
-                                        <h1 className="text-lg underline underline-offset-4 mb-6">
-                                        ACTIVITÉS
-                                        </h1>
+                            {activeView === "activites" && (
+                            <>
+                                <h1 className="text-lg underline underline-offset-4 mb-6">
+                                ACTIVITÉS
+                                </h1>
 
-                                        <div className="w-full h-[400px]">
-                                        <Constructing />
-                                        </div>
-                                    </>
-                                    )}
+                                {tournaments.length === 0 ? (
+                                <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-xl text-center">
+                                    <p className="text-gray-500">
+                                        Vous n'êtes inscrit à aucun tournoi.
+                                    </p>
+                                </div>
+                                ) : (
+                                <TourViewList tournaments={tournaments} />
+                                )}
+                            </>
+                            )}
                         </div>
                     </main>
 
