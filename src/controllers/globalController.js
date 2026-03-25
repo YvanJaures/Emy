@@ -205,7 +205,7 @@ export const addTeamMemberWaitC = async (request, response) => {
  * @param {*} request
  * @param {*} response
  */
-export const addTeamMemberC = async (req, res) => {
+export const addTeamMemberC = async (request, response) => {
   try {
     const { id_team, user_name } = req.body;
 
@@ -213,7 +213,7 @@ export const addTeamMemberC = async (req, res) => {
 
     response.status(200).json({ message: "Membre ajouté" });
   } catch (error) {
-    response.status(400).end();
+    response.status(400).json({ message: "Une erreur est survenue" });
   }
 };
 /**
