@@ -55,7 +55,13 @@ export async function getMemberByName(user_name) {
       Admin: true,
       Community_member: true,
       Employee: true,
-      Player: true,
+
+      Player: {
+        include: {
+          Tournament: true
+        }
+      },
+
       Sponsor: true,
 
       Team: {
@@ -189,58 +195,56 @@ export async function addMember(
  * @param {*} alias     mot clé de la valeure à modifier
  * @param {*} new_info  nouvelle valeure
  */
-export async function updateMember(user_name, alias, new_info) {
+export async function updateMember(user_name, aliasOrData, new_info) {
+  
+  if (typeof aliasOrData === "object") {
+    return prisma.member.update({
+      where: { user_name },
+      data: {
+        name: aliasOrData.name,
+        surname: aliasOrData.surname,
+        email: aliasOrData.email,
+        phone: aliasOrData.phone,
+        address: aliasOrData.address,
+        birth_date: aliasOrData.birth_date
+          ? new Date(aliasOrData.birth_date)
+          : null,
+      },
+    });
+  }
+
+  const alias = aliasOrData;
+
   switch (alias) {
     case "name":
-      await prisma.member.update({
-        where: {
-          user_name: user_name,
-        },
-        data: {
-          name: new_info,
-        },
+      return prisma.member.update({
+        where: { user_name },
+        data: { name: new_info },
       });
-      break;
+
     case "address":
-      await prisma.member.update({
-        where: {
-          user_name: user_name,
-        },
-        data: {
-          address: new_info,
-        },
+      return prisma.member.update({
+        where: { user_name },
+        data: { address: new_info },
       });
-      break;
+
     case "avatar":
-      await prisma.member.update({
-        where: {
-          user_name: user_name,
-        },
-        data: {
-          avatar: new_info,
-        },
+      return prisma.member.update({
+        where: { user_name },
+        data: { avatar: new_info },
       });
-      break;
+
     case "birth_date":
-      await prisma.member.update({
-        where: {
-          user_name: user_name,
-        },
-        data: {
-          birth_date: new_info,
-        },
+      return prisma.member.update({
+        where: { user_name },
+        data: { birth_date: new Date(new_info) },
       });
-      break;
+
     default:
-      await prisma.member.update({
-        where: {
-          user_name: user_name,
-        },
-        data: {
-          phone: new_info,
-        },
+      return prisma.member.update({
+        where: { user_name },
+        data: { phone: new_info },
       });
-      break;
   }
 }
 /**
@@ -334,13 +338,52 @@ export async function addCommunityMember(id_community, user_name) {
     },
   });
 }
+
 export async function addPlayer(id_tour, user_name) {
-  await prisma.tournament.create({
-    data: {
-      id_tour: id_tour,
-      user_name: user_name,
-    },
-  });
+  try {
+    let tournament = await prisma.tournament.findUnique({
+      where: { id_tour: Number(id_tour) }
+    });
+
+    if (!tournament) {
+      tournament = await prisma.tournament.create({
+        data: {
+          id_tour: Number(id_tour),
+          name: "Fake Tournament " + id_tour,
+          start_date: new Date(),
+          end_date: new Date(Date.now() + 86400000),
+          location: "Test",
+        },
+      });
+
+      console.log("Fake tournament created:", tournament);
+    }
+
+    const existing = await prisma.player.findFirst({
+      where: {
+        id_tour: Number(id_tour),
+        user_name: user_name
+      }
+    });
+
+    if (existing) {
+      console.log("Player already registered");
+      return existing;
+    }
+
+    const player = await prisma.player.create({
+      data: {
+        id_tour: Number(id_tour),
+        user_name: user_name,
+      },
+    });
+
+    return player;
+
+  } catch (error) {
+    console.error("addPlayer error:", error);
+    throw error;
+  }
 }
 /**
  * Récupère la dernière équipe

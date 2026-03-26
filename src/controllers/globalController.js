@@ -158,14 +158,27 @@ export const addMemberC = async (request, response) => {
  */
 export const updateMemberC = async (request, response) => {
   try {
-    await updateMember(
-      request.body.user_name,
-      request.body.alias,
-      request.body.new_info,
-    );
-    response.status(200).end();
+    if (request.body.name || request.body.email) {
+
+      const { user_name, ...rest } = request.body;
+
+      await updateMember(user_name, rest);
+
+    } 
+    else {
+
+      await updateMember(
+        request.body.user_name,
+        request.body.alias,
+        request.body.new_info,
+      );
+
+    }
+    response.status(200).json({ message: "Profil mis à jour" });
+
   } catch (error) {
-    response.status(400).end();
+    console.error(error);
+    response.status(400).json({ message: "Erreur lors de la mise à jour" });
   }
 };
 /**
@@ -470,6 +483,41 @@ export const getMyTeamsC = async (request, response) => {
   } catch (error) {
     return response.status(400).json({
       message: "Erreur lors de la récupération des équipes",
+      error: error.message
+    });
+  }
+};
+
+export const getMyTournamentsC = async (request, response) => {
+  try {
+
+    const user_name = request.user?.user_name;
+
+    if (!user_name) {
+      return response.status(401).json({
+        message: "Utilisateur non connecté"
+      });
+    }
+
+    const data = await getMemberByName(user_name);
+
+    const tournaments = data?.Player?.map(player => ({
+      id_tour: player.Tournament?.id_tour,
+      name: player.Tournament?.name,
+      start_date: player.Tournament?.start_date,
+      end_date: player.Tournament?.end_date,
+      location: player.Tournament?.location,
+      avatar: player.Tournament?.avatar
+    })) || [];
+
+    return response.status(200).json({
+      message: "Tournois récupérés avec succès",
+      tournaments
+    });
+
+  } catch (error) {
+    return response.status(400).json({
+      message: "Erreur lors de la récupération des tournois",
       error: error.message
     });
   }
