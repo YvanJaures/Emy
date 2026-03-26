@@ -26,6 +26,7 @@ router.get("/member/team/details", connecterApi, globalController.getTeamDetails
 router.get("/member/team/last", globalController.getLastTeamC);  // Afficher la dernière équipe
 router.get("/tour&prizes/details", globalController.getTourAndPrizesC);
 router.get("/member/registration/fees", connecterApi, globalController.getRegistrationFeesC); // Recuperer le prix d inscription d un tournoi
+router.get("/member/my-tournaments", connecterApi, globalController.getMyTournamentsC);
 
 
 
