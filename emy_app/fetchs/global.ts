@@ -10,6 +10,22 @@ export async function getUser(){
     return null
 
 }
+export async function fetchApi(payload:Object,route:string,method:string){
+    try{
+        const res=await fetch(route,{
+            method:method,
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(payload)
+        })
+        if(!res.ok){
+            return false
+        }
+        return true
+    }catch(error){
+        console.error(error)
+    }
+
+}
 export async function getMemberByName(user_name:string){
     const res=await fetch('/api/member/user_name?user_name='+user_name,{
         credentials:"include"
@@ -131,6 +147,73 @@ export async function deconnexion() {
     }
 }
 /**
+ * Fonctione fetch qui permet d'aller chercher les membres d'un equipe
+ * et de l'afficher.
+ */
+export async function getUserTeamsDetails() {
+    const res = await fetch('/api/member/team/details', {
+        credentials: "include"
+    });
+    if (res.ok) {
+        return await res.json();
+    }
+
+    return [];
+}
+export async function getSponsors(){
+    try{
+        const res=await fetch('/api/sponsors/all')
+        if (res.ok) {
+            return await res.json();
+        }
+        return [];
+    }catch(error){
+
+    }
+}
+export async function getSponsorByUserName(user_name:string){
+    try{
+        const res=await fetch('/api/sponsor?user_name='+user_name)
+        if (res.ok) {
+            return await res.json();
+        }
+        return null;
+    }catch(error){
+        console.log(error)
+    }
+}
+export async function addSponsor(sponsorData:Object){
+    try{
+        const res=await fetch('/api/sponsor/add',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(sponsorData)
+        })
+        if(!res.ok){
+            return false
+        }
+        return true
+    }catch(error){
+        console.log(error)
+    }
+}
+export async function deleteSponsor(user_name:string){
+    try{
+        const res=await fetch('/api/sponsor/delete?user_name='+user_name,{  
+            method:'DELETE',
+            headers:{'Content-Type':'application/json'}
+        })
+        if(!res.ok){
+            return false
+            throw new Error('impossible de supprimer ce commanditaire')
+        }   
+        return true
+    }catch(error){
+        console.log(error)
+    }   
+}
+
+/**
  * à copier et modifier en fonction du besoir
  */
 export async function base(payload:Object){
@@ -146,19 +229,4 @@ export async function base(payload:Object){
     }catch(error){
 
     }
-}
-/**
- * Fonctione fetch qui permet d'aller chercher les membres d'un equipe
- * et de l'afficher.
- */
-export async function getUserTeamsDetails() {
-    const res = await fetch('/api/member/team/details', {
-        credentials: "include"
-    });
-
-    if (res.ok) {
-        return await res.json();
-    }
-
-    return [];
 }
