@@ -102,19 +102,19 @@ export default function LoginForm(props:{route:string}) {
         />
 
         {/* petit texte comme sur la capture (optionnel)*/}
-        <div className="my-1 flex items-center gap-2 text-xs text-black/80 dark:text-gray-300">
+        {/* <div className="my-1 flex items-center gap-2 text-xs text-black/80 dark:text-gray-300">
           <span className="inline-flex h-3 w-3 items-center justify-center rounded-full border border-black/60 dark:border-gray-400" />
           <span>are you an admin?</span>
-        </div>
+        </div> */}
 
         {/* admin ID (toujours visible) */}
-        <LabeledField
+        {/* <LabeledField
           placeholder="ID"
           value={adminId}
           onChange={(e) => setAdminId(e.target.value)}
           inputClassName="py-2 text-xs rounded-lg"
           containerClassName="my-2"
-        />
+        /> */}
 
         <div className="my-2">
           <FormError message={error} />

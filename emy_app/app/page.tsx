@@ -69,7 +69,7 @@ export default function Home() {
         </span>
         <Button
           title="S'INSCRIRE"
-          onClick={() => router.push("/register")}
+          onClick={() => router.push("/signup")}
           className="bg-[#0F70AC] text-white border-none w-fit"
           color="#0F70AC"
         ></Button>
