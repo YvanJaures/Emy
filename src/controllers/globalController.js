@@ -17,7 +17,8 @@ import {
   getTourAndPrizes,
   getRegistrationFees,
   registrationPlayer,
-  getLastTeam
+  getLastTeam,
+  addTeams
 } from "../models/global.js";
 import "../services/auth.js";
 import passport from "passport";
@@ -200,6 +201,26 @@ export const addTeamC = async (request, response) => {
     response.status(400).json({error});
   }
 };
+/**Creer une equipe et recuperer l'id de l'equipe */
+export const addTeamsC = async (request, response) => {
+  try {
+    const createdTeam = await addTeams(
+      request.body.name,
+      request.body.id_tour,
+      request.body.key_team,
+      request.body.user_name,
+      request.body.open
+    );
+
+    response.status(201).json({
+      message: "Équipe créée avec succès",
+      team: createdTeam,
+    });
+  } catch (error) {
+    response.status(400).json({ error });
+  }
+};
+
 /**
  * ajoute un membre à une équipe (en attente)
  * @param {*} request

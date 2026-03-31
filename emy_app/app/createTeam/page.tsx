@@ -38,7 +38,7 @@ export default function CreateTeamPage() {
           // onSuccessRedirectTo="/equipes"
           // onCancel={() => (location.href = "/equipesPage")}
 
-          teamUrl="/api/member/team"
+          teamUrl="/api/member/teams"   // POST create
         tournamentsUrl="/api/tournaments"
         // ✅ nouveaux props
         editMode={editMode}

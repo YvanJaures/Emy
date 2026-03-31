@@ -265,6 +265,30 @@ export async function addTeam(name, id_tour, key_team,user_name,open) {
     },
   });
 }
+/**Creer une equipe et recuperer l'id de l'equipe */
+export async function addTeams(name, id_tour, key_team, user_name, open) {
+  return await prisma.team.create({
+    data: {
+      name,
+      id_tour,
+      key_team,
+      user_name,
+      open,
+      players: 0,
+      members: 0,
+    },
+    select: {
+      id_team: true,
+      name: true,
+      id_tour: true,
+      key_team: true,
+      user_name: true,
+      open: true,
+      players: true,
+      members: true,
+    },
+  });
+}
 /**
  * Ajoute un membre a une équipe mais avec un status =0 indiquant que le membre est temporaire
  * @param {*} id_team  idenfiant de l'équipe
