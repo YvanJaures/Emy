@@ -331,24 +331,61 @@ export const deconnexion = async (request, response, next) => {
 };
 
 /**Modifier le details dune equipe */
+// export const updateTeamC = async (req, res) => {
+//   try {
+//     const { id_team, name, id_tour, open, key_team } = req.body;
+
+//     if (!id_team || Number.isNaN(Number(id_team))) {
+//       return res.status(400).json({ message: "id_team invalide" });
+//     }
+
+//     const data = {};
+
+//     if (name !== undefined) data.name = name;
+//     if (id_tour !== undefined && id_tour !== "") data.id_tour = Number(id_tour);
+//     if (open !== undefined) data.open = Boolean(open);
+//     if (key_team !== undefined) data.key_team = key_team;
+
+//     await updateTeam(Number(id_team), data);
+
+//     return res.status(200).json({ message: "Équipe mise à jour" });
+//   } catch (e) {
+//     console.error("updateTeamC error:", e);
+//     return res.status(500).json({
+//       message: "Erreur serveur",
+//       error: e.message,
+//     });
+//   }
+// };
+
 export const updateTeamC = async (req, res) => {
   try {
-    const { id_team, name, id_tour, open, key_team } = req.body;
+    const { id_team, name, id_tour, open, key_team, players } = req.body;
 
     if (!id_team || Number.isNaN(Number(id_team))) {
       return res.status(400).json({ message: "id_team invalide" });
     }
 
-    const data = {};
+    const patch = {};
 
-    if (name !== undefined) data.name = name;
-    if (id_tour !== undefined && id_tour !== "") data.id_tour = Number(id_tour);
-    if (open !== undefined) data.open = Boolean(open);
-    if (key_team !== undefined) data.key_team = key_team;
+    if (name !== undefined) patch.name = name;
+    if (id_tour !== undefined && id_tour !== "") patch.id_tour = Number(id_tour);
+    if (open !== undefined) patch.open = Boolean(open);
+    if (key_team !== undefined) patch.key_team = key_team;
 
-    await updateTeam(Number(id_team), data);
+    const cleanPlayers = Array.isArray(players)
+      ? [...new Set(
+          players
+            .map((p) => String(p).trim())
+            .filter(Boolean)
+        )]
+      : [];
 
-    return res.status(200).json({ message: "Équipe mise à jour" });
+    await updateTeam(Number(id_team), patch, cleanPlayers);
+
+    return res.status(200).json({
+      message: "Équipe mise à jour",
+    });
   } catch (e) {
     console.error("updateTeamC error:", e);
     return res.status(500).json({
