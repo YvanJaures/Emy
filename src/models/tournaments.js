@@ -6,7 +6,11 @@ export async function getAllTournaments() {
             Community: true,
             //Admin: true,
             Player:true,
-            Prize:true,
+            Prize:{
+                include:{
+                    Prize_sponsor:true
+                }
+            },
             Team: {
                 select: {
                 id_team: true,
@@ -45,7 +49,11 @@ export async function getTournamentsByCommunity(id_community) {
             avatar: true,
             name:true,
             Player:true,
-            Prize:true,
+            Prize:{
+                include:{
+                    Prize_sponsor:true
+                }
+            },
             Team: {
                 select: {
                 id_team: true,

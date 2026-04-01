@@ -3,6 +3,7 @@ import {
   getSponsorByUserName,
   addSponsor,
   deleteSponsor,
+  addPrizeSponsor
 } from "../models/sponsor.js";
 
 /**
@@ -92,3 +93,21 @@ export const deleteSponsorC = async (req, res) => {
       });
   }
 };
+export const addPrizeSponsorC = async (req, res) => {
+    const { id_prize, user_name } = req.body;
+    if (!id_prize || !user_name) {
+        return res.status(400).json({ error: "id_prize and user_name are required" });
+    }
+    try {
+        const prizeSponsor = await addPrizeSponsor(Number.parseInt(id_prize), user_name);
+        res.status(201).json(prizeSponsor);
+    } catch (error) {
+        res
+            .status(500)
+            .json({
+                error: error.message,
+                message: "Erreur lors de l'ajout du commanditaire au prix",
+            });
+    }
+}
+

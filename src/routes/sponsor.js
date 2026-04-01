@@ -27,6 +27,12 @@ routerSponsor.get('/sponsor', sponsorController.getSponsorByUserNameC);
  * @access Public
  */
 routerSponsor.post('/sponsor/add', sponsorController.addSponsorC);
+/**
+ * @route POST /sponsor/prize/add
+ * @description Ajoute un nouveau prix au sponsor
+ * @access Public
+ */
+routerSponsor.post('/sponsor/prize/add', sponsorController.addPrizeSponsorC);
 
 /**
  * @route DELETE /sponsor/delete

@@ -84,3 +84,15 @@ export async function deleteSponsor(user_name){
         }
     })
 }
+export async function addPrizeSponsor(id_prize, user_name){
+    try{
+        return await prisma.prize_sponsor.create({
+        data:{
+            id_prize:id_prize,
+            user_name:user_name
+        }
+    });
+    }catch(error){
+        console.error("Erreur lors de l'ajout du sponsor au prix :", error);
+    }
+}

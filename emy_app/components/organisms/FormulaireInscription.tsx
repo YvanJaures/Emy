@@ -7,11 +7,13 @@ import PopUp from "../atoms/PopUp";
 import Montant from "../molecules/Montant";
 import Formulaire, { FormulaireData } from "@/components/templates/Formulaire";
 import { useConnexion } from "@/hooks/useAuth";
+import { PlayerDTO } from "@/hooks/Type_DTO";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
   id_tour: number;
+  onCreated?:(player:PlayerDTO)=>void;
 };
 
 type FormErrors = Partial<Record<keyof FormulaireData, string>> & {
@@ -22,6 +24,7 @@ export default function FormulaireInscription({
   isOpen,
   onClose,
   id_tour,
+  onCreated
 }: Props) {
   const { member, loading } = useConnexion();
   const router = useRouter();
@@ -168,7 +171,9 @@ export default function FormulaireInscription({
       }
 
       setSuccessMessage("Payement effectué avec succès");
-
+      if (onCreated) {
+        onCreated({ id_player: 999, id_tour: id_tour, user_name: member.user_name } as PlayerDTO);
+      }
       setTimeout(() => {
         onClose();
         setSuccessMessage("");

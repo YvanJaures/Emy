@@ -14,6 +14,8 @@ import FormulaireInscription from "./FormulaireInscription";
 import FormulaireCreationEquipe from "./FormulaireCreationEquipe";
 import Confirmation from "./Confirmation";
 import { useConnexion } from "@/hooks/useAuth";
+import { fetchApi } from "@/fetchs/global";
+import OnError from "./OnError";
 
 type Props = {
   tournament: TournamentDTO;
@@ -33,20 +35,60 @@ export default function TournamentBlockSlug({ tournament }: Props) {
   const [registrationError, setRegistrationError] = useState("");
   // Erreur lors de la création d'équipe
   const [creationError, setCreationError] = useState("");
+  // Redirection vers l'inscription au tournoi
+  const [inscription, setInscription] = useState(false);
+
+  const [sponsoring, setSponsoring] = useState(false);
+
+  const [becomingSponsor, setBecomingSponsor] = useState(false);
+
+  const [sponsoringSuccess, setSponsoringSuccess] = useState(false);
+  
+  const [sponsoringError, setSponsoringError] = useState("");
   // Ouverture ou non du formulaire de création d'équipe
   const [openCreation, setOpenCreation] = useState(false);
   // Membre connecté (si un)
   const { member } = useConnexion();
 
   useEffect(()=>{
+    if(!selectedPrizes) return console.log('aucun prix selectionné')
+    if(!member) return setSponsoring(true)
+    if(!member.Sponsor) return setBecomingSponsor(true) 
+    for(const prize of selectedPrizes){
+      if(prize.Prize_sponsor?.some((ps) => ps.user_name === member.user_name)) return console.log('vous sponsorisez déjà ce prix')
+      else{
+          const payload={
+          id_prize:prize.id_prize,
+          user_name:member.user_name
+        };
+        console.log(payload);
+        (async () => {
+          setSponsoringError("")
+          const success= await fetchApi(payload,'/api/sponsor/prize/add','POST');
+          if(success) {
+            console.log('sponsor ajouté')
+            setSponsoringSuccess(true)
+          }
+          else {
+            setSponsoringError('impossible de sponsoriser ce prix')
+            setSponsoringSuccess(false)
+          }
+        })();
+    }
+    }
+
+  },[selectedPrizes])
+
+  useEffect(()=>{
     if(member){
-      const isPlayer=tournament.Player?.some((player)=>player.user_name===member.user_name)?? false
+      const isPlayer=_tour.Player?.some((player)=>player.user_name===member.user_name)?? false
       setIsPlayer(isPlayer)
-      console.log(tournament.Player)
+      console.log(_tour.Player)
       return
     }
+    setIsPlayer(false)
     console.log('no user')
-  },[member])
+  },[member,_tour])
   /**
    * Ajoute l'équipe créé à la liste des équipes du tournoi
    * @param team équipe créée
@@ -127,7 +169,9 @@ export default function TournamentBlockSlug({ tournament }: Props) {
       SetOnConfirmation(true);
       return;
     }
+    if(!isPlayer) return setInscription(true)
     SetOnConfirmation(false);
+    setInscription(false)
     if (etat === -1 || etat === 0) {
       setCreationError("");
       setOpenCreation(true);
@@ -270,6 +314,7 @@ export default function TournamentBlockSlug({ tournament }: Props) {
           <TablePrize
             prizes={tournament?.Prize ?? []}
             onSelect={(prizes) => setSelectedPrizes(prizes)}
+            success={sponsoringSuccess}
           />
         </section>
       </div>
@@ -285,6 +330,7 @@ export default function TournamentBlockSlug({ tournament }: Props) {
         isOpen={openRegistration}
         onClose={handleCloseRegistration}
         id_tour={tournament.id_tour}
+        onCreated={(res)=>{let tour=_tour;setTour({...tour, Player: [...(tour.Player || []), res]})}}
       />
       {/** Confirmation de redirection vers la page de connexion */}
       {onConfirmation && (
@@ -296,6 +342,46 @@ export default function TournamentBlockSlug({ tournament }: Props) {
             if (res) location.href = "/login";
           }}
           showConfirm={onConfirmation}
+        />
+      )}
+      {inscription && (
+        <Confirmation
+          title="Inscription recquise"
+          message="Vous devez être inscrit au tournoi pour créer une équipe. Continuer?"
+          onConfirmed={(res) => {
+            setInscription(false);
+            if(res) handleRegistrationClick();
+          }}
+          showConfirm={inscription}
+        />
+      )}
+      {sponsoring && (
+        <Confirmation
+          title="Redirection"
+          message="Vous allez être rediriger vers la page de connexion. Continuer?"
+          onConfirmed={(res) => {
+            setSponsoring(false);
+            if (res) location.href = "/login";
+          }}
+          showConfirm={sponsoring}
+        />
+      )}
+      {becomingSponsor && (
+        <Confirmation
+          title="Redirection"
+          message="Vous devez devenir commanditaire pour sponsoriser ce prix. Continuer?"
+          onConfirmed={(res) => {
+            setBecomingSponsor(false);
+            if (res) location.href="/commanditaires#devenir-commanditaire";
+          }}
+          showConfirm={becomingSponsor}
+        />
+      )}
+      {sponsoringError!=="" && (
+        <OnError
+          title="Ajout de commandite"
+          message={sponsoringError}
+          onConfirmed={(res) => setSponsoringError('')}
         />
       )}
     </>

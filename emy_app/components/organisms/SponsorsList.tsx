@@ -63,8 +63,8 @@ export default function Page({sponsors}:Props){
                     onClick={handleFilter}
                     />
             </div>
-            {sponsorsList.map((sponsor,i)=>(<SponsorCard key={sponsor.user_name+i} sponsor={sponsor}></SponsorCard>))}
-            {!has() &&(<span className="flex border border-dashed rounded-md h-[6rem] items-center justify-center gap-2 text-sm text-[#0b78b9] opacity-80 hover:opacity-100 hover:cursor-pointer"
+            {sponsorsList.map((sponsor,i)=>(<SponsorCard key={sponsor.user_name} sponsor={sponsor}></SponsorCard>))}
+            {!has() &&(<span id="devenir-commanditaire" className="flex border border-dashed rounded-md h-[6rem] items-center justify-center gap-2 text-sm text-[#0b78b9] opacity-80 hover:opacity-100 hover:cursor-pointer"
                 onClick={handleDevenirCommanditaire}>
                 DEVENIR COMMANDITAIRE
             </span>)}
