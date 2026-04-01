@@ -11,6 +11,7 @@ import router from './src/routes/global.js'
 import routerAdmin from './src/routes/admin.js'
 import routerCommunity from './src/routes/community.js'
 import routerTournament from './src/routes/tournaments.js'
+import routerSponsor from './src/routes/sponsor.js'
 import next from 'next'
 
 
@@ -27,7 +28,11 @@ const app=express()
 const MemoryStore=memorystore(session)
 
 //app.use(helmet())
-app.use(cors())
+app.use(cors({
+  origin: true,
+  credentials: true
+}))
+
 app.use(compression())
 app.use(express.json())
 app.use(session({
@@ -45,6 +50,7 @@ app.use(sse())
 // API de routes
 app.use('/api',router)
 app.use('/api',routerAdmin)
+app.use('/api',routerSponsor)
 app.use('/api',routerCommunity)
 app.use('/api',routerTournament)
 // API pour tester le backend

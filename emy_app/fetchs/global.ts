@@ -1,3 +1,4 @@
+import { Padyakke_Expanded_One } from 'next/font/google'
 import {CommunityDTO,MemberDTO} from '../hooks/Type_DTO'
 export async function getUser(){
     const res=await fetch('/api/user',{
@@ -8,6 +9,22 @@ export async function getUser(){
         return user
     }
     return null
+
+}
+export async function fetchApi(payload:Object,route:string,method:string){
+    try{
+        const res=await fetch(route,{
+            method:method,
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(payload)
+        })
+        if(!res.ok){
+            return false
+        }
+        return true
+    }catch(error){
+        console.error(error)
+    }
 
 }
 export async function getMemberByName(user_name:string){
@@ -87,6 +104,20 @@ export async function addCommunityMember(payload:Object){
 
     }
 }
+export async function addTeamMemberWait(payload:Object){
+    try{
+        const res=await fetch('/api/member/team/add',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(payload)
+        })
+        if(!res.ok){
+            throw new Error('ajout impossible')
+        }
+    }catch(error){
+
+    }
+}
 export async function deleteMemberCommunity(user_name:string,id_community:number){
     try {
         const res = await fetch('/api/member/community', {
@@ -114,6 +145,106 @@ export async function deconnexion() {
     if(response.ok){
         location.replace('/')  
         return
+    }
+}
+/**
+ * Fonctione fetch qui permet d'aller chercher les membres d'un equipe
+ * et de l'afficher.
+ */
+export async function getUserTeamsDetails() {
+    const res = await fetch('/api/member/team/details', {
+        credentials: "include"
+    });
+    if (res.ok) {
+        return await res.json();
+    }
+
+    return [];
+}
+export async function getSponsors(){
+    try{
+        const res=await fetch('/api/sponsors/all')
+        if (res.ok) {
+            return await res.json();
+        }
+        return [];
+    }catch(error){
+
+    }
+}
+export async function getSponsorByUserName(user_name:string){
+    try{
+        const res=await fetch('/api/sponsor?user_name='+user_name)
+        if (res.ok) {
+            return await res.json();
+        }
+        return null;
+    }catch(error){
+        console.log(error)
+    }
+}
+export async function addSponsor(sponsorData:Object){
+    try{
+        const res=await fetch('/api/sponsor/add',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(sponsorData)
+        })
+        if(!res.ok){
+            return false
+        }
+        return true
+    }catch(error){
+        console.log(error)
+    }
+}
+export async function deleteSponsor(user_name:string){
+    try{
+        const res=await fetch('/api/sponsor/delete?user_name='+user_name,{  
+            method:'DELETE',
+            headers:{'Content-Type':'application/json'}
+        })
+        if(!res.ok){
+            return false
+            throw new Error('impossible de supprimer ce commanditaire')
+        }   
+        return true
+    }catch(error){
+        console.log(error)
+    }   
+}
+export async function addTeamMany(payload:{name:string, id_tour:number, key_team:string, user_name:string, open:boolean}[]){
+    let res:{index:number,status:boolean}[] =[]
+    try{
+        for(let i=0; i<payload.length; i++){
+            const p = payload[i];
+            const response = await fetch(`/api/member/team`, {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify({
+                    name:p.name,
+                    id_tour:p.id_tour,
+                    key_team:p.key_team,
+                    user_name: p.user_name,
+                    open:p.open
+                }),
+            });
+            if(!response.ok){
+                res.push({index:i,status:false})
+                throw new Error('impossible d\'ajouter l\'équipe')
+            }
+            res.push({index:i,status:true})
+
+        }
+        return res;
+    }catch(error){
+        for(let i=res.length; i<payload.length; i++){
+            res.push({index:i,status:false})
+        }
+        return res;
     }
 }
 /**

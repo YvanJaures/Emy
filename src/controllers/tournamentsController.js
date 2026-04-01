@@ -12,7 +12,7 @@ export const getTournaments = async (req, res) => {
 export const getTournamentsByCommunity = async (req, res) => {
     try {
         // changement de params à query
-        const id_community = parseInt(req.query.id_community);
+        const id_community = Number.parseInt(req.query.id_community);
 
         if (!id_community) {
             return res.status(400).json({ message: "id_community requis" });

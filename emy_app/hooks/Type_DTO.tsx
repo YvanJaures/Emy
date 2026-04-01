@@ -7,12 +7,9 @@ export type AdminDTO = {
   id_admin: number;
   user_name: string | null;
   id_community: number;
-  Member: MemberDTO;
-  Community?:CommunityDTO;
   Tournament?:TournamentDTO[];
-  // Member?:MemberDTO;
-  // Community?: CommunityDTO ;
-  // Tournament?: TournamentDTO;
+  Member:MemberDTO;
+  Community?: CommunityDTO ;
 };
 /**
  * object représentant les membres ou utilisateurs de l'application
@@ -24,7 +21,7 @@ export type MemberDTO={
   address          :string | null |null;            
   birth_date       :Date | null;          
   country          :string | null |null;          
-  email            :string | null |null;          
+  email            :string ;          
   phone            :string | null |null;          
   avatar           :string | null |null;
   Admin            :AdminDTO | null;
@@ -107,24 +104,35 @@ export type PrizeDTO ={
   Prize_sponsor?:Prize_sponsorDTO[]
 }
 /**
- * object représentant les commanditaires et leurs commandites
+ * Objet représentant les commanditaires et leurs commandites (sponsoring de prix)
  */
 export type Prize_sponsorDTO ={
-  id_prize_sponsor :number ;    
+  /** Identifiant unique de la relation prix-sponsor */
+  id_prize_sponsor :number ;
+  /** Identifiant du prix commandité */
   id_prize         :number;
+  /** Nom d'utilisateur du sponsor (peut être null) */
   user_name        :string | null;
+  /** Informations détaillées du prix commandité */
   Prize           ?:PrizeDTO  ;
-  Sponsor         ?:SponsorDTO 
+  /** Informations du sponsor */
+  Sponsor         ?:SponsorDTO
 }
+
 /**
- * object représentant les commanditaires
+ * Objet représentant les commanditaires (sponsors) de l'application
  */
 export type SponsorDTO ={
-  user_name     :string | null  ; 
-  company_name  :string | null  ; 
-  title         :string | null  ; 
+  /** Nom d'utilisateur unique du sponsor */
+  user_name     :string  ;
+  /** Nom de l'entreprise du sponsor */
+  company_name  :string | null  ;
+  /** Titre/fonction du contact dans l'entreprise */
+  title         :string | null  ;
+  /** Liste des prix commandités par ce sponsor */
   Prize_sponsor?:Prize_sponsorDTO[];
-  Member       ?:MemberDTO          
+  /** Informations du membre associé à ce sponsor */
+  Member        :MemberDTO
 }
 /**
  * object représentant les équipes participant à un tournoi
@@ -165,13 +173,13 @@ export type TournamentDTO = {
   status         : number | null;
   avatar         : string | null;
   fees           : number | null;
-  id_admin       : number | null;
+//  id_admin       : number | null;
   id_community   : number | null;
   members        :number ;
   Player        ?: PlayerDTO[];
   Prize         ?: PrizeDTO[];
   Team          ?: TeamDTO[];
-  Admin         ?: AdminDTO  ;  
+//  Admin         ?: AdminDTO  ;  
   Community      : CommunityDTO;
 }
 /**
@@ -182,3 +190,20 @@ export type TypeDTO ={
   name    :string | null;
   Prize  ?:PrizeDTO[]
 }
+
+/**
+ * object représentant les utilisateurs qui cree un compte
+ */
+export type SignupFormData = {
+  user_name: string;
+  name: string;
+  surname: string;
+  address: string;
+  email: string;
+  birth_date: string;
+  avatar: string;
+  password: string;
+  confirmPassword: string;
+  acceptTerms: boolean;
+  phone: string;
+};

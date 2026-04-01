@@ -83,14 +83,12 @@ export const addAdmin = async (req, res) => {
             return res.status(400).json({ message: "Paramètres manquants" });
         }
 
-        await adminModel.addAdmin(
+        const admin=await adminModel.addAdmin(
             user_name,
             Number(id_community)
         );
 
-        res.status(201).json({
-            message: "Administrateur ajouté"
-        });
+        res.status(201).json(admin);
 
     } catch (error) {
         console.error("ADD ADMIN:", error);
@@ -183,28 +181,28 @@ export const createTour = async (req, res) => {
     try {
 
         const {
+            name,
             location,
             start_date,
             end_date,
             members,
             avatar,
-            id_admin,
             id_community
         } = req.body;
 
-        if (!location || !start_date || !end_date || !id_admin || !id_community) {
+        if (!location || !start_date || !end_date || !id_community) {
             return res.status(400).json({
                 message: "Paramètres manquants"
             });
         }
 
         await adminModel.createTour(
+            name,
             location,
-            members,
+            Number(members),
             start_date,
             end_date,
             avatar,
-            Number(id_admin),
             Number(id_community)
         );
 
@@ -226,6 +224,7 @@ export const createTour = async (req, res) => {
 export const createTourWithPrizes = async (req, res) => {
     try {
         const {
+            name,
             location,
             start_date,
             end_date,
@@ -233,10 +232,11 @@ export const createTourWithPrizes = async (req, res) => {
             avatar,
             id_admin,
             id_community,
+            fees,
             prizes
         } = req.body;
 
-        if (!location || !start_date || !end_date || !id_admin || !id_community || prizes?.length <= 0) {
+        if (!location || !start_date || !end_date || !id_community || prizes?.length <= 0) {
 
             return res.status(400).json({
                 message: "Paramètres manquants"
@@ -245,13 +245,14 @@ export const createTourWithPrizes = async (req, res) => {
         }
 
         await adminModel.createTourWithPrizes(
+            name,
             location,
             members,
             start_date,
             end_date,
             avatar,
-            Number(id_admin),
             Number(id_community),
+            fees,
             prizes
         );
 
@@ -273,22 +274,18 @@ export const createPrize = async (req, res) => {
     try {
         const {
             name,
-            spots,
-            group_spot,
             id_tour,
             id_type,
             id_admin,
             number
         } = req.body;
 
-        if(!name || spots == null || group_spot == null || !id_tour){
+        if(!name ){
             return res.status(400).json({ message: "Paramètres manquants" });
         }
 
         await adminModel.createPrize(
             name,
-            Number(spots),
-            Number(group_spot),
             Number(id_tour),
             Number(id_type),
             Number(id_admin)
@@ -473,6 +470,25 @@ export async function getAdmin(req, res) {
     }
 }
 
+/**
+ * Recuperation des equipe selon l'id de leur communaute
+ */
+export async function getTourTeams(req, res) {
+  try {
+    const id_community = Number(req.query.id_community);
+
+    if (!id_community || Number.isNaN(id_community)) {
+      return res.status(400).json({ message: "id_community manquant ou invalide" });
+    }
+
+    const data = await adminModel.getTourTeamsByCommunity(id_community);
+
+    return res.status(200).json(data);
+  } catch (error) {
+    console.error("GET /tour/teams:", error);
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+}
 /** Controller pour supprimer un tournoi */
 export const deleteTour = async (req, res) => {
   try {
@@ -499,5 +515,112 @@ export const deleteTour = async (req, res) => {
   } catch (error) {
     console.error("DELETE TOUR:", error);
     return res.status(500).json({ message: "Erreur serveur" });
+  }
+};
+
+/**Afficher les details de toutes les equipes d'un tournoi */
+export async function getTeamsByTour(req, res) {
+  try {
+    const id_tour = Number(req.params.id_tour);
+    if (!id_tour || Number.isNaN(id_tour)) {
+      return res.status(400).json({ message: "id_tour invalide" });
+    }
+
+    const data = await adminModel.getTeamsByTour(id_tour);
+    if (!data) return res.status(404).json({ message: "Tournoi introuvable" });
+
+    return res.status(200).json(data);
+  } catch (e) {
+    console.error("GET TEAMS BY TOUR:", e);
+    return res.status(500).json({ message: "Erreur serveur" });
+  }
+}
+
+/** Modifier une equipe */
+// models/adminModel.js
+export async function patchTeam(id_team, id_tour, patch) {
+  const data = {};
+  if (patch.name !== undefined) data.name = patch.name;
+  if (patch.open !== undefined) data.open = patch.open;
+  if (patch.key_team !== undefined) data.key_team = patch.key_team;
+  if (patch.members !== undefined) data.members = patch.members;
+
+  // rien à modifier
+  if (Object.keys(data).length === 0) {
+    return await prisma.team.findUnique({ where: { id_team } });
+  }
+
+  // si id_tour est fourni, on sécurise (updateMany) pour éviter modifier une team d’un autre tournoi
+  if (id_tour !== undefined) {
+    await prisma.team.updateMany({
+      where: { id_team, id_tour },
+      data,
+    });
+
+    return await prisma.team.findFirst({
+      where: { id_team, id_tour },
+    });
+  }
+
+  // sinon update direct
+  return await prisma.team.update({
+    where: { id_team },
+    data,
+  });
+}
+
+/**Modification tournoi et prizes */
+export const updateTourAndPrizes = async (req, res) => {
+  try {
+    const {
+      id_tour,
+      id_community,
+      name,
+      location,
+      start_date,
+      end_date,
+      members,
+      avatar,
+      fees,
+      prizes,
+    } = req.body;
+
+    if (
+      !id_tour ||
+      !id_community ||
+      !name ||
+      !location ||
+      !start_date ||
+      !end_date ||
+      !fees ||
+      !prizes ||
+      prizes.length <= 0
+    ) {
+      return res.status(400).json({
+        message: "Paramètres manquants",
+      });
+    }
+
+    await adminModel.updateTourAndPrizes(
+      Number(id_tour),
+      Number(id_community),
+      name,
+      location,
+      Number(members),
+      start_date,
+      end_date,
+      avatar,
+      fees,
+      prizes
+    );
+
+    return res.status(200).json({
+      message: "Tournoi modifié",
+    });
+  } catch (error) {
+    console.error("UPDATE TOUR:", error);
+    return res.status(500).json({
+      message: "Erreur serveur",
+    });
   }
 };

@@ -8,11 +8,13 @@ import Footer from "@/components/organisms/Footer";
 import Navbar from "@/components/organisms/NavBar";
 import MetaData from "@/components/organisms/MetaData";
 import Founders from "@/components/organisms/Founders";
+import Constructing from "@/components/organisms/Constructing"
 import LoadingAnimation from "@/components/organisms/LoadingAnimation";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth, useConnexion } from "@/hooks/useAuth";
 
 export default function Home() {
   const router = useRouter();
+  const {member}=useConnexion();
   const list_communautes = [
     {
       name: "Ottawa city",
@@ -42,6 +44,7 @@ export default function Home() {
       privacy: false,
     },
   ];
+  if(member) location.href='/communautes'
   return (
     <div className="flex flex-col gap-6 min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
       <MetaData seoTitle="Accueil" seoDescription="Accueil du site"></MetaData>
@@ -74,6 +77,7 @@ export default function Home() {
       <PopCommunity list={list_communautes}></PopCommunity>
       <Button title="GO TO profile" onClick={() => router.push("/profilAdmin")} />
       <Founders/>
+      <Constructing/>
       <Footer />
     </div>
   );

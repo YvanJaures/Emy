@@ -32,7 +32,7 @@ export default function MemberCommunity() {
   return (
     <div className="flex flex-col justify-between gap-5">
       <NavBarAdmin id_community={member?.Admin?.id_community ?? 0} />
-      <main className="p-5 flex-80">
+      <main className="p-5 flex-80  max-sm:p-2">
         <TableUser
           title="Liste des membres"
           headers={headers}

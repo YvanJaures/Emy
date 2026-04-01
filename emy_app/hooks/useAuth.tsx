@@ -14,14 +14,14 @@ export const useAuth = () => {
                 const data = await getUser();
                 
                 if (!data) {
-                    router.push('/login');
+                    router.push('/login?redirect=' + location.pathname);
                 } else {
                     setMember(data);
                     setLoading(false);
                 }
             } catch (error) {
                 console.error("pas de user", error);
-                router.replace('/login');
+                router.replace('/login?redirect=' + location.pathname);
             } 
         };
 
@@ -34,6 +34,18 @@ export const useConnexion=()=>{
     const [member,setMember]=useState<MemberDTO|null>(null)
     const [loading,setLoading]=useState(true)
     const router = useRouter();
+    /*useEffect(() => {
+        const source = new EventSource("/api/stream");
+
+        source.addEventListener("connexion", (e) => {
+            const data = JSON.parse(e.data) as MemberDTO;
+            if (data) setMember(data);
+        });
+
+        return () => {
+            source.close(); 
+        };
+    }, []);*/
     useEffect(() => {
         const verifyUser = async () => {
             try {

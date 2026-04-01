@@ -1,6 +1,11 @@
 import { MemberDTO } from "@/hooks/Type_DTO";
 import ImageDefault from "../atoms/ImageDefault";
 import { FaRegEye } from "react-icons/fa";
+/**
+ * affiche la liste des membres de la communauté
+ * @param props :{ MemberDTO[] }
+ * @returns la liste de membres
+ */
 export default function UserViewList(props:{members:MemberDTO[]}){
     return(
         <ul className="absolute w-full mt-17 p-3 flex flex-col justify-start items-center gap-2">
@@ -20,7 +25,7 @@ export default function UserViewList(props:{members:MemberDTO[]}){
                 )) 
                 ):(
                 <li>
-                    <p>
+                    <p className="text-center text-gray-500">
                         Aucun membre pou l'instant.
                     </p>
                 </li>

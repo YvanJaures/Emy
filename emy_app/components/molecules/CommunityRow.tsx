@@ -109,6 +109,7 @@ export default function CommunityRow({ community, member, isMine }: Props) {
         bg-white dark:bg-gray-800
         text-gray-900 dark:text-gray-100
         rounded-xl max-sm:flex-col hover:cursor-pointer transition-all`}
+      id={'community-'+community.id_community.toString()}
       onClick={() => setIsVisible(!isVisible)}
     >
       <span className="flex-50 overflow-hidden rounded-xl w-full">
@@ -210,7 +211,9 @@ export default function CommunityRow({ community, member, isMine }: Props) {
     </li>
       {
         showCom &&(
-          <CommunityBlock community={community}
+          <CommunityBlock 
+            community={community}
+            _isMember={isMember}
             onShown={(res)=>setShowCom(res)}/>
         )
       }
