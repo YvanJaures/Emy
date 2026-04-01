@@ -1,3 +1,4 @@
+import { Padyakke_Expanded_One } from 'next/font/google'
 import {CommunityDTO,MemberDTO} from '../hooks/Type_DTO'
 export async function getUser(){
     const res=await fetch('/api/user',{
@@ -212,7 +213,40 @@ export async function deleteSponsor(user_name:string){
         console.log(error)
     }   
 }
+export async function addTeamMany(payload:{name:string, id_tour:number, key_team:string, user_name:string, open:boolean}[]){
+    let res:{index:number,status:boolean}[] =[]
+    try{
+        for(let i=0; i<payload.length; i++){
+            const p = payload[i];
+            const response = await fetch(`/api/member/team`, {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                },
+                credentials: "include",
+                body: JSON.stringify({
+                    name:p.name,
+                    id_tour:p.id_tour,
+                    key_team:p.key_team,
+                    user_name: p.user_name,
+                    open:p.open
+                }),
+            });
+            if(!response.ok){
+                res.push({index:i,status:false})
+                throw new Error('impossible d\'ajouter l\'équipe')
+            }
+            res.push({index:i,status:true})
 
+        }
+        return res;
+    }catch(error){
+        for(let i=res.length; i<payload.length; i++){
+            res.push({index:i,status:false})
+        }
+        return res;
+    }
+}
 /**
  * à copier et modifier en fonction du besoir
  */

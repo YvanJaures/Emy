@@ -3,6 +3,8 @@ import { TournamentDTO, MemberDTO } from "@/hooks/Type_DTO";
 import TournamentBlockSlug from "@/components/organisms/TournamentBlockSlug";
 import { useConnexion } from "@/hooks/useAuth";
 import Constructing from "@/components/organisms/Constructing";
+import Navbar from "@/components/organisms/NavBar";
+import Footer from "@/components/organisms/Footer";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -63,5 +65,10 @@ export default async function Page({ params }: Props) {
   const tournaments = buildMap(tournois);
   const selectedTournament = tournaments[Number(slug)]
 
-  return <TournamentBlockSlug tournament={selectedTournament} />    
+  return (
+    <>
+      <TournamentBlockSlug tournament={selectedTournament} />
+      <Footer/>
+    </>
+  )
 }

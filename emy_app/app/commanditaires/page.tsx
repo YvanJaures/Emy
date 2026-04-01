@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { getSponsors } from "@/fetchs/global";
 import { SponsorDTO } from "@/hooks/Type_DTO";
 import LoadingAnimation from "@/components/organisms/LoadingAnimation";
+import ScrollToHash from "@/components/molecules/ScrollToHash";
 
 /**
  * Page Commanditaires - Affiche la liste des sponsors/commanditaires
@@ -90,6 +91,7 @@ export default function Page(){
     return(
         <>
             <NavBar/>
+            <ScrollToHash/>
             <div className="p-2">
                 {sponsorsList &&(<SponsorsList sponsors={sponsorsList}></SponsorsList>)}
             </div>

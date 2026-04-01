@@ -25,7 +25,7 @@ export default function UserViewList(props:{members:MemberDTO[]}){
                 )) 
                 ):(
                 <li>
-                    <p>
+                    <p className="text-center text-gray-500">
                         Aucun membre pou l'instant.
                     </p>
                 </li>

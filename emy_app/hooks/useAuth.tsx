@@ -14,14 +14,14 @@ export const useAuth = () => {
                 const data = await getUser();
                 
                 if (!data) {
-                    router.push('/login');
+                    router.push('/login?redirect=' + location.pathname);
                 } else {
                     setMember(data);
                     setLoading(false);
                 }
             } catch (error) {
                 console.error("pas de user", error);
-                router.replace('/login');
+                router.replace('/login?redirect=' + location.pathname);
             } 
         };
 

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { TeamDTO } from "@/hooks/Type_DTO";
+import { MemberDTO, TeamDTO } from "@/hooks/Type_DTO";
 import { useConnexion } from "@/hooks/useAuth";
 import { addTeamMemberWait } from "@/fetchs/global";
 import Confirmation from "../organisms/Confirmation";
@@ -18,11 +18,14 @@ export default function TeamCard({
   cant: boolean;
   onIsMember: (is: boolean) => void;
 }) {
-  const { member } = useConnexion();
+  const { member, loading } = useConnexion();
+
+  const [_member, setMember] = useState<MemberDTO | null>(member);
+
   // confirmation pour la connexion
   const [onConfirmation, SetOnConfirmation] = useState(false);
   // l'utilisateur ne peut pas rejoindre l'équipe
-  const [cantJoin, SetCantJoin] = useState(cant||member? false:true);
+  const [cantJoin, SetCantJoin] = useState(cant || member ? false : true);
   // la clé d'accès écrite par le user
   const [cle, setCle] = useState("");
   // message d'erreur
@@ -40,14 +43,27 @@ export default function TeamCard({
 
   // détermine si il est membre de l'équipe
   useEffect(() => {
-    let is = team.Team_member?.some((tm) => tm.user_name === member?.user_name);
+    if (!_member) return;
+    let is = team.Team_member?.some(
+      (tm) => tm.user_name === _member?.user_name,
+    );
+
     if (is) {
-      console.log('ehh')
-      setIsMember(is);
       onIsMember(true);
-      return;
-    }
-    else setIsMember(false);
+      return setIsMember(true);
+    } else setIsMember(false);
+  }, [onJoin, _member]);
+
+  useEffect(() => {
+    setMember(member);
+  }, [member, loading]);
+
+  useEffect(() => {
+    const avatars2 = avatars.map((av) => {
+      if (!av?.startsWith("h")) return "/" + av;
+      return av;
+    });
+    setAvatars(avatars2);
   }, []);
 
   /**
@@ -73,7 +89,7 @@ export default function TeamCard({
     avatars2.push(member.avatar);
     setAvatars(avatars2);
     setIsMember(true);
-    onIsMember(true)
+    onIsMember(true);
   };
 
   /**
@@ -207,7 +223,7 @@ export default function TeamCard({
           message="Vous allez être rediriger vers la page de connexion. Continuer?"
           onConfirmed={(res) => {
             SetOnConfirmation(false);
-            if (res) location.href = "/login";
+            if (res) location.href = "/login?redirect=" + location.pathname;
           }}
           showConfirm={onConfirmation}
         />
