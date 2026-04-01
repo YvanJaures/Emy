@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { CommunityDTO, MemberDTO } from "@/hooks/Type_DTO";
 import CommunityBlockSlug from "@/components/organisms/communityBlockSlug";
 import { useConnexion } from "@/hooks/useAuth";
+import Footer from "@/components/organisms/Footer";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -62,5 +63,10 @@ export default async function Page({ params }: Props) {
   const communities = buildMap(communautes);
   const selectedCommunity = communities[Number(slug)]
 
-  return <CommunityBlockSlug community={selectedCommunity} />;
+  return( 
+  <>
+    <CommunityBlockSlug community={selectedCommunity} />
+    <Footer/>
+  </>
+  )
 }

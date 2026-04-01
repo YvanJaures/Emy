@@ -311,7 +311,8 @@ export default function SignupForm() {
 
       setForm(initialForm);
       setErrors({});
-      location.href = "/login";
+      //location.href = "/login";
+      history.back();
     } catch {
       setError("Erreur serveur. Réessaie plus tard.");
     } finally {

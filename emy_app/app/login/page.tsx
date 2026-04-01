@@ -1,7 +1,10 @@
 "use client";
 import LoginForm from "@/components/organisms/LoginForm";
 import MetaData from "@/components/organisms/MetaData";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth, useConnexion } from "@/hooks/useAuth";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useMemo } from "react";
 
 /**
  * Page de connexion permettant à un utilisateur (admin ou membre) de s’authentifier.
@@ -16,9 +19,18 @@ import { useAuth } from "@/hooks/useAuth";
  */
 
 export default function LoginPage() {
-  const {member,loading}=useAuth();
-  const route='/communautes'
-  if(member) location.href=route
+  const {member,loading}=useConnexion();
+  const [route,setRoute]=useState('')
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  useEffect(() => {
+    const redirect:string|null = searchParams.get("redirect");
+    if(redirect) setRoute(redirect)
+    if (member) {
+      router.push(route); 
+    }
+  }, [member, route, router]);
+
   return (
     <>
     <MetaData seoTitle="Log in" seoDescription="page de connexion"></MetaData>
