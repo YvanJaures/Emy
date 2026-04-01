@@ -18,6 +18,8 @@ import Constructing from "./Constructing";
 import NavBarCommunity from "./NavBarCommunity";
 import OnPrivate from "./OnPrivate";
 import { useConnexion } from "@/hooks/useAuth";
+import { RiArrowLeftSLine } from "react-icons/ri";
+import { usePathname, useRouter } from "next/navigation";
 type Props = {
   community: CommunityDTO;
 };
@@ -34,6 +36,7 @@ export default function CommunityBlockSlug({ community }: Props) {
   const [loading, setLoading] = useState(false);
   const [isMember, SetIsMember] = useState(false);
   const [view, setView] = useState(1);
+  const router = useRouter();
   const { member } = useConnexion();
 
   useEffect(() => {
@@ -85,6 +88,7 @@ export default function CommunityBlockSlug({ community }: Props) {
     };
     fetchTournaments();
   }, [member]);
+
   return (
     <div
       className="z-150 absolute fixed flex flex-col top-0 left-0 
@@ -98,6 +102,9 @@ export default function CommunityBlockSlug({ community }: Props) {
                     children={community.name}
                     as='h2'
                     className="bold"/> */}
+        <RiArrowLeftSLine 
+                onClick={()=>router?.push('/communautes#community-'+community.id_community)}
+                className="hover:cursor-pointer hover:bg-gray-200 rounded-full stroke-2"/>
         <Title as="h2" className="bold">
           {community.name}
         </Title>

@@ -7,6 +7,7 @@ import { getCommunities } from "@/fetchs/global";
 import { CommunityDTO } from "@/hooks/Type_DTO";
 import { useState,useEffect } from "react";
 import {useConnexion} from '@/hooks/useAuth'
+import ScrollToHash from "@/components/molecules/ScrollToHash";
 
 export default function Communautes(){
     const [communities,setCommunities]=useState<CommunityDTO[]>([])
@@ -33,6 +34,7 @@ export default function Communautes(){
     return(
         <>
         <NavBar/>
+            <ScrollToHash/>
             <CommunityList 
                 communities={communities} 
                 member={member}

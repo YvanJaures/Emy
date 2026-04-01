@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import Button from "../atoms/Button";
 import { useConnexion } from "@/hooks/useAuth";
 
-export default function TournamentTeamsBlock({ t,admin,onCreate }: { t: TournamentDTO,admin:boolean,onCreate:(create:boolean)=>void }) {
+export default function TournamentTeamsBlock({ t,admin,onCreate}: { t: TournamentDTO,admin:boolean,onCreate:(create:boolean)=>void}) {
   const title = t?.name?.trim() ? t.name : `Tournoi ${t?.id_tour}`;
   const [cant,setCant]=useState(true)
     const etat: number = useMemo(() => {
@@ -62,7 +62,7 @@ export default function TournamentTeamsBlock({ t,admin,onCreate }: { t: Tourname
         {t?.Team?.map((team) => (
           <TeamCard key={team.id_team} team={team} admin={admin} cant={cant} onIsMember={(res)=>{setCant(res);console.log(cant)}} />
         ))}
-        { !admin &&(<span className="w-20 min-h-45 rounded-lg border flex justify-center items-center border-dotted text-center hover:cursor-pointer "
+        { !admin && etat===-1 &&(<span className="min-h-45 rounded-lg border flex justify-center items-center border-dotted text-center hover:cursor-pointer p-5 text-[2rem]"
           onClick={()=>{handleCreate()}}>
             +
         </span>)}

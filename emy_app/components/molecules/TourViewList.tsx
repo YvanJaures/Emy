@@ -123,7 +123,7 @@ export default function TourViewList(props:{tournaments:TournamentDTO[]}){
                 )) 
                 ):(
                 <li>
-                    <p>
+                    <p className="text-center text-gray-500">
                         Aucun tournoi pour l'instant.
                     </p>
                 </li>

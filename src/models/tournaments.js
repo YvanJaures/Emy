@@ -1,75 +1,92 @@
 import { prisma } from "../prisma.js";
 
 export async function getAllTournaments() {
-    return await prisma.tournament.findMany({
+  return await prisma.tournament.findMany({
+    include: {
+      Community: true,
+      //Admin: true,
+      Player: true,
+      Prize: {
         include: {
-            Community: true,
-            //Admin: true,
-            Player:true,
-            Prize:true,
-            Team: {
+          Prize_sponsor: true,
+        },
+      },
+      Team: {
+        select: {
+          id_team: true,
+          name: true,
+          id_tour: true,
+          open: true,
+          key_team: true,
+          members: true,
+          Team_member: {
+            include: {
+              Member: {
                 select: {
-                id_team: true,
-                name: true,
-                id_tour: true,
-                open: true,
-                key_team: true,
-                members: true,
-                Team_member: {
-                    select: {
-                    Member: {
-                        select: {
-                        user_name: true,
-                        avatar: true,
-                        name: true,
-                        surname: true,
-                        },
-                    },
-                    },
+                  user_name: true,
+                  name: true,
+                  surname: true,
+                  address: true,
+                  birth_date: true,
+                  country: true,
+                  email: true,
+                  phone: true,
+                  avatar: true,
                 },
-                },
-            }
-        }
-    });
+              },
+            },
+          },
+        },
+      },
+    },
+  });
 }
 export async function getTournamentsByCommunity(id_community) {
-    return await prisma.tournament.findMany({
-        where: {
-            id_community: id_community
+  return await prisma.tournament.findMany({
+    where: {
+      id_community: id_community,
+    },
+    select: {
+      id_tour: true,
+      location: true,
+      start_date: true,
+      end_date: true,
+      avatar: true,
+      name: true,
+      Player: true,
+      Prize: {
+        include: {
+          Prize_sponsor: true,
         },
+      },
+      Team: {
         select: {
-            id_tour: true,
-            location: true,
-            start_date: true,
-            end_date: true,
-            avatar: true,
-            name:true,
-            Player:true,
-            Prize:true,
-            Team: {
+          id_team: true,
+          name: true,
+          id_tour: true,
+          open: true,
+          players: true,
+          key_team: true,
+          members: true,
+          Team_member: {
+            include: {
+              Member: {
                 select: {
-                id_team: true,
-                name: true,
-                id_tour: true,
-                open: true,
-                players:true,
-                key_team: true,
-                members: true,
-                Team_member: {
-                    select: {
-                    Member: {
-                        select: {
-                        user_name: true,
-                        avatar: true,
-                        name: true,
-                        surname: true,
-                        },
-                    },
-                    },
+                  user_name: true,
+                  name: true,
+                  surname: true,
+                  address: true,
+                  birth_date: true,
+                  country: true,
+                  email: true,
+                  phone: true,
+                  avatar: true,
                 },
-                },
+              },
             },
-            }
-    });
+          },
+        },
+      },
+    },
+  });
 }
-

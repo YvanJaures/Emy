@@ -17,7 +17,7 @@ const handleMod=()=>{
             jutsify-center items-center gap-5 rounded-xl p-5 min-w-20 shadow-xl bg-white dark:bg-gray-800">
             <span className="flex justify-center items-center rounded-full flex-30">
                 <img src={avatar} alt="image de profil" 
-                    className="w-[150px] object-contain"
+                    className="w-[150px] object-contain rounded-full"
                     onError={(e) => {setAvatar("/assets/avatars/avatar_prof_2.png")}}/>
             </span>
             <span className="flex flex-col flex-50 justify-evenly items-start h-full gap-3">
