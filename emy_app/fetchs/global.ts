@@ -1,5 +1,5 @@
 import { Padyakke_Expanded_One } from 'next/font/google'
-import {CommunityDTO,MemberDTO} from '../hooks/Type_DTO'
+import {CommunityDTO,MemberDTO, TournamentDTO} from '../hooks/Type_DTO'
 export async function getUser(){
     const res=await fetch('/api/user',{
         credentials:"include"
@@ -56,6 +56,16 @@ export async function getCommunityMembers(id_community:number){
         return members
     }   
     return []
+}
+export async function getPublicTournaments(){
+    const res=await fetch('/api/tournaments',{
+        credentials:"include"
+    })
+    console.log("recupération")
+    if(!res.ok) return []
+    const tours:TournamentDTO[]=(await res.json())
+    console.log(tours)
+    return tours
 }
 export async function getCommunityTournaments(id_tour:number){
     const res=await fetch('/api/tournament?id_community='+id_tour,{

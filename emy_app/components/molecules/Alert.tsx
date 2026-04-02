@@ -28,7 +28,7 @@ export default function Alert({
 
   return (
     <div
-      className={`flex absolute justify-between items-center gap-2 fixed top-1 left-1/2 -translate-x-1/2 z-50 p-2 border rounded-md shadow
+      className={`flex absolute justify-between items-center gap-2 fixed top-10 left-1/2 -translate-x-1/2 z-50 p-2 border rounded-md shadow
       ${error ? "bg-red-100 border-red-500" : "bg-green-100 border-green-500"}`}
     >
         {error? (<MdOutlineCancel className="text-red-500"/>):(<FaRegCheckCircle className="text-green-500"/>)}
