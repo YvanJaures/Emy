@@ -65,7 +65,7 @@ export async function getPublicTournaments(){
     if(!res.ok) return []
     const tours:TournamentDTO[]=(await res.json())
     console.log(tours)
-    return tours
+    return tours.filter((t)=>!t.Community.privacy)
 }
 export async function getCommunityTournaments(id_tour:number){
     const res=await fetch('/api/tournament?id_community='+id_tour,{

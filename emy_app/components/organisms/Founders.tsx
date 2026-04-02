@@ -6,19 +6,19 @@ export default function Founders(){
     const founders=[
         {
         name: "Yvan Jaures",
-        img: "/assets/avatars/yvan.jpg",
+        img: "/assets/avatars/yvan.png",
         email: "yvanjaures@email.com",
         username: "yvano"
     },
     {
         name: "Emma Raissa",
-        img: "/assets/avatars/prof.jpg",
+        img: "/assets/avatars/prof.png",
         email: "emmaraissa@email.com",
         username: "patate"
     },
     {
         name: "Mathieu Larocque",
-        img: "/assets/avatars/mathieu.jpg",
+        img: "/assets/avatars/mathieu.png",
         email: "mathieularocque@email.com",
         username: "patate"
     }
