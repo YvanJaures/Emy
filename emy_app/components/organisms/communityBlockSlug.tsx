@@ -151,7 +151,7 @@ export default function CommunityBlockSlug({ community }: Props) {
           ) : (
             <>
               {view === 0 && <Constructing />}
-              {view === 1 && <TourViewList tournaments={tournaments} />}
+              {view === 1 && <TourViewList tournaments={tournaments} className="mt-17"/>}
               {view === 2 && <UserViewList members={members} />}
               {view === 3 && (
                 <p className="absolute w-full mt-17 p-3 flex flex-col justify-start items-center">

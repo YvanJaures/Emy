@@ -9,7 +9,7 @@ import { GrMapLocation } from "react-icons/gr";
  * @param props : { TournamentDTO[] }
  * @returns la liste de tournois et quelques details
  */
-export default function TourViewList(props:{tournaments:TournamentDTO[]}){
+export default function TourViewList(props:{tournaments:TournamentDTO[],className?:string}){
     /**
      * compare les date du tournois à la date actuelle pour determiner si
      * elle auras, a ou a eu lieu
@@ -60,7 +60,7 @@ export default function TourViewList(props:{tournaments:TournamentDTO[]}){
         return dates
     },[props.tournaments])
     return(
-        <ul className="absolute w-full mt-17 p-3 flex flex-col justify-start items-center gap-2">
+        <ul className={`${props.className} block w-full p-3 flex flex-col justify-start items-center gap-2`}>
             { props.tournaments.length>0 ?
                 (props.tournaments.map((tournament,i)=>(
                     <li key={tournament.id_tour} className="group hover:cursor-pointer hover:bg-black/10 p-1 flex justify-start items-center w-full gap-1"

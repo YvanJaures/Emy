@@ -12,11 +12,15 @@ export default function TeamCard({
   admin,
   cant,
   onIsMember,
+  onNotPlayer,
+  isPlayer
 }: {
   team: TeamDTO;
   admin: boolean;
   cant: boolean;
   onIsMember: (is: boolean) => void;
+  isPlayer?:boolean;
+  onNotPlayer?:()=>void;
 }) {
   const { member, loading } = useConnexion();
 
@@ -39,7 +43,7 @@ export default function TeamCard({
       .slice(0, 4) ?? [],
   );
   // le user est il déjà membre de l'équipe?
-  const [isMember, setIsMember] = useState(true);
+  const [isMember, setIsMember] = useState(false);
 
   // détermine si il est membre de l'équipe
   useEffect(() => {
@@ -119,6 +123,8 @@ export default function TeamCard({
       SetOnConfirmation(true);
       return;
     }
+    console.log('is player:' +isPlayer)
+    if(onNotPlayer) if(!isPlayer) return onNotPlayer() 
     if (!team.open) {
       setOnJoin(true);
       return;

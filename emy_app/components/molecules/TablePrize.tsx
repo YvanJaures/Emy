@@ -151,7 +151,10 @@ export default function TablePrize({prizes,onSelect,success}:Props){
                         {/* Mapping des prix pour afficher chaque ligne du tableau */}
                         { prizesList?.map((prize,i)=>(
                             <tr key={prize?.id_prize} 
-                                className="p-2">
+                                className="p-2 hover:bg-black/2"
+                                onClick={()=>{
+                                    if((prize.Prize_sponsor?.length ?? 0) <= prize.spots && !added[i]) handleCheck(i)
+                                }}>
                                 <td className="p-2">
                                     {/* Case à cocher seulement si le nombre de sponsors est inférieur aux places disponibles et que le prix n'est pas déjà ajouté */}
                                     {(prize.Prize_sponsor?.length ?? 0) <= prize.spots && !added[i]&&(<input type="checkbox" name="prize" id="prize" 

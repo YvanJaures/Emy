@@ -59,7 +59,12 @@ export default function TournamentBlockSlug({ tournament }: Props) {
   useEffect(()=>{
     if(!selectedPrizes) return 
     if(!member) return setSponsoring(true)
-    if(!member.Sponsor) return setBecomingSponsor(true) 
+    if(!member.Sponsor) return setBecomingSponsor(true)
+    if(etat!==1){
+      if(etat===-2) return setSponsoringMessage('Une erreur de date est survenue!')
+      if(etat===0) return setSponsoringMessage('Le tournoi a déjà commencé!')
+      if(etat===1) return setSponsoringMessage('Tournoi Terminé')
+    }
     for(const prize of selectedPrizes){
       if(prize.Prize_sponsor?.some((ps) => ps.user_name === member.user_name)) return setSponsoringMessage('vous sponsorisez déjà ce prix')
       else{
@@ -328,6 +333,8 @@ export default function TournamentBlockSlug({ tournament }: Props) {
             onCreate={(res) => {
               if (res) handleCreationClick();
             }}
+            isPlayer={isPlayer}
+            onNotPlayer={()=>setInscription(true)}
           />
         </section>
         <section>
@@ -372,7 +379,7 @@ export default function TournamentBlockSlug({ tournament }: Props) {
       {inscription && (
         <Confirmation
           title="Inscription recquise"
-          message="Vous devez être inscrit au tournoi pour créer une équipe. Continuer?"
+          message="Vous devez être inscrit au tournoi pour créer ou rejoindre une équipe. Continuer?"
           onConfirmed={(res) => {
             setInscription(false);
             if(res) handleRegistrationClick();
