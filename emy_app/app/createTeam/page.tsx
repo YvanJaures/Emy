@@ -40,7 +40,6 @@ export default function CreateTeamPage() {
 
           teamUrl="/api/member/teams"   // POST create
         tournamentsUrl="/api/tournaments"
-        // ✅ nouveaux props
         editMode={editMode}
         id_team={id_team}
         detailsUrl="/api/member/team/details"

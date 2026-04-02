@@ -46,8 +46,8 @@ export default function CreateTeamForm({
   const [player3, setPlayer3] = useState("");
   const [player4, setPlayer4] = useState("");
 
-  const [keyTeam, setKeyTeam] = useState(""); // si tu l’as dans ton form
-  const [open, setOpen] = useState(true); // si tu l’as dans ton form
+  const [keyTeam, setKeyTeam] = useState(""); 
+  const [open, setOpen] = useState(true); 
 
   const [tournaments, setTournaments] = useState<TournamentMini[]>([]);
   const [loading, setLoading] = useState(false);
@@ -132,85 +132,6 @@ console.log("data =", data);
     })();
   }, [validIdTeam, id_team, detailsUrl]);
 
-//   const submit = async () => {
-//   setError(null);
-//   setSuccess(null);
-
-//   if (!teamName.trim()) {
-//     setError("Le nom de l équipe est obligatoire.");
-//     return;
-//   }
-
-//   if (!idTour) {
-//     setError("Choisis un tournoi.");
-//     return;
-//   }
-
-//   const players = [player1, player2, player3, player4].filter(
-//     (p) => p && p.trim(),
-//   );
-
-//   try {
-//     setSaving(true);
-
-//     if (validIdTeam) {
-//       const res = await fetch(updateUrl, {
-//         method: "PATCH",
-//         headers: { "Content-Type": "application/json" },
-//         credentials: "include",
-//         body: JSON.stringify({
-//           id_team,
-//           name: teamName.trim(),
-//           id_tour: Number(idTour),
-//           open:open,
-//           key_team: keyTeam.trim() ? keyTeam.trim() : null,
-//           players,
-//           reserveOnly,
-//         }),
-//       });
-
-//       const msg = (await res.json().catch(() => null)) as ApiMessage | null;
-
-//       if (!res.ok) {
-//         throw new Error(msg?.message ?? "Erreur modification équipe");
-//       }
-
-//       setSuccess("Équipe modifiée avec succès.");
-//        router.push("/equipesPage");
-//       return;
-//     }
-
-//     const res = await fetch(teamUrl, {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       credentials: "include",
-//       body: JSON.stringify({
-//         name: teamName.trim(),
-//         id_tour: Number(idTour),
-//         open,
-//         key_team: keyTeam.trim() ? keyTeam.trim() : null,
-//         players,
-//         reserveOnly,
-//       }),
-//     });
-
-//     const msg = (await res.json().catch(() => null)) as ApiMessage | null;
-
-//     if (!res.ok) {
-//       throw new Error(msg?.message ?? "Erreur création équipe");
-//     }
-
-//     setSuccess("Équipe créée avec succès.");
-//      router.push("/equipesPage");
-//   } catch (e: unknown) {
-//     console.error(e);
-//     setError(e instanceof Error ? e.message : "Erreur serveur.");
-//   } finally {
-//     setSaving(false);
-//   }
-// };
-
-
 const submit = async () => {
   setError(null);
   setSuccess(null);
@@ -237,7 +158,7 @@ const submit = async () => {
   try {
     setSaving(true);
 
-    // 🔥 MODE MODIFICATION
+    //  MODE MODIFICATION
     if (validIdTeam) {
       const res = await fetch(updateUrl, {
         method: "PATCH",
@@ -254,7 +175,7 @@ const submit = async () => {
 
       if (!res.ok) throw new Error("Erreur modification équipe");
 
-      // 🔥 ajouter les joueurs (IMPORTANT)
+      //  ajouter les joueurs 
       for (const user_name of players) {
         await fetch("/api/member", {
           method: "POST",
@@ -275,7 +196,7 @@ const submit = async () => {
       return;
     }
 
-    // 🔥 MODE CRÉATION
+    //  MODE CRÉATION
     const res = await fetch(teamUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -298,7 +219,7 @@ const submit = async () => {
       throw new Error("id_team non retourné par le backend");
     }
 
-    // 🔥 AJOUT DES JOUEURS
+    //  AJOUT DES JOUEURS
     for (const user_name of players) {
       await fetch("/api/member", {
         method: "POST",
@@ -396,7 +317,7 @@ const submit = async () => {
           />
         </div>
 
-        {/* Players (comme createTeam) */}
+        {/* Players  */}
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div>
             <label className="text-xs text-black/70">Joueur 1</label>
