@@ -39,7 +39,7 @@ export default function CommunityList({communities,member}:Props){
                 onClick={()=>{setIsClicked(!isClicked)}}/>
             </span>
             <ul className="w-full flex flex-col gap-5 p-2">
-                {
+                { communities &&
                     communities.map((community)=>(
                         <CommunityRow
                         member={member}
@@ -58,7 +58,7 @@ export default function CommunityList({communities,member}:Props){
                         <p className="group-hover:text-[#0F70AC]"> Rejoindre une communauté</p>
                     </li>)
                 }
-                {
+                { communities ?
                     communities.length===0 &&
                     (<li className="group hover:border-[#0F70AC] hover:cursor-pointer border border-dashed h-15 rounded-xl
                         flex justify-center items-center flex-col"
@@ -66,7 +66,9 @@ export default function CommunityList({communities,member}:Props){
                         <IoAddCircleOutline 
                         className="group-hover:text-[#0F70AC]"/>
                         <p className="group-hover:text-[#0F70AC]"> Créer une communauté</p>
-                    </li>)
+                    </li>):(
+                        <p className="text-center p-15 text-md"> Une erreur est survenue...</p>
+                    )
                 }
             </ul>
         </div>

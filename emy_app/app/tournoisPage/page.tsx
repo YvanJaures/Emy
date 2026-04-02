@@ -9,7 +9,7 @@ import ImageBackground from "@/components/atoms/ImageBackground";
 import SectionPillTitle from "@/components/molecules/SectionPillTitle";
 import TournamentList from "@/components/organisms/TournamentList";
 import MetaData from "@/components/organisms/MetaData";
-import type { TournamentDTO } from "@/hooks/Type_TournamentDTO";
+import type { TournamentDTO } from "@/hooks/Type_DTO";
 import { useAuth } from "@/hooks/useAuth";
 import OnError from "@/components/organisms/OnError";
 import { getCommunityTournaments } from "@/fetchs/global";

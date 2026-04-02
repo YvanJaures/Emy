@@ -1,9 +1,10 @@
 "use client";
+import LoadingAnimation from "@/components/organisms/LoadingAnimation";
 import LoginForm from "@/components/organisms/LoginForm";
 import MetaData from "@/components/organisms/MetaData";
 import { useAuth, useConnexion } from "@/hooks/useAuth";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useMemo } from "react";
 
 /**
@@ -20,17 +21,7 @@ import { useMemo } from "react";
 
 export default function LoginPage() {
   const {member,loading}=useConnexion();
-  const [route,setRoute]=useState('')
-  const searchParams = useSearchParams();
-  const router = useRouter();
-  useEffect(() => {
-    const redirect:string|null = searchParams.get("redirect");
-    if(redirect) setRoute(redirect)
-    if (member) {
-      router.push(route); 
-    }
-  }, [member, route, router]);
-
+  if(loading) return <LoadingAnimation/>
   return (
     <>
     <MetaData seoTitle="Log in" seoDescription="page de connexion"></MetaData>
@@ -56,12 +47,30 @@ export default function LoginPage() {
           </button>
 
           {/* Contenu */}
-          <div className="px-10 pb-10 pt-2">
-            <LoginForm route={route}/>
-          </div>
+            <div className="px-10 pb-10 pt-2">
+              <Suspense fallback={<><LoadingAnimation/></>}>
+                <LoginContent member={member} />
+              </Suspense>
+            </div>
         </section>
       </div>
     </main>
   </>
   );
+}
+function LoginContent({ member }: { member: any }) {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+
+  const route = useMemo(() => {
+    return searchParams.get("redirect") || "/communautes"
+  }, [searchParams])
+
+  useEffect(() => {
+    if (member) {
+      router.push(route)
+    }
+  }, [member, route, router])
+
+  return <LoginForm route={route} />
 }

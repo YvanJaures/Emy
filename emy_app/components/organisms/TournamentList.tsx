@@ -2,7 +2,7 @@
 
 import React from "react";
 import TournamentRow from "../molecules/TournamentRow";
-import type { TournamentDTO } from "@/hooks/Type_TournamentDTO";
+import type { TournamentDTO } from "@/hooks/Type_DTO";
 
 type TournamentListProps = {
   tournaments: TournamentDTO[];

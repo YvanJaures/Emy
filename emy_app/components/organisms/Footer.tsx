@@ -13,12 +13,12 @@ type FooterLink = { label: string; href: string };
 
 const aboutLinks: FooterLink[] = [
   { label: "EMY & CO", href: "/about" },
-  { label: "HISTOIRE DE EMY", href: "/about/history" },
-  { label: "COMMANDITAIRES", href: "/sponsors" },
-  { label: "HISTORIQUE DE TOURNOI", href: "/tournaments/history" },
-  { label: "CRÉER UN COMPTE", href: "/auth/signup" },
-  { label: "DEVENIR COMMANDITAIRE", href: "/sponsors/become" },
-  { label: "CRÉER UNE COMMUNAUTÉ", href: "/community/create" },
+  { label: "HISTOIRE DE EMY", href: "/about#history" },
+  { label: "COMMANDITAIRES", href: "/commanditaires" },
+  { label: "HISTORIQUE DE TOURNOI", href: "/tournois" },
+  { label: "CRÉER UN COMPTE", href: "/signup" },
+  { label: "DEVENIR COMMANDITAIRE", href: "/commanditaires#devenir-commanditaire" },
+  { label: "CRÉER UNE COMMUNAUTÉ", href: "/communautes" },
 ];
 
 const privacyLinks: FooterLink[] = [
