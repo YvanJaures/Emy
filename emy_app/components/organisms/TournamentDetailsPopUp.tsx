@@ -5,6 +5,7 @@ import InputText from "@/components/atoms/InputText";
 import Button from "@/components/atoms/Button";
 import PopUp from "../atoms/PopUp";
 import { RiDeleteBin2Line } from "react-icons/ri";
+import { PrizeDTO } from "@/hooks/Type_DTO";
 
 type PrizeRow = {
   name: string;
@@ -23,13 +24,7 @@ type TournamentDetails = {
   end_date: string;
   avatar: string;
   id_community: number;
-  Prize: Array<{
-    id_prize: number;
-    name: string | null;
-    value: number | null;
-    spots: number | null;
-    group_spot: number | null;
-  }>;
+  Prize: PrizeDTO[]
 };
 
 type TournamentDetailsPopUpProps = {
@@ -107,7 +102,7 @@ export default function TournamentDetailsPopUp({
           tournament.Prize?.length
             ? tournament.Prize.map((p) => ({
                 name: p.name ?? "",
-                value: String(p.value ?? ""),
+                value: String(p.value?? ""),
                 quotas: String(p.group_spot ?? ""),
                 places: String(p.spots ?? ""),
               }))

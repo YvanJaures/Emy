@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import type { TournamentDTO } from "@/hooks/Type_TournamentDTO";
+import type { TournamentDTO } from "@/hooks/Type_DTO";
 
 /**
  * Ligne qui permet d'afficher un tournoi dans la liste de tournoi
@@ -36,7 +36,7 @@ export default function TournamentRow({
     if (!ok) return;
     onDelete(tournament.id_tour);
   };
-
+console.log(tournament)
   const handleInscription = () => {
     alert(`Inscriptions au tournoi ${tournament.id_tour}`);
   };
@@ -49,7 +49,7 @@ export default function TournamentRow({
         <button
           type="button"
           onClick={() =>
-            onDetails(tournament.id_tour, tournament.id_community!)
+            onDetails(tournament.id_tour, tournament.id_community)
           }
           className="text-xs text-black/70 hover:underline underline-offset-4"
         >
@@ -78,7 +78,7 @@ export default function TournamentRow({
           onClick={() => {
             onToggleStatus(
               tournament.id_tour,
-              tournament.id_community!,
+              tournament.id_community,
               status
             );
             setStatus(status === 1 ? 0 : 1);

@@ -56,7 +56,7 @@ export default function TablePrize({prizes,onSelect,success}:Props){
                     
                 }
                 else {
-                   selects.push({id:p,prize:prizes[p]})
+                   if(!selects.some((s)=>s.id===p)) selects.push({id:p,prize:prizes[p]})
                     console.log(selects)
                     setSelected(selects)
                 }
@@ -162,7 +162,7 @@ export default function TablePrize({prizes,onSelect,success}:Props){
                                     onChange={()=>{handleCheck(i);}}/>)}
                                 </td>
                                 <td className="p-2 ">{prize.name}</td>
-                                <td className="p-2 ">${5000}</td>
+                                <td className="p-2 ">${prize.value}</td>
                                 <td className="p-2 ">{prize.group_spot*4}</td>
                                 <td className="p-2 ">{prize.group_spot}</td>
                                 <td className="p-2 ">{prize.Prize_sponsor?.length ?? 0}/{prize.spots}</td>

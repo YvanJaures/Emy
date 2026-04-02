@@ -249,6 +249,7 @@ export async function addTeamMany(payload:{name:string, id_tour:number, key_team
             res.push({index:i,status:true})
 
         }
+        console.log(res)
         return res;
     }catch(error){
         for(let i=res.length; i<payload.length; i++){

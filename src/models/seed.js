@@ -51,7 +51,7 @@ async function main() {
 
   // ─── 3. Member (30) ───────────────────────────────────────────────────────
   console.log("Creating Members...");
-  const membersData = Array.from({ length: 250 }, (_, i) => {
+  const membersData = Array.from({ length: 500 }, (_, i) => {
     const username = `${faker.internet.username().replace(/[^a-zA-Z0-9_]/g, "").slice(0, 40)}_${i}`;
     return {
       user_name: username,
@@ -66,7 +66,18 @@ async function main() {
       password: hash("12345678"),
     };
   });
-
+  membersData.push({
+      user_name: "emy",
+      name: "Emy",
+      surname: 'Emy',
+      address: faker.location.streetAddress(),
+      birth_date: faker.date.birthdate({ min: 18, max: 55, mode: "age" }),
+      country: faker.location.country().slice(0, 50),
+      email: `noreplyemy@emy.com`,
+      phone: faker.phone.number().slice(0, 50),
+      avatar: faker.image.avatarGitHub(),
+      password: hash("12345678")
+  })
   await prisma.member.createMany({ data: membersData });
   const members = await prisma.member.findMany();
 
@@ -231,6 +242,7 @@ async function main() {
     id_tour: pick(tournaments).id_tour,
     id_type: pick(types).id_type,
     id_admin: pick(admins).id_admin,
+    value: parseFloat(faker.commerce.price({ min: 0, max: 500 })),
   }));
 
   await prisma.prize.createMany({ data: prizesData });

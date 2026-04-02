@@ -93,9 +93,10 @@ export type PlayerDTO ={
  */
 export type PrizeDTO ={
   id_prize      :number;          
-  name          :string | null ;    
+  name          :string;    
   spots         :number;
   group_spot    :number;
+  value         :Float16Array
   id_tour       :number;
   id_type       :number |null;
   id_admin      :number;
@@ -170,11 +171,11 @@ export type TournamentDTO = {
   location       : string | null;
   start_date     : Date   ;
   end_date       : Date   ;
-  status         : number | null;
+  status         : number ;
   avatar         : string | null;
   fees           : number | null;
 //  id_admin       : number | null;
-  id_community   : number | null;
+  id_community   : number ;
   members        :number ;
   Player        ?: PlayerDTO[];
   Prize         ?: PrizeDTO[];

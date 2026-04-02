@@ -76,10 +76,12 @@ export default function TournamentBlockSlug({ tournament }: Props) {
           setSponsoringMessage("")
           const success= await fetchApi(payload,'/api/sponsor/prize/add','POST');
           if(success) {
+            setSponsoringSuccess(true)
+            setSponsoringMessage('Commandite ajouté avec succés')
             let payload:{name:string, id_tour:number, key_team:string, user_name:string, open:boolean}[]=[]
-            for(let i=0; i<prize.spots; i++){
+            for(let i=1; i<=prize.group_spot; i++){
               const payload2={
-                name:(member.Sponsor?.company_name ??'')+'team'+(i+1),
+                name:(member.Sponsor?.company_name ??'')+'team'+i,
                 id_tour:prize.id_tour,
                 key_team:(member.user_name)+'123',
                 user_name: member.user_name,
@@ -87,14 +89,22 @@ export default function TournamentBlockSlug({ tournament }: Props) {
               }
               payload.push(payload2)
             }
+            console.log(payload)
             const addedTeams=await addTeamMany(payload)
             addedTeams.forEach((res)=>{
-              if(res.status) { setSponsoringSuccess(true);setSponsoringMessage('Equipe ajoutée pour le prix '+prize.name)}
-              else  setSponsoringMessage('impossible d\'ajouter une équipe pour le prix '+prize.name)
+              if(res.status) { 
+                setSponsoringSuccess(true);
+                setSponsoringMessage('Equipe ajoutée pour le prix '+prize.name)
+              }
+              else{  
+                setSponsoringSuccess(false)
+                setSponsoringMessage('impossible d\'ajouter une équipe pour le prix '+prize.name)
+              }
             })
-            setSponsoringMessage("Création des équipes éffectuée")
+            setSponsoringSuccess(true)
+            setSponsoringMessage("Commandite et création des équipes (si groupes) éffectuée")
           }
-          else {
+          else{
             setSponsoringMessage('impossible de sponsoriser ce prix')
             setSponsoringSuccess(false)
           }

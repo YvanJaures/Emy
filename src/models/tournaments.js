@@ -54,6 +54,7 @@ export async function getTournamentsByCommunity(id_community) {
       avatar: true,
       name: true,
       Player: true,
+      id_community:true,
       Prize: {
         include: {
           Prize_sponsor: true,

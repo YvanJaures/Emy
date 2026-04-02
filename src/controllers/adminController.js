@@ -619,6 +619,7 @@ export const updateTourAndPrizes = async (req, res) => {
     });
   } catch (error) {
     console.error("UPDATE TOUR:", error);
+    console.log(error)
     return res.status(500).json({
       message: "Erreur serveur",
     });
