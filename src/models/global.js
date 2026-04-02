@@ -265,6 +265,30 @@ export async function addTeam(name, id_tour, key_team,user_name,open) {
     },
   });
 }
+/**Creer une equipe et recuperer l'id de l'equipe */
+export async function addTeams(name, id_tour, key_team, user_name, open) {
+  return await prisma.team.create({
+    data: {
+      name,
+      id_tour,
+      key_team,
+      user_name,
+      open,
+      players: 0,
+      members: 0,
+    },
+    select: {
+      id_team: true,
+      name: true,
+      id_tour: true,
+      key_team: true,
+      user_name: true,
+      open: true,
+      players: true,
+      members: true,
+    },
+  });
+}
 /**
  * Ajoute un membre a une équipe mais avec un status =0 indiquant que le membre est temporaire
  * @param {*} id_team  idenfiant de l'équipe
@@ -394,16 +418,60 @@ export async function getLastTeam(){
   return teams[teams.length-1]
 }
 /**Modifier une equipe */
-export async function updateTeam(id_team, patch) {
+// export async function updateTeam(id_team, patch) {
+//   const data = {};
+//   if (patch.name !== undefined) data.name = patch.name;
+//   if (patch.id_tour !== undefined) data.id_tour = patch.id_tour;
+//   if (patch.open !== undefined) data.open = patch.open;
+//   if (patch.key_team !== undefined) data.key_team = patch.key_team;
+
+//   return await prisma.team.update({
+//     where: { id_team },
+//     data,
+//   });
+// }
+
+
+export async function updateTeam(id_team, patch, players = []) {
   const data = {};
+
   if (patch.name !== undefined) data.name = patch.name;
   if (patch.id_tour !== undefined) data.id_tour = patch.id_tour;
   if (patch.open !== undefined) data.open = patch.open;
   if (patch.key_team !== undefined) data.key_team = patch.key_team;
 
-  return await prisma.team.update({
-    where: { id_team },
-    data,
+  return await prisma.$transaction(async (tx) => {
+    // 1) Mettre à jour l'équipe
+    const updatedTeam = await tx.team.update({
+      where: { id_team },
+      data,
+    });
+
+    // 2) Supprimer les anciens membres de l'équipe
+    await tx.team_member.deleteMany({
+      where: { id_team },
+    });
+
+    // 3) Réinsérer les nouveaux membres sans doublons
+    if (players.length > 0) {
+      await tx.team_member.createMany({
+        data: players.map((user_name) => ({
+          id_team,
+          user_name,
+          status: true,
+        })),
+      });
+    }
+
+    // 4) Mettre à jour le nombre de membres
+    await tx.team.update({
+      where: { id_team },
+      data: {
+        members: players.length,
+      },
+    });
+
+    return updatedTeam;
   });
 }
 

@@ -33,7 +33,8 @@ router.get("/member/my-tournaments", connecterApi, globalController.getMyTournam
 
 //router.post('/',globalController)
 router.post('/member/add',motDePasseValide,courrielValide,globalController.addMemberC)
-router.post('/member/team',connecterApi,globalController.addTeamC)
+router.post('/member/team',connecterApi,globalController.addTeamC)   // Pour creer l'equipe sans recuperer l'id
+router.post('/member/teams',connecterApi,globalController.addTeamsC)  // Pour creer une equipe et recuperer so id
 router.post('/member/team/add',connecterApi,globalController.addTeamMemberWaitC)
 router.post('/member/pay',connecterApi,globalController.payC)
 router.post('/member/community/join',connecterApi,globalController.addCommunityMemberC)

@@ -394,7 +394,8 @@ export default function TeamsDetailsPage() {
                       {team.name ?? "Sans nom"}
                     </p>
                     <p className="text-xs text-black/60">
-                      Membres: {team.members ?? team.Team_member?.length ?? 0}
+                      {/* Membres: {team.members ?? team.Team_member?.length ?? 0} */}
+                      Membres: {team.Team_member?.length ?? 0}
                     </p>
                   </div>
 
