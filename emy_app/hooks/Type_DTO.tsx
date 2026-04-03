@@ -60,7 +60,7 @@ export type Community_memberDTO ={
   id_community :number;
   user_name    :string;
   Community   ?:CommunityDTO |null;
-  Member      ?:MemberDTO |null   
+  Member       :MemberDTO  
 }
 /**
  * object représentant les employès reliés a une communauté

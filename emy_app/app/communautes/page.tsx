@@ -15,6 +15,12 @@ export default function Communautes(){
     const [_loading,setLoading]=useState(true)
     const [onError,setOnError]=useState(false)
     const {member,loading}=useConnexion()
+    const [mounted,setMounted]=useState(false)
+
+    useEffect(()=>{
+        setMounted(true)
+    },[])
+
     useEffect(()=>{
         (async()=>{
             const livre=[]
@@ -30,7 +36,7 @@ export default function Communautes(){
 
         })()
     },[member])
-    if(_loading && loading) return <LoadingAnimation/>
+    if(_loading && loading && mounted) return <LoadingAnimation/>
     return(
         <>
         <NavBar/>

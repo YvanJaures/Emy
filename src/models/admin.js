@@ -1,9 +1,18 @@
 import 'dotenv/config'
 import bcrypt from 'bcrypt'
 import { prisma } from '../prisma.js';
+import { GetRedisCache, SetRedisCache, DelRedisCache } from '../services/redis.js';
 
 /**Ajouter membre à une équipe*/
 export async function addMemberToTeam(id_team,user_name){
+    // Invalider le cache au début de l'opération
+    try {
+        await DelRedisCache(`teams-by-tour-*`);
+        await DelRedisCache(`tour-teams-community-*`);
+    } catch (error) {
+        console.error("Cache invalidation error in addMemberToTeam:", error);
+    }
+
     await prisma.team_member.create({
         data:{
             id_team:id_team,
@@ -15,6 +24,14 @@ export async function addMemberToTeam(id_team,user_name){
 
 /**Retirer membre d'une équipe*/
 export async function deleteMemberFromTeam(id_team,user_name){
+    // Invalider le cache au début de l'opération
+    try {
+        await DelRedisCache(`teams-by-tour-*`);
+        await DelRedisCache(`tour-teams-community-*`);
+    } catch (error) {
+        console.error("Cache invalidation error in deleteMemberFromTeam:", error);
+    }
+
     await prisma.team_member.deleteMany({
         where:{
             id_team:id_team,
@@ -33,6 +50,13 @@ export async function createTour(
     avatar,
     id_community
 ){
+    // Invalider le cache au début de l'opération
+    try {
+        await DelRedisCache("tournaments");
+    } catch (error) {
+        console.error("Cache invalidation error in createTour:", error);
+    }
+
     return await prisma.tournament.create({
 
         data:{
@@ -59,6 +83,13 @@ export async function createTourWithPrizes(
     fees,
     prizes
 ){
+    // Invalider le cache au début de l'opération
+    try {
+        await DelRedisCache("tournaments");
+    } catch (error) {
+        console.error("Cache invalidation error in createTourWithPrizes:", error);
+    }
+
     return await prisma.tournament.create({
         data:{
             name:name,
@@ -82,6 +113,16 @@ export async function createTourWithPrizes(
 }
 //Modifier nombre d'équipes
 export async function updateTourTeams(id_tour,id_community,teams){
+    // Invalider le cache au début de l'opération
+    try {
+        await DelRedisCache("tournaments");
+        await DelRedisCache(`tournaments-*`);
+        await DelRedisCache(`tour-teams-community-*`);
+        await DelRedisCache(`teams-by-tour-*`);
+    } catch (error) {
+        console.error("Cache invalidation error in updateTourTeams:", error);
+    }
+
     await prisma.tournament.updateMany({
         where:{
             id_tour:id_tour,
@@ -95,6 +136,14 @@ export async function updateTourTeams(id_tour,id_community,teams){
 
 /**Ouvrir/Fermer inscriptions*/
 export async function updateTourStatus(id_tour,id_community,status){
+    // Invalider le cache au début de l'opération
+    try {
+        await DelRedisCache("tournaments");
+        await DelRedisCache(`tournaments-*`);
+    } catch (error) {
+        console.error("Cache invalidation error in updateTourStatus:", error);
+    }
+
     await prisma.tournament.updateMany({
         where:{
             id_tour:id_tour,
@@ -108,6 +157,16 @@ export async function updateTourStatus(id_tour,id_community,status){
 
 /**Retirer équipe du tournoi*/
 export async function deleteTeamFromTour(id_team, id_tour){
+    // Invalider le cache au début de l'opération
+    try {
+        await DelRedisCache("tournaments");
+        await DelRedisCache(`tournaments-*`);
+        await DelRedisCache(`tour-teams-community-*`);
+        await DelRedisCache(`teams-by-tour-*`);
+    } catch (error) {
+        console.error("Cache invalidation error in deleteTeamFromTour:", error);
+    }
+
     return await prisma.team.updateMany({
         where: {
             id_team: id_team,
@@ -128,6 +187,15 @@ export async function createPrize(
     id_type,
     id_admin
 ){
+    // Invalider le cache au début de l'opération
+    try {
+        await DelRedisCache("tournaments");
+        await DelRedisCache(`tournaments-*`);
+        await DelRedisCache(`tour-teams-community-*`);
+    } catch (error) {
+        console.error("Cache invalidation error in createPrize:", error);
+    }
+
     return await prisma.prize.create({
         data: {
             name,
@@ -147,6 +215,14 @@ export async function createPrize(
 }
 /**Supprimer prix*/
 export async function deletePrize(id_prize, id_tour){
+    // Invalider le cache au début de l'opération
+    try {
+        await DelRedisCache("tournaments");
+        await DelRedisCache(`tournaments-*`);
+        await DelRedisCache(`tour-teams-community-*`);
+    } catch (error) {
+        console.error("Cache invalidation error in deletePrize:", error);
+    }
 
     //doit supprimer le Prix sponsored avant car Key Foreign
     await prisma.prize_sponsor.deleteMany({
@@ -165,6 +241,15 @@ export async function deletePrize(id_prize, id_tour){
 
 /**Modifier nombre prix   */  
 export async function updatePrize(id_prize, id_tour, spots) {
+    // Invalider le cache au début de l'opération
+    try {
+        await DelRedisCache("tournaments");
+        await DelRedisCache(`tournaments-*`);
+        await DelRedisCache(`tour-teams-community-*`);
+    } catch (error) {
+        console.error("Cache invalidation error in updatePrize:", error);
+    }
+
     return await prisma.prize.updateMany({
         where: {
             id_prize: id_prize,
@@ -178,6 +263,14 @@ export async function updatePrize(id_prize, id_tour, spots) {
 
 /**Ajouter admin */
 export async function addAdmin(user_name,id_community) {
+    // Invalider le cache au début de l'opération
+    try {
+        await DelRedisCache("admins");
+        await DelRedisCache(`admin-*`);
+    } catch (error) {
+        console.error("Cache invalidation error in addAdmin:", error);
+    }
+
     return await prisma.admin.create({
         data:{
             user_name,
@@ -188,6 +281,14 @@ export async function addAdmin(user_name,id_community) {
 
 /**Supprimer admin*/
 export async function deleteAdmin(id_admin,user_name,id_community) {
+    // Invalider le cache au début de l'opération
+    try {
+        await DelRedisCache("admins");
+        await DelRedisCache(`admin-*`);
+    } catch (error) {
+        console.error("Cache invalidation error in deleteAdmin:", error);
+    }
+
     await prisma.admin.deleteMany({
         where:{
             id_admin:id_admin,
@@ -199,6 +300,7 @@ export async function deleteAdmin(id_admin,user_name,id_community) {
 
 /**Enregistrer action admin*/
 export async function logAdminAction(id_admin,details) {
+    // Pas d'invalidation de cache nécessaire pour le logging
     await prisma.admin_action.create({
         data:{
             id_admin:id_admin,
@@ -209,6 +311,15 @@ export async function logAdminAction(id_admin,details) {
 }
 
 export async function deleteMemberFromTour(id_tour,user_name) {
+    // Invalider le cache au début de l'opération
+    try {
+        await DelRedisCache("tournaments");
+        await DelRedisCache(`tournaments-*`);
+        await DelRedisCache(`tour-teams-community-*`);
+        await DelRedisCache(`teams-by-tour-*`);
+    } catch (error) {
+        console.error("Cache invalidation error in deleteMemberFromTour:", error);
+    }
 
     const deleted = await prisma.player.deleteMany({
         where:{
@@ -221,6 +332,15 @@ export async function deleteMemberFromTour(id_tour,user_name) {
 }
 
 export async function deleteMemberFromCommunity(id_community,user_name) {
+    // Invalider le cache au début de l'opération
+    try {
+        await DelRedisCache("members");
+        await DelRedisCache(`community-members-*`);
+        await DelRedisCache("communities");
+        await DelRedisCache(`community-*`);
+    } catch (error) {
+        console.error("Cache invalidation error in deleteMemberFromCommunity:", error);
+    }
 
     const deleted = await prisma.community_member.deleteMany({
         where:{
@@ -233,6 +353,14 @@ export async function deleteMemberFromCommunity(id_community,user_name) {
 }
 
 export async function updateCommunity(id_community, alias, new_info) {
+  // Invalider le cache au début de l'opération
+  try {
+    await DelRedisCache("communities");
+    await DelRedisCache(`community-*`);
+  } catch (error) {
+    console.error("Cache invalidation error in updateCommunity:", error);
+  }
+
   switch(alias){
     case "name":
         return await prisma.community.update({
@@ -255,68 +383,113 @@ export async function updateCommunity(id_community, alias, new_info) {
 }
 
 export async function getAllAdmins() {
-    return await prisma.admin.findMany({
-        include: {
-            Member: true,
-            Community: true
-        }
-    });
+    try {
+        const cacheKey = "admins";
+        const cached = await GetRedisCache(cacheKey);
+        if (cached) return cached;
+
+        const admins = await prisma.admin.findMany({
+            include: {
+                Member: true,
+                Community: true
+            }
+        });
+
+        await SetRedisCache(cacheKey, admins);
+        return admins;
+    } catch (error) {
+        console.error("getAllAdmins error:", error);
+        throw error;
+    }
 }
 
 export async function getAdminById(id_admin) {
-    return await prisma.admin.findUnique({
-        where: {
-            id_admin: id_admin
-        },
-        include: {
-            Member: true,
-            Community: true
-        }
-    });
+    try {
+        const cacheKey = `admin-${id_admin}`;
+        const cached = await GetRedisCache(cacheKey);
+        if (cached) return cached;
+
+        const admin = await prisma.admin.findUnique({
+            where: {
+                id_admin: id_admin
+            },
+            include: {
+                Member: true,
+                Community: true
+            }
+        });
+
+        if (admin) await SetRedisCache(cacheKey, admin);
+        return admin;
+    } catch (error) {
+        console.error("getAdminById error:", error);
+        throw error;
+    }
 }
 /**
  * Recuperation des equipe selon l'id de leur communaute
  */
 export async function getTourTeamsByCommunity(id_community) {
-  return await prisma.tournament.findMany({
-    where: { id_community:id_community },
-    select: {
-      id_tour: true,
-      location: true,
-      start_date: true,
-      end_date: true,
-      avatar: true,
-      Team: {
-        select: {
-          id_team: true,
-          name: true,
-          id_tour: true,
-          open: true,
-          key_team: true,
-          members: true,
-          Team_member: {
-            select: {
-              Member: {
-                select: {
-                  user_name: true,
-                  avatar: true,
-                  name: true,
-                  surname: true,
+  try {
+    const cacheKey = `tour-teams-community-${id_community}`;
+    const cached = await GetRedisCache(cacheKey);
+    if (cached) return cached;
+
+    const tours = await prisma.tournament.findMany({
+      where: { id_community:id_community },
+      select: {
+        id_tour: true,
+        location: true,
+        start_date: true,
+        end_date: true,
+        avatar: true,
+        Team: {
+          select: {
+            id_team: true,
+            name: true,
+            id_tour: true,
+            open: true,
+            key_team: true,
+            members: true,
+            Team_member: {
+              select: {
+                Member: {
+                  select: {
+                    user_name: true,
+                    avatar: true,
+                    name: true,
+                    surname: true,
+                  },
                 },
               },
             },
           },
         },
       },
-    },
-    orderBy: { id_tour: "desc" }
-            
+      orderBy: { id_tour: "desc" }
     });
+
+    await SetRedisCache(cacheKey, tours);
+    return tours;
+  } catch (error) {
+    console.error("getTourTeamsByCommunity error:", error);
+    throw error;
+  }
 }
 
 
 /** Supprimer un tournoi */
 export async function deleteTour(id_tour, id_community) {
+  // Invalider le cache au début de l'opération
+  try {
+    await DelRedisCache("tournaments");
+    await DelRedisCache(`tournaments-*`);
+    await DelRedisCache(`tour-teams-community-*`);
+    await DelRedisCache(`teams-by-tour-*`);
+  } catch (error) {
+    console.error("Cache invalidation error in deleteTour:", error);
+  }
+
   return await prisma.$transaction(async (tx) => {
     // vérifier que le tournoi appartient à la communauté
     const tour = await tx.tournament.findFirst({
@@ -363,44 +536,64 @@ export async function deleteTour(id_tour, id_community) {
 /**Afficher le detail de toutes les equipes d'un tournoi */
 // models/adminModel.js
 export async function getTeamsByTour(id_tour) {
-  return await prisma.tournament.findUnique({
-    where: { id_tour: Number(id_tour) },
-    select: {
-      id_tour: true,
-      location: true,
-      start_date: true,
-      end_date: true,
-      avatar: true,
-      Team: {
-        select: {
-          id_team: true,
-          name: true,
-          id_tour: true,
-          open: true,
-          key_team: true,
-          members: true,
-          Team_member: {
-            select: {
-              Member: {
-                select: {
-                  user_name: true,
-                  avatar: true,
-                  name: true,
-                  surname: true,
+  try {
+    const cacheKey = `teams-by-tour-${id_tour}`;
+    const cached = await GetRedisCache(cacheKey);
+    if (cached) return cached;
+
+    const tournament = await prisma.tournament.findUnique({
+      where: { id_tour: Number(id_tour) },
+      select: {
+        id_tour: true,
+        location: true,
+        start_date: true,
+        end_date: true,
+        avatar: true,
+        Team: {
+          select: {
+            id_team: true,
+            name: true,
+            id_tour: true,
+            open: true,
+            key_team: true,
+            members: true,
+            Team_member: {
+              select: {
+                Member: {
+                  select: {
+                    user_name: true,
+                    avatar: true,
+                    name: true,
+                    surname: true,
+                  },
                 },
               },
             },
           },
+          orderBy: { id_team: "asc" },
         },
-        orderBy: { id_team: "asc" },
       },
-    },
-  });
+    });
+
+    if (tournament) await SetRedisCache(cacheKey, tournament);
+    return tournament;
+  } catch (error) {
+    console.error("getTeamsByTour error:", error);
+    throw error;
+  }
 }
 
 /**Modifier une equipe */
 // models/adminModel.js
 export async function patchTeam(id_team, id_tour, patch) {
+  // Invalider le cache au début de l'opération
+  try {
+    await DelRedisCache(`teams-by-tour-*`);
+    await DelRedisCache(`tour-teams-community-*`);
+  } catch (error) {
+    console.error("Cache invalidation error in patchTeam:", error);
+  }
+
   const data = {};
   if (patch.name !== undefined) data.name = patch.name;
   if (patch.open !== undefined) data.open = patch.open;
@@ -444,6 +637,16 @@ export async function updateTourAndPrizes(
   fees,
   prizes
 ) {
+  // Invalider le cache au début de l'opération
+  try {
+    await DelRedisCache("tournaments");
+    await DelRedisCache(`tournaments-*`);
+    await DelRedisCache(`tour-teams-community-*`);
+    await DelRedisCache(`teams-by-tour-*`);
+  } catch (error) {
+    console.error("Cache invalidation error in updateTourAndPrizes:", error);
+  }
+
   return await prisma.$transaction(async (tx) => {
     await tx.tournament.updateMany({
       where: {

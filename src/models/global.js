@@ -1,36 +1,48 @@
 import "dotenv/config";
 import bcrypt from "bcrypt";
 import { prisma } from "../prisma.js";
+import { GetRedisCache, SetRedisCache, DelRedisCache } from "../services/redis.js";
 /**
  * Retourne le membre en fonction de son email
  * @param {*} email
  * @returns membre
  */
 export async function getMemberByEmail(email) {
-  const member = await prisma.member.findFirst({
-    where: {
-      email: email,
-    },
-    select: {
-      user_name: true,
-      name: true,
-      surname: true,
-      address: true,
-      birth_date: true,
-      country: true,
-      email: true,
-      phone: true,
-      avatar: true,
-      Admin: true,
-      Community_member: true,
-      Employee: true,
-      Player: true,
-      Sponsor: true,
-      Team: true,
-      Team_member: true,
-    },
-  });
-  return member;
+  try {
+    const cacheKey = `member-email-${email}`;
+    const cached = await GetRedisCache(cacheKey);
+    if (cached) return cached;
+
+    const member = await prisma.member.findFirst({
+      where: {
+        email: email,
+      },
+      select: {
+        user_name: true,
+        name: true,
+        surname: true,
+        address: true,
+        birth_date: true,
+        country: true,
+        email: true,
+        phone: true,
+        avatar: true,
+        Admin: true,
+        Community_member: true,
+        Employee: true,
+        Player: true,
+        Sponsor: true,
+        Team: true,
+        Team_member: true,
+      },
+    });
+
+    if (member) await SetRedisCache(cacheKey, member);
+    return member;
+  } catch (error) {
+    console.error("getMemberByEmail error:", error);
+    throw error;
+  }
 }
 /**
  * Retourne le membre en fonction de son user_name
@@ -38,79 +50,101 @@ export async function getMemberByEmail(email) {
  * @returns membre
  */
 export async function getMemberByName(user_name) {
-  const member = await prisma.member.findUnique({
-    where: {
-      user_name: user_name,
-    },
-    select: {
-      user_name: true,
-      name: true,
-      surname: true,
-      address: true,
-      birth_date: true,
-      country: true,
-      email: true,
-      phone: true,
-      avatar: true,
-      Admin: true,
-      Community_member: true,
-      Employee: true,
+  try {
+    const cacheKey = `member-username-${user_name}`;
+    const cached = await GetRedisCache(cacheKey);
+    if (cached) return cached;
 
-      Player: {
-        include: {
-          Tournament: true
-        }
+    const member = await prisma.member.findUnique({
+      where: {
+        user_name: user_name,
       },
+      select: {
+        user_name: true,
+        name: true,
+        surname: true,
+        address: true,
+        birth_date: true,
+        country: true,
+        email: true,
+        phone: true,
+        avatar: true,
+        Admin: true,
+        Community_member: true,
+        Employee: true,
 
-      Sponsor: true,
-
-      Team: {
-        select: {
-          id_team: true,
-          name: true,
-          key_team: true,
-
-          Tournament: {
-            select: {
-              name: true
-            }
+        Player: {
+          include: {
+            Tournament: true,
           },
+        },
 
-          Team_member: {
-            select: {
-              status: true,
-              Member: {
-                select: {
-                  user_name: true,
-                  avatar: true
-                }
-              }
-            }
-          }
-        }
+        Sponsor: true,
+
+        Team: {
+          select: {
+            id_team: true,
+            name: true,
+            key_team: true,
+
+            Tournament: {
+              select: {
+                name: true,
+              },
+            },
+
+            Team_member: {
+              select: {
+                status: true,
+                Member: {
+                  select: {
+                    user_name: true,
+                    avatar: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+
+        Team_member: true,
       },
+    });
 
-      Team_member: true,
-    },
-  });
-
-  return member;
+    if (member) await SetRedisCache(cacheKey, member);
+    return member;
+  } catch (error) {
+    console.error("getMemberByName error:", error);
+    throw error;
+  }
 }
 export async function getMembersByCommunity(id_community) {
-  const id = Number.parseInt(id_community);
-  const community = await prisma.community.findUnique({
-    where: {
-      id_community: id,
-    },
-    include: {
-      Community_member: true,
-    },
-  });
-  const members = [];
-  for (const member of community.Community_member) {
-    members.push(await getMemberByName(member.user_name));
+  try {
+    const cacheKey = `community-members-${id_community}`;
+    const cached = await GetRedisCache(cacheKey);
+    if (cached) return cached;
+
+    const id = Number.parseInt(id_community);
+    const community = await prisma.community.findUnique({
+      where: {
+        id_community: id,
+      },
+      include: {
+        Community_member: true,
+      },
+    });
+
+    const members = [];
+    for (const member of community?.Community_member || []) {
+      members.push(await getMemberByName(member.user_name));
+    }
+
+    await SetRedisCache(cacheKey, members);
+    return members;
+  } catch (error) {
+    console.error("getMembersByCommunity error:", error);
+    throw error;
   }
-  return members;
 }
 export async function getMemberPassword(user_name) {
   return await prisma.member.findUnique({
@@ -127,26 +161,45 @@ export async function getMemberPassword(user_name) {
  * @returns La liste des membres
  */
 export async function getMembers() {
-  console.log("Server:", process.env.DB_SERVER);
-  const members = await prisma.member.findMany({
-    include: {
-      Admin: true,
-    },
-  });
-  console.log("correct");
-  return members;
+  try {
+    const cacheKey = "members";
+    const cached = await GetRedisCache(cacheKey);
+    if (cached) return cached;
+
+    const members = await prisma.member.findMany({
+      include: {
+        Admin: true,
+      },
+    });
+    await SetRedisCache(cacheKey, members);
+    return members;
+  } catch (error) {
+    console.error("getMembers error:", error);
+    throw error;
+  }
 }
 /**
  * Récupère les noms d'utilisateur
  * @returns Les usernames utilisateur
  */
 export async function getMembersUserNames() {
-  const userNames = await prisma.member.findMany({
-    select: {
-      user_name: true,
-    },
-  });
-  return userNames;
+  try {
+    const cacheKey = "members-usernames";
+    const cached = await GetRedisCache(cacheKey);
+    if (cached) return cached;
+
+    const userNames = await prisma.member.findMany({
+      select: {
+        user_name: true,
+      },
+    });
+
+    await SetRedisCache(cacheKey, userNames);
+    return userNames;
+  } catch (error) {
+    console.error("getMembersUserNames error:", error);
+    throw error;
+  }
 }
 /**
  * Crée un membre
@@ -172,22 +225,37 @@ export async function addMember(
   password,
   phone,
 ) {
-  const hash_password = await bcrypt.hash(password, 10);
-  const birth = new Date(birth_date);
-  const member = await prisma.member.create({
-    data: {
-      user_name: user_name,
-      name: name,
-      surname: surname,
-      address: address,
-      birth_date: birth,
-      country: country,
-      email: email,
-      avatar: avatar,
-      password: hash_password,
-      phone: phone,
-    },
-  });
+  // Invalider le cache au début de l'opération
+  try {
+    await DelRedisCache("members");
+    await DelRedisCache(`members-usernames`);
+  } catch (error) {
+    console.error("Cache invalidation error in addMember:", error);
+  }
+
+  try {
+    const hash_password = await bcrypt.hash(password, 10);
+    const birth = new Date(birth_date);
+    const member = await prisma.member.create({
+      data: {
+        user_name: user_name,
+        name: name,
+        surname: surname,
+        address: address,
+        birth_date: birth,
+        country: country,
+        email: email,
+        avatar: avatar,
+        password: hash_password,
+        phone: phone,
+      },
+    });
+
+    return member;
+  } catch (error) {
+    console.error("addMember error:", error);
+    throw error;
+  }
 }
 /**
  * Met à jour les informations de membre en fonction de se qu'il souhait modifier
@@ -196,55 +264,79 @@ export async function addMember(
  * @param {*} new_info  nouvelle valeure
  */
 export async function updateMember(user_name, aliasOrData, new_info) {
-  
-  if (typeof aliasOrData === "object") {
-    return prisma.member.update({
-      where: { user_name },
-      data: {
-        name: aliasOrData.name,
-        surname: aliasOrData.surname,
-        email: aliasOrData.email,
-        phone: aliasOrData.phone,
-        address: aliasOrData.address,
-        birth_date: aliasOrData.birth_date
-          ? new Date(aliasOrData.birth_date)
-          : null,
-      },
-    });
+  // Invalider le cache au début de l'opération
+  try {
+    await DelRedisCache("members");
+    await DelRedisCache(`member-username-*`);
+    await DelRedisCache(`member-email-*`);
+    await DelRedisCache(`members-usernames`);
+    await DelRedisCache(`members-community-*`);
+  } catch (error) {
+    console.error("Cache invalidation error in updateMember:", error);
   }
 
-  const alias = aliasOrData;
+  try {
+    let updated;
 
-  switch (alias) {
-    case "name":
-      return prisma.member.update({
+    if (typeof aliasOrData === "object") {
+      updated = await prisma.member.update({
         where: { user_name },
-        data: { name: new_info },
+        data: {
+          name: aliasOrData.name,
+          surname: aliasOrData.surname,
+          email: aliasOrData.email,
+          phone: aliasOrData.phone,
+          address: aliasOrData.address,
+          birth_date: aliasOrData.birth_date
+            ? new Date(aliasOrData.birth_date)
+            : null,
+        },
       });
+    } else {
+      const alias = aliasOrData;
 
-    case "address":
-      return prisma.member.update({
-        where: { user_name },
-        data: { address: new_info },
-      });
+      switch (alias) {
+        case "name":
+          updated = await prisma.member.update({
+            where: { user_name },
+            data: { name: new_info },
+          });
+          break;
 
-    case "avatar":
-      return prisma.member.update({
-        where: { user_name },
-        data: { avatar: new_info },
-      });
+        case "address":
+          updated = await prisma.member.update({
+            where: { user_name },
+            data: { address: new_info },
+          });
+          break;
 
-    case "birth_date":
-      return prisma.member.update({
-        where: { user_name },
-        data: { birth_date: new Date(new_info) },
-      });
+        case "avatar":
+          updated = await prisma.member.update({
+            where: { user_name },
+            data: { avatar: new_info },
+          });
+          break;
 
-    default:
-      return prisma.member.update({
-        where: { user_name },
-        data: { phone: new_info },
-      });
+        case "birth_date":
+          updated = await prisma.member.update({
+            where: { user_name },
+            data: { birth_date: new Date(new_info) },
+          });
+          break;
+
+        default:
+          updated = await prisma.member.update({
+            where: { user_name },
+            data: { phone: new_info },
+          });
+          break;
+      }
+    }
+
+    return updated;
+  } catch (error) {
+    console.error("updateMember error:", error);
+    throw error;
   }
 }
 /**
@@ -254,6 +346,14 @@ export async function updateMember(user_name, aliasOrData, new_info) {
  * @param {*} key_team clé d'accès à l'équipe
  */
 export async function addTeam(name, id_tour, key_team,user_name,open) {
+  // Invalider le cache au début de l'opération
+  try {
+    await DelRedisCache(`teams-by-tour-*`);
+    await DelRedisCache(`tour-teams-community-*`);
+  } catch (error) {
+    console.error("Cache invalidation error in addTeam:", error);
+  }
+
   await prisma.team.create({
     data: {
       name: name,
@@ -267,6 +367,14 @@ export async function addTeam(name, id_tour, key_team,user_name,open) {
 }
 /**Creer une equipe et recuperer l'id de l'equipe */
 export async function addTeams(name, id_tour, key_team, user_name, open) {
+  // Invalider le cache au début de l'opération
+  try {
+    await DelRedisCache(`teams-by-tour-*`);
+    await DelRedisCache(`tour-teams-community-*`);
+  } catch (error) {
+    console.error("Cache invalidation error in addTeams:", error);
+  }
+
   return await prisma.team.create({
     data: {
       name,
@@ -295,6 +403,14 @@ export async function addTeams(name, id_tour, key_team, user_name, open) {
  * @param {*} user_name nom de l'utilisateur
  */
 export async function addTeamMemberWait(id_team, user_name) {
+  // Invalider le cache au début de l'opération
+  try {
+    await DelRedisCache(`teams-by-tour-*`);
+    await DelRedisCache(`tour-teams-community-*`);
+  } catch (error) {
+    console.error("Cache invalidation error in addTeamMemberWait:", error);
+  }
+
   await prisma.team_member.create({
     data: {
       id_team: id_team,
@@ -328,7 +444,9 @@ export async function pay() {}
  * @param {*} new_password
  */
 export async function updatePasswordMember(user_name, password) {
-  const client = await getMemberByName(user_name);
+  let client = await getMemberByName(user_name);
+  let cacheKeysToDelete = [];
+
   if (client) {
     await prisma.member.update({
       where: {
@@ -338,6 +456,10 @@ export async function updatePasswordMember(user_name, password) {
         password: await bcrypt.hash(password, 10),
       },
     });
+
+    cacheKeysToDelete.push(`member-username-${user_name}`);
+    if (client.email) cacheKeysToDelete.push(`member-email-${client.email}`);
+    cacheKeysToDelete.push("members");
   } else {
     client = await getMemberByEmail(user_name);
     if (client) {
@@ -349,8 +471,14 @@ export async function updatePasswordMember(user_name, password) {
           password: await bcrypt.hash(password, 10),
         },
       });
+
+      cacheKeysToDelete.push("members");
+      cacheKeysToDelete.push(`member-email-${user_name}`);
+      if (client.user_name) cacheKeysToDelete.push(`member-username-${client.user_name}`);
     }
   }
+
+  await Promise.all(cacheKeysToDelete.map((key) => DelRedisCache(key)));
 }
 
 export async function addCommunityMember(id_community, user_name) {
@@ -361,7 +489,12 @@ export async function addCommunityMember(id_community, user_name) {
       join_date: new Date(),
     },
   });
+
+  /*await DelRedisCache("members");
+  await DelRedisCache(`member-username-${user_name}`);*/
+  await DelRedisCache(`community-members-${id_community}`);
 }
+
 
 export async function addPlayer(id_tour, user_name) {
   try {
@@ -414,8 +547,20 @@ export async function addPlayer(id_tour, user_name) {
  * @returns la dernière équipe
  */
 export async function getLastTeam(){
-  const teams= await prisma.team.findMany({})
-  return teams[teams.length-1]
+  try {
+    const cacheKey = "last-team";
+    const cached = await GetRedisCache(cacheKey);
+    if (cached) return cached;
+
+    const teams = await prisma.team.findMany({});
+    const last = teams[teams.length - 1];
+
+    await SetRedisCache(cacheKey, last);
+    return last;
+  } catch (error) {
+    console.error("getLastTeam error:", error);
+    throw error;
+  }
 }
 /**Modifier une equipe */
 // export async function updateTeam(id_team, patch) {
@@ -471,52 +616,87 @@ export async function updateTeam(id_team, patch, players = []) {
       },
     });
 
+    await DelRedisCache(`team-details-${id_team}`);
     return updatedTeam;
   });
 }
 
 /**Afficher details d'une equipe */
 export async function getTeamDetails(id_team) {
-  return await prisma.team.findUnique({
-    where: { id_team: id_team },
-    select: {
-      id_team: true,
-      name: true,
-      id_tour: true,
-      open: true,
-      key_team: true,
-      Team_member: { select: { user_name: true } },
-    },
-  });
+  try {
+    const cacheKey = `team-details-${id_team}`;
+    const cached = await GetRedisCache(cacheKey);
+    if (cached) return cached;
+
+    const team = await prisma.team.findUnique({
+      where: { id_team: id_team },
+      select: {
+        id_team: true,
+        name: true,
+        id_tour: true,
+        open: true,
+        key_team: true,
+        Team_member: { select: { user_name: true } },
+      },
+    });
+
+    if (team) await SetRedisCache(cacheKey, team);
+    return team;
+  } catch (error) {
+    console.error("getTeamDetails error:", error);
+    throw error;
+  }
 }
 
 /**Recuperer le detail d un tournoi + prizes */
 export async function getTourAndPrizes(id_tour, id_community) {
-  return await prisma.tournament.findFirst({
-    where: {
-      id_tour: id_tour,
-      id_community: id_community,
-    },
-    include: {
-      Prize: true,
-    },
-  });
+  try {
+    const cacheKey = `tour-prizes-${id_tour}-${id_community}`;
+    const cached = await GetRedisCache(cacheKey);
+    if (cached) return cached;
+
+    const tour = await prisma.tournament.findFirst({
+      where: {
+        id_tour: id_tour,
+        id_community: id_community,
+      },
+      include: {
+        Prize: true,
+      },
+    });
+
+    if (tour) await SetRedisCache(cacheKey, tour);
+    return tour;
+  } catch (error) {
+    console.error("getTourAndPrizes error:", error);
+    throw error;
+  }
 }
 
 /**Recuperer le prix d inscription d un tournoi auquel l utilisateur veut s'inscrire */
 export async function getRegistrationFees(id_tour) {
-  const tournament = await prisma.tournament.findUnique({
-    where: {
-      id_tour: Number(id_tour),
-    },
-    select: {
-      id_tour: true,
-      name: true,
-      fees: true,
-    },
-  });
+  try {
+    const cacheKey = `tour-registration-fees-${id_tour}`;
+    const cached = await GetRedisCache(cacheKey);
+    if (cached) return cached;
 
-  return tournament;
+    const tournament = await prisma.tournament.findUnique({
+      where: {
+        id_tour: Number(id_tour),
+      },
+      select: {
+        id_tour: true,
+        name: true,
+        fees: true,
+      },
+    });
+
+    if (tournament) await SetRedisCache(cacheKey, tournament);
+    return tournament;
+  } catch (error) {
+    console.error("getRegistrationFees error:", error);
+    throw error;
+  }
 }
 
 /** Inscription a un tournoi */
@@ -544,14 +724,26 @@ export async function registrationPlayer(id_tour, user_name) {
 
 /**Afficher toutes les équipes + détails d’un membre */
 export async function getAllTeams() {
-  return await prisma.team.findMany({
-    include: {
-      Tournament: true,
-      Team_member: {
-        include: {
-          Member: true
-        }
-      }
-    }
-  });
+  try {
+    const cacheKey = "teams";
+    const cached = await GetRedisCache(cacheKey);
+    if (cached) return cached;
+
+    const teams = await prisma.team.findMany({
+      include: {
+        Tournament: true,
+        Team_member: {
+          include: {
+            Member: true,
+          },
+        },
+      },
+    });
+
+    await SetRedisCache(cacheKey, teams);
+    return teams;
+  } catch (error) {
+    console.error("getAllTeams error:", error);
+    throw error;
+  }
 }

@@ -23,9 +23,16 @@ export default function TableUser({title,headers,datas,id_community}:Props){
   const [toDelete,setToDelete]=useState("")
   const [onError, setOnError] = useState(false);
   const [onPopUp,setOnPopUp]=useState(false)
+
+  const handleDelete=(data:MemberDTO)=>{
+    setShowConfirm(!showConfirm);
+    setToDelete(data?.user_name ? data?.user_name:"")
+  }
+
   const deleteMember=async(user_name:string,confirm:boolean)=>{
     try{
         console.log(confirm)
+        if(!user_name) return
         if(!confirm) return
         if(!await deleteMemberCommunity(user_name,id_community)){
           alert('suppression impossible')
@@ -34,6 +41,7 @@ export default function TableUser({title,headers,datas,id_community}:Props){
         setConfirm(!confirm)
         const members2=members.filter(member => member.user_name !==user_name)
         setMembers(members2) 
+        setToDelete('')
       }catch(error){
         console.log(error)
         setOnError(true)
@@ -124,7 +132,8 @@ export default function TableUser({title,headers,datas,id_community}:Props){
               )
               }
               {members?.map((data) => (
-                <tr key={data?.user_name} className="m-0 flex w-full has:input['checked']:bg-black-200">
+                <tr key={data?.user_name} className="m-0 flex w-full has:input['checked']:bg-black-200 mb-2 hover:bg-black/10 hover:cursor-pointer"
+                  onClick={()=>handleDelete(data)}>
                   <td className="p-1 flex-5 flex text-center justify-start items-center">
                     <input type="checkbox"/>
                   </td>
@@ -149,8 +158,7 @@ export default function TableUser({title,headers,datas,id_community}:Props){
                   <td className="p-1 flex-5 p-1 text-center flex justify-start items-center">
                     <RiDeleteBin2Line
                       className="text-red-500 hover:cursor-pointer"
-                      onClick={()=>{setShowConfirm(!showConfirm);
-                          setToDelete(data?.user_name ? data?.user_name:"")
+                      onClick={()=>{handleDelete(data)
                       }}
                     />
                   </td>
