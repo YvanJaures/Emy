@@ -267,6 +267,7 @@ export async function addAdmin(user_name,id_community) {
     try {
         await DelRedisCache("admins");
         await DelRedisCache(`admin-*`);
+        await DelRedisCache(`communities`);
     } catch (error) {
         console.error("Cache invalidation error in addAdmin:", error);
     }
@@ -284,6 +285,7 @@ export async function deleteAdmin(id_admin,user_name,id_community) {
     // Invalider le cache au début de l'opération
     try {
         await DelRedisCache("admins");
+        await DelRedisCache(`admin-*`);
         await DelRedisCache(`admin-*`);
     } catch (error) {
         console.error("Cache invalidation error in deleteAdmin:", error);

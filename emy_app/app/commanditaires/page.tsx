@@ -9,6 +9,7 @@ import { getSponsors } from "@/fetchs/global";
 import { SponsorDTO } from "@/hooks/Type_DTO";
 import LoadingAnimation from "@/components/organisms/LoadingAnimation";
 import ScrollToHash from "@/components/molecules/ScrollToHash";
+import LoadSponsorCard from "@/Loading/LoadSponsorCard";
 
 /**
  * Page Commanditaires - Affiche la liste des sponsors/commanditaires
@@ -25,7 +26,6 @@ export default function Page(){
     useEffect(()=>{
         (async ()=>{
             try{
-                setLoading(true);
                 console.log("calcul")
                 const sponsors=await getSponsors();
                 setSponsorsList(sponsors);
@@ -38,62 +38,12 @@ export default function Page(){
         })();
         
     },[])
-    const sponsors=[{
-    user_name:"sponsor1",
-    company_name:"Company1",
-    title:"CEO",
-        Member:{
-            avatar:"/assets/avatars/avatar1.png",
-            user_name:"sponsor1",
-            name:"John",
-            surname:"Doe",
-            address:"123 Main St",
-            birth_date:new Date("1990-01-01"),
-            email:"john.doe@example.com",
-            country:"Canada",
-            phone:"123-456-7890",
-            Admin:null,
-        }
-    },{
-    user_name:"sponsor1",
-    company_name:"Company1",
-    title:"CEO",
-        Member:{
-            avatar:"/assets/avatars/avatar1.png",
-            user_name:"sponsor1",
-            name:"John",
-            surname:"Doe",
-            address:"123 Main St",
-            birth_date:new Date("1990-01-01"),
-            email:"john.doe@example.com",
-            country:"Canada",
-            phone:"123-456-7890",
-            Admin:null,
-        }
-    },{
-    user_name:"sponsor1",
-    company_name:"Company1",
-    title:"CEO",
-        Member:{
-            avatar:"/assets/avatars/avatar1.png",
-            user_name:"sponsor1",
-            name:"John",
-            surname:"Doe",
-            address:"123 Main St",
-            birth_date:new Date("1990-01-01"),
-            email:"john.doe@example.com",
-            country:"Canada",
-            phone:"123-456-7890",
-            Admin:null,
-        }
-    }]
-    if(loading) return <LoadingAnimation/>
     return(
         <>
             <NavBar/>
             <ScrollToHash/>
             <div className="p-2">
-                {sponsorsList &&(<SponsorsList sponsors={sponsorsList}></SponsorsList>)}
+                {sponsorsList &&(<SponsorsList sponsors={sponsorsList} _loading={loading}></SponsorsList>)}
             </div>
             <Footer/>
         </>

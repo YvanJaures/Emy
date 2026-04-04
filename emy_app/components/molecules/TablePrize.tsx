@@ -120,9 +120,9 @@ export default function TablePrize({prizes,onSelect,success}:Props){
     return(
         <>
             <div className="p-2">
-                <table className="w-full rounded-xl shadow-md">
+                <table className="w-full rounded-xl shadow-md dark:text-gray-200">
                     <caption className="text-start ml-2">LISTE DE COMMANDITES</caption>
-                    <thead className="bg-gray-200 h-15">
+                    <thead className="bg-gray-200 h-15 dark:bg-gray-800">
                         <tr>
                             <th className="flex-5">
                                 <input type="checkbox" name="tous" id="tous" 
@@ -151,7 +151,7 @@ export default function TablePrize({prizes,onSelect,success}:Props){
                         {/* Mapping des prix pour afficher chaque ligne du tableau */}
                         { prizesList?.map((prize,i)=>(
                             <tr key={prize?.id_prize} 
-                                className="p-2 hover:bg-black/2"
+                                className="p-2 hover:bg-black/2 hover:cursor-pointer dark:hover:bg-white/20"
                                 onClick={()=>{
                                     if((prize.Prize_sponsor?.length ?? 0) <= prize.spots && !added[i]) handleCheck(i)
                                 }}>

@@ -8,6 +8,8 @@ import { IoAddCircleOutline } from "react-icons/io5";
 
 import {useState,useEffect} from 'react'
 import { usePathname } from "next/navigation";
+import LoadCommunityRow from "@/Loading/LoadCommunityRow";
+import LoadRoundButton from "@/Loading/LoadRoundButton";
 type Props={
     communities:CommunityDTO[],
     member:MemberDTO|null
@@ -34,9 +36,10 @@ export default function CommunityList({communities,member}:Props){
                 children={isClicked? 'MES COMMUNAUTES':'COMMUNAUTES'}
                 as='h2'
                 className="flex-90 text-start text-xl"/>
-                <CiFilter  
+               {member && <CiFilter  
                 className={`${isClicked? 'fill-[#0F70AC]':''} flex-10 text-end text-xl w-xl hover:cursor-pointer`}
-                onClick={()=>{setIsClicked(!isClicked)}}/>
+                onClick={()=>{setIsClicked(!isClicked)}}/>}
+                {!member && <LoadRoundButton/>}
             </span>
             <ul className="w-full flex flex-col gap-5 p-2">
                 { communities &&
@@ -58,6 +61,9 @@ export default function CommunityList({communities,member}:Props){
                         <p className="group-hover:text-[#0F70AC]"> Rejoindre une communauté</p>
                     </li>)
                 }
+                {communities.length===0 && [...Array(10)].map((_,index)=>(
+                    <LoadCommunityRow key={index}/>
+                ))}
                 { communities ?
                     communities.length===0 &&
                     (<li className="group hover:border-[#0F70AC] hover:cursor-pointer border border-dashed h-15 rounded-xl

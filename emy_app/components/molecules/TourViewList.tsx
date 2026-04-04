@@ -2,21 +2,26 @@
 import { TournamentDTO } from "@/hooks/Type_DTO";
 import ImageDefault from "../atoms/ImageDefault";
 import { FaRegEye } from "react-icons/fa";
-import { useState,useMemo } from "react";
+import { useState,useMemo, useEffect } from "react";
 import { GrMapLocation } from "react-icons/gr";
+import LoadTourRow from "@/Loading/LoadTourRow";
 /**
  * liste des tournois de la communautés
  * @param props : { TournamentDTO[] }
  * @returns la liste de tournois et quelques details
  */
-export default function TourViewList(props:{tournaments:TournamentDTO[],className?:string}){
+export default function TourViewList(props:{tournaments:TournamentDTO[],className?:string,loading?:boolean}){
+    const[tournaments,setTournaments]=useState<TournamentDTO[]|[]>([])
+    useEffect(()=>{
+        setTournaments(props.tournaments)
+    },[props.tournaments])
     /**
      * compare les date du tournois à la date actuelle pour determiner si
      * elle auras, a ou a eu lieu
      */
     const etats=useMemo(()=>{
         const etats:number[]=[]
-        for (const tournament of props.tournaments){
+        for (const tournament of tournaments){
             console.log('debut')
             const start=new Date(tournament.start_date)
             const end=new Date(tournament.end_date)
@@ -45,24 +50,25 @@ export default function TourViewList(props:{tournaments:TournamentDTO[],classNam
         }
         console.log(etats)
         return etats
-    },[props.tournaments])
+    },[tournaments])
     /**
      * Récupère les dates et les convertits en chaîne de caractères
      */
     const dates=useMemo(()=>{
         const dates:{start:string,end:string}[]=[]
-        for(const tournament of props.tournaments){
+        for(const tournament of tournaments){
             const start=(new Date(tournament.start_date)).toLocaleDateString()
             const end=(new Date(tournament.end_date)).toLocaleDateString()
             const dts={start,end}
             dates.push(dts)
         }
         return dates
-    },[props.tournaments])
+    },[tournaments])
     return(
-        <ul className={`${props.className} block w-full p-3 flex flex-col justify-start items-center gap-2`}>
-            { props.tournaments.length>0 ?
-                (props.tournaments.map((tournament,i)=>(
+        <ul className={`${props.className} block w-full p-3 flex flex-col justify-start items-center gap-2 bg-white dark:bg-gray-800`}>
+            {props.loading&& ([...Array(10)].map((_,index)=>(<LoadTourRow key={index}/>)))}
+            {!props.loading&& tournaments.length>0 ?
+                (tournaments.map((tournament,i)=>(
                     <li key={tournament.id_tour} className="group hover:cursor-pointer hover:bg-black/10 p-1 flex justify-start items-center w-full gap-1"
                         onClick={()=> location.href='/communautes/tournois/'+tournament.id_tour}>
                         <ImageDefault
@@ -107,11 +113,9 @@ export default function TourViewList(props:{tournaments:TournamentDTO[],classNam
                             }
                         </p>
                         <a href={`https://www.google.com/maps/place/${tournament.location ?? '/'}`} target="_blank" rel="noopener noreferrer"
-                            className="flex flex-col flex-25 gap-1 justify-center items-center hover:underline">
-                            <p className="max-sm:hidden hover:underine">
+                            className="flex flex-col flex-25 gap-1 justify-center items-center hover:underline dark:text-gray-200">
+                            <p className="max-sm:hidden hover:underine dark:text-gray-200">
                                 Localisation :
-                            </p>
-                            <p className="max-sm:hidden">
                                 {tournament.location}
                             </p>
                             <GrMapLocation 

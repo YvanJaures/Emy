@@ -27,25 +27,25 @@ type Props={
  */
 export default function SponsorCard({sponsor}:Props){
     return(
-        <div className="w-full shadow-md mb-5 bg-white rounded-lg flex flex-wrap items-center justify-start gap-2 p-2">
+        <div className="w-full shadow-md mb-5 bg-white rounded-lg flex flex-wrap items-center justify-start gap-2 p-2 dark:text-white dark:bg-gray-800 dark:text-gray-200">
             <ImageDefault
                 avatar={sponsor.Member.avatar}
                 title="Avatar du commanditaire"
                 className="w-[6rem] h-[6rem] rounded-full"/>
-            <div className="flex flex-col gap-0.5 max-sm:hidden">
+            <div className="flex flex-col gap-0.5 max-sm:hidden dark:text-gray-200">
                 <h2 className="text-sm">NOM:</h2>
                 <h2 className="text-sm">TITRE:</h2>
                 <h2 className="text-sm">COURIEL:</h2>
                 <h2 className="text-sm">TÉLÉPHONE:</h2>
             </div>
-            <div className="flex flex-col gap-0.5">
+            <div className="flex flex-col gap-0.5 dark:text-gray-200">
                 <h2 className="text-sm underline">{sponsor.company_name?.toUpperCase()}</h2>
                 <h2 className="text-sm">{sponsor.title}</h2>
                 <h2 className="text-sm">{sponsor.Member.email}</h2>
                 <h2 className="text-sm">{sponsor.Member.phone}</h2>
             </div>
-            <div className="flex flex-col h-full gap-0.5 justify-start items-end ml-auto">
-                <span className="flex items-center text-sm">
+            <div className="flex flex-col h-full gap-0.5 justify-start items-end ml-auto dark:text-gray-200">
+                <span className="flex items-center text-sm dark:text-gray-200">
                     <p>50</p>
                     <FaPercentage />
                 </span>

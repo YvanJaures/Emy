@@ -9,6 +9,7 @@ import { useConnexion } from "@/hooks/useAuth";
 import { GoBell } from "react-icons/go";
 import Notifications from "../molecules/Notifications";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
+import LoadRoundButton from "@/Loading/LoadRoundButton";
 
 type NavItem = { label: string; href: string };
 
@@ -118,7 +119,7 @@ export default function Navbar() {
               )}
             </span>
           )}
-
+          {loading &&(<><LoadRoundButton/> <LoadRoundButton/></>)}
           {/* Admin icon */}
           {member?.Admin?.id_community && (
             <MdOutlineAdminPanelSettings
