@@ -164,7 +164,7 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
                 icon={<span className="text-base">+</span>}
                 title="Ajouter un administrateur"
                 color="bg-green-300 border-green-300 text-black/80 hover:bg-green-200"
-                className="rounded-2xl border-0 px-10 py-3 text-sm shadow-sm dark:bg-white"
+                className="rounded-2xl border-0 px-10 py-3 text-sm shadow-sm dark:bg-gray-800"
                 onClick={() => {
                   setDisplay("flex");
                   setOnPopUp(true);
@@ -194,7 +194,7 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
 
         <div
           className={
-            `flex-col justify-center items-center shadow-xl absolute 
+            `flex-col justify-center items-center shadow-xl absolute dark:bg-gray-800 
             bg-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] h-[70%] 
             p-2 rounded-xl z-50 overflow-visible ` + display
           }

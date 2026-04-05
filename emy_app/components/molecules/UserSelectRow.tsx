@@ -38,12 +38,12 @@ export default function UserSelectRow({
 
   return (
     <ul
-      className={`w-full overflow-y-scroll flex flex-col justify-start items-center p-2 ${className}`}
+      className={`w-full overflow-y-scroll flex flex-col justify-start items-center p-2 gap-2 dark:bg-gray-800 ${className}`}
     >
       {users.map((user, i) => (
         <li
           key={user.user_name ?? i}
-          className="flex list-none flex-row w-full justify-center items-center"
+          className="flex list-none flex-row w-full justify-center items-center hover:cursor-pointer hover:bg-black/20"
         >
           <span className="flex-10">
             <input
@@ -57,12 +57,10 @@ export default function UserSelectRow({
           <span className="flex-20">
             <img
               src={
-                user?.avatar ||
-                avatar[i] ||
-                "/assets/avatars/avatar_prof_2.png"
+                user?.Member.avatar ?? 'bb'
               }
               alt="image de profil"
-              className="flex-20 w-[35px]"
+              className="flex-20 w-[35px] rounded-full"
               onError={() => {
                 const updatedAvatars = [...avatar];
                 updatedAvatars[i] = "/assets/avatars/avatar_prof_2.png";

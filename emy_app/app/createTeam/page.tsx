@@ -23,7 +23,7 @@ export default function CreateTeamPage() {
 
   if (loading) return <LoadingAnimation />;
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-black">
       {member?.Admin?.id_community && (
         <NavBarAdmin id_community={member.Admin.id_community} />
       )}

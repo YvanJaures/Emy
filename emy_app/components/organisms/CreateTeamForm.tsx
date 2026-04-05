@@ -267,10 +267,10 @@ const submit = async () => {
         </div>
       )}
 
-      <div className="mt-6 space-y-4 rounded-2xl bg-white p-6 shadow">
+      <div className="mt-6 space-y-4 rounded-2xl bg-white p-6 shadow  dark:bg-gray-800">
         {/* Nom */}
         <div>
-          <label className="text-xs text-black/70">Nom de l’équipe</label>
+          <label className="text-xs ">Nom de l’équipe</label>
           <input
             className="mt-1 w-full rounded-xl border px-3 py-2 text-sm"
             value={teamName}
@@ -280,16 +280,18 @@ const submit = async () => {
 
         {/* Tournoi */}
         <div>
-          <label className="text-xs text-black/70">Tournoi</label>
+          <label className="text-xs 0">Tournoi</label>
           <SelectField
             value={idTour}
             onChange={(e) =>
               setIdTour(e.target.value ? Number(e.target.value) : "")
             }
           >
-            <option value="">-- Choisir --</option>
+            <option value=""
+              className=" dark:bg-gray-800">-- Choisir --</option>
             {tournaments.map((t) => (
-              <option key={t.id_tour} value={t.id_tour}>
+              <option key={t.id_tour} value={t.id_tour}
+                className=" dark:bg-gray-800">
                 {t.location ?? `Tournoi ${t.id_tour}`}
               </option>
             ))}
@@ -309,7 +311,7 @@ const submit = async () => {
 
         {/* Key */}
         <div>
-          <label className="text-xs text-black/70">Clé (optionnel)</label>
+          <label className="text-xs ">Clé (optionnel)</label>
           <input
             className="mt-1 w-full rounded-xl border px-3 py-2 text-sm"
             value={keyTeam}
@@ -320,7 +322,7 @@ const submit = async () => {
         {/* Players  */}
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div>
-            <label className="text-xs text-black/70">Joueur 1</label>
+            <label className="text-xs ">Joueur 1</label>
             <input
               className="mt-1 w-full rounded-xl border px-3 py-2 text-sm"
               value={player1}
@@ -328,7 +330,7 @@ const submit = async () => {
             />
           </div>
           <div>
-            <label className="text-xs text-black/70">Joueur 2</label>
+            <label className="text-xs ">Joueur 2</label>
             <input
               className="mt-1 w-full rounded-xl border px-3 py-2 text-sm"
               value={player2}
@@ -338,7 +340,7 @@ const submit = async () => {
           {!reserveOnly && (
             <>
               <div>
-                <label className="text-xs text-black/70">Joueur 3</label>
+                <label className="text-xs ">Joueur 3</label>
                 <input
                   className="mt-1 w-full rounded-xl border px-3 py-2 text-sm"
                   value={player3}
@@ -346,7 +348,7 @@ const submit = async () => {
                 />
               </div>
               <div>
-                <label className="text-xs text-black/70">Joueur 4</label>
+                <label className="text-xs ">Joueur 4</label>
                 <input
                   className="mt-1 w-full rounded-xl border px-3 py-2 text-sm"
                   value={player4}

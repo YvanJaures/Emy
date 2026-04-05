@@ -252,7 +252,7 @@ export default function TournamentDetailsPopUp({
 
   return (
     <PopUp onClose={onClose}>
-      <main className="flex flex-col gap-2 p-5 justify-center items-center rounded-xl m-2 bg-white shadow-xl">
+      <main className="flex flex-col gap-2 p-5 justify-center items-center rounded-xl m-2 shadow-xl">
         <h1>DETAILS DU TOURNOI</h1>
 
         {loading ? (
@@ -346,8 +346,8 @@ export default function TournamentDetailsPopUp({
             <section className="flex flex-col flex-wrap w-full relative">
               <table className="w-full">
                 <caption>LISTE DE COMMANDITES</caption>
-                <thead className="bg-gray-200 p-2 flex justify-start items-center w-full">
-                  <tr className="bg-gray-200 p-2 flex justify-start items-center w-full">
+                <thead className="bg-gray-200 p-2 flex justify-start items-center w-full dark:bg-gray-800 dark:shadow-white dark:shadow">
+                  <tr className="p-2 flex justify-start items-center w-full">
                     <th className="flex-40">Nom de commandite</th>
                     <th className="flex-15">Valeur</th>
                     <th className="flex-10">Quotas</th>

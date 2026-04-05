@@ -21,7 +21,7 @@ export default function Search({search,close}:{search?:(value:string)=>void,clos
             <input type="text" 
                 placeholder="recherche..."
                 value={_search}
-                onChange={(e:React.ChangeEvent<HTMLInputElement>)=>setSearch(e.target.value)}
+                onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{setSearch(e.target.value)}}
                 className="border border-white p-2 flex-80 outline-[#0F70AC] rounded-xl"
             />
             {_search!=="" && (<IoMdClose 

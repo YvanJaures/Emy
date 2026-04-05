@@ -163,7 +163,8 @@ export default function CommunityBlock({community,_isMember,onShown}:Props){
                         {   view===1 &&(
                             <TourViewList
                                 tournaments={tournaments}
-                                className="mt-17"    
+                                className="mt-17"  
+                                loading={loading}  
                             />
                                 
                         )
