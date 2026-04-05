@@ -113,7 +113,7 @@ export default function Navbar({_searched}:{_searched?:(value:string)=>void}) {
             <FaMoon className="h-5 w-5" />
           </button>
           <FaMagnifyingGlass 
-            className={`hover:cursor-pointer hover:text-[#0F70AC] ${search && 'text-[#0F70AC]'}`}
+            className={`hover:cursor-pointer hover:text-[#0F70AC] lg:hidden ${search && 'text-[#0F70AC]'}`}
             onClick={handleSearch}
           />
           {/* Notifications */}

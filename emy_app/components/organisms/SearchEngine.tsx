@@ -9,13 +9,15 @@ export default function Search({search,close}:{search?:(value:string)=>void,clos
         if(search) search(_search)
     }
     const handleClose=()=>{
+        if(search) search('404')
         close()
     }
     const handleCancel=()=>{
+        if(search) search('404')
         setSearch('')
     }
     return(
-        <div className="z-150 shadow-xs absolute top-22 left-0 translate-x-1/2 flex justify-between items-center w-1/2 bg-white dark:bg-gray-800 dark:shadow-white rounded-xl p-2 max-sm:w-3/4 max-sm:translate-x-12">
+        <div className="z-150 shadow-xs fixed absolute top-12 left-0 translate-x-1/2 flex justify-between items-center w-1/2 bg-white dark:bg-gray-800 dark:shadow-white rounded-xl p-2 max-sm:w-3/4 max-sm:translate-x-12">
             <input type="text" 
                 placeholder="recherche..."
                 value={_search}

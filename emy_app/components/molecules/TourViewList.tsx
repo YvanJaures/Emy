@@ -10,8 +10,27 @@ import LoadTourRow from "@/Loading/LoadTourRow";
  * @param props : { TournamentDTO[] }
  * @returns la liste de tournois et quelques details
  */
-export default function TourViewList(props:{tournaments:TournamentDTO[],className?:string,loading?:boolean}){
+export default function TourViewList(props:{tournaments:TournamentDTO[],className?:string,loading?:boolean,search?:string}){
     const[tournaments,setTournaments]=useState<TournamentDTO[]|[]>([])
+    const [searched,setSearched]=useState<string>(props.search?? "")
+
+    useEffect(()=>{
+        console.log('searching:'+searched)
+        if(searched==="404") return setTournaments(props.tournaments)
+        console.log('search valide')
+        console.log(tournaments)
+        const ts=tournaments.filter((t)=>t.name.toLowerCase().includes(searched.toLowerCase()))
+        console.log(ts)
+        setTournaments(ts)
+    },[searched])
+
+
+    useEffect(()=>{
+        if(!props.search) return
+        if(props.search==="") return
+        setSearched(props.search)
+    },[props.search])
+
     useEffect(()=>{
         setTournaments(props.tournaments)
     },[props.tournaments])

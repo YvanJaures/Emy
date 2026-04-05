@@ -19,6 +19,7 @@ type Props={
     /** Liste des sponsors à afficher */
     sponsors:SponsorDTO[];
     _loading?:boolean;
+    search?:string
 }
 
 /**
@@ -32,7 +33,7 @@ type Props={
  * @param props.sponsors - Liste des sponsors à afficher
  * @returns Le composant SponsorsList rendu
  */
-export default function Page({sponsors,_loading}:Props){
+export default function Page({sponsors,_loading,search}:Props){
     const [onFilter,setOnFilter]=useState(false);
     const [sponsorsList,setSponsorsList]=useState<SponsorDTO[]>(sponsors);
     const [sponsorsListV2,setSponsorsListV2]=useState<SponsorDTO[]>(sponsorsList);
@@ -40,6 +41,27 @@ export default function Page({sponsors,_loading}:Props){
     const [onConfirmation, SetOnConfirmation] = useState(false);
     const [onPopUp, SetOnPopUp] = useState(false);
     const {member,loading}=useConnexion()
+    const [searched,setSearched]=useState<string>(search?? "")
+
+    useEffect(()=>{
+        console.log('searching:'+searched)
+        if(searched==="404") {
+            if(onFilter) return setSponsorsList(sponsorsListV2.filter(sponsor=>sponsor.user_name===member?.user_name));
+            return setSponsorsList(sponsors)
+        }
+        console.log('search valide')
+        console.log(sponsors)
+        const sps=sponsorsList.filter((s)=>s.company_name.toLowerCase().includes(searched.toLowerCase()))
+        console.log(sps)
+        setSponsorsList(sps)
+    },[searched])
+
+
+    useEffect(()=>{
+        if(!search) return
+        if(search==="") return
+        setSearched(search)
+    },[search])
     const handleFilter=()=>{
         setSponsorsListV2(sponsorsList);
         setOnFilter(!onFilter);
@@ -55,7 +77,7 @@ export default function Page({sponsors,_loading}:Props){
         if(res.sponsor) setSponsorsList([...sponsorsList,res.sponsor])
     }
     const has=()=>{
-        return sponsorsList.some(sponsor=>sponsor.user_name===member?.user_name)
+        return sponsors.some(sponsor=>sponsor.user_name===member?.user_name)
     }
     
     useEffect(()=>{
@@ -78,7 +100,7 @@ export default function Page({sponsors,_loading}:Props){
             {!_loading &&sponsorsList.length>0?(sponsorsList.map((sponsor,i)=>(<SponsorCard key={sponsor.user_name} sponsor={sponsor}></SponsorCard>))):(
                 <li>
                     <p className="text-center text-gray-500 drak:text-gray-200">
-                        Aucun tournoi pour l'instant.
+                        Aucun commanditaire pour l'instant.
                     </p>
                 </li>
                 )}
@@ -103,8 +125,8 @@ export default function Page({sponsors,_loading}:Props){
               <PopUp onClose={() => SetOnPopUp(false)}> 
                 
                 {member &&(<SponsorForm 
-                                member={member}
-                                onClose={(res)=>handleAdded(res)}/>)}
+                    member={member}
+                    onClose={(res)=>handleAdded(res)}/>)}
 
             </PopUp>)}
         </>

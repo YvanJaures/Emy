@@ -23,6 +23,7 @@ import LoadSponsorCard from "@/Loading/LoadSponsorCard";
 export default function Page(){
     const [sponsorsList,setSponsorsList]=useState<SponsorDTO[]>([]);
     const [loading,setLoading]=useState<boolean>(true)
+    const [searched,setSearched]=useState('')
     useEffect(()=>{
         (async ()=>{
             try{
@@ -40,10 +41,10 @@ export default function Page(){
     },[])
     return(
         <>
-            <NavBar/>
+            <NavBar _searched={(res)=>setSearched(res)}/>
             <ScrollToHash/>
             <div className="p-2">
-                {sponsorsList &&(<SponsorsList sponsors={sponsorsList} _loading={loading}></SponsorsList>)}
+                {sponsorsList &&(<SponsorsList sponsors={sponsorsList} _loading={loading} search={searched}></SponsorsList>)}
             </div>
             <Footer/>
         </>

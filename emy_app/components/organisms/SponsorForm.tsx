@@ -113,7 +113,7 @@ export default function SponsorForm({member,onClose}:{member:MemberDTO,onClose:(
     }
     return(
         <>
-            <form className="p-4 text-center flex flex-col gap-2 items-center justify-center"
+            <form className="p-4 text-center flex flex-col gap-2 items-center justify-center dark:bg-gray-800"
                 onSubmit={(e:React.FormEvent<HTMLFormElement>)=>handleSubmit(e)}>
                 <h2 className="text-xl font-bold">Formulaire de devenir commanditaire</h2>
                 <div className="w-full flex flex-col">

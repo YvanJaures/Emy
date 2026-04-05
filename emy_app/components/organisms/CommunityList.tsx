@@ -12,13 +12,39 @@ import LoadCommunityRow from "@/Loading/LoadCommunityRow";
 import LoadRoundButton from "@/Loading/LoadRoundButton";
 type Props={
     communities:CommunityDTO[],
-    member:MemberDTO|null
+    member:MemberDTO|null,
+    search?:string
 }
-export default function CommunityList({communities,member}:Props){
+export default function CommunityList({communities,member,search}:Props){
     const [_communities,setCommunities]=useState(communities)
     // le membre est-il membre de cette communauté? pour le tri
     const [isClicked,setIsClicked]=useState(false)
     const pathname = usePathname();
+    const [searched,setSearched]=useState<string>(search?? "")
+    useEffect(()=>{
+        console.log('searching:'+searched)
+        if(searched==="404") return setCommunities(communities)
+        console.log('search valide')
+        console.log(_communities)
+        const coms=_communities.filter((com)=>com.name.toLowerCase().includes(searched.toLowerCase()))
+        console.log(coms)
+        setCommunities(coms)
+    },[searched])
+
+
+    useEffect(()=>{
+        if(!search) return
+        if(search==="") return
+        setSearched(search)
+    },[search])
+
+
+    useEffect(()=>{
+        if(!communities) return
+        setCommunities(communities)
+    },[communities])
+
+
     useEffect(() => {
     const hash = window.location.hash;
 
@@ -29,6 +55,8 @@ export default function CommunityList({communities,member}:Props){
       }
     }
   }, [pathname]);
+
+  
     return(
         <div className="w-full p-2">
             <span className="w-full flex justify-center items-center p-2">
@@ -43,7 +71,7 @@ export default function CommunityList({communities,member}:Props){
             </span>
             <ul className="w-full flex flex-col gap-5 p-2">
                 { communities &&
-                    communities.map((community)=>(
+                    _communities.map((community)=>(
                         <CommunityRow
                         member={member}
                         community={community}

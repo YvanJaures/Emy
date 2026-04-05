@@ -127,7 +127,7 @@ export type SponsorDTO ={
   /** Nom d'utilisateur unique du sponsor */
   user_name     :string  ;
   /** Nom de l'entreprise du sponsor */
-  company_name  :string | null  ;
+  company_name  :string;
   /** Titre/fonction du contact dans l'entreprise */
   title         :string | null  ;
   /** Liste des prix commandités par ce sponsor */
