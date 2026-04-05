@@ -231,10 +231,10 @@ export default function TournamentBlockSlug({ tournament }: Props) {
   return (
     <>
       <div className="flex flex-col mb-10">
-        <span className="flex flex-5 justify-between items-center p-2">
+        <span className="flex flex-5 justify-between items-center p-2 dark:bg-gray-800">
            <RiArrowLeftSLine 
               onClick={()=>router?.push('/communautes/'+tournament?.Community.id_community)}
-              className="hover:cursor-pointer hover:bg-gray-200 rounded-full stroke-2"/>
+              className="hover:cursor-pointer hover:bg-gray-200 rounded-full stroke-2 dark:hover:bg-white/30"/>
           <p>{tournament ? tournament?.name : "Tournoi"}</p>
           <GrShare />
         </span>
@@ -249,7 +249,7 @@ export default function TournamentBlockSlug({ tournament }: Props) {
           <section className="flex-80 flex flex-col text-gray-400 gap-2">
             <p>{tournament?.Community.details}</p>
             <div className="flex">
-              <div className="">
+              <div className="dark:text-gray-200">
                 groupes : {tournament?.Team?.length} /{tournament?.members / 4}
                 <br />
                 début:{" "}

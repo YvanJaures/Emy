@@ -23,9 +23,16 @@ export default function TableUser({title,headers,datas,id_community}:Props){
   const [toDelete,setToDelete]=useState("")
   const [onError, setOnError] = useState(false);
   const [onPopUp,setOnPopUp]=useState(false)
+
+  const handleDelete=(data:MemberDTO)=>{
+    setShowConfirm(!showConfirm);
+    setToDelete(data?.user_name ? data?.user_name:"")
+  }
+
   const deleteMember=async(user_name:string,confirm:boolean)=>{
     try{
         console.log(confirm)
+        if(!user_name) return
         if(!confirm) return
         if(!await deleteMemberCommunity(user_name,id_community)){
           alert('suppression impossible')
@@ -34,6 +41,7 @@ export default function TableUser({title,headers,datas,id_community}:Props){
         setConfirm(!confirm)
         const members2=members.filter(member => member.user_name !==user_name)
         setMembers(members2) 
+        setToDelete('')
       }catch(error){
         console.log(error)
         setOnError(true)
@@ -64,12 +72,12 @@ export default function TableUser({title,headers,datas,id_community}:Props){
                 <input type="search" 
                   placeholder="Entrer l'identifiant du membre"
                   onChange={(e)=>(setSearch(e.target.value ? e.target.value:''))}
-                  className="outline-red-200 border rounded-xl flex-70 p-1"/>
+                  className="outline-red-200 border rounded-xl flex-70 p-2"/>
                 <SlMagnifier />
               </div>
               {title.toUpperCase()}
             </caption>
-            <thead className="bg-gray-200 p-1 flex gap-5 justify-center items-center w-full">
+            <thead className="bg-gray-200 p-1 flex gap-5 justify-center items-center w-full dark:bg-gray-800">
               <tr className="w-full flex justify-start items-center">
                 <th className="flex-5">
                   <label>Tous</label>
@@ -124,7 +132,8 @@ export default function TableUser({title,headers,datas,id_community}:Props){
               )
               }
               {members?.map((data) => (
-                <tr key={data?.user_name} className="m-0 flex w-full has:input['checked']:bg-black-200">
+                <tr key={data?.user_name} className="m-0 flex w-full has:input['checked']:bg-black-200 mb-2 hover:bg-black/10 hover:cursor-pointer"
+                  onClick={()=>handleDelete(data)}>
                   <td className="p-1 flex-5 flex text-center justify-start items-center">
                     <input type="checkbox"/>
                   </td>
@@ -149,20 +158,19 @@ export default function TableUser({title,headers,datas,id_community}:Props){
                   <td className="p-1 flex-5 p-1 text-center flex justify-start items-center">
                     <RiDeleteBin2Line
                       className="text-red-500 hover:cursor-pointer"
-                      onClick={()=>{setShowConfirm(!showConfirm);
-                          setToDelete(data?.user_name ? data?.user_name:"")
+                      onClick={()=>{handleDelete(data)
                       }}
                     />
                   </td>
                 </tr>
               ))}
             </tbody>
-            <tfoot className="bg-gray-200 p-1 flex gap-5 justify-center items-center w-full">
+            <tfoot className="bg-gray-200 p-1 flex gap-5 justify-center items-center w-full dark:bg-gray-800">
               <tr>
                 <td>
                   <label htmlFor="input">Lignes</label>
                   <input type="text" name="lgnes" id="lignes"
-                   className="bg-white rounded-xl" />
+                   className="bg-white rounded-xl p-1 text-center dark:bg-gray-700" />
                 </td>
               </tr>
             </tfoot>

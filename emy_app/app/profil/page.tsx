@@ -203,7 +203,7 @@ export default function Profil() {
                                         <div className="relative flex flex-row flex-wrap w-full h-fit justify-start items-start gap-5 rounded-xl p-6 shadow-xl mt-10 bg-white dark:bg-gray-800 dark:shadow-black/30">
                                             <button
                                                 onClick={() => setModify(true)}
-                                                className="absolute top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+                                                className="absolute top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition hover:cursor-pointer"
                                             >
                                                 Modifier le profil
                                             </button>
@@ -232,7 +232,7 @@ export default function Profil() {
                                     )}
 
                                     {modify && (
-                                        <div className="bg-white p-6 rounded-xl shadow-xl">
+                                        <div className="bg-white p-6 rounded-xl shadow-xl dark:bg-gray-800">
                                             <h2 className="mb-4 font-semibold">Modifier le profil</h2>
 
                                             <input
@@ -310,14 +310,14 @@ export default function Profil() {
                                             <div className="mt-4 flex gap-4 justify-end">
                                                 <button
                                                     onClick={() => setModify(false)}
-                                                    className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition"
+                                                    className="px-4 py-2 rounded-lg bg-gray-100 hover:bg-gray-200 transition dark:bg-gray-700 dark:hover:bg-gray-800 hover:cursor-pointer"
                                                 >
                                                     Annuler
                                                 </button>
 
                                                 <button
                                                     onClick={handleSave}
-                                                    className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition"
+                                                    className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition hover:cursor-pointer"
                                                 >
                                                     Sauvegarder
                                                 </button>

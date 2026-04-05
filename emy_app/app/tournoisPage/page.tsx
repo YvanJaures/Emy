@@ -9,7 +9,7 @@ import ImageBackground from "@/components/atoms/ImageBackground";
 import SectionPillTitle from "@/components/molecules/SectionPillTitle";
 import TournamentList from "@/components/organisms/TournamentList";
 import MetaData from "@/components/organisms/MetaData";
-import type { TournamentDTO } from "@/hooks/Type_TournamentDTO";
+import type { TournamentDTO } from "@/hooks/Type_DTO";
 import { useAuth } from "@/hooks/useAuth";
 import OnError from "@/components/organisms/OnError";
 import { getCommunityTournaments } from "@/fetchs/global";
@@ -97,7 +97,7 @@ export default function TournoisPage() {
       {loading ? (
         <LoadingAnimation />
       ) : (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-white dark:bg-black">
           <MetaData
             seoTitle="Tournois de la communauté"
             seoDescription="Tournois de la communauté"
@@ -108,7 +108,7 @@ export default function TournoisPage() {
           )}
 
           <main className="mx-auto w-full max-w-6xl px-6 py-8">
-            <section className="mb-6 rounded-3xl bg-gradient-to-r from-rose-50 to-green-50 p-8">
+            <section className="mb-6 rounded-3xl lbg-gradient-to-r dark:bg-gray-800 from-rose-50 to-green-50 p-8">
               <div className="flex justify-center">
                 <Button
                   title="Créer une compétition"

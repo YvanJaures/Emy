@@ -63,10 +63,10 @@ export default function TournamentTeamsBlock({
   };
 
   return (
-    <section className="relative w-full rounded-2xl bg-white p-4 shadow">
-      <p className="text-xs text-black/70">{title}</p>
+    <section className="relative w-full rounded-2xl bg-white p-4 shadow dark:bg-gray-800 dark:text-gray-200">
+      <p className="text-xs text-black/70 dark:text-gray-200">{title}</p>
 
-      <div className="mt-3 flex gap-5 overflow-x-auto pb-2">
+      <div className="mt-3 flex gap-5 overflow-x-auto p-2">
         {t?.Team?.map((team) => (
           <TeamCard
             key={team.id_team}
@@ -83,7 +83,7 @@ export default function TournamentTeamsBlock({
         ))}
         {!admin && etat === -1 && (
           <span
-            className="min-h-45 rounded-lg border flex justify-center items-center border-dotted text-center hover:cursor-pointer p-5 text-[2rem]"
+            className="min-h-45 rounded-lg border flex justify-center items-center border-dotted text-center hover:cursor-pointer p-5 text-[2rem] dark:text-gray-200"
             onClick={() => {
               handleCreate();
             }}
@@ -97,7 +97,7 @@ export default function TournamentTeamsBlock({
           <AppLink
             //href={`/tournois/${t.id_tour}/equipes`}
             href={`/TeamsDetailsPage?id_tour=${t.id_tour}`}
-            className="text-xs !text-black/70 hover:underline underline-offset-4"
+            className="text-xs !text-black/70 hover:underline underline-offset-4 bg-white p-1 rounded-xs w-5"
           >
             Voir
           </AppLink>

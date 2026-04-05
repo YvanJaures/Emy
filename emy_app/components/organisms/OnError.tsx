@@ -14,10 +14,10 @@ export default function OnError({ title, message, onConfirmed }: Props) {
   if (!isVisible) return;
   return (
     <>
-      <div className="absolute top-0 left-0 w-dvw h-dvh backdrop-blur-md bg-black/5 z-20 max-sm:h-full"></div>
+      <div className="z-145 absolute top-0 left-0 w-dvw h-dvh backdrop-blur-md bg-black/5 z-20 max-sm:h-full"></div>
       <div
         className=
-          "bg-white flex absolute fixed flex-col justify-center items-center gap-5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-2 rounded-sm z-99"
+          " z-150 bg-white flex absolute fixed flex-col justify-center items-center gap-5 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-2 rounded-sm"
       >
         <h2 className="bold text-[30px] text-center bg-gray-200 w-full flex justify-center items-center">
           <p className="text-red-700 text-[50px]">×</p>

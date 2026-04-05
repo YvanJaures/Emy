@@ -42,8 +42,8 @@ console.log(tournament)
   };
 
   return (
-    <div className="grid grid-cols-1 gap-2 rounded-2xl bg-white px-5 py-3 shadow sm:grid-cols-5 sm:items-center">
-      <p className="text-xs text-black/80">{title}</p>
+    <div className="grid grid-cols-1 gap-2 rounded-2xl bg-white px-5 py-3 shadow sm:grid-cols-5 sm:items-center dark:bg-gray-800">
+      <p className="text-xs text-black/80 dark:text-gray-300">{title}</p>
 
       <div className="flex justify-start sm:justify-center">
         <button
@@ -51,7 +51,7 @@ console.log(tournament)
           onClick={() =>
             onDetails(tournament.id_tour, tournament.id_community)
           }
-          className="text-xs text-black/70 hover:underline underline-offset-4"
+          className="text-xs text-black/70 hover:underline underline-offset-4 dark:text-gray-300"
         >
           Details
         </button>

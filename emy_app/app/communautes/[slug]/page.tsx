@@ -4,6 +4,8 @@ import CommunityBlockSlug from "@/components/organisms/communityBlockSlug";
 import { useConnexion } from "@/hooks/useAuth";
 import ScrollToHash from "@/components/molecules/ScrollToHash";
 import Footer from "@/components/organisms/Footer";
+import { notFound } from "next/navigation";
+import LoadingAnimation from "@/components/organisms/LoadingAnimation";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -64,6 +66,7 @@ export default async function Page({ params }: Props) {
   const communities = buildMap(communautes);
   const selectedCommunity = communities[Number(slug)]
 
+  if(!selectedCommunity) return notFound()
   return( 
   <>
     <CommunityBlockSlug community={selectedCommunity} />

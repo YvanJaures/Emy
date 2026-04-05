@@ -25,6 +25,7 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
   const [community, setCommunity] = useState<CommunityDTO | null>(null);
   const [display, setDisplay] = useState("hidden");
   const [onError, setOnError] = useState(false);
+  const [errorMessage,setErrorMessage]=useState<{title:string,description:string}>({title:'',description:''})
   const [onPopUp, setOnPopUp] = useState(false);
   const [_loading, setLoading] = useState(true);
   const { member, loading } = useAuth();
@@ -36,7 +37,8 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
     try {
       const selectedCommunity = communities[Number(slug2)];
       setCommunity(selectedCommunity ?? null);
-      setMembers(selectedCommunity?.Community_member ?? []);
+      console.log(selectedCommunity)
+      setMembers(selectedCommunity?.Community_member?.filter((m)=>!m.Member?.Admin) ?? []);
       setAdmins(selectedCommunity?.Admin ?? []);
     } catch (error) {
       console.error(error);
@@ -65,11 +67,17 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
           id_community: admin.id_community,
         }),
       });
-      if (!res.ok) throw new Error("Suppression échouée "+res.status);
+      if (!res.ok) {
+        setOnError(true)
+        setErrorMessage({title:"supression",description:"Une erreur est survenue! Impossible de supprimer cet administrateur. Veuillez réessayer plus tard."})
+        throw new Error("Suppression échouée "+res.status);
+      }
       setAdmins((prev) => prev.filter((a) => a.id_admin !== id_admin));
     } catch (e) {
       console.error(e);
       setOnError(true);
+      setErrorMessage({title:"supression",description:"Erreur applicative"})
+
     }
   };
 
@@ -106,6 +114,8 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
         });
 
         if (!res.ok) {
+        setOnError(true)
+        setErrorMessage({title:"Ajout d'administrateur",description:"Une erreur est survenue! Impossible d'ajouter cet administrateur. Veuillez réessayer plus tard."})
           throw new Error("Ajout d'administrateur échoué");
         }
         if(res.ok){
@@ -127,7 +137,8 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
       setOnPopUp(false);
     } catch (error) {
       console.error(error);
-      setOnError(true);
+      setOnError(true)
+      setErrorMessage({title:"Ajout d'admin",description:"Une erreur est survenue! Application!"})
     }
   };
 
@@ -138,7 +149,7 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
   return (
     <>
       <div
-        className={`min-h-screen bg-white flex flex-col justify-center items-center`}
+        className={`min-h-screen bg-white flex flex-col justify-center items-center dark:bg-black`}
       >
         {member?.Admin?.id_community && (
           <NavBarAdmin id_community={member.Admin.id_community} />
@@ -147,13 +158,13 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
         <main
           className={`${onError ? "pointer-events-none blur-md" : ""} ${onPopUp ? "pointer-events-none blur-md" : ""} mx-auto w-full max-w-6xl px-6 py-8 mb-15`}
         >
-          <section className="mb-6 rounded-3xl bg-gradient-to-r from-rose-50 to-green-50 p-8">
+          <section className="mb-6 rounded-3xl lbg-gradient-to-r dark:bg-gray-800 from-rose-50 to-green-50 p-8 dark:bg-gray-800">
             <div className="flex justify-center">
               <Button
                 icon={<span className="text-base">+</span>}
                 title="Ajouter un administrateur"
                 color="bg-green-300 border-green-300 text-black/80 hover:bg-green-200"
-                className="rounded-2xl border-0 px-10 py-3 text-sm shadow-sm"
+                className="rounded-2xl border-0 px-10 py-3 text-sm shadow-sm dark:bg-white"
                 onClick={() => {
                   setDisplay("flex");
                   setOnPopUp(true);
@@ -170,15 +181,16 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
           </ImageBackground>
         </main>
 
+
+        <Footer />
+
         {onError && (
           <OnError
-            title="Suppression"
-            message="Une erreur est survenue! Impossible de supprimer cet administrateur. Veuillez réessayer plus tard."
+            title={errorMessage.title}
+            message={errorMessage.description}
             onConfirmed={(res) => setOnError(res)}
           />
         )}
-
-        <Footer />
 
         <div
           className={

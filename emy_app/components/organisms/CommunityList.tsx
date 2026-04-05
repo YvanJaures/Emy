@@ -8,15 +8,43 @@ import { IoAddCircleOutline } from "react-icons/io5";
 
 import {useState,useEffect} from 'react'
 import { usePathname } from "next/navigation";
+import LoadCommunityRow from "@/Loading/LoadCommunityRow";
+import LoadRoundButton from "@/Loading/LoadRoundButton";
 type Props={
     communities:CommunityDTO[],
-    member:MemberDTO|null
+    member:MemberDTO|null,
+    search?:string
 }
-export default function CommunityList({communities,member}:Props){
+export default function CommunityList({communities,member,search}:Props){
     const [_communities,setCommunities]=useState(communities)
     // le membre est-il membre de cette communauté? pour le tri
     const [isClicked,setIsClicked]=useState(false)
     const pathname = usePathname();
+    const [searched,setSearched]=useState<string>(search?? "")
+    useEffect(()=>{
+        console.log('searching:'+searched)
+        if(searched==="404") return setCommunities(communities)
+        console.log('search valide')
+        console.log(_communities)
+        const coms=_communities.filter((com)=>com.name.toLowerCase().includes(searched.toLowerCase()))
+        console.log(coms)
+        setCommunities(coms)
+    },[searched])
+
+
+    useEffect(()=>{
+        if(!search) return
+        if(search==="") return
+        setSearched(search)
+    },[search])
+
+
+    useEffect(()=>{
+        if(!communities) return
+        setCommunities(communities)
+    },[communities])
+
+
     useEffect(() => {
     const hash = window.location.hash;
 
@@ -27,6 +55,8 @@ export default function CommunityList({communities,member}:Props){
       }
     }
   }, [pathname]);
+
+  
     return(
         <div className="w-full p-2">
             <span className="w-full flex justify-center items-center p-2">
@@ -34,13 +64,14 @@ export default function CommunityList({communities,member}:Props){
                 children={isClicked? 'MES COMMUNAUTES':'COMMUNAUTES'}
                 as='h2'
                 className="flex-90 text-start text-xl"/>
-                <CiFilter  
+               {member && <CiFilter  
                 className={`${isClicked? 'fill-[#0F70AC]':''} flex-10 text-end text-xl w-xl hover:cursor-pointer`}
-                onClick={()=>{setIsClicked(!isClicked)}}/>
+                onClick={()=>{setIsClicked(!isClicked)}}/>}
+                {!member && <LoadRoundButton/>}
             </span>
             <ul className="w-full flex flex-col gap-5 p-2">
-                {
-                    communities.map((community)=>(
+                { communities &&
+                    _communities.map((community)=>(
                         <CommunityRow
                         member={member}
                         community={community}
@@ -58,7 +89,10 @@ export default function CommunityList({communities,member}:Props){
                         <p className="group-hover:text-[#0F70AC]"> Rejoindre une communauté</p>
                     </li>)
                 }
-                {
+                {communities.length===0 && [...Array(10)].map((_,index)=>(
+                    <LoadCommunityRow key={index}/>
+                ))}
+                { communities ?
                     communities.length===0 &&
                     (<li className="group hover:border-[#0F70AC] hover:cursor-pointer border border-dashed h-15 rounded-xl
                         flex justify-center items-center flex-col"
@@ -66,7 +100,9 @@ export default function CommunityList({communities,member}:Props){
                         <IoAddCircleOutline 
                         className="group-hover:text-[#0F70AC]"/>
                         <p className="group-hover:text-[#0F70AC]"> Créer une communauté</p>
-                    </li>)
+                    </li>):(
+                        <p className="text-center p-15 text-md"> Une erreur est survenue...</p>
+                    )
                 }
             </ul>
         </div>
