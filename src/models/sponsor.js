@@ -119,6 +119,7 @@ export async function deleteSponsor(user_name) {
 export async function addPrizeSponsor(id_prize, user_name) {
   try {
     await DelRedisCache("sponsor-" + user_name);
+    await DelRedisCache("tournaments");
     return await prisma.prize_sponsor.create({
       data: {
         id_prize: id_prize,

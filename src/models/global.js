@@ -407,6 +407,7 @@ export async function addTeamMemberWait(id_team, user_name) {
   try {
     await DelRedisCache(`teams-by-tour-*`);
     await DelRedisCache(`tour-teams-community-*`);
+    await DelRedisCache("tournaments");
   } catch (error) {
     console.error("Cache invalidation error in addTeamMemberWait:", error);
   }
@@ -498,6 +499,7 @@ export async function addCommunityMember(id_community, user_name) {
 
 export async function addPlayer(id_tour, user_name) {
   try {
+    await DelRedisCache("tournaments");
     let tournament = await prisma.tournament.findUnique({
       where: { id_tour: Number(id_tour) }
     });

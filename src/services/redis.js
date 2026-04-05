@@ -26,7 +26,7 @@ export async function SetRedisCache(recherche, data) {
     if (!redis) return
     console.log('setting cache')
     await redis.set(recherche, JSON.stringify(data), {
-        EX: 300 // cache pour 5 minutes
+        EX: 60 // cache pour 1 minute
     })
 }
 

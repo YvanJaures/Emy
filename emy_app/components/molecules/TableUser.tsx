@@ -72,12 +72,12 @@ export default function TableUser({title,headers,datas,id_community}:Props){
                 <input type="search" 
                   placeholder="Entrer l'identifiant du membre"
                   onChange={(e)=>(setSearch(e.target.value ? e.target.value:''))}
-                  className="outline-red-200 border rounded-xl flex-70 p-1"/>
+                  className="outline-red-200 border rounded-xl flex-70 p-2"/>
                 <SlMagnifier />
               </div>
               {title.toUpperCase()}
             </caption>
-            <thead className="bg-gray-200 p-1 flex gap-5 justify-center items-center w-full">
+            <thead className="bg-gray-200 p-1 flex gap-5 justify-center items-center w-full dark:bg-gray-800">
               <tr className="w-full flex justify-start items-center">
                 <th className="flex-5">
                   <label>Tous</label>
@@ -165,12 +165,12 @@ export default function TableUser({title,headers,datas,id_community}:Props){
                 </tr>
               ))}
             </tbody>
-            <tfoot className="bg-gray-200 p-1 flex gap-5 justify-center items-center w-full">
+            <tfoot className="bg-gray-200 p-1 flex gap-5 justify-center items-center w-full dark:bg-gray-800">
               <tr>
                 <td>
                   <label htmlFor="input">Lignes</label>
                   <input type="text" name="lgnes" id="lignes"
-                   className="bg-white rounded-xl" />
+                   className="bg-white rounded-xl p-1 text-center dark:bg-gray-700" />
                 </td>
               </tr>
             </tfoot>

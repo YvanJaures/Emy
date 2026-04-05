@@ -30,7 +30,7 @@ export default function ProfilAdmin(){
                 loading ? (
                     <LoadingAnimation/>
                 ) : (
-                    <div className="bg-gray-100">
+                    <div className="bg-gray-100   dark:bg-black">
                         <MetaData seoTitle="Profil utilisateur" seoDescription="informations de profil utilisateur"></MetaData>
                         {member?.Admin?.id_community && (
                             <NavBarAdmin id_community={member.Admin.id_community} />

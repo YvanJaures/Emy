@@ -20,7 +20,7 @@ export default function NavBarAdmin(props:{id_community:number|null}) {
   { label: "PROFIL", href: "/profilAdmin" }
 ];
   return (
-    <header className="bg-white w-full border-b-[3px] border-[#0b78b9]">
+    <header className="bg-white w-full border-b-[3px] border-[#0b78b9] dark:bg-gray-800 dark:text-gray-100">
       <div className="flex h-[72px] w-full items-center justify-between">
         {/* Logo */}
           <div className="flex justify-center items-center p-5 h-[50%] w-[20%] max-lg:w-[40%]">
@@ -49,7 +49,7 @@ export default function NavBarAdmin(props:{id_community:number|null}) {
                 href={item.href}
                 className={[
                   "uppercase text-xs tracking-widest text-black",
-                  "hover:underline underline-offset-4",
+                  "hover:underline underline-offset-4 dark:text-gray-300",
                   isActive ? "underline" : "opacity-60 hover:opacity-100",
                 ].join(" ")}
               >
@@ -62,7 +62,7 @@ export default function NavBarAdmin(props:{id_community:number|null}) {
                 await deconnexion()}
                 className={[
                   "uppercase text-xs tracking-widest text-blue-700 opacity-70 hover:cursor-pointer hover:opacity-100",
-                  "hover:underline underline-offset-4"
+                  "hover:underline underline-offset-4  dark:text-gray-300"
                 ].join(" ")}
               >
                 DECONNEXION
@@ -74,7 +74,7 @@ export default function NavBarAdmin(props:{id_community:number|null}) {
           <button
             type="button"
             aria-label="Activer/Désactiver le mode sombre"
-            className="rounded-full p-2 text-black/80 hover:bg-black/5"
+            className="rounded-full p-2 text-black/80 hover:bg-black/5  dark:text-gray-300"
             onClick={() => {
               // TODO: ton toggle dark mode
             }}
@@ -84,15 +84,15 @@ export default function NavBarAdmin(props:{id_community:number|null}) {
 
           <button
             type="button"
-            className="lg:hidden rounded-full p-2 hover:bg-black/5"
+            className="lg:hidden rounded-full p-2 hover:bg-black/5 dark:text-gray-300"
             aria-label={open ? "Fermer le menu" : "Ouvrir le menu"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
           >
             <div className="flex flex-col gap-1">
-              <span className="block h-[2px] w-6 bg-black" />
-              <span className="block h-[2px] w-6 bg-black" />
-              <span className="block h-[2px] w-6 bg-black" />
+              <span className="block h-[2px] w-6 bg-black  dark:bg-gray-300" />
+              <span className="block h-[2px] w-6 bg-black  dark:bg-gray-300" />
+              <span className="block h-[2px] w-6 bg-black  dark:bg-gray-300" />
             </div>
           </button>
         </div>
@@ -101,9 +101,9 @@ export default function NavBarAdmin(props:{id_community:number|null}) {
       <div className="h-[3px] w-full bg-[#0b78b9]" />
 
       {open && (
-        <div className="lg:hidden border-t border-black/10 bg-white">
+        <div className="lg:hidden border-t border-black/10 bg-white dark:bg-gray-800">
           <nav className="px-6 py-4">
-            <ul className="flex flex-col gap-4">
+            <ul className="flex flex-col gap-4  dark:bg-text-300">
               {navItems.map((item) => {
                 const isActive =
                   pathname === item.href ||
@@ -130,7 +130,7 @@ export default function NavBarAdmin(props:{id_community:number|null}) {
                   await deconnexion()}
                   className={[
                     "uppercase text-xs tracking-widest text-blue-700 opacity-70 hover:cursor-pointer hover:opacity-100",
-                    "hover:underline underline-offset-4 mt-5"
+                    "hover:underline underline-offset-4 mt-5 dark:text-gray-300"
                   ].join(" ")}
                 >
                   DECONNEXION

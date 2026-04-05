@@ -95,11 +95,11 @@ export default function CommunityBlock({community,_isMember,onShown}:Props){
     return(
         <div className="z-150 absolute fixed flex flex-col top-0 left-0 
             bg-white h-lvh w-full overflow-scroll max-sm:h-full">
-            <header className="flex-5 absolute sticky top-0 left-0
+            <header className="flex-5 absolute sticky top-0 left-0 dark:bg-gray-800
                 flex justify-between items-center w-full p-3 bg-white/70 z-99">
                 <RiArrowLeftSLine 
                     onClick={()=>handleShow()}
-                    className="hover:cursor-pointer hover:bg-gray-200 rounded-full stroke-2"/>
+                    className="hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-black/20 rounded-full stroke-2"/>
                 <Title
                     children={community.name}
                     as='h2'
@@ -108,14 +108,14 @@ export default function CommunityBlock({community,_isMember,onShown}:Props){
                 <SlMagnifier 
                     className="hover:cursor-pointer stroke-2"/>
             </header>
-            <main className="flex-95 flex flex-col w-full justify-start items-center">
+            <main className="flex-95 flex flex-col w-full justify-start items-center dark:bg-black">
                 <div className="flex-20 w-full">
                     <ImageDefault 
                         avatar={community.avatar ?? ''}
                         title="avatar de la communauté"
                         className="object-cover h-40 w-full flex justify-center items-center"
                     />
-                    <span className="absolute -translate-y-5 p-2 gap-2 rounded-t-2xl bg-white w-full flex justify-between">
+                    <span className="absolute -translate-y-5 p-2 gap-2 rounded-t-2xl bg-white w-full flex justify-between dark:bg-gray-800">
                         <span className="flex justify-center items-center gap-1">
                             <FaGlobeAmericas />{community.privacy ? 'Privée':'Publique'}
                         </span>
@@ -174,7 +174,7 @@ export default function CommunityBlock({community,_isMember,onShown}:Props){
                         )
                         }
                         {   view===3 &&(
-                            <p className="absolute w-full mt-17 p-3 flex flex-col justify-start items-center">
+                            <p className="absolute w-full mt-17 p-3 flex flex-col justify-start items-center dark:bg-black">
                                 {community.details}
                             </p>
                         )

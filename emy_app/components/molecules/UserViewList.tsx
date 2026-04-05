@@ -8,7 +8,7 @@ import { FaRegEye } from "react-icons/fa";
  */
 export default function UserViewList(props:{members:MemberDTO[]}){
     return(
-        <ul className="absolute w-full mt-17 p-3 flex flex-col justify-start items-center gap-2">
+        <ul className="absolute w-full mt-17 p-3 flex flex-col justify-start items-center gap-2 dark:bg-gray-800">
             { props.members.length>0 ?
                 (props.members.map((member)=>(
                     <li key={member.user_name} className="group hover:cursor-pointer hover:bg-black/10 p-1 flex justify-start items-center w-full"
