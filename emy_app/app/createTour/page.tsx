@@ -183,7 +183,7 @@ export default function CreateTournament() {
   if (loading) return <LoadingAnimation />;
 
   return (
-    <div className="bg-gray-100">
+    <div className="bg-gray-100 dark:bg-black">
       {member?.Admin?.id_community && (
         <NavBarAdmin id_community={member.Admin.id_community} />
       )}
@@ -193,7 +193,7 @@ export default function CreateTournament() {
         seoDescription="creation de tournoi par un administrateur"
       ></MetaData>
 
-      <main className="flex flex-col gap-2 p-5 justify-center items-center rounded-xl m-2 bg-white shadow-xl">
+      <main className="flex flex-col gap-2 p-5 justify-center items-center rounded-xl m-2 bg-white shadow-xl dark:bg-gray-800">
         <h1>CREATION D UN TOURNOI</h1>
 
         <form
@@ -295,8 +295,8 @@ export default function CreateTournament() {
           <section className="flex flex-col flex-wrap w-full relative">
             <table className="w-full">
               <caption>LISTE DE COMMANDITES</caption>
-              <thead className="bg-gray-200 p-2 flex justify-start items-center w-full">
-                <tr className="bg-gray-200 p-2 flex justify-start items-center w-full">
+              <thead className="bg-gray-200 p-2 flex justify-start items-center w-full dark:bg-gray-800 shadow-xs shadow-white">
+                <tr className="p-2 flex justify-start items-center w-full">
                   <th className="flex-40">Nom de commandite</th>
                   <th className="flex-15">Valeur</th>
                   <th className="flex-10">Quotas</th>

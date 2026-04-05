@@ -10,8 +10,9 @@ import { useState, useEffect } from "react";
 import Confirmation from "@/components/organisms/Confirmation";
 
 export default function MemberCommunity() {
-  const [members, setMembers] = useState<MemberDTO[]>([]);
+  const [members, setMembers] = useState<MemberDTO[]|null>(null);
   const { member, loading } = useAuth();
+    const [_loading,setLoading]=useState(true)
   const headers = [
     "Id",
     "Email",
@@ -21,10 +22,12 @@ export default function MemberCommunity() {
     "Adresse",
   ];
   useEffect(() => {
+    if(!member) return
     (async () => {
       const id = member?.Admin ? member?.Admin?.id_community : -1;
       const members = await getCommunityMembers(id);
       setMembers(members);
+      setLoading(false)
     })();
     console.log(member);
   }, [member]);
@@ -37,6 +40,7 @@ export default function MemberCommunity() {
           title="Liste des membres"
           headers={headers}
           datas={members}
+          loading={_loading}
           id_community={member?.Admin ? member?.Admin?.id_community : -1}
         />
       </main>

@@ -104,7 +104,7 @@ export default function CommunityBlockSlug({ community }: Props) {
                     className="bold"/> */}
         <RiArrowLeftSLine 
                 onClick={()=>router?.push('/communautes#community-'+community.id_community)}
-                className="hover:cursor-pointer hover:bg-gray-200 rounded-full stroke-2 dark:bg-black/20"/>
+                className="hover:cursor-pointer hover:bg-gray-200 rounded-full stroke-2 dark:hover:bg-black/20"/>
         <Title as="h2" className="bold">
           {community.name}
         </Title>

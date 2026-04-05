@@ -10,7 +10,7 @@ function SelectField({ className = "", children, ...props }: Props) {
       {...props}
       className={[
         "w-full rounded-2xl border bg-white/80 px-4 py-2 text-sm outline-none shadow-inner",
-        "border-black/50 focus:border-yellow-400",
+        "border-black/50 focus:border-yellow-400 dark:bg-gray-800 dark:border-white",
         className,
       ].join(" ")}
     >

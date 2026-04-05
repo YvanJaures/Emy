@@ -98,9 +98,9 @@ export default function TeamsDetailsPage() {
   if (loading) return <LoadingAnimation />;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-800">
       {member?.Admin?.id_community && (
-        <div className="px-6 py-4 text-sm text-black/70">
+        <div className="px-6 py-4 text-sm">
           Communauté: {member.Admin.id_community}
         </div>
       )}
@@ -121,14 +121,14 @@ export default function TeamsDetailsPage() {
             data.Team.map((team) => (
               <div
                 key={team.id_team}
-                className="rounded-2xl bg-white p-4 shadow"
+                className="rounded-2xl bg-white p-4 shadow dark:bg-gray-800 dark:shadow-white"
               >
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-semibold">
                       {team.name ?? "Sans nom"}
                     </p>
-                    <p className="text-xs text-black/60">
+                    <p className="text-xs ">
                       {/* Membres: {team.members ?? team.Team_member?.length ?? 0} */}
                       Membres: {team.Team_member?.length ?? 0}
                     </p>
@@ -154,7 +154,7 @@ export default function TeamsDetailsPage() {
                   {team.Team_member?.slice(0, 8).map((tm, idx) => (
                     <div
                       key={idx}
-                      className="h-8 w-8 overflow-hidden rounded-full bg-black/10"
+                      className="h-8 w-8 overflow-hidden rounded-full bg-black/10 dark:shadow-white shadow-sm"
                       title={tm.Member?.user_name ?? ""}
                     >
                     </div>
@@ -163,7 +163,7 @@ export default function TeamsDetailsPage() {
               </div>
             ))
           ) : (
-            <p className="text-sm text-black/70">
+            <p className="text-sm ">
               Aucune équipe dans ce tournoi.
             </p>
           )}
