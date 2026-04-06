@@ -11,6 +11,7 @@ import PopUp from "../atoms/PopUp";
 import SponsorForm, { FormClose } from "./SponsorForm";
 import LoadSponsorCard from "@/Loading/LoadSponsorCard";
 import LoadRoundButton from "@/Loading/LoadRoundButton";
+import Alert from "../molecules/Alert";
 
 /**
  * Interface des propriétés du composant SponsorsList
@@ -41,8 +42,15 @@ export default function Page({sponsors,_loading,search}:Props){
     const [onConfirmation, SetOnConfirmation] = useState(false);
     const [onPopUp, SetOnPopUp] = useState(false);
     const {member,loading}=useConnexion()
+    const [validationMessage,setValidationMessage]=useState('')
+    const [onError,setOnError]=useState(false)
     const [searched,setSearched]=useState<string>(search?? "")
+    const [_has,setHas]=useState(false)
 
+    const handleAlert=()=>{
+        setValidationMessage('')
+        setOnError(false)
+    }
     useEffect(()=>{
         console.log('searching:'+searched)
         if(searched==="404") {
@@ -74,15 +82,28 @@ export default function Page({sponsors,_loading,search}:Props){
     }
     const handleAdded=(res:FormClose)=>{
         SetOnPopUp(!res.close)
-        if(res.sponsor) setSponsorsList([...sponsorsList,res.sponsor])
-    }
-    const has=()=>{
-        return sponsors.some(sponsor=>sponsor.user_name===member?.user_name)
+        if(res.sponsor) {
+            setOnError(false)
+            setValidationMessage('vous avez été ajouté en tant que commanditaire!')
+            setSponsorsList([...sponsorsList,res.sponsor])
+            setHas(true)
+            return
+        }
+        setOnError(true)
+        setValidationMessage('impossible de devenir commanditaire pour l\'instant')
     }
     
+    const has=()=>{
+        return sponsorsList.some(sponsor=>sponsor.user_name===member?.user_name)
+    }
     useEffect(()=>{
         setSponsorsList(sponsors)
     },[sponsors])
+
+    useEffect(()=>{
+        setHas(has())
+    },[member])
+
     return(
         <>
             <div className="flex items-center justify-between items-center gap-5 p-2">
@@ -105,7 +126,7 @@ export default function Page({sponsors,_loading,search}:Props){
                 </li>
                 )}
 
-            {!has() &&(<span id="devenir-commanditaire" className="flex border border-dashed rounded-md h-[6rem] items-center justify-center gap-2 text-sm text-[#0b78b9] opacity-80 hover:opacity-100 hover:cursor-pointer"
+            {!_has &&(<span id="devenir-commanditaire" className="flex border border-dashed rounded-md h-[6rem] items-center justify-center gap-2 text-sm text-[#0b78b9] opacity-80 hover:opacity-100 hover:cursor-pointer"
                 onClick={handleDevenirCommanditaire}>
                 DEVENIR COMMANDITAIRE
             </span>)}
@@ -129,6 +150,8 @@ export default function Page({sponsors,_loading,search}:Props){
                     onClose={(res)=>handleAdded(res)}/>)}
 
             </PopUp>)}
+            {validationMessage!=="" &&<Alert message={validationMessage} onMes={handleAlert} error={onError}/>}
+            
         </>
     )
 }

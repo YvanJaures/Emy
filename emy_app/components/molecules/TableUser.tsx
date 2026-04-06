@@ -41,7 +41,7 @@ export default function TableUser({title,headers,datas,id_community,loading}:Pro
         if(!user_name) return
         if(!confirm) return
         if(!await deleteMemberCommunity(user_name,id_community)){
-          alert('suppression impossible')
+          setOnError(true)
           return
         }
         setConfirm(!confirm)

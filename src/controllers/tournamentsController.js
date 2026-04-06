@@ -1,4 +1,5 @@
 import * as tournamentModel from "../models/tournaments.js";
+import { prisma } from "../prisma.js";
 
 export const getTournaments = async (req, res) => {
     try {
@@ -26,3 +27,14 @@ export const getTournamentsByCommunity = async (req, res) => {
         res.status(500).json({ message: "Erreur serveur" });
     }
 };
+export async function getTourById(id_tour){
+    try{
+        return await prisma.tournament.findUnique({
+            where:{
+                id_tour:Number.parseInt(id_tour)
+            }
+        })
+    }catch(er){
+        console.log(er)
+    }
+}
