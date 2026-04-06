@@ -18,15 +18,13 @@ try {
 export async function GetRedisCache(recherche) {
     if (!redis) return null
     const cache = await redis.get(recherche)
-    console.log('getting cache')
     if (cache) return JSON.parse(cache)
 }
 
 export async function SetRedisCache(recherche, data) {
     if (!redis) return
-    console.log('setting cache')
     await redis.set(recherche, JSON.stringify(data), {
-        EX: 60 // cache pour 1 minute
+        EX: 600 // cache pour 10 minutes
     })
 }
 

@@ -23,6 +23,8 @@ import {
 import "../services/auth.js";
 import passport from "passport";
 import "dotenv/config";
+import { joinTournamentMail, sendWelcomeEmail } from "./sendMailController.js";
+import { getTourById } from "./tournamentsController.js";
 // copier et adapter
 /*
 export const basefunction=async(request,response)=>{
@@ -146,6 +148,7 @@ export const addMemberC = async (request, response) => {
       request.body.password,
       request.body.phone,
     );
+    await sendWelcomeEmail(request.body.email,request.body.user_name)
     response.status(201).end();
   } catch (error) {
     console.log(error);
@@ -297,6 +300,9 @@ export const addCommunityMemberC = async (request, response) => {
 export const addPlayerC = async (request, response) => {
   try {
     await addPlayer(request.body.id_tour, request.body.user_name);
+    const tour=await getTourById(request.body.id_tour)
+    await joinTournamentMail(request.body.user_name,tour.name)
+    response.status(201).end()
   } catch (error) {
     response.status(400).end();
   }

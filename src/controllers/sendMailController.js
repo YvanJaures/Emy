@@ -29,3 +29,87 @@ export const sendMail=async(request,response)=>{
     return response.status(403).json({ error: error.message });
   }
 }
+export async function sendWelcomeEmail(email, username) {
+  const htmlContent = `
+  <!DOCTYPE html>
+  <html>
+    <body style="font-family: Arial, sans-serif; background:#f4f6f8; padding:20px;">
+      <div style="max-width:600px; margin:auto; background:white; padding:30px; border-radius:12px;">
+        
+        <h1 style="color:#2c3e50; text-align:center;">🏌️ Bienvenue sur EMY</h1>
+
+        <p>Salut <strong>${username}</strong>,</p>
+
+        <p>
+          Ton compte a été créé avec succès sur <strong>EMY</strong> 🎉
+        </p>
+
+        <p>
+          Tu peux maintenant :
+        </p>
+
+        <ul>
+          <li>🏆 Participer à des tournois de golf</li>
+          <li>👥 Rejoindre ou créer une équipe</li>
+          <li>🏘️ Intégrer des communautés</li>
+          <li>🏅 Gagner des prix sponsorisés</li>
+        </ul>
+
+        <div style="text-align:center; margin:25px 0;">
+          <a href="http://localhost:3000/login"
+             style="background:#27ae60; color:white; padding:12px 20px; text-decoration:none; border-radius:8px; font-weight:bold;">
+            Accéder à mon compte
+          </a>
+        </div>
+
+        <p>
+          Si tu n’es pas à l’origine de cette inscription, tu peux ignorer cet email.
+        </p>
+
+        <hr style="margin:30px 0;" />
+
+        <p style="font-size:12px; color:#888; text-align:center;">
+          EMY — Plateforme de gestion de tournois de golf<br/>
+          Collège La Cité • 2026
+        </p>
+
+      </div>
+    </body>
+  </html>
+  `;
+
+  await transporter.sendMail({
+    from: `"Emy" <${process.env.EMAIL_EMY}>`,
+    to: email,
+    subject: "Bienvenue sur Emy ",
+    html: htmlContent,
+  });
+}
+export async function joinTournamentMail(username, tourName) {
+  const htmlContent= `
+    <h2>🏆 Inscription confirmée</h2>
+    <p>${username}, tu es inscrit au tournoi :</p>
+    <strong>${tourName}</strong>
+  `;
+    await transporter.sendMail({
+    from: `"Emy" <${process.env.EMAIL_EMY}>`,
+    to: email,
+    subject: "Inscription au tournoi ",
+    html: htmlContent,
+  });
+}
+export async function addedSponsorMail(username) {
+  const htmlContent= `
+    <h2> Vous êtes commandiitaire</h2>
+    <p><strong>${username}</strong>, vous êtes désormais inscrit comme commanditaire sur la plateforme.</p>
+    <p>C'est un honneur pour nous de vous avoir comme membre de la grande communauté de commanditaires sur Emy.</p>
+    <p>Vous pouvez dès maintenant sponsorisé un tournoi et obtenir des bénéfices (si inclus).</p>
+    
+  `;
+    await transporter.sendMail({
+    from: `"Emy" <${process.env.EMAIL_EMY}>`,
+    to: email,
+    subject: "Inscription au tournoi ",
+    html: htmlContent,
+  });
+}

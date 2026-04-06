@@ -11,6 +11,7 @@ import { LuUsers } from "react-icons/lu";
 import { TbTournament } from "react-icons/tb";
 import { GrMapLocation } from "react-icons/gr";
 import CommunityBlock from "../organisms/CommunityBlock";
+import Alert from "./Alert";
 type Props = {
   community: CommunityDTO;
   member: MemberDTO | null;
@@ -28,6 +29,8 @@ export default function CommunityRow({ community, member, isMine }: Props) {
   const [_isMine, setIsMine] = useState(false);
   // y'a t il eu une erreur lors de l'ajout à la communauté?
   const [onError, setOnError] = useState(false);
+
+  const [validation,setValidation]=useState("")
   // Si il y'a une fênetre pop up
   const [onPopUp, setOnPopUp] = useState(false);
   // afficher la communauté
@@ -52,7 +55,7 @@ export default function CommunityRow({ community, member, isMine }: Props) {
   }, [member, community]);
 
   useEffect(() => {
-    console.log("hey2");
+
     if (!isMine && !isMember) {
       setIsMine(true);
       return;
@@ -77,14 +80,18 @@ export default function CommunityRow({ community, member, isMine }: Props) {
    */
   const handleJoin = async () => {
     try {
-      if (!member) location.href = "/login";
+      if (!member) return location.href = "/login?redirect="+location.pathname;
 
       const payload = {
         id_community: community.id_community,
         user_name: member?.user_name,
       };
       //ajout le membre grâce au fetch de l'api d'ajout
-      await addCommunityMember(payload);
+      const ajout=await addCommunityMember(payload);
+
+      if(!ajout) return setOnError(true)
+
+      if(ajout) setValidation('vous avez été ajouté à la communauté!')
       //définit le membre comme appartenant à la communauté
       setIsMember(true);
     } catch (error) {
@@ -217,6 +224,7 @@ export default function CommunityRow({ community, member, isMine }: Props) {
             onShown={(res)=>setShowCom(res)}/>
         )
       }
+      {validation!=="" && <Alert message={validation} error={onError} onMes={()=>setValidation('')}/>}
     </>
   );
 }

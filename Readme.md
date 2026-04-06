@@ -121,7 +121,7 @@ L'architecture full-stack combine un backend robuste en Node.js/Express avec un 
 | **Passport.js** | 0.7.0 | Authentification |
 | **bcrypt** | 6.0.0 | Hashage des mots de passe |
 | **express-session** | 1.19.0 | Gestion des sessions |
-| **Redis** | - | Cache distributé et sessions |
+| **Redis** | - | Cache distributé et limitation de requêtes |
 | **Nodemailer** | 7.0.13 | Envoi d'emails |
 | **Helmet** | 8.1.0 | Sécurité HTTP |
 | **CORS** | 2.8.6 | Cross-Origin Resource Sharing |

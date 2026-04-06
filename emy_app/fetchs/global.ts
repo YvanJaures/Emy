@@ -108,10 +108,12 @@ export async function addCommunityMember(payload:Object){
             body:JSON.stringify(payload)
         })
         if(!res.ok){
-            throw new Error('impossible de rejoindre cette communaute')
+            console.log('impossible d\'ajouter ce membre')
+            return false
         }
+        return true
     }catch(error){
-
+        return false
     }
 }
 export async function addTeamMemberWait(payload:Object){
@@ -122,10 +124,12 @@ export async function addTeamMemberWait(payload:Object){
             body:JSON.stringify(payload)
         })
         if(!res.ok){
-            throw new Error('ajout impossible')
+            console.log('ajout impossible')
+            return false
         }
+        return true
     }catch(error){
-
+        return false
     }
 }
 export async function deleteMemberCommunity(user_name:string,id_community:number){
@@ -146,6 +150,7 @@ export async function deleteMemberCommunity(user_name:string,id_community:number
         return false
     }catch(error){
         console.log(error)
+        return false
     }
 }
 export async function deconnexion() {
@@ -206,6 +211,7 @@ export async function addSponsor(sponsorData:Object){
         return true
     }catch(error){
         console.log(error)
+        return false
     }
 }
 export async function deleteSponsor(user_name:string){
@@ -215,8 +221,8 @@ export async function deleteSponsor(user_name:string){
             headers:{'Content-Type':'application/json'}
         })
         if(!res.ok){
+            console.log('impossible de supprimer ce commanditaire')
             return false
-            throw new Error('impossible de supprimer ce commanditaire')
         }   
         return true
     }catch(error){
