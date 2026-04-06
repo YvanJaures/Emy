@@ -56,7 +56,7 @@ export default function TablePrize({prizes,onSelect,success}:Props){
                     
                 }
                 else {
-                   selects.push({id:p,prize:prizes[p]})
+                   if(!selects.some((s)=>s.id===p)) selects.push({id:p,prize:prizes[p]})
                     console.log(selects)
                     setSelected(selects)
                 }
@@ -120,9 +120,9 @@ export default function TablePrize({prizes,onSelect,success}:Props){
     return(
         <>
             <div className="p-2">
-                <table className="w-full rounded-xl shadow-md">
+                <table className="w-full rounded-xl shadow-md dark:text-gray-200">
                     <caption className="text-start ml-2">LISTE DE COMMANDITES</caption>
-                    <thead className="bg-gray-200 h-15">
+                    <thead className="bg-gray-200 h-15 dark:bg-gray-800">
                         <tr>
                             <th className="flex-5">
                                 <input type="checkbox" name="tous" id="tous" 
@@ -151,7 +151,10 @@ export default function TablePrize({prizes,onSelect,success}:Props){
                         {/* Mapping des prix pour afficher chaque ligne du tableau */}
                         { prizesList?.map((prize,i)=>(
                             <tr key={prize?.id_prize} 
-                                className="p-2">
+                                className="p-2 hover:bg-black/2 hover:cursor-pointer dark:hover:bg-white/20"
+                                onClick={()=>{
+                                    if((prize.Prize_sponsor?.length ?? 0) <= prize.spots && !added[i]) handleCheck(i)
+                                }}>
                                 <td className="p-2">
                                     {/* Case à cocher seulement si le nombre de sponsors est inférieur aux places disponibles et que le prix n'est pas déjà ajouté */}
                                     {(prize.Prize_sponsor?.length ?? 0) <= prize.spots && !added[i]&&(<input type="checkbox" name="prize" id="prize" 
@@ -159,7 +162,7 @@ export default function TablePrize({prizes,onSelect,success}:Props){
                                     onChange={()=>{handleCheck(i);}}/>)}
                                 </td>
                                 <td className="p-2 ">{prize.name}</td>
-                                <td className="p-2 ">${5000}</td>
+                                <td className="p-2 ">${prize.value}</td>
                                 <td className="p-2 ">{prize.group_spot*4}</td>
                                 <td className="p-2 ">{prize.group_spot}</td>
                                 <td className="p-2 ">{prize.Prize_sponsor?.length ?? 0}/{prize.spots}</td>

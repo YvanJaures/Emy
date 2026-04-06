@@ -13,7 +13,7 @@ export default function AppLink({ href, children, className = "",onClick }: Prop
   return (
     <Link
       href={href}
-      className={["text-xs text-blue-700 hover:underline", className].join(" ")}
+      className={["text-xs text-blue-700 hover:underline dark:text-gray-300", className].join(" ")}
     >
       {children}
     </Link>

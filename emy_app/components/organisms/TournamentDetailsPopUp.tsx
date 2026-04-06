@@ -5,6 +5,7 @@ import InputText from "@/components/atoms/InputText";
 import Button from "@/components/atoms/Button";
 import PopUp from "../atoms/PopUp";
 import { RiDeleteBin2Line } from "react-icons/ri";
+import { PrizeDTO } from "@/hooks/Type_DTO";
 
 type PrizeRow = {
   name: string;
@@ -23,13 +24,7 @@ type TournamentDetails = {
   end_date: string;
   avatar: string;
   id_community: number;
-  Prize: Array<{
-    id_prize: number;
-    name: string | null;
-    value: number | null;
-    spots: number | null;
-    group_spot: number | null;
-  }>;
+  Prize: PrizeDTO[]
 };
 
 type TournamentDetailsPopUpProps = {
@@ -107,7 +102,7 @@ export default function TournamentDetailsPopUp({
           tournament.Prize?.length
             ? tournament.Prize.map((p) => ({
                 name: p.name ?? "",
-                value: String(p.value ?? ""),
+                value: String(p.value?? ""),
                 quotas: String(p.group_spot ?? ""),
                 places: String(p.spots ?? ""),
               }))
@@ -257,7 +252,7 @@ export default function TournamentDetailsPopUp({
 
   return (
     <PopUp onClose={onClose}>
-      <main className="flex flex-col gap-2 p-5 justify-center items-center rounded-xl m-2 bg-white shadow-xl">
+      <main className="flex flex-col gap-2 p-5 justify-center items-center rounded-xl m-2 shadow-xl">
         <h1>DETAILS DU TOURNOI</h1>
 
         {loading ? (
@@ -351,8 +346,8 @@ export default function TournamentDetailsPopUp({
             <section className="flex flex-col flex-wrap w-full relative">
               <table className="w-full">
                 <caption>LISTE DE COMMANDITES</caption>
-                <thead className="bg-gray-200 p-2 flex justify-start items-center w-full">
-                  <tr className="bg-gray-200 p-2 flex justify-start items-center w-full">
+                <thead className="bg-gray-200 p-2 flex justify-start items-center w-full dark:bg-gray-800 dark:shadow-white dark:shadow">
+                  <tr className="p-2 flex justify-start items-center w-full">
                     <th className="flex-40">Nom de commandite</th>
                     <th className="flex-15">Valeur</th>
                     <th className="flex-10">Quotas</th>

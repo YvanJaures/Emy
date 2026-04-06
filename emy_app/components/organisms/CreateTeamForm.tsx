@@ -46,8 +46,8 @@ export default function CreateTeamForm({
   const [player3, setPlayer3] = useState("");
   const [player4, setPlayer4] = useState("");
 
-  const [keyTeam, setKeyTeam] = useState(""); // si tu l’as dans ton form
-  const [open, setOpen] = useState(true); // si tu l’as dans ton form
+  const [keyTeam, setKeyTeam] = useState(""); 
+  const [open, setOpen] = useState(true); 
 
   const [tournaments, setTournaments] = useState<TournamentMini[]>([]);
   const [loading, setLoading] = useState(false);
@@ -132,12 +132,12 @@ console.log("data =", data);
     })();
   }, [validIdTeam, id_team, detailsUrl]);
 
-  const submit = async () => {
+const submit = async () => {
   setError(null);
   setSuccess(null);
 
   if (!teamName.trim()) {
-    setError("Le nom de l équipe est obligatoire.");
+    setError("Le nom de l’équipe est obligatoire.");
     return;
   }
 
@@ -146,13 +146,19 @@ console.log("data =", data);
     return;
   }
 
-  const players = [player1, player2, player3, player4].filter(
-    (p) => p && p.trim(),
-  );
+  const players = [player1, player2, player3, player4]
+    .map((p) => p.trim())
+    .filter(Boolean);
+
+  if (players.length === 0) {
+    setError("Ajoute au moins un joueur.");
+    return;
+  }
 
   try {
     setSaving(true);
 
+    //  MODE MODIFICATION
     if (validIdTeam) {
       const res = await fetch(updateUrl, {
         method: "PATCH",
@@ -162,24 +168,35 @@ console.log("data =", data);
           id_team,
           name: teamName.trim(),
           id_tour: Number(idTour),
-          open:open,
-          key_team: keyTeam.trim() ? keyTeam.trim() : null,
-          players,
-          reserveOnly,
+          open,
+          key_team: keyTeam.trim() || null,
         }),
       });
 
-      const msg = (await res.json().catch(() => null)) as ApiMessage | null;
+      if (!res.ok) throw new Error("Erreur modification équipe");
 
-      if (!res.ok) {
-        throw new Error(msg?.message ?? "Erreur modification équipe");
+      //  ajouter les joueurs 
+      for (const user_name of players) {
+        await fetch("/api/member", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            role: "admin",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            id_team,
+            user_name,
+          }),
+        });
       }
 
-      setSuccess("Équipe modifiée avec succès.");
-       router.push("/equipesPage");
+      setSuccess("Équipe modifiée avec succès");
+      router.push(`/TeamsDetailsPage?id_tour=${idTour}`);
       return;
     }
 
+    //  MODE CRÉATION
     const res = await fetch(teamUrl, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -188,23 +205,42 @@ console.log("data =", data);
         name: teamName.trim(),
         id_tour: Number(idTour),
         open,
-        key_team: keyTeam.trim() ? keyTeam.trim() : null,
-        players,
-        reserveOnly,
+        key_team: keyTeam.trim() || null,
       }),
     });
 
-    const msg = (await res.json().catch(() => null)) as ApiMessage | null;
+    const data = await res.json();
 
-    if (!res.ok) {
-      throw new Error(msg?.message ?? "Erreur création équipe");
+    if (!res.ok) throw new Error(data?.message || "Erreur création équipe");
+
+    const newTeamId = data?.team?.id_team;
+
+    if (!newTeamId) {
+      throw new Error("id_team non retourné par le backend");
     }
 
-    setSuccess("Équipe créée avec succès.");
-     router.push("/equipesPage");
-  } catch (e: unknown) {
+    //  AJOUT DES JOUEURS
+    for (const user_name of players) {
+      await fetch("/api/member", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          role: "admin",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          id_team: newTeamId,
+          user_name,
+        }),
+      });
+    }
+
+    setSuccess("Équipe créée avec succès");
+    router.push(`/TeamsDetailsPage?id_tour=${idTour}`);
+
+  } catch (e: any) {
     console.error(e);
-    setError(e instanceof Error ? e.message : "Erreur serveur.");
+    setError(e.message || "Erreur serveur");
   } finally {
     setSaving(false);
   }
@@ -231,10 +267,10 @@ console.log("data =", data);
         </div>
       )}
 
-      <div className="mt-6 space-y-4 rounded-2xl bg-white p-6 shadow">
+      <div className="mt-6 space-y-4 rounded-2xl bg-white p-6 shadow  dark:bg-gray-800">
         {/* Nom */}
         <div>
-          <label className="text-xs text-black/70">Nom de l’équipe</label>
+          <label className="text-xs ">Nom de l’équipe</label>
           <input
             className="mt-1 w-full rounded-xl border px-3 py-2 text-sm"
             value={teamName}
@@ -244,16 +280,18 @@ console.log("data =", data);
 
         {/* Tournoi */}
         <div>
-          <label className="text-xs text-black/70">Tournoi</label>
+          <label className="text-xs 0">Tournoi</label>
           <SelectField
             value={idTour}
             onChange={(e) =>
               setIdTour(e.target.value ? Number(e.target.value) : "")
             }
           >
-            <option value="">-- Choisir --</option>
+            <option value=""
+              className=" dark:bg-gray-800">-- Choisir --</option>
             {tournaments.map((t) => (
-              <option key={t.id_tour} value={t.id_tour}>
+              <option key={t.id_tour} value={t.id_tour}
+                className=" dark:bg-gray-800">
                 {t.location ?? `Tournoi ${t.id_tour}`}
               </option>
             ))}
@@ -273,7 +311,7 @@ console.log("data =", data);
 
         {/* Key */}
         <div>
-          <label className="text-xs text-black/70">Clé (optionnel)</label>
+          <label className="text-xs ">Clé (optionnel)</label>
           <input
             className="mt-1 w-full rounded-xl border px-3 py-2 text-sm"
             value={keyTeam}
@@ -281,10 +319,10 @@ console.log("data =", data);
           />
         </div>
 
-        {/* Players (comme createTeam) */}
+        {/* Players  */}
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div>
-            <label className="text-xs text-black/70">Joueur 1</label>
+            <label className="text-xs ">Joueur 1</label>
             <input
               className="mt-1 w-full rounded-xl border px-3 py-2 text-sm"
               value={player1}
@@ -292,7 +330,7 @@ console.log("data =", data);
             />
           </div>
           <div>
-            <label className="text-xs text-black/70">Joueur 2</label>
+            <label className="text-xs ">Joueur 2</label>
             <input
               className="mt-1 w-full rounded-xl border px-3 py-2 text-sm"
               value={player2}
@@ -302,7 +340,7 @@ console.log("data =", data);
           {!reserveOnly && (
             <>
               <div>
-                <label className="text-xs text-black/70">Joueur 3</label>
+                <label className="text-xs ">Joueur 3</label>
                 <input
                   className="mt-1 w-full rounded-xl border px-3 py-2 text-sm"
                   value={player3}
@@ -310,7 +348,7 @@ console.log("data =", data);
                 />
               </div>
               <div>
-                <label className="text-xs text-black/70">Joueur 4</label>
+                <label className="text-xs ">Joueur 4</label>
                 <input
                   className="mt-1 w-full rounded-xl border px-3 py-2 text-sm"
                   value={player4}

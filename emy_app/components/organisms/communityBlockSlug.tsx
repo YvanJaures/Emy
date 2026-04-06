@@ -92,11 +92,11 @@ export default function CommunityBlockSlug({ community }: Props) {
   return (
     <div
       className="z-150 absolute fixed flex flex-col top-0 left-0 
-            bg-white h-lvh w-full overflow-scroll max-sm:h-full"
+            bg-white h-lvh w-full overflow-scroll max-sm:h-full dark:bg-black"
     >
       <header
         className="flex-5 absolute sticky top-0 left-0
-                flex justify-between items-center w-full p-3 bg-white/70 z-99"
+                flex justify-between items-center w-full p-3 bg-white/70 z-99 dark:bg-gray-800"
       >
         {/* <Title
                     children={community.name}
@@ -104,7 +104,7 @@ export default function CommunityBlockSlug({ community }: Props) {
                     className="bold"/> */}
         <RiArrowLeftSLine 
                 onClick={()=>router?.push('/communautes#community-'+community.id_community)}
-                className="hover:cursor-pointer hover:bg-gray-200 rounded-full stroke-2"/>
+                className="hover:cursor-pointer hover:bg-gray-200 rounded-full stroke-2 dark:hover:bg-black/20"/>
         <Title as="h2" className="bold">
           {community.name}
         </Title>
@@ -118,7 +118,7 @@ export default function CommunityBlockSlug({ community }: Props) {
             title="avatar de la communauté"
             className="object-cover h-40 w-full flex justify-center items-center"
           />
-          <span className="absolute -translate-y-5 p-2 gap-2 rounded-t-2xl bg-white w-full flex justify-between">
+          <span className="absolute -translate-y-5 p-2 gap-2 rounded-t-2xl bg-white w-full flex justify-between dark:bg-gray-800">
             <span className="flex justify-center items-center gap-1">
               <FaGlobeAmericas />
               {community.privacy ? "Privée" : "Publique"}
@@ -151,7 +151,7 @@ export default function CommunityBlockSlug({ community }: Props) {
           ) : (
             <>
               {view === 0 && <Constructing />}
-              {view === 1 && <TourViewList tournaments={tournaments} />}
+              {view === 1 && <TourViewList tournaments={tournaments} className="mt-17"/>}
               {view === 2 && <UserViewList members={members} />}
               {view === 3 && (
                 <p className="absolute w-full mt-17 p-3 flex flex-col justify-start items-center">

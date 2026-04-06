@@ -6,8 +6,8 @@ import Footer from "@/components/organisms/Footer";
 import CreateTeamForm from "@/components/organisms/CreateTeamForm";
 import LoadingAnimation from "@/components/organisms/LoadingAnimation";
 import { useAuth } from "@/hooks/useAuth";
-import React, { useMemo } from "react";
-import { useSearchParams } from "next/navigation";
+import React, { Suspense, useMemo } from "react";
+import { CreateTeamContent } from "@/components/organisms/CreateTeamContent";
 /**
  * Page permettant à un administrateur de créer une nouvelle équipe.
  * 
@@ -20,32 +20,19 @@ import { useSearchParams } from "next/navigation";
  */
 export default function CreateTeamPage() {
   const { member, loading } = useAuth();
-  const searchParams = useSearchParams();
 
-  const editMode = useMemo(() => searchParams.get("edit") === "1", [searchParams]);
-  const id_team = useMemo(() => Number(searchParams.get("id_team")), [searchParams]);
   if (loading) return <LoadingAnimation />;
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-black">
       {member?.Admin?.id_community && (
         <NavBarAdmin id_community={member.Admin.id_community} />
       )}
 
       <main className="mx-auto w-full max-w-6xl px-6 py-8">
-        <CreateTeamForm
-          // teamUrl="/api/member/team"
-          // tournamentsUrl="/api/tournaments"
-          // onSuccessRedirectTo="/equipes"
-          // onCancel={() => (location.href = "/equipesPage")}
+        <Suspense fallback={<LoadingAnimation />}>
+          <CreateTeamContent />
+        </Suspense>
 
-          teamUrl="/api/member/team"
-        tournamentsUrl="/api/tournaments"
-        // ✅ nouveaux props
-        editMode={editMode}
-        id_team={id_team}
-        detailsUrl="/api/member/team/details"
-        updateUrl="/api/member/team/update"
-        />
       </main>
 
       <Footer />

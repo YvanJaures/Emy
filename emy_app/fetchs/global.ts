@@ -1,5 +1,5 @@
 import { Padyakke_Expanded_One } from 'next/font/google'
-import {CommunityDTO,MemberDTO} from '../hooks/Type_DTO'
+import {CommunityDTO,MemberDTO, TournamentDTO} from '../hooks/Type_DTO'
 export async function getUser(){
     const res=await fetch('/api/user',{
         credentials:"include"
@@ -57,6 +57,16 @@ export async function getCommunityMembers(id_community:number){
     }   
     return []
 }
+export async function getPublicTournaments(){
+    const res=await fetch('/api/tournaments',{
+        credentials:"include"
+    })
+    console.log("recupération")
+    if(!res.ok) return []
+    const tours:TournamentDTO[]=(await res.json())
+    console.log(tours)
+    return tours.filter((t)=>!t.Community.privacy)
+}
 export async function getCommunityTournaments(id_tour:number){
     const res=await fetch('/api/tournament?id_community='+id_tour,{
         credentials:"include"
@@ -98,10 +108,12 @@ export async function addCommunityMember(payload:Object){
             body:JSON.stringify(payload)
         })
         if(!res.ok){
-            throw new Error('impossible de rejoindre cette communaute')
+            console.log('impossible d\'ajouter ce membre')
+            return false
         }
+        return true
     }catch(error){
-
+        return false
     }
 }
 export async function addTeamMemberWait(payload:Object){
@@ -112,10 +124,12 @@ export async function addTeamMemberWait(payload:Object){
             body:JSON.stringify(payload)
         })
         if(!res.ok){
-            throw new Error('ajout impossible')
+            console.log('ajout impossible')
+            return false
         }
+        return true
     }catch(error){
-
+        return false
     }
 }
 export async function deleteMemberCommunity(user_name:string,id_community:number){
@@ -136,6 +150,7 @@ export async function deleteMemberCommunity(user_name:string,id_community:number
         return false
     }catch(error){
         console.log(error)
+        return false
     }
 }
 export async function deconnexion() {
@@ -196,6 +211,7 @@ export async function addSponsor(sponsorData:Object){
         return true
     }catch(error){
         console.log(error)
+        return false
     }
 }
 export async function deleteSponsor(user_name:string){
@@ -205,8 +221,8 @@ export async function deleteSponsor(user_name:string){
             headers:{'Content-Type':'application/json'}
         })
         if(!res.ok){
+            console.log('impossible de supprimer ce commanditaire')
             return false
-            throw new Error('impossible de supprimer ce commanditaire')
         }   
         return true
     }catch(error){
@@ -239,6 +255,7 @@ export async function addTeamMany(payload:{name:string, id_tour:number, key_team
             res.push({index:i,status:true})
 
         }
+        console.log(res)
         return res;
     }catch(error){
         for(let i=res.length; i<payload.length; i++){

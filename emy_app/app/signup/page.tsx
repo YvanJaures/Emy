@@ -3,11 +3,19 @@
 import SignupForm from "@/components/organisms/SignupForm";
 import MetaData from "@/components/organisms/MetaData";
 import {  useConnexion } from "@/hooks/useAuth";
+import { useEffect, useState } from "react";
+import LoadingAnimation from "@/components/organisms/LoadingAnimation";
 
 export default function RegisterPage() {
   const {member,loading}=useConnexion();
   const route='/communautes'
-  if(member) location.href=route
+  const [isMounted,setIsMounted]=useState(false)
+  useEffect(()=>{
+    if(loading) return
+    if(member) location.href=route
+    if(!loading && !member) return setIsMounted(true)
+  },[member,loading])
+  if(!isMounted) return <LoadingAnimation/>
   return (
     <>
       <MetaData

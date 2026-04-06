@@ -12,11 +12,15 @@ export default function TeamCard({
   admin,
   cant,
   onIsMember,
+  onNotPlayer,
+  isPlayer
 }: {
   team: TeamDTO;
   admin: boolean;
   cant: boolean;
   onIsMember: (is: boolean) => void;
+  isPlayer?:boolean;
+  onNotPlayer?:()=>void;
 }) {
   const { member, loading } = useConnexion();
 
@@ -39,7 +43,7 @@ export default function TeamCard({
       .slice(0, 4) ?? [],
   );
   // le user est il déjà membre de l'équipe?
-  const [isMember, setIsMember] = useState(true);
+  const [isMember, setIsMember] = useState(false);
 
   // détermine si il est membre de l'équipe
   useEffect(() => {
@@ -119,6 +123,8 @@ export default function TeamCard({
       SetOnConfirmation(true);
       return;
     }
+    console.log('is player:' +isPlayer)
+    if(onNotPlayer) if(!isPlayer) return onNotPlayer() 
     if (!team.open) {
       setOnJoin(true);
       return;
@@ -135,9 +141,9 @@ export default function TeamCard({
   const emptySlots = Math.max(0, 4 - avatars.length);
 
   return (
-    <div className="min-w-[160px] p-2 rounded-lg shadow-sm">
+    <div className="min-w-[160px] p-2 rounded-lg shadow-sm dark:shadow-white">
       {/* Image thumbnail (placeholder) */}
-      <div className="h-[90px] w-full overflow-hidden rounded-md bg-black/10">
+      <div className="h-[90px] w-full overflow-hidden rounded-md bg-black/10 dark:text-gray-200">
         {/* Si tu veux une vraie image d’équipe, remplace par <Image /> */}
         <Image
           src="/assets/arrieres_plan/CoastalCarolina.png"
@@ -148,7 +154,7 @@ export default function TeamCard({
         />
       </div>
 
-      <p className="mt-2 text-[11px] text-black/80">
+      <p className="mt-2 text-[11px] text-black/80 dark:text-gray-200">
         {team.name?.trim() ? team.name : `Équipe ${team.id_team}`}
       </p>
 
@@ -166,7 +172,7 @@ export default function TeamCard({
         {Array.from({ length: emptySlots }).map((_, i) => (
           <span
             key={`empty-${i}`}
-            className="inline-block h-4 w-4 rounded-full border border-dashed border-black/30"
+            className="inline-block h-4 w-4 rounded-full border border-dashed border-black/30 dark:border-gray-300"
           />
         ))}
         {/** Affiche uniquement si l'utilisateur n'est pas administrateur */}

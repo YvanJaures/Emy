@@ -5,6 +5,7 @@ import {
   deleteSponsor,
   addPrizeSponsor
 } from "../models/sponsor.js";
+import { addedSponsorMail } from "./sendMailController.js";
 
 /**
  * Contrôleur pour récupérer tous les sponsors
@@ -60,6 +61,7 @@ export const addSponsorC = async (req, res) => {
   const sponsorData = req.body;
   try {
     const sponsor = await addSponsor(sponsorData);
+    await addedSponsorMail(sponsorData.user_name)
     res.status(201).json(sponsor);
   } catch (error) {
     res

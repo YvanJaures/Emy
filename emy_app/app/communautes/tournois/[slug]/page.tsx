@@ -5,6 +5,7 @@ import { useConnexion } from "@/hooks/useAuth";
 import Constructing from "@/components/organisms/Constructing";
 import Navbar from "@/components/organisms/NavBar";
 import Footer from "@/components/organisms/Footer";
+import { notFound } from "next/navigation";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -65,6 +66,7 @@ export default async function Page({ params }: Props) {
   const tournaments = buildMap(tournois);
   const selectedTournament = tournaments[Number(slug)]
 
+  if(!selectedTournament) return notFound()
   return (
     <>
       <TournamentBlockSlug tournament={selectedTournament} />

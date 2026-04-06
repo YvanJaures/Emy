@@ -15,9 +15,16 @@ export default function Communautes(){
     const [_loading,setLoading]=useState(true)
     const [onError,setOnError]=useState(false)
     const {member,loading}=useConnexion()
+    const [mounted,setMounted]=useState(false)
+    const [searched,setSearched]=useState('')
+
+
+    useEffect(()=>{
+        setMounted(true)
+    },[])
+
     useEffect(()=>{
         (async()=>{
-            const livre=[]
             try{
                 const communities=await getCommunities()
                 setCommunities(communities)
@@ -30,14 +37,15 @@ export default function Communautes(){
 
         })()
     },[member])
-    if(_loading && loading) return <LoadingAnimation/>
+    if(_loading && loading && mounted) return <LoadingAnimation/>
     return(
         <>
-        <NavBar/>
+        <NavBar _searched={(res)=>setSearched(res)}/>
             <ScrollToHash/>
             <CommunityList 
                 communities={communities} 
                 member={member}
+                search={searched}
             />
         <Footer/>
         </>

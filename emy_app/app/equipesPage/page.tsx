@@ -57,14 +57,14 @@ useEffect(() => {
   if(loading) return <LoadingAnimation/>
   return (
     // a copier coller dans les autres pages
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-black">
       {member?.Admin?.id_community && (
         <NavBarAdmin id_community={member.Admin.id_community} />
       )}
 
       <main className="mx-auto w-full max-w-6xl px-6 py-8">
         {/* Bandeau pâle + bouton vert */}
-        <section className="mb-6 rounded-3xl bg-gradient-to-r from-rose-50 to-green-50 p-8">
+        <section className="mb-6 rounded-3xl lbg-gradient-to-r dark:bg-gray-800 from-rose-50 to-green-50 p-8">
           <div className="flex justify-center">
             <Button
               icon={<span className="text-base">+</span>}

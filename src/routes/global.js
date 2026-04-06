@@ -1,7 +1,7 @@
 import express from 'express'
 import * as globalController from '../controllers/globalController.js'
 import { sendMail } from '../controllers/sendMailController.js'
-import {deConnecterApi,connecterApi} from '../middlewares/auth.js'
+import {deConnecterApi,connecterApi,RateLimiting} from '../middlewares/auth.js'
 import tournamentRoutes from './tournaments.js'
 import adminRoutes from './admin.js'
 import {motDePasseValide,courrielValide} from '../middlewares/validation.js'
@@ -12,7 +12,7 @@ const router=express.Router()
 // Routes GLOBAL
 // connexion, deconnexion
 router.get('/stream',globalController.stream)
-router.post('/connexion',deConnecterApi,globalController.connexion)
+router.post('/connexion',RateLimiting({window:60,max:5}),deConnecterApi,globalController.connexion)
 router.post('/deconnexion',connecterApi,globalController.deconnexion)
 //router.get('/',globalController)
 router.get('/user',globalController.getUser)
@@ -32,8 +32,9 @@ router.get("/member/my-tournaments", connecterApi, globalController.getMyTournam
 
 
 //router.post('/',globalController)
-router.post('/member/add',motDePasseValide,courrielValide,globalController.addMemberC)
-router.post('/member/team',connecterApi,globalController.addTeamC)
+router.post('/member/add',RateLimiting({window:60,max:5}),motDePasseValide,courrielValide,globalController.addMemberC)
+router.post('/member/team',connecterApi,globalController.addTeamC)   // Pour creer l'equipe sans recuperer l'id
+router.post('/member/teams',connecterApi,globalController.addTeamsC)  // Pour creer une equipe et recuperer so id
 router.post('/member/team/add',connecterApi,globalController.addTeamMemberWaitC)
 router.post('/member/pay',connecterApi,globalController.payC)
 router.post('/member/community/join',connecterApi,globalController.addCommunityMemberC)

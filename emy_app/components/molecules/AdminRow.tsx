@@ -33,10 +33,10 @@ export default function AdminRow({
   const email = admin.Member?.email ?? "—";
 
   return (
-    <div className="grid grid-cols-1 gap-2 rounded-2xl bg-white px-5 py-3 shadow sm:grid-cols-4 sm:items-center">
-      <p className="text-xs text-black/80">{nom}</p>
-      <p className="text-xs text-black/60 sm:text-center">{communaute}</p>
-      <p className="text-xs text-black/60 sm:text-center">{email}</p>
+    <div className="grid grid-cols-1 gap-2 rounded-2xl bg-white px-5 py-3 shadow sm:grid-cols-4 sm:items-center  dark:bg-gray-800">
+      <p className="text-xs text-black/80 dark:text-gray-300">{nom}</p>
+      <p className="text-xs text-black/60 dark:text-gray-300 sm:text-center">{communaute}</p>
+      <p className="text-xs text-black/60 dark:text-gray-300 sm:text-center">{email}</p>
 
       <div className="flex justify-start sm:justify-end">
         <button

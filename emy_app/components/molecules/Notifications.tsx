@@ -4,7 +4,7 @@ type Props={
 }
 export default function Notifications({notifications}:Props){
     return(
-        <div className="absolute flex flex-col h-dvh w-sm right-0 mr-2 rounded-xl z-99 bg-white">
+        <div className="absolute flex flex-col h-dvh w-sm right-0 mr-2 rounded-xl z-99 bg-white dark:bg-gray-800">
             <Title
             children='NOTIFICATIONS'
             as='h2'
