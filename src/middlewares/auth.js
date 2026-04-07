@@ -79,10 +79,17 @@ export function RateLimiting(options) {
     if (count === 1) {
       await redis.expire(key, options.window);
     }
+    const ex=await redis.ttl(key)
+    function formatTime(seconds) {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = seconds % 60;
 
+    return `${h}:${m}:${s}`;
+    }
     if (count > options.max) {
       return res.status(429).json({
-        message: "Limite de requêtes dépassée!",
+        message: "Limite de requêtes dépassée! Réessayer dans "+formatTime(ex),
       });
     }
     } catch (err) {

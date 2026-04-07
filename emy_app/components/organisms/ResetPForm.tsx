@@ -124,7 +124,7 @@ export default function ResetPForm(props:{route:string,user_name:string}) {
             size="text-[10px]"
             className="py-2 w-full"
             color="bg-white/80 border-white/80 text-black hover:bg-white"
-            onClick={() => (history.back())}
+            onClick={() => location.href='/profil'}
           />
         </div>
       </div>
