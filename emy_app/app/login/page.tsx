@@ -26,8 +26,7 @@ export default function LoginPage() {
     <>
     <MetaData seoTitle="Log in" seoDescription="page de connexion"></MetaData>
     <main
-      className="min-h-screen w-full bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url(/assets/arrieres_plan/DesertBloomArizona.png)" }}
+      className="min-h-screen w-full bg-cover bg-center bg-no-repeat bg-[url(/assets/arrieres_plan/DesertBloomArizona.png)] dark:bg-[url(/assets/arrieres_plan/Desert_bloom_night.png)]"
     >
       {/* Overlay léger (aide à lire la carte) */}
       <div className="min-h-screen w-full bg-black/10 flex items-center justify-center p-6">
