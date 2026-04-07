@@ -198,13 +198,13 @@ export default function CreateTournament() {
 
         <form
           onSubmit={onSubmit}
-          className="flex flex-col justify-center items-center w-full p-5"
+          className="flex flex-col justify-center items-center w-full p-5 overflow-hidden"
         >
           <section className="flex flex-col flex-wrap w-full">
             <div className="flex flex-row flew-wrap justify-center items-center gap-2">
               <InputText
                 label="Nom du tournoi"
-                containerClassName="flex flex-row flew-wrap justify-center items-center"
+                containerClassName="flex flex-row justify-center items-center"
                 required
                 value={name}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -223,7 +223,7 @@ export default function CreateTournament() {
               /> */}
             </div>
 
-            <div className="flex flex-row flew-wrap justify-center items-center gap-2">
+            <div className="flex flex-row max-sm:flex-col flew-wrap justify-center items-center gap-2">
               <InputText
                 label="Date de début"
                 containerClassName="flex flex-row flew-wrap justify-center items-center"
@@ -293,9 +293,9 @@ export default function CreateTournament() {
           </section>
 
           <section className="flex flex-col flex-wrap w-full relative">
-            <table className="w-full">
+            <table className="w-full max-sm:text-[10px]">
               <caption>LISTE DE COMMANDITES</caption>
-              <thead className="bg-gray-200 p-2 flex justify-start items-center w-full dark:bg-gray-800 shadow-xs shadow-white">
+              <thead className="bg-gray-200 flex justify-start items-center w-full dark:bg-gray-800 shadow-xs shadow-white">
                 <tr className="p-2 flex justify-start items-center w-full">
                   <th className="flex-40">Nom de commandite</th>
                   <th className="flex-15">Valeur</th>
