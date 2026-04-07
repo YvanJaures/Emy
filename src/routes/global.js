@@ -12,12 +12,12 @@ const router=express.Router()
 // Routes GLOBAL
 // connexion, deconnexion
 router.get('/stream',globalController.stream)
-router.post('/connexion',RateLimiting({window:60,max:5}),deConnecterApi,globalController.connexion)
+router.post('/connexion',deConnecterApi,RateLimiting({window:60,max:5}),deConnecterApi,globalController.connexion)
 router.post('/deconnexion',connecterApi,globalController.deconnexion)
 //router.get('/',globalController)
 router.get('/user',globalController.getUser)
 router.get('/members',globalController.getMembersC)
-router.get('/member/email',globalController.getMemberByEmailC)
+router.get('/member/email',RateLimiting({window:60,max:5}),globalController.getMemberByEmailC)
 router.get('/members/community',globalController.getMembersByCommunityC)
 router.get('/member/user_name',globalController.getMemberByNameC)
 router.get("/member/my-teams", globalController.getMyTeamsC);
@@ -41,7 +41,7 @@ router.post('/member/community/join',connecterApi,globalController.addCommunityM
 router.post('/member/tour/join',connecterApi,globalController.addPlayerC)
 router.post('/member/tournament/registration',connecterApi,globalController.registrationPlayerC)
 router.post('/sendMail',sendMail)
-router.post('/sendMail/verificationEmail',RateLimiting({window:60,max:5}),sendCodeValidation)
+router.post('/sendMail/verificationEmail',deConnecterApi,RateLimiting({window:60,max:5}),sendCodeValidation)
 
 //router.patch('/',globalController)
 router.patch('/member/update',connecterApi,globalController.updateMemberC)
