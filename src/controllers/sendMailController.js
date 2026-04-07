@@ -1,3 +1,4 @@
+import { request } from 'node:http';
 import nodemailer from 'nodemailer'
 /**
  * transporteur d'email
@@ -112,4 +113,48 @@ export async function addedSponsorMail(username) {
     subject: "Inscription au tournoi ",
     html: htmlContent,
   });
+}
+export async function verifyEmail(user_name,code,email) {
+  const htmlContent= `
+  <!DOCTYPE html>
+  <html>
+    <body style="font-family: Arial, sans-serif; background:#f4f6f8; padding:20px;">
+      <div style="max-width:600px; margin:auto; background:white; padding:30px; border-radius:12px;">
+        
+        <h2>Confirme ton email</h2>
+        <p>Salut ${user_name},</p>
+        <p>Votre code est : <strong>${code}</strong><p>
+
+        <p>
+          Si tu n’es pas à l’origine de cette inscription, tu peux ignorer cet email.
+        </p>
+
+        <hr style="margin:30px 0;" />
+
+        <p style="font-size:12px; color:#888; text-align:center;">
+          EMY — Plateforme de gestion de tournois de golf<br/>
+          Collège La Cité • 2026
+        </p>
+
+      </div>
+    </body>
+  </html>
+  `;
+
+    await transporter.sendMail({
+    from: `"Emy" <${process.env.EMAIL_EMY}>`,
+    to: email,
+    subject: "Validation d'email ",
+    html: htmlContent,
+  });
+}
+export const sendCodeValidation= async(request,response)=>{
+  const payload=request.body
+  try{
+    if(!payload) return response.status(400).json({message:'données manquantes'})
+    await verifyEmail(payload.user_name,payload.code,payload.email)
+    response.status(200).end()
+  }catch(e){
+    console.log(e)
+  }
 }

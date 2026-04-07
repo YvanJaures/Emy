@@ -45,22 +45,18 @@ export default function Page({sponsors,_loading,search}:Props){
     const [validationMessage,setValidationMessage]=useState('')
     const [onError,setOnError]=useState(false)
     const [searched,setSearched]=useState<string>(search?? "")
-    const [_has,setHas]=useState(false)
+    const [_has,setHas]=useState(true)
 
     const handleAlert=()=>{
         setValidationMessage('')
         setOnError(false)
     }
     useEffect(()=>{
-        console.log('searching:'+searched)
         if(searched==="404") {
             if(onFilter) return setSponsorsList(sponsorsListV2.filter(sponsor=>sponsor.user_name===member?.user_name));
             return setSponsorsList(sponsors)
         }
-        console.log('search valide')
-        console.log(sponsors)
         const sps=sponsorsList.filter((s)=>s.company_name.toLowerCase().includes(searched.toLowerCase()))
-        console.log(sps)
         setSponsorsList(sps)
     },[searched])
 
@@ -94,14 +90,18 @@ export default function Page({sponsors,_loading,search}:Props){
     }
     
     const has=()=>{
-        return sponsorsList.some(sponsor=>sponsor.user_name===member?.user_name)
+        if(!member || !sponsors) return true
+        const has= sponsorsList.some((sponsor)=>sponsor.user_name===member?.user_name)
+        return has
     }
     useEffect(()=>{
+
         setSponsorsList(sponsors)
+
     },[sponsors])
 
     useEffect(()=>{
-        setHas(has())
+        if(member) setHas(has())
     },[member])
 
     return(

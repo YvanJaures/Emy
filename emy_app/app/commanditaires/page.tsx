@@ -27,13 +27,10 @@ export default function Page(){
     useEffect(()=>{
         (async ()=>{
             try{
-                console.log("calcul")
                 const sponsors=await getSponsors();
                 setSponsorsList(sponsors);
-                console.log(sponsors)
                 setLoading(false);
             }catch(error){
-                console.log(error)
                 setLoading(false)
             }
         })();

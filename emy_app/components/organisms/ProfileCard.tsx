@@ -5,6 +5,8 @@ import { TbUserEdit } from "react-icons/tb";
 import { MdOutlineChangeCircle } from "react-icons/md";
 import { useState } from "react";
 import { deconnexion } from "@/fetchs/global";
+import { IoKeyOutline } from "react-icons/io5";
+
 export default function ProfileCard(props:{imgUrl:string,name:string,user_name:string,email:string,edit:string,admin:boolean,onModify:(mod:boolean)=>void}){
 const [avatar,setAvatar]=useState(props.imgUrl)
 const [modify,setModify]=useState(false)
@@ -35,25 +37,34 @@ const handleMod=()=>{
                 </p>
             </span>
             <div className="flex flex-col flex-20 justify-evenly items-center gap-5">
-                {props.admin &&(<span className="border border-black-800 rounded-xl p-1 w-50 gap-2 flex justify-center 
+                {props.admin &&(<span className="border border-black-800 rounded-xl p-1 w-40 gap-2 flex justify-center 
                     items-center hover:cursor-pointer"  onClick={()=>(location.href="/communautes")}>
                     <MdOutlineChangeCircle  className={props.edit+" hover:cursor-pointer"}/>
-                    MODE MEMBRE
+                    <p className="max-sm:hidden text-center">MODE MEMBRE</p>
+                    
                 </span>)}
-                {!props.admin &&( <span className="border border-black-800 rounded-xl p-1 w-50 gap-2 flex justify-center 
+                {!props.admin &&( <span className="border border-black-800 rounded-xl p-1 w-40 gap-2 flex justify-center 
                     items-center hover:cursor-pointer"  onClick={()=>(handleMod())}>
                     <TbUserEdit  className={props.edit+" hover:cursor-pointer"}/>
-                    MODIFIER
+                    <p className="max-sm:hidden text-center">MODIFIER</p>
+                    
                 </span>)}
-                <span className="border border-black-800 rounded-xl p-1  w-50 gap-2 flex justify-center 
+                <span className="border border-black-800 rounded-xl p-1  w-40 gap-2 flex justify-center 
                     items-center hover:cursor-pointer"  onClick={async ()=>await deconnexion()}>
                     <MdLogout className="hover:cursor-pointer"/>
-                    DECONNEXION
+                    <p className="max-sm:hidden text-center">DECONNEXION</p>
                 </span>
-                {!props.admin &&(<span className="border border-black-800 rounded-xl p-1  w-50 gap-2 flex justify-center 
+                <span className="border border-black-800 rounded-xl p-1  w-40 gap-2 flex justify-center 
+                    items-center hover:cursor-pointer"  onClick={async ()=>location.href='/resetPassword'}>
+                    <IoKeyOutline  className="hover:cursor-pointer"/>
+                    <p className="max-sm:hidden text-center">MOT DE PASSE</p>
+
+                </span>
+                {!props.admin &&(<span className="border border-black-800 rounded-xl p-1  w-40 gap-2 flex justify-center 
                     items-center hover:cursor-pointer" onClick={()=>(alert('delete'))}>
                     <AiOutlineUserDelete className="hover:cursor-pointer"/>
-                    SUPPRIMER
+                    <p className="max-sm:hidden text-center">SUPPRIMER</p>
+
                 </span>)}
             </div>
         </div>
