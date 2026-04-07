@@ -24,10 +24,7 @@ export default function RegisterPage() {
       />
 
       <main
-        className="min-h-screen w-full bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: "url(/assets/arrieres_plan/DesertBloomArizona.png)",
-        }}
+        className="min-h-screen w-full bg-cover bg-center bg-no-repeat bg-[url(/assets/arrieres_plan/DesertBloomArizona.png)] dark:bg-[url(/assets/arrieres_plan/Desert_bloom_night.png)]"
       >
         <div className="min-h-screen w-full flex items-center justify-center bg-black/10 p-6">
           <section className="relative w-[360px] max-w-[92vw] rounded-xl border border-white/40 bg-white/35 shadow-2xl backdrop-blur-md">

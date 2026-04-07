@@ -6,15 +6,22 @@ import Title from "../atoms/Title";
 import FormError from "../atoms/FormError";
 import Button from "../atoms/Button";
 import LabeledField from "../molecules/LabeledField";
+import { motDePasseEstvalide } from "@/validations/validation";
+import Alert from "../molecules/Alert";
 
 /**
  * Ce composant est un formulaire de connexion qui n'active le boutton de
  * soumission que lorqsqu'au moins l'email et le mot de passe sont remplis
  */
-export default function ResetPForm(props:{route:string,user_name:string}) {
+export default function ResetPForm(props:{route?:string,user_name:string}) {
   const [password, setPassword] = useState("");
+
   const [newPassword, setNewPassword] = useState("");
+
   const [error, setError] = useState<string>("");
+
+  const [success,setSuccess]=useState('')
+
   const [_loading, setLoading] = useState(false);
 
   // Désactive LOG IN seulement si email OU password est vide
@@ -30,6 +37,7 @@ export default function ResetPForm(props:{route:string,user_name:string}) {
   }
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if(!motDePasseEstvalide(password) || !motDePasseEstvalide(newPassword)) return setError('Le mot de passe doit contenir au moins 8 caractères')
     setError("");
 
     if (!canSubmit) {
@@ -45,7 +53,6 @@ export default function ResetPForm(props:{route:string,user_name:string}) {
       };
 
       // MON API
-      console.log(payload)
       const res = await fetch(`/api/member/password`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
@@ -57,7 +64,6 @@ export default function ResetPForm(props:{route:string,user_name:string}) {
         let msg = "Une erreur est survenu, Réesayer plus tard!";
         try {
           const data = await res.json();
-          console.log(data)
           if (data?.message) msg = data.message;
         } catch {}
         setError(msg);
@@ -66,6 +72,7 @@ export default function ResetPForm(props:{route:string,user_name:string}) {
 
       // Succès
       setError("");
+      setSuccess("Mot de passe modifié avec succcès!")
       if(props.route){
 
         location.href=props.route 
@@ -124,10 +131,20 @@ export default function ResetPForm(props:{route:string,user_name:string}) {
             size="text-[10px]"
             className="py-2 w-full"
             color="bg-white/80 border-white/80 text-black hover:bg-white"
-            onClick={() => (history.back())}
+            onClick={() => location.href='/profil'}
           />
         </div>
       </div>
+      {error.length!==0 && <Alert 
+        message={error}
+        error={true}
+        onMes={()=>setError('')}
+      />}
+      {success.length!==0 && <Alert 
+        message={success}
+        error={false}
+        onMes={()=>setSuccess('')}
+      />}
     </form>
   );
 }

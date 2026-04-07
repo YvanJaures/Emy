@@ -24,7 +24,7 @@ export default function LoginPage() {
           {/* Petit effet “header” doux comme sur l’image */}
           <div className="h-12 w-full rounded-t-xl bg-white/10" />
 
-          {/* Bouton X */}
+          {/* Bouton X 
           <button
             type="button"
             aria-label="Close"
@@ -32,7 +32,7 @@ export default function LoginPage() {
             onClick={() => history.back()}
           >
           ×
-          </button>
+          </button>*/}
 
           {/* Contenu */}
           <div className="px-10 pb-10 pt-2">

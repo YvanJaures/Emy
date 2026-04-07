@@ -28,11 +28,11 @@ export default function Alert({
 
   return (
     <div
-      className={`flex absolute justify-between items-center gap-2 fixed top-10 left-1/2 -translate-x-1/2 z-50 p-2 border rounded-md shadow dark:bg-gray-800
+      className={`flex absolute justify-start items-center gap-2 fixed top-10 left-1/2 -translate-x-1/2 z-50 p-2 border rounded-md shadow dark:bg-gray-800 w-90
       ${error ? "bg-red-100 border-red-500" : "bg-green-100 border-green-500"}`}
     >
-        {error? (<MdOutlineCancel className="text-red-500"/>):(<FaRegCheckCircle className="text-green-500"/>)}
-      <p>{mes}</p>
+        {error? (<MdOutlineCancel className="text-red-500 w-10 h-10"/>):(<FaRegCheckCircle className="text-green-500 w-10 h-10"/>)}
+      <p className="text-center">{mes}</p>
     </div>
   );
 }

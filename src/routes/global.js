@@ -1,6 +1,6 @@
 import express from 'express'
 import * as globalController from '../controllers/globalController.js'
-import { sendMail } from '../controllers/sendMailController.js'
+import { sendCodeValidation, sendMail } from '../controllers/sendMailController.js'
 import {deConnecterApi,connecterApi,RateLimiting} from '../middlewares/auth.js'
 import tournamentRoutes from './tournaments.js'
 import adminRoutes from './admin.js'
@@ -12,12 +12,12 @@ const router=express.Router()
 // Routes GLOBAL
 // connexion, deconnexion
 router.get('/stream',globalController.stream)
-router.post('/connexion',RateLimiting({window:60,max:5}),deConnecterApi,globalController.connexion)
+router.post('/connexion',deConnecterApi,RateLimiting({window:60,max:5}),deConnecterApi,globalController.connexion)
 router.post('/deconnexion',connecterApi,globalController.deconnexion)
 //router.get('/',globalController)
 router.get('/user',globalController.getUser)
 router.get('/members',globalController.getMembersC)
-router.get('/member/email',globalController.getMemberByEmailC)
+router.get('/member/email',RateLimiting({window:60,max:5}),globalController.getMemberByEmailC)
 router.get('/members/community',globalController.getMembersByCommunityC)
 router.get('/member/user_name',globalController.getMemberByNameC)
 router.get("/member/my-teams", globalController.getMyTeamsC);
@@ -41,12 +41,13 @@ router.post('/member/community/join',connecterApi,globalController.addCommunityM
 router.post('/member/tour/join',connecterApi,globalController.addPlayerC)
 router.post('/member/tournament/registration',connecterApi,globalController.registrationPlayerC)
 router.post('/sendMail',sendMail)
+router.post('/sendMail/verificationEmail',deConnecterApi,RateLimiting({window:60,max:5}),sendCodeValidation)
 
 //router.patch('/',globalController)
 router.patch('/member/update',connecterApi,globalController.updateMemberC)
 //router.patch('/member/team/update',connecterApi,globalController.addTeamMemberC) // Cette route ajoute plutot un membre
 router.patch("/member/team/update", connecterApi, globalController.updateTeamC);
-router.patch('/member/password',connecterApi,motDePasseValide,globalController.updatePasswordMemberC)
+router.patch('/member/password',RateLimiting({window:86400,max:2}),connecterApi,motDePasseValide,globalController.updatePasswordMemberC)
 router.patch("/member/team/confirm", connecterApi, globalController.addTeamMemberC);
 
 //Routes ADMIN ET TOURNAMENTS
