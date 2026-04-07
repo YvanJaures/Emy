@@ -1,6 +1,6 @@
 import express from 'express'
 import * as globalController from '../controllers/globalController.js'
-import { sendMail } from '../controllers/sendMailController.js'
+import { sendCodeValidation, sendMail } from '../controllers/sendMailController.js'
 import {deConnecterApi,connecterApi,RateLimiting} from '../middlewares/auth.js'
 import tournamentRoutes from './tournaments.js'
 import adminRoutes from './admin.js'
@@ -41,6 +41,7 @@ router.post('/member/community/join',connecterApi,globalController.addCommunityM
 router.post('/member/tour/join',connecterApi,globalController.addPlayerC)
 router.post('/member/tournament/registration',connecterApi,globalController.registrationPlayerC)
 router.post('/sendMail',sendMail)
+router.post('/sendMail/verificationEmail',RateLimiting({window:60,max:5}),sendCodeValidation)
 
 //router.patch('/',globalController)
 router.patch('/member/update',connecterApi,globalController.updateMemberC)

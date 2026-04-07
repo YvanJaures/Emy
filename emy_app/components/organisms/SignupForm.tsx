@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Title from "../atoms/Title";
 import FormError from "../atoms/FormError";
 import Button from "../atoms/Button";
@@ -8,6 +8,8 @@ import AppLink from "../atoms/AppLink";
 import LabeledField from "../molecules/LabeledField";
 import AvatarPicker from "../molecules/AvatarPicker";
 import type { SignupFormData } from "@/hooks/Type_DTO";
+import Verification from "./VerificationForm";
+import { fetchApi } from "@/fetchs/global";
 
 type SignupErrors = Partial<Record<keyof SignupFormData, string>>;
 
@@ -56,6 +58,10 @@ export default function SignupForm() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [checkingUsername, setCheckingUsername] = useState(false);
+  const [verified,setVerified]=useState(false)
+  const [verify,setVerify]=useState(false)
+  const [code,setCode]=useState('')
+  const formRef=useRef<HTMLFormElement|null>(null)
 
   function validateField<K extends keyof SignupFormData>(
     field: K,
@@ -277,7 +283,11 @@ export default function SignupForm() {
     }
 
     setLoading(true);
-
+    if (!verified) {
+      await handleCode();
+      setLoading(false);
+      return;
+    }
     try {
       const payload = {
         user_name: form.user_name.trim(),
@@ -311,7 +321,7 @@ export default function SignupForm() {
 
       setForm(initialForm);
       setErrors({});
-      //location.href = "/login";
+      //location.href = d"/login";
       history.back();
     } catch {
       setError("Erreur serveur. Réessaie plus tard.");
@@ -319,9 +329,32 @@ export default function SignupForm() {
       setLoading(false);
     }
   }
-
+  const createCode=()=>{
+    let code=(Math.random()*0.99).toPrecision(4)
+    const val =code.split('.').join('')
+    return val
+  }
+  const handleCode= async ()=>{
+    const codeV=createCode()
+    
+    const payload={
+      user_name:form.user_name,
+      code:codeV,
+      email:form.email
+    }
+    const res=await fetchApi(payload,'/api/sendMail/verificationEmail','POST')
+    if(res){
+      setCode(codeV)
+      setVerify(true)
+    }
+  }
+  if(verify) return <Verification code={code}
+      onSuccess={()=>{setVerify(false);setVerified(true);formRef.current?.requestSubmit()}}
+      onResend={handleCode}
+    />
   return (
     <form
+      ref={formRef}
       onSubmit={onSubmit}
       className="flex w-full flex-col items-center text-gray-900"
     >
@@ -478,7 +511,7 @@ export default function SignupForm() {
         <div className="mt-2 grid grid-cols-2 gap-3">
           <Button
             type="submit"
-            title={loading ? "LOADING..." : "CONFIRM"}
+            title={loading||verify ? "LOADING..." : "CONFIRM"}
             disabled={loading || checkingUsername}
             size="text-[10px]"
             className="w-full py-2"
