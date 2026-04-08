@@ -30,14 +30,8 @@ export default function Page(){
     const [time,setTime]=useState(180)
 
     const createCode=()=>{
-
-        let code=(Math.random()*0.99).toPrecision(4)
-        let val =code.split('.').join('')
-        while(val.length>5){
-            let code=(Math.random()*0.99).toPrecision(4)
-            val =code.split('.').join('')
-        }
-        return val
+        const val = Math.floor(10000 + Math.random() * 90000)
+        return val.toString()
     }
     const handleCode= async ()=>{
         setLoading(true)
@@ -147,6 +141,7 @@ export default function Page(){
                 }
                 {(verified &&member) &&<ResetPForm
                     user_name={member.user_name}
+                    reset={true}
                 />
                 }
                 {error.length!==0 && <Alert 

@@ -52,6 +52,7 @@ export default function SponsorForm({member,onClose}:{member:MemberDTO,onClose:(
         {title:"title",error:undefined}
     ]);
     const [errorSubmit,setErrorSubmit]=useState<string>("");
+    const [loading,setLoading]=useState(false)
     const EmptyForm=()=>{
         setCompanyName("");
         setTitle("");
@@ -94,14 +95,20 @@ export default function SponsorForm({member,onClose}:{member:MemberDTO,onClose:(
     const handleSubmit=async (e:React.FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
         setErrorSubmit("");
-        if(!validateForm()) return;
+        setLoading(true)
+        if(!validateForm()) return setLoading(false);
         const payload={
             user_name:username,
             company_name:companyName,
             title:title,
+            email:member.email
         }
         const addedSponsor=await addSponsor(payload)
-        if(!addedSponsor) return setErrorSubmit("Une erreur est survenue lors de l'ajout du commanditaire! Veuillez réessayer.");
+        if(!addedSponsor) {
+            setLoading(false)
+            setErrorSubmit("Une erreur est survenue lors de l'ajout du commanditaire! Veuillez réessayer.");
+            return
+        }
         EmptyForm();
         const sponsor:SponsorDTO={
             user_name:username,
@@ -157,8 +164,9 @@ export default function SponsorForm({member,onClose}:{member:MemberDTO,onClose:(
                 <FormError message={errorSubmit}/>
                 <div className="flex gap-2 w-full justify-evenly">
                     <Button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 border-none"
-                        title="Soumettre"
+                        title={loading?"En cours...":"Soumettre"}
                         type="submit"
+                        disabled={loading}
                         >
                     </Button>
                     <Button className="px-4 py-2 bg-red-500 text-gray-700 rounded hover:bg-red-600 border-none"

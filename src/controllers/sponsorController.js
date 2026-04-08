@@ -61,7 +61,11 @@ export const addSponsorC = async (req, res) => {
   const sponsorData = req.body;
   try {
     const sponsor = await addSponsor(sponsorData);
-    await addedSponsorMail(sponsorData.user_name)
+    if(!sponsor) return res.status(500).json({
+        error: error.message,
+        message: "Commanditaire non créé",
+      });
+    await addedSponsorMail(sponsorData.user_name,sponsorData.email)
     res.status(201).json(sponsor);
   } catch (error) {
     res

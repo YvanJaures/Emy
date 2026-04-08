@@ -36,7 +36,7 @@ export default function LoginPage() {
 
           {/* Contenu */}
           <div className="px-10 pb-10 pt-2">
-            <ResetPForm route={route} user_name={member?.user_name ?? ''}></ResetPForm>
+            <ResetPForm route={route} user_name={member?.user_name ?? ''} reset={false}></ResetPForm>
           </div>
         </section>
       </div>

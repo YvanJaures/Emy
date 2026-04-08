@@ -48,6 +48,7 @@ router.patch('/member/update',connecterApi,globalController.updateMemberC)
 //router.patch('/member/team/update',connecterApi,globalController.addTeamMemberC) // Cette route ajoute plutot un membre
 router.patch("/member/team/update", connecterApi, globalController.updateTeamC);
 router.patch('/member/password',RateLimiting({window:86400,max:2}),connecterApi,motDePasseValide,globalController.updatePasswordMemberC)
+router.patch('/member/password-reset',RateLimiting({window:86400,max:2}),deConnecterApi,motDePasseValide,globalController.updatePasswordMemberC)
 router.patch("/member/team/confirm", connecterApi, globalController.addTeamMemberC);
 
 //Routes ADMIN ET TOURNAMENTS

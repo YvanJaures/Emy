@@ -13,7 +13,7 @@ import Alert from "../molecules/Alert";
  * Ce composant est un formulaire de connexion qui n'active le boutton de
  * soumission que lorqsqu'au moins l'email et le mot de passe sont remplis
  */
-export default function ResetPForm(props:{route?:string,user_name:string}) {
+export default function ResetPForm(props:{route?:string,user_name:string,reset:boolean}) {
   const [password, setPassword] = useState("");
 
   const [newPassword, setNewPassword] = useState("");
@@ -53,7 +53,7 @@ export default function ResetPForm(props:{route?:string,user_name:string}) {
       };
 
       // MON API
-      const res = await fetch(`/api/member/password`, {
+      const res = await fetch(`${props.reset?'/api/member/password-reset':'/api/member/password'}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

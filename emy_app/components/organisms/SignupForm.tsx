@@ -330,9 +330,8 @@ export default function SignupForm() {
     }
   }
   const createCode=()=>{
-    let code=(Math.random()*0.99).toPrecision(4)
-    const val =code.split('.').join('')
-    return val
+    const val = Math.floor(10000 + Math.random() * 90000)
+    return val.toString()
   }
   const handleCode= async ()=>{
     const codeV=createCode()
