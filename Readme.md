@@ -363,6 +363,20 @@ cd ..
 npm start
 ```
 
+
+### Lancement de Redis
+```bash
+# Regarder si un conteneur Redis est lancé.
+docker ps
+
+# Ouvrir Docker desktop dans votre ordinateur. Si vous ne l'avez pas,
+# vous pouvez l'installer via la video ci-dessous:
+[installation de docker desktop](https://www.youtube.com/watch?v=5nX8U8Fz5S0)
+
+# Démarrage Redis
+docker run -d --name redis-server -p 6379:6379 redis
+```
+
 L'application sera accessible sur : **http://localhost:3000**
 
 ### Vérifications
