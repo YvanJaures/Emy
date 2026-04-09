@@ -90,7 +90,7 @@ export default function Page({sponsors,_loading,search}:Props){
     }
     
     const has=()=>{
-        if(!member || !sponsors) return true
+        if(!member || !sponsors) return false
         const has= sponsorsList.some((sponsor)=>sponsor.user_name===member?.user_name)
         return has
     }
@@ -101,8 +101,8 @@ export default function Page({sponsors,_loading,search}:Props){
     },[sponsors])
 
     useEffect(()=>{
-        if(member) setHas(has())
-    },[member])
+        setHas(has())
+    },[member,sponsorsList])
 
     return(
         <>

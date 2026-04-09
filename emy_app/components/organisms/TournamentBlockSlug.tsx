@@ -51,7 +51,7 @@ export default function TournamentBlockSlug({ tournament }: Props) {
   // Ouverture ou non du formulaire de création d'équipe
   const [openCreation, setOpenCreation] = useState(false);
   // Membre connecté (si un)
-  const { member } = useConnexion();
+  const { member,loading } = useConnexion();
 
   const router=useRouter();
 
@@ -59,6 +59,7 @@ export default function TournamentBlockSlug({ tournament }: Props) {
   useEffect(()=>{
     if(!selectedPrizes) return 
     if(!member) return setSponsoring(true)
+    if(loading) return setSponsoringMessage('Récupération de compte en cours! Veuillez patienter')
     if(!member.Sponsor) return setBecomingSponsor(true)
     if(etat!==1){
       if(etat===-2) return setSponsoringMessage('Une erreur de date est survenue!')
