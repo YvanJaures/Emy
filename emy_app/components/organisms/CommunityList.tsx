@@ -26,7 +26,7 @@ export default function CommunityList({communities,member,search}:Props){
         if(searched==="404") return setCommunities(communities)
         console.log('search valide')
         console.log(_communities)
-        const coms=_communities.filter((com)=>com.name.toLowerCase().includes(searched.toLowerCase()))
+        const coms=_communities?.filter((com :CommunityDTO)=>com.name.toLowerCase().includes(searched.toLowerCase()))
         console.log(coms)
         setCommunities(coms)
     },[searched])
@@ -89,7 +89,7 @@ export default function CommunityList({communities,member,search}:Props){
                         <p className="group-hover:text-[#0F70AC]"> Rejoindre une communauté</p>
                     </li>)
                 }
-                {communities.length===0 && [...Array(10)].map((_,index)=>(
+                {communities?.length===0 || !communities && [...Array(10)].map((_,index)=>(
                     <LoadCommunityRow key={index}/>
                 ))}
                 { communities ?
