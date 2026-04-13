@@ -1,0 +1,41 @@
+services:
+  app:
+    build: .
+    ports:
+      - "5015:5015"
+    env_file: .env
+    networks:
+      - emy-network
+    restart: on-failure:5
+    command: sh -c "sleep 60 && npx prisma generate && npx prisma db push && node ./src/models/seed.js && node server.js"
+
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: Emy&co2026?!
+      MSSQL_PID: Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+    networks:
+      - emy-network
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - emy-network
+    command: redis-server --appendonly yes
+
+volumes:
+  mssql_data:
+  redis_data:
+
+networks:
+  emy-network:
+    driver: bridge

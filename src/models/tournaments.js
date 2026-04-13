@@ -58,15 +58,7 @@ export async function getTournamentsByCommunity(id_community) {
       where: {
         id_community: id_community,
       },
-      select: {
-        id_tour: true,
-        location: true,
-        start_date: true,
-        end_date: true,
-        avatar: true,
-        name: true,
-        Player: true,
-        id_community: true,
+      include: {
         Prize: {
           include: {
             Prize_sponsor: true,

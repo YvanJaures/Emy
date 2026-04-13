@@ -168,7 +168,7 @@ async function main() {
       start_date: start,
       end_date: end,
       members:40,
-      status: faker.number.int({ min: 0, max: 3 }),
+      status: faker.number.int({ min: 0, max: 1 }),
       avatar: faker.image.url(),
       id_community: pick(communities).id_community,
       fees: parseFloat(faker.commerce.price({ min: 0, max: 500 })),
