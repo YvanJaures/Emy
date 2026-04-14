@@ -529,8 +529,6 @@ export async function addPlayer(id_tour, user_name) {
           location: "Test",
         },
       });
-
-      console.log("Fake tournament created:", tournament);
     }
 
     const existing = await prisma.player.findFirst({

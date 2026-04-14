@@ -149,8 +149,6 @@ export default function CreateTournament() {
         })),
       };
 
-      console.log(payload);
-
       const res = await fetch("/api/admin/tour&prizes", {
         method: "POST",
         headers: { "Content-Type": "application/json", role: "admin" },

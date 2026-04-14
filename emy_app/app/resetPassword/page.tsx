@@ -8,7 +8,6 @@ import { useAuth } from "@/hooks/useAuth";
 export default function LoginPage() {
   const {member,loading}=useAuth();
   const route='/'
-  console.log(member)
   if(loading) return <LoadingAnimation/>
   return (
     <>

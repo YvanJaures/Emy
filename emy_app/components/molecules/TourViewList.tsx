@@ -15,12 +15,8 @@ export default function TourViewList(props:{tournaments:TournamentDTO[],classNam
     const [searched,setSearched]=useState<string>(props.search?? "")
 
     useEffect(()=>{
-        console.log('searching:'+searched)
         if(searched==="404") return setTournaments(props.tournaments)
-        console.log('search valide')
-        console.log(tournaments)
         const ts=tournaments.filter((t)=>t.name.toLowerCase().includes(searched.toLowerCase()))
-        console.log(ts)
         setTournaments(ts)
     },[searched])
 
@@ -41,7 +37,6 @@ export default function TourViewList(props:{tournaments:TournamentDTO[],classNam
     const etats=useMemo(()=>{
         const etats:number[]=[]
         for (const tournament of tournaments){
-            console.log('debut')
             const start=new Date(tournament.start_date)
             const end=new Date(tournament.end_date)
             // si il y'a une erreur de date
@@ -67,7 +62,6 @@ export default function TourViewList(props:{tournaments:TournamentDTO[],classNam
             }
 
         }
-        console.log(etats)
         return etats
     },[tournaments])
     /**

@@ -35,6 +35,7 @@ export async function getTourById(id_tour){
             }
         })
     }catch(er){
-        console.log(er)
+        //console.log(er);
+        response.status(500).json({message:er});
     }
 }

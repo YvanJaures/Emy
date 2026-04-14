@@ -90,7 +90,6 @@ export default function TournamentBlockSlug({ tournament }: Props) {
               }
               payload.push(payload2)
             }
-            console.log(payload)
             const addedTeams=await addTeamMany(payload)
             addedTeams.forEach((res)=>{
               if(res.status) { 
@@ -120,19 +119,15 @@ export default function TournamentBlockSlug({ tournament }: Props) {
     if(member){
       const isPlayer=_tour.Player?.some((player)=>player.user_name===member.user_name)?? false
       setIsPlayer(isPlayer)
-      console.log(_tour.Player)
       return
     }
     setIsPlayer(false)
-    console.log('no user')
   },[member,_tour])
   /**
    * Ajoute l'équipe créé à la liste des équipes du tournoi
    * @param team équipe créée
    */
   const handleNewTeam = (team: TeamDTO) => {
-    console.log("hey");
-    console.log(team);
     const tour = _tour;
     if (team) {
       tour.Team?.push(team);
@@ -146,7 +141,6 @@ export default function TournamentBlockSlug({ tournament }: Props) {
   const etat: number = useMemo(() => {
     let etat: number = -2;
     {
-      console.log("debut");
       const start = new Date(
         tournament?.start_date ? tournament?.start_date : "00/00/0000",
       );
@@ -176,7 +170,6 @@ export default function TournamentBlockSlug({ tournament }: Props) {
         etat = 1;
       }
     }
-    console.log(etat);
     return etat;
   }, [tournament]);
   /**

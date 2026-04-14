@@ -23,7 +23,6 @@ import { useAuth } from "@/hooks/useAuth";
 
 export default function ProfilAdmin(){
     const {member,loading}=useAuth();
-    console.log(member)
     return(
         <>
             {

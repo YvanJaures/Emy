@@ -21,20 +21,17 @@ export default function Confirmation({ title, message,onConfirmed,showConfirm}: 
     const [isVisible,setIsVisible]=useState(false)
     useEffect(()=>{
         setIsVisible(showConfirm)
-        console.log(showConfirm) 
     },[showConfirm])
 
     const handleCancel=()=>{
         setIsVisible(false)
         showConfirm=false
-        console.log(showConfirm)
         onConfirmed(false)
     }
     
     const handleConfirm=()=>{
         setIsVisible(false)
         showConfirm=false
-        console.log(showConfirm)
         onConfirmed(true)
     }
        

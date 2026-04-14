@@ -1,4 +1,3 @@
-import { Community } from '@prisma/client'
 import CommunityBar from '../molecules/CommunityBar'
 export default function PopCommunity(props:{list:Array<any>}){
     return(

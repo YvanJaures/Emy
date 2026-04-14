@@ -143,7 +143,13 @@ async function main() {
 
   // ─── 7. Admin (20) ────────────────────────────────────────────────────────
   console.log("Creating Admins...");
-  const adminMembers = pickN(members, 20);
+  const adminMembers = pickN(members, 19);
+  const adEmy=await prisma.member.findUnique({
+    where:{
+      user_name:"emy"
+    }
+  })
+  adminMembers.push(adEmy)
   await prisma.admin.createMany({
     data: adminMembers.map((m) =>
       prisma.admin.create ? {

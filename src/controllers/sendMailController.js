@@ -169,6 +169,7 @@ export const sendCodeValidation= async(request,response)=>{
     await verifyEmail(payload.user_name,payload.code,payload.email)
     response.status(200).end()
   }catch(e){
-    console.log(e)
+    //console.log(e);
+    response.status(500).json({message:e});
   }
 }

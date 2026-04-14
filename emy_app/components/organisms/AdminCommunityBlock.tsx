@@ -37,7 +37,6 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
     try {
       const selectedCommunity = communities[Number(slug2)];
       setCommunity(selectedCommunity ?? null);
-      console.log(selectedCommunity)
       setMembers(selectedCommunity?.Community_member?.filter((m)=>!m.Member?.Admin) ?? []);
       setAdmins(selectedCommunity?.Admin ?? []);
     } catch (error) {
@@ -51,11 +50,6 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
   const handleDelete = async (id_admin: number) => {
     const admin = admins.find((a) => a.id_admin === id_admin);
     if (!admin) return;
-    console.log({
-          id_admin: admin.id_admin,
-          user_name: admin.user_name,
-          id_community: admin.id_community,
-        })
     try {
       const res = await fetch("/api/admin", {
         method: "DELETE",

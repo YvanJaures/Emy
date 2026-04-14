@@ -36,7 +36,6 @@ export default function TournamentRow({
     if (!ok) return;
     onDelete(tournament.id_tour);
   };
-console.log(tournament)
   const handleInscription = () => {
     alert(`Inscriptions au tournoi ${tournament.id_tour}`);
   };

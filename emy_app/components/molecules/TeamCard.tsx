@@ -123,7 +123,6 @@ export default function TeamCard({
       SetOnConfirmation(true);
       return;
     }
-    console.log('is player:' +isPlayer)
     if(onNotPlayer) if(!isPlayer) return onNotPlayer() 
     if (!team.open) {
       setOnJoin(true);

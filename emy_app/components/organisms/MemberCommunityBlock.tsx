@@ -29,7 +29,6 @@ export default function MemberCommunity() {
       setMembers(members);
       setLoading(false)
     })();
-    console.log(member);
   }, [member]);
   if (loading) return <LoadingAnimation />;
   return (
