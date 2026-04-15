@@ -49,7 +49,6 @@ export default function CommunityBlock({community,_isMember,onShown}:Props){
             community.Community_member?.forEach((memb)=>{
                 if(memb.user_name===member?.user_name){
                     SetIsMember(true)
-                    console.log('i'+memb.user_name===member?.user_name) 
                     }
                 return 
             })
@@ -64,11 +63,8 @@ export default function CommunityBlock({community,_isMember,onShown}:Props){
                     setMembers(res)
                     setLoading(false)
                     res.forEach((memb:MemberDTO)=>{
-                        console.log('hryfge')
                     if(memb.user_name===member?.user_name){
                         SetIsMember(true)
-                        console.log('i'+memb.user_name===member?.user_name)
-                        console.log(member) 
                     }
             })
                 }

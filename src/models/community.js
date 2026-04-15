@@ -50,7 +50,6 @@ export async function getCommunities() {
   try {
     const res = await GetRedisCache("communities");
     if (res) return res;
-    console.log("je récupére les communautés");
     const communities = await prisma.community.findMany({
       include: {
         Admin: true,

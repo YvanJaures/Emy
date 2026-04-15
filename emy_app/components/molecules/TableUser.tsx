@@ -37,7 +37,6 @@ export default function TableUser({title,headers,datas,id_community,loading}:Pro
   const deleteMember=async(user_name:string,confirm:boolean)=>{
     try{
         if(!members) return
-        console.log(confirm)
         if(!user_name) return
         if(!confirm) return
         if(!await deleteMemberCommunity(user_name,id_community)){
@@ -50,7 +49,7 @@ export default function TableUser({title,headers,datas,id_community,loading}:Pro
         setValidationMessage(toDelete+' a été retiré avec succés') 
         setToDelete('')
       }catch(error){
-        console.log(error)
+        //console.log(error)
         setOnError(true)
         setOnPopUp(true)
       }
@@ -71,7 +70,6 @@ export default function TableUser({title,headers,datas,id_community,loading}:Pro
 
   useEffect(()=>{
     setMembers(datas)
-    console.log("setted users")
   },[datas])
 
   useEffect(()=>{

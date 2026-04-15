@@ -52,12 +52,10 @@ export default function TablePrize({prizes,onSelect,success}:Props){
                     if(tous) setTous(!tous)
                     const selects2 = selects?.filter(select => select.id !== p);
                     setSelected(selects2)
-                    console.log(selects2)
                     
                 }
                 else {
                    if(!selects.some((s)=>s.id===p)) selects.push({id:p,prize:prizes[p]})
-                    console.log(selects)
                     setSelected(selects)
                 }
                 return !check;
@@ -72,7 +70,6 @@ export default function TablePrize({prizes,onSelect,success}:Props){
     const handleTous=()=>{
         let select:{id:number,prize:PrizeDTO}[]=[]
         setTous(!tous)
-        console.log(selected)
         const newChecked = checked.map((check) => {
             if (!tous) return true;
             else return !check
@@ -86,7 +83,6 @@ export default function TablePrize({prizes,onSelect,success}:Props){
         const selected2=select.filter(select=>select.id!==-1)
         setSelected(selected2)
         setChecked(newChecked)
-        console.log(newChecked)
     }
     /**
      * Gestionnaire pour commanditer les prix sélectionnés

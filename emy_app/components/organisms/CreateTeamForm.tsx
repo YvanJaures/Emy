@@ -97,9 +97,6 @@ export default function CreateTeamForm({
           | TeamDetailsDTO
           | null;
 
-          console.log("status =", res.status);
-console.log("data =", data);
-
         if (!res.ok) {
           const msg =
             (data as ApiMessage | null)?.message ?? "Erreur chargement équipe";

@@ -86,6 +86,8 @@ export async function getSponsorByUserName(user_name) {
 export async function addSponsor(sponsorData) {
   try {
     await DelRedisCache("sponsors");
+    await DelRedisCache("member-email-"+sponsorData.email);
+    await DelRedisCache("member-username-"+sponsorData.user_name);
     return await prisma.sponsor.create({
       data: {
         user_name: sponsorData.user_name,

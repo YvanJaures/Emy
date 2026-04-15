@@ -405,9 +405,16 @@ export async function addTeams(name, id_tour, key_team, user_name, open) {
 export async function addTeamMemberWait(id_team, user_name) {
   // Invalider le cache au début de l'opération
   try {
+    const user=await prisma.member.findUnique({
+      where:{
+        user_name:user_name
+      }
+    })
+    if(user) await DelRedisCache(`member-email-`+user.email);
     await DelRedisCache(`teams-by-tour-*`);
     await DelRedisCache(`tour-teams-community-*`);
     await DelRedisCache("tournaments");
+    await DelRedisCache("member-username-"+user_name);
   } catch (error) {
     console.error("Cache invalidation error in addTeamMemberWait:", error);
   }
@@ -421,10 +428,18 @@ export async function addTeamMemberWait(id_team, user_name) {
   });
 }
 /**
- * Modifie le status d'un memebre d'équipe à status =1 indiquant que le membre est définitif
+ * Modifie le status d'un membre d'équipe à status =1 indiquant que le membre est définitif
  * @param {*} user_name nom de l'utilisateur
  */
 export async function addTeamMember(id_team, user_name){
+  
+    const user=await prisma.member.findUnique({
+      where:{
+        user_name:user_name
+      }
+    })
+    if(user) await DelRedisCache(`member-email-`+user.email);
+    await DelRedisCache("member-username-"+user_name);
     await prisma.team_member.updateMany({
         where:{
             user_name: user_name,
@@ -514,8 +529,6 @@ export async function addPlayer(id_tour, user_name) {
           location: "Test",
         },
       });
-
-      console.log("Fake tournament created:", tournament);
     }
 
     const existing = await prisma.player.findFirst({

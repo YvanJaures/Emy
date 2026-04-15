@@ -40,30 +40,30 @@ const handleMod=()=>{
                 {props.admin &&(<span className="border border-black-800 rounded-xl p-1 w-40 gap-2 flex justify-center 
                     items-center hover:cursor-pointer"  onClick={()=>(location.href="/communautes")}>
                     <MdOutlineChangeCircle  className={props.edit+" hover:cursor-pointer"}/>
-                    <p className="max-sm:hidden text-center">MODE MEMBRE</p>
+                    <p className=" text-center">MODE MEMBRE</p>
                     
                 </span>)}
                 {!props.admin &&( <span className="border border-black-800 rounded-xl p-1 w-40 gap-2 flex justify-center 
                     items-center hover:cursor-pointer"  onClick={()=>(handleMod())}>
                     <TbUserEdit  className={props.edit+" hover:cursor-pointer"}/>
-                    <p className="max-sm:hidden text-center">MODIFIER</p>
+                    <p className=" text-center">MODIFIER</p>
                     
                 </span>)}
                 <span className="border border-black-800 rounded-xl p-1  w-40 gap-2 flex justify-center 
                     items-center hover:cursor-pointer"  onClick={async ()=>await deconnexion()}>
                     <MdLogout className="hover:cursor-pointer"/>
-                    <p className="max-sm:hidden text-center">DECONNEXION</p>
+                    <p className=" text-center">DECONNEXION</p>
                 </span>
                 <span className="border border-black-800 rounded-xl p-1  w-40 gap-2 flex justify-center 
                     items-center hover:cursor-pointer"  onClick={async ()=>location.href='/resetPassword'}>
                     <IoKeyOutline  className="hover:cursor-pointer"/>
-                    <p className="max-sm:hidden text-center">MOT DE PASSE</p>
+                    <p className=" text-center">MOT DE PASSE</p>
 
                 </span>
                 {!props.admin &&(<span className="border border-black-800 rounded-xl p-1  w-40 gap-2 flex justify-center 
                     items-center hover:cursor-pointer" onClick={()=>(alert('delete'))}>
                     <AiOutlineUserDelete className="hover:cursor-pointer"/>
-                    <p className="max-sm:hidden text-center">SUPPRIMER</p>
+                    <p className=" text-center">SUPPRIMER</p>
 
                 </span>)}
             </div>

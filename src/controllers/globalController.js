@@ -91,8 +91,8 @@ export const getMembersC = async (request, response) => {
     const members = await getMembers();
     response.status(200).json(members);
   } catch (error) {
-    console.log(error);
-    response.status(400).end();
+    //console.log(error);
+    response.status(500).json({message:error});
   }
 };
 /**
@@ -104,8 +104,8 @@ export const getMembersByCommunityC = async (request, response) => {
     const members = await getMembersByCommunity(request.query.id_community);
     response.status(200).json(members);
   } catch (error) {
-    console.log(error);
-    response.status(400).end();
+    //console.log(error);
+    response.status(500).json({message:error});
   }
 };
 /**
@@ -151,8 +151,8 @@ export const addMemberC = async (request, response) => {
     await sendWelcomeEmail(request.body.email,request.body.user_name)
     response.status(201).end();
   } catch (error) {
-    console.log(error);
-    response.status(400).end();
+    //console.log(error);
+    response.status(500).json({message:error});
   }
 };
 /**
@@ -244,7 +244,6 @@ export const addTeamMemberWaitC = async (request, response) => {
  */
 export const addTeamMemberC = async (request, response) => {
   try {
-    console.log("BODY RECEIVED:", request.body);
     const { id_team, user_name } = request.body;
 
     await addTeamMember(id_team, user_name);
@@ -275,7 +274,7 @@ export const updatePasswordMemberC = async (request, response) => {
     await updatePasswordMember(request.body.user_name, request.body.password);
     response.status(200).end();
   } catch (error) {
-    console.log(error);
+    //console.log(error);
     response.status(400).json({ message: "impossible " + error });
   }
 };

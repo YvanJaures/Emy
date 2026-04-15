@@ -180,12 +180,22 @@ export default function Profil() {
                 <LoadingAnimation />
             ) : (
                 <div className="bg-gray-100 dark:bg-gray-900 min-h-screen flex flex-col">
-                    <main className="flex flex-grow">
+                    <main className="flex flex-col md:flex-row flex-grow">
                         <Sidebar setActiveView={setActiveView} activeView={activeView} />
                         <div className="flex-1 p-8">
                             {activeView === "profil" && (
                                 <>
-                                    <h1 className="text-lg underline mb-6">PROFIL</h1>
+                                <div className="flex justify-between items-center mb-6">
+                                    <h1 className="text-lg underline">PROFIL</h1>
+
+                                    <Link
+                                        href=""
+                                        className="text-sm px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 transition"
+                                        onClick={()=>history.back()}
+                                    >
+                                        X
+                                    </Link>
+                                </div>
 
                                     {!modify && (
                                         <ProfileCard
@@ -201,28 +211,21 @@ export default function Profil() {
 
                                     {!modify && (
                                         <div className="relative flex flex-row flex-wrap w-full h-fit justify-start items-start gap-5 rounded-xl p-6 shadow-xl mt-10 bg-white dark:bg-gray-800 dark:shadow-black/30">
-                                            <button
-                                                onClick={() => setModify(true)}
-                                                className="absolute top-4 right-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition hover:cursor-pointer"
-                                            >
-                                                Modifier le profil
-                                            </button>
-
-                                            <div className="grid grid-cols-[200px_1fr] gap-y-4 gap-x-10 w-full max-w-2xl">
+                                            <div className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-y-3 md:gap-x-10 w-full">
                                                 <span>Nom utilisateur:</span>
-                                                <span>{member?.user_name ?? "-"}</span>
+                                                <span className="break-words">{member?.user_name ?? "-"}</span>
                                                 <span>Nom:</span>
-                                                <span>{member?.name ?? "-"}</span>
+                                                <span className="break-words">{member?.name ?? "-"}</span>
                                                 <span>Prénom:</span>
-                                                <span>{member?.surname ?? "-"}</span>
+                                                <span className="break-words">{member?.surname ?? "-"}</span>
                                                 <span>Email:</span>
-                                                <span>{member?.email ?? "-"}</span>
+                                                <span className="break-words">{member?.email ?? "-"}</span>
                                                 <span>Téléphone:</span>
-                                                <span>{member?.phone ?? "-"}</span>
+                                                <span className="break-words">{member?.phone ?? "-"}</span>
                                                 <span>Adresse:</span>
-                                                <span>{member?.address ?? "-"}</span>
+                                                <span className="break-words">{member?.address ?? "-"}</span>
                                                 <span>Date de naissance:</span>
-                                                <span>
+                                                <span className="break-words">
                                                     {member?.birth_date
                                                         ? new Date(member.birth_date).toLocaleDateString()
                                                         : "-"}

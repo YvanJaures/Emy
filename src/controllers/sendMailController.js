@@ -86,7 +86,7 @@ export async function sendWelcomeEmail(email, username) {
     html: htmlContent,
   });
 }
-export async function joinTournamentMail(username, tourName) {
+export async function joinTournamentMail(username, tourName,email) {
   const htmlContent= `
     <h2>🏆 Inscription confirmée</h2>
     <p>${username}, tu es inscrit au tournoi :</p>
@@ -99,13 +99,27 @@ export async function joinTournamentMail(username, tourName) {
     html: htmlContent,
   });
 }
-export async function addedSponsorMail(username) {
+export async function addedSponsorMail(username,email) {
   const htmlContent= `
-    <h2> Vous êtes commandiitaire</h2>
-    <p><strong>${username}</strong>, vous êtes désormais inscrit comme commanditaire sur la plateforme.</p>
-    <p>C'est un honneur pour nous de vous avoir comme membre de la grande communauté de commanditaires sur Emy.</p>
-    <p>Vous pouvez dès maintenant sponsorisé un tournoi et obtenir des bénéfices (si inclus).</p>
-    
+    <!DOCTYPE html>
+    <html>
+      <body style="font-family: Arial, sans-serif; background:#f4f6f8; padding:20px;">
+        <div style="max-width:600px; margin:auto; background:white; padding:30px; border-radius:12px;">
+            
+          <h2> Vous êtes commandiitaire</h2>
+          <p><strong>${username}</strong>, vous êtes désormais inscrit comme commanditaire sur la plateforme.</p>
+          <p>C'est un honneur pour nous de vous avoir comme membre de la grande communauté de commanditaires sur Emy.</p>
+          <p>Vous pouvez dès maintenant sponsorisé un tournoi et obtenir des bénéfices (si inclus).</p>
+              <hr style="margin:30px 0;" />
+
+          <p style="font-size:12px; color:#888; text-align:center;">
+            EMY — Plateforme de gestion de tournois de golf<br/>
+            Collège La Cité • 2026
+          </p>
+
+        </div>
+      </body>
+    </html>
   `;
     await transporter.sendMail({
     from: `"Emy" <${process.env.EMAIL_EMY}>`,
@@ -155,6 +169,7 @@ export const sendCodeValidation= async(request,response)=>{
     await verifyEmail(payload.user_name,payload.code,payload.email)
     response.status(200).end()
   }catch(e){
-    console.log(e)
+    //console.log(e);
+    response.status(500).json({message:e});
   }
 }

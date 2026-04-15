@@ -8,14 +8,12 @@ import { useAuth } from "@/hooks/useAuth";
 export default function LoginPage() {
   const {member,loading}=useAuth();
   const route='/'
-  console.log(member)
   if(loading) return <LoadingAnimation/>
   return (
     <>
     <MetaData seoTitle="reset your password" seoDescription="page de modification de mot de passe"></MetaData>
     <main
-      className="min-h-screen w-full bg-cover bg-center bg-no-repeat"
-      style={{ backgroundImage: "url(/assets/arrieres_plan/DesertBloomArizona.png)" }}
+      className="bg-cover bg-center bg-no-repeat flex boder h-screen w-full justify-center items-center dark:bg-white/10 bg-[url(/assets/arrieres_plan/DesertBloomArizona.png)] dark:bg-[url(/assets/arrieres_plan/Desert_bloom_night.png)]"
     >
       {/* Overlay léger (aide à lire la carte) */}
       <div className="min-h-screen w-full bg-black/10 flex items-center justify-center p-6">
@@ -36,7 +34,7 @@ export default function LoginPage() {
 
           {/* Contenu */}
           <div className="px-10 pb-10 pt-2">
-            <ResetPForm route={route} user_name={member?.user_name ?? ''}></ResetPForm>
+            <ResetPForm route={route} user_name={member?.user_name ?? ''} reset={false}></ResetPForm>
           </div>
         </section>
       </div>

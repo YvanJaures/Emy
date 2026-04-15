@@ -14,20 +14,17 @@ type Props={
     communities:CommunityDTO[],
     member:MemberDTO|null,
     search?:string
+    loading?:boolean
 }
-export default function CommunityList({communities,member,search}:Props){
+export default function CommunityList({communities,member,search,loading}:Props){
     const [_communities,setCommunities]=useState(communities)
     // le membre est-il membre de cette communauté? pour le tri
     const [isClicked,setIsClicked]=useState(false)
     const pathname = usePathname();
     const [searched,setSearched]=useState<string>(search?? "")
     useEffect(()=>{
-        console.log('searching:'+searched)
         if(searched==="404") return setCommunities(communities)
-        console.log('search valide')
-        console.log(_communities)
-        const coms=_communities.filter((com)=>com.name.toLowerCase().includes(searched.toLowerCase()))
-        console.log(coms)
+        const coms=_communities?.filter((com :CommunityDTO)=>com.name.toLowerCase().includes(searched.toLowerCase()))
         setCommunities(coms)
     },[searched])
 
@@ -89,7 +86,7 @@ export default function CommunityList({communities,member,search}:Props){
                         <p className="group-hover:text-[#0F70AC]"> Rejoindre une communauté</p>
                     </li>)
                 }
-                {communities.length===0 && [...Array(10)].map((_,index)=>(
+                {(loading && loading) && [...Array(5)].map((_,index)=>(
                     <LoadCommunityRow key={index}/>
                 ))}
                 { communities ?
@@ -100,7 +97,8 @@ export default function CommunityList({communities,member,search}:Props){
                         <IoAddCircleOutline 
                         className="group-hover:text-[#0F70AC]"/>
                         <p className="group-hover:text-[#0F70AC]"> Créer une communauté</p>
-                    </li>):(
+                    </li>
+                    ):(
                         <p className="text-center p-15 text-md"> Une erreur est survenue...</p>
                     )
                 }

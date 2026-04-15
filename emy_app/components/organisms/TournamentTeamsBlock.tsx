@@ -26,7 +26,6 @@ export default function TournamentTeamsBlock({
   const etat: number = useMemo(() => {
     let etat: number = -2;
     {
-      console.log("debut");
       const start = new Date(t?.start_date ? t?.start_date : "00/00/0000");
       const end = new Date(t?.end_date ? t?.end_date : "00/00/0000");
       // si il y'a une erreur de date
@@ -54,7 +53,6 @@ export default function TournamentTeamsBlock({
         setCant(true);
       }
     }
-    console.log(cant);
     return etat;
   }, [t]);
   const router = useRouter();
@@ -75,7 +73,6 @@ export default function TournamentTeamsBlock({
             cant={cant}
             onIsMember={(res) => {
               setCant(res);
-              console.log(cant);
             }}
             isPlayer={isPlayer}
             onNotPlayer={onNotPlayer}

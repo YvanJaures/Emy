@@ -12,7 +12,7 @@ import ScrollToHash from "@/components/molecules/ScrollToHash";
 export default function Communautes(){
     const [communities,setCommunities]=useState<CommunityDTO[]>([])
     const [isMember,setIsMember]=useState(true)
-    const [_loading,setLoading]=useState(true)
+    const [_loading,setLoading]=useState(false)
     const [onError,setOnError]=useState(false)
     const {member,loading}=useConnexion()
     const [mounted,setMounted]=useState(false)
@@ -26,6 +26,7 @@ export default function Communautes(){
     useEffect(()=>{
         (async()=>{
             try{
+                setLoading(true)
                 const communities=await getCommunities()
                 setCommunities(communities)
                 setLoading(false)
@@ -46,6 +47,7 @@ export default function Communautes(){
                 communities={communities} 
                 member={member}
                 search={searched}
+                loading={_loading}
             />
         <Footer/>
         </>

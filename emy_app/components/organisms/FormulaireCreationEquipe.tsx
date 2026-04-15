@@ -199,7 +199,6 @@ export default function FormulaireCreationEquipe({
         members:0,
         open:false
       })
-      console.log(last)
       setSuccessMessage("Payement effectué avec succès! Création en cours...");
 
       setTimeout(() => {
@@ -213,7 +212,7 @@ export default function FormulaireCreationEquipe({
       setErrors({
         general: "Une erreur est survenue. Veuillez réessayer."+error,
       });
-      console.log(error)
+      //console.log(error)
     } finally {
       setSubmitting(false);
     }

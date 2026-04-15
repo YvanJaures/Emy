@@ -181,6 +181,8 @@ EMY/
 │   │   ├── member.js           # Routes membres
 │   │   └── ...
 │   ├── services/               # Services métier
+│   │   ├── redis.js            # Fonctionnalités redis
+│   │   └── auth.js             # Auth user
 │   └── middlewares/            # Middlewares Express
 │       ├── auth.js             # Authentification
 │       ├── adminAuth.js        # Auth admin
@@ -260,13 +262,30 @@ REDIS_URL=redis://localhost:6379
 # Redis avec authentification : redis://:password@localhost:6379
 
 # Email (Nodemailer)
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USER=votre.email@gmail.com
-MAIL_PASS=votre_mot_de_passe_application
+EMAIL_EMY=votre.email@gmail.com
+EMAIL_PASS=votre_mot_de_passe_application
 
 # Autres configurations
 TZ=America/Toronto
+
+# Variables d'environnement 
+
+DATABASE_URL="sqlserver://mssql:1433;database=*****;user=*****;password=*****;encrypt=true;trustServerCertificate=true" 
+PORT=5015 
+SESSION_SECRET=*****
+EMAIL_EMY=*****
+EMAIL_PASS=***** 
+DB_SERVER=mssql 
+DB_DATABASE=***** 
+DB_USER=***** 
+DB_PASSWORD=*****
+DB_NAME=***** 
+DB_PORT=1433 
+PRISMA_CLIENT_ENGINE_TYPE=binary 
+NEXT_DISABLE_DEVTOOLS=1 
+REDIS_URL=*****
+NODE_ENV=*****
+
 ```
 
 ### Configuration Prisma
@@ -342,14 +361,28 @@ npx prisma studio
 
 ## Lancement de l'application
 
+### Avec Docker
+```bash
+
+# Build de l'image et conteneur
+docker compose up --build
+
+# Supprimer le conteneur
+docker compose down
+
+# Lancer le conteneur
+docker compose start
+
+# Eteindre le conteneur
+docker compose stop
+```
+L'application complète sera disponible via **http://localhost:5015
+
 ### Mode développement
 ```bash
 # Terminal 1 : Backend
 npm run dev
 
-# Terminal 2 : Frontend
-cd emy_app
-npm run dev
 ```
 
 ### Mode production
@@ -363,10 +396,24 @@ cd ..
 npm start
 ```
 
+
+### Lancement de Redis
+```bash
+# Regarder si un conteneur Redis est lancé.
+docker ps
+
+# Ouvrir Docker desktop dans votre ordinateur. Si vous ne l'avez pas,
+# vous pouvez l'installer via la video ci-dessous:
+[installation de docker desktop](https://www.youtube.com/watch?v=5nX8U8Fz5S0)
+
+# Démarrage Redis
+docker run -d --name redis-server -p 6379:6379 redis
+```
+
 L'application sera accessible sur : **http://localhost:3000**
 
 ### Vérifications
-- **Backend** : http://localhost:3000/api/health
+- **Backend** : http://localhost:5015/api/health
 - **Frontend** : http://localhost:3000
 - **Base de données** : Vérifier la connexion via Prisma Studio
 

@@ -43,7 +43,6 @@ export default function CommunityRow({ community, member, isMine }: Props) {
         if (member) {
           member.Community_member?.forEach((element) => {
             if (element.id_community === community.id_community) {
-              console.log('hey');
               setIsMember(true);
             }
           });

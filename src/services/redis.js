@@ -7,7 +7,12 @@ try {
         url: process.env.REDIS_URL
     })
 
-    redis.on("error", (err) => console.error("Redis error:", err))
+    redis.on("error", (err) => {//console.error("Redis error:", err)
+        if(err){
+            console.warn("Redis non disponible, cache désactivé.")
+            return redis=null 
+        }   
+    })
 
     await redis.connect()
 } catch (err) {
@@ -17,12 +22,14 @@ try {
 
 export async function GetRedisCache(recherche) {
     if (!redis) return null
+    console.log('getting cache')
     const cache = await redis.get(recherche)
     if (cache) return JSON.parse(cache)
 }
 
 export async function SetRedisCache(recherche, data) {
     if (!redis) return
+    console.log('setting cache')
     await redis.set(recherche, JSON.stringify(data), {
         EX: 600 // cache pour 10 minutes
     })

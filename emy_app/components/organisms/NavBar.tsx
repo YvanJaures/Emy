@@ -18,7 +18,7 @@ let navItems: NavItem[] = [
   { label: "ACCUEIL", href: "/" },
   { label: "COMMUNAUTÉS", href: "/communautes" },
   { label: "TOURNOIS", href: "/tournois" },
-  { label: "SPONSORS", href: "/commanditaires" },
+  { label: "COMMANDITAIRES", href: "/commanditaires" },
   { label: "CONNEXION", href: "/login" },
 ];
 
@@ -34,7 +34,7 @@ export default function Navbar({_searched}:{_searched?:(value:string)=>void}) {
     navItems=[
       { label: "COMMUNAUTÉS", href: "/communautes" },
       { label: "TOURNOIS", href: "/tournois" },
-      { label: "SPONSORS", href: "/commanditaires" },
+      { label: "COMMANDITAIRES", href: "/commanditaires" },
       { label: "PROFIL", href: "/profil" }, 
     ]
   }

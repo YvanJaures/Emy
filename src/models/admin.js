@@ -144,7 +144,7 @@ export async function updateTourStatus(id_tour,id_community,status){
         console.error("Cache invalidation error in updateTourStatus:", error);
     }
 
-    await prisma.tournament.updateMany({
+    await prisma.tournament.update({
         where:{
             id_tour:id_tour,
             id_community:id_community
