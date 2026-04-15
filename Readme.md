@@ -287,6 +287,11 @@ REDIS_URL=*****
 NODE_ENV=*****
 
 ```
+et une autre dans 'emy_app'
+```env
+API_BASE=***** url vers votre serveur d'api
+PORT=*** port vers le serveur 
+```
 
 ### Configuration Prisma
 Le fichier `prisma/schema.prisma` contient la configuration de la base de données :
