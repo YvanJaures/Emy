@@ -4,10 +4,13 @@ import nodemailer from 'nodemailer'
  * transporteur d'email
  */
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  service: "gmail",
   auth: {
     user: process.env.EMAIL_EMY,
     pass: process.env.EMAIL_PASS
+  },
+  tls: {
+    rejectUnauthorized: false
   }
 });
 
@@ -169,7 +172,7 @@ export const sendCodeValidation= async(request,response)=>{
     await verifyEmail(payload.user_name,payload.code,payload.email)
     response.status(200).end()
   }catch(e){
-    //console.log(e);
+    console.log(e);
     response.status(500).json({message:e});
   }
 }
