@@ -383,12 +383,19 @@ docker compose stop
 ```
 L'application complète sera disponible via **http://localhost:5015
 
+Utilisateur de test avec accréditation administrateur en cas d'utilisation du fichier seed.js:
+Nom utilisateur : Emy
+Mot de passe    : 12345678
+
 ### Mode développement
 ```bash
 # Terminal 1 : Backend
 npm run dev
 
 ```
+Utilisateur de test avec accréditation administrateur en cas d'utilisation du fichier seed.js:
+Nom utilisateur : Emy
+Mot de passe    : 12345678
 
 ### Mode production
 ```bash

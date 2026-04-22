@@ -13,13 +13,27 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export default function RootLayout({
+export const metadata:Metadata={
+  title:"Emy",
+  description:"Application de golf.",
+  manifest:"/manifest.json",
+  icons:{
+    icon:"/assets/logos/Emy_foot.png",
+    apple:"/assets/logos/Emy_foot.png"
+  }
+};
+export const viewport={
+  themeColor:"#000000",
+
+};
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="fr">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>

@@ -2,23 +2,26 @@ import { createClient } from "redis"
 
 export let redis = null
 
-try {
-    redis = createClient({
-        url: process.env.REDIS_URL
-    })
+async function getRedis(){
+    try {
+        redis = createClient({
+            url: process.env.REDIS_URL
+        })
 
-    redis.on("error", (err) => {//console.error("Redis error:", err)
-        if(err){
-            console.warn("Redis non disponible, cache désactivé.")
-            return redis=null 
-        }   
-    })
+        redis.on("error", (err) => {//console.error("Redis error:", err)
+            if(err){
+                console.warn("Redis non disponible, cache désactivé.")
+                return redis=null 
+            }   
+        })
 
-    await redis.connect()
-} catch (err) {
-    console.warn("Redis non disponible, cache désactivé.")
-    redis = null
+        await redis.connect()
+    } catch (err) {
+        console.warn("Redis non disponible, cache désactivé. Error")
+        return
+    }
 }
+getRedis()
 
 export async function GetRedisCache(recherche) {
     if (!redis) return null

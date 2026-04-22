@@ -12,7 +12,7 @@ import ScrollToHash from "@/components/molecules/ScrollToHash";
 export default function Communautes(){
     const [communities,setCommunities]=useState<CommunityDTO[]>([])
     const [isMember,setIsMember]=useState(true)
-    const [_loading,setLoading]=useState(false)
+    const [_loading,setLoading]=useState(true)
     const [onError,setOnError]=useState(false)
     const {member,loading}=useConnexion()
     const [mounted,setMounted]=useState(false)
@@ -38,7 +38,7 @@ export default function Communautes(){
 
         })()
     },[member])
-    if(_loading && loading && mounted) return <LoadingAnimation/>
+    if(loading && mounted) return <LoadingAnimation/>
     return(
         <>
         <NavBar _searched={(res)=>setSearched(res)}/>
