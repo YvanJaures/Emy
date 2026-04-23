@@ -41,7 +41,7 @@ export default function LoginForm(props:{route:string}) {
       };
 
        // MON API
-      const res = await fetch(`/api/connexion`, {
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE+`/api/connexion`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

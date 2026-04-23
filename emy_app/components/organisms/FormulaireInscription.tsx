@@ -148,7 +148,7 @@ export default function FormulaireInscription({
       setErrors({});
       setSuccessMessage("");
 
-      const response = await fetch(`/api/member/tournament/registration`, {
+      const response = await fetch(process.env.NEXT_PUBLIC_API_BASE+`/api/member/tournament/registration`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

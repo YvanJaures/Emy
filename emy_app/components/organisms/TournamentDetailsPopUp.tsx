@@ -68,7 +68,7 @@ export default function TournamentDetailsPopUp({
         setError("");
 
         const res = await fetch(
-          `/api/tour&prizes/details?id_tour=${idTour}&id_community=${idCommunity}`,
+          process.env.NEXT_PUBLIC_API_BASE+`/api/tour&prizes/details?id_tour=${idTour}&id_community=${idCommunity}`,
           {
             method: "GET",
             headers: {
@@ -218,7 +218,7 @@ export default function TournamentDetailsPopUp({
         })),
       };
 
-      const res = await fetch("/api/admin/tour&prizes", {
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE+"/api/admin/tour&prizes", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

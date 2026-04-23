@@ -75,7 +75,7 @@ export default function TournamentBlockSlug({ tournament }: Props) {
         };
         (async () => {
           setSponsoringMessage("")
-          const success= await fetchApi(payload,'/api/sponsor/prize/add','POST');
+          const success= await fetchApi(payload,process.env.NEXT_PUBLIC_API_BASE+'/api/sponsor/prize/add','POST');
           if(success) {
             setSponsoringSuccess(true)
             setSponsoringMessage('Commandite ajouté avec succés')

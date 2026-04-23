@@ -19,7 +19,7 @@ export default function Montant({ id_tour, token, onAmountLoaded }: Props) {
         setError("");
 
         const response = await fetch(
-          `/api/member/registration/fees?id_tour=${id_tour}`,
+          `${process.env.NEXT_PUBLIC_API_BASE}/api/member/registration/fees?id_tour=${id_tour}`,
           {
             method: "GET",
             headers: {

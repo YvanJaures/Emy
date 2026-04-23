@@ -18,12 +18,12 @@ export function CreateTeamContent() {
 
   return (
     <CreateTeamForm
-      teamUrl="/api/member/teams"
-      tournamentsUrl="/api/tournaments"
+      teamUrl={process.env.NEXT_PUBLIC_API_BASE+"/api/member/teams"}
+      tournamentsUrl={process.env.NEXT_PUBLIC_API_BASE+"/api/tournaments"}
       editMode={editMode}
       id_team={id_team}
-      detailsUrl="/api/member/team/details"
-      updateUrl="/api/member/team/update"
+      detailsUrl={process.env.NEXT_PUBLIC_API_BASE+"/api/member/team/details"}
+      updateUrl={process.env.NEXT_PUBLIC_API_BASE+"/api/member/team/update"}
     />
   )
 }

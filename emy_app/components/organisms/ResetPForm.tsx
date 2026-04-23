@@ -53,7 +53,7 @@ export default function ResetPForm(props:{route?:string,user_name:string,reset:b
       };
 
       // MON API
-      const res = await fetch(`${props.reset?'/api/member/password-reset':'/api/member/password'}`, {
+      const res = await fetch(`${props.reset?process.env.NEXT_PUBLIC_API_BASE+'/api/member/password-reset':process.env.NEXT_PUBLIC_API_BASE+'/api/member/password'}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

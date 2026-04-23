@@ -51,7 +51,7 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
     const admin = admins.find((a) => a.id_admin === id_admin);
     if (!admin) return;
     try {
-      const res = await fetch("/api/admin", {
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE+"/api/admin", {
         method: "DELETE",
         headers: { "Content-Type": "application/json", role: "admin" },
         credentials: "include",
@@ -94,7 +94,7 @@ export default function AdminCommunityBlock({ slug2, communities }: Props) {
       }
       let addedAdmin:AdminDTO[]=[]
       for (const selectedMember of membersToAdd) {
-        const res = await fetch("/api/admin/admin", {
+        const res = await fetch(process.env.NEXT_PUBLIC_API_BASE+"/api/admin/admin", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

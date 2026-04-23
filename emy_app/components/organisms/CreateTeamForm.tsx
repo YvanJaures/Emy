@@ -174,7 +174,7 @@ const submit = async () => {
 
       //  ajouter les joueurs 
       for (const user_name of players) {
-        await fetch("/api/member", {
+        await fetch(process.env.NEXT_PUBLIC_API_BASE+"/api/member", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -218,7 +218,7 @@ const submit = async () => {
 
     //  AJOUT DES JOUEURS
     for (const user_name of players) {
-      await fetch("/api/member", {
+      await fetch(process.env.NEXT_PUBLIC_API_BASE+"/api/member", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -222,7 +222,7 @@ export default function SignupForm() {
         setCheckingUsername(true);
 
         const res = await fetch(
-          `/api/member/user_name?user_name=${encodeURIComponent(username)}`,
+          process.env.NEXT_PUBLIC_API_BASE+`/api/member/user_name?user_name=${encodeURIComponent(username)}`,
         );
 
         if (!res.ok) {
@@ -257,7 +257,7 @@ export default function SignupForm() {
     if (!validationErrors.user_name && form.user_name.trim()) {
       try {
         const res = await fetch(
-          `/api/member/user_name?user_name=${encodeURIComponent(
+          process.env.NEXT_PUBLIC_API_BASE+`/api/member/user_name?user_name=${encodeURIComponent(
             form.user_name.trim(),
           )}`,
         );
@@ -301,7 +301,7 @@ export default function SignupForm() {
         password: form.password,
       };
 
-      const res = await fetch("/api/member/add", {
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE+"/api/member/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -341,7 +341,7 @@ export default function SignupForm() {
       code:codeV,
       email:form.email
     }
-    const res=await fetchApi(payload,'/api/sendMail/verificationEmail','POST')
+    const res=await fetchApi(payload,process.env.NEXT_PUBLIC_API_BASE+'/api/sendMail/verificationEmail','POST')
     if(res){
       setCode(codeV)
       setVerify(true)

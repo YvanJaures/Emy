@@ -52,7 +52,7 @@ export default function FormulaireCreationEquipe({
   // Récupére l'id de la dernière équipe créé
   React.useEffect(() => {
     (async () => {
-      const response = await fetch("/api/member/team/last");
+      const response = await fetch(process.env.NEXT_PUBLIC_API_BASE+"/api/member/team/last");
       if (response.ok) {
         const data = (await response.json()) as TeamDTO;
         setLast(data.id_team);

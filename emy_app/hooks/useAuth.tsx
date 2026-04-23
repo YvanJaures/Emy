@@ -35,7 +35,7 @@ export const useConnexion=()=>{
     const [loading,setLoading]=useState(true)
     const router = useRouter();
     /*useEffect(() => {
-        const source = new EventSource("/api/stream");
+        const source = new EventSource(process.env.NEXT_PUBLIC_API_BASE+"/api/stream");
 
         source.addEventListener("connexion", (e) => {
             const data = JSON.parse(e.data) as MemberDTO;

@@ -27,7 +27,7 @@ export default function TournamentList({
     const newStatus = currentStatus === 1 ? 0 : 1;
 
     try {
-      const response = await fetch("/api/admin/tour/status", {
+      const response = await fetch(process.env.NEXT_PUBLIC_API_BASE+"/api/admin/tour/status", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

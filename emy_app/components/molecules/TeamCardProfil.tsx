@@ -10,7 +10,7 @@ export default function TeamCardProfil({ team }: { team: TeamMiniDTO }) {
 
 const handleAdd = async (tm: any) => {
   try {
-      const res = await fetch("/api/member/team/confirm", {
+      const res = await fetch(process.env.NEXT_PUBLIC_API_BASE+"/api/member/team/confirm", {
       method: "PATCH",
       headers: {
       "Content-Type": "application/json",
