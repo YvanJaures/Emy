@@ -12,6 +12,7 @@ import routerAdmin from './src/routes/admin.js'
 import routerCommunity from './src/routes/community.js'
 import routerTournament from './src/routes/tournaments.js'
 import routerSponsor from './src/routes/sponsor.js'
+import { redis } from './src/services/redis.js'
 //import next from 'next'
 
 
@@ -25,7 +26,8 @@ const PORT = process.env.PORT ;
 //await nextApp.prepare();
 
 const app=express()
-const MemoryStore=memorystore(session)
+//const MemoryStore=memorystore(session)
+await redisClient.connect();
 
 app.use(helmet())   // helmet désactivé: Faille de sécurité 
 app.use(cors({
@@ -35,15 +37,19 @@ app.use(cors({
 
 app.use(compression())
 app.use(express.json())
+
 app.use(session({
-    name:process.env.npm_package_name,
-    cookie:{maxAge:3600000},
-    store:new MemoryStore({checkPeriod:3600000}),
-    rolling:true,
-    resave:false,
-    saveUninitialized:false,
-    secret:process.env.SESSION_SECRET
-}))
+  store: new RedisStore({ client: redis }),
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: true,
+    httpOnly: true,
+    sameSite: 'none',
+    maxAge: 1000 * 60 * 60 * 2 // 2 heures
+  }
+}));
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(sse())
