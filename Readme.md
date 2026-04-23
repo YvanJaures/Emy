@@ -368,12 +368,16 @@ npx prisma studio
 
 ### Avec Docker
 ```bash
-
+## 1 - Construire votre propre image et conteneur
 # Build de l'image et conteneur
 docker compose up --build
 
 # Supprimer le conteneur
 docker compose down
+
+## 2 - Installer l'image à partir de github
+
+docker pull ghcr.io/yvanjaures/emy-app:latest
 
 # Lancer le conteneur
 docker compose start
@@ -551,7 +555,7 @@ POST   /member/sponsor/prize     # Parrainer prix
 - **Middleware d'authentification** pour routes protégées
 
 ### Sécurité
-- **Helmet.js** : Headers de sécurité HTTP
+- **Helmet.js** : Headers de sécurité HTTP // désactivé
 - **CORS** : Contrôle accès cross-origin
 - **Validation** des entrées utilisateur
 - **Protection XSS** et injection SQL via Prisma
