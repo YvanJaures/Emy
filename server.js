@@ -27,7 +27,7 @@ await nextApp.prepare();
 const app=express()
 const MemoryStore=memorystore(session)
 
-//app.use(helmet())
+//app.use(helmet())   // helmet désactivé: Faille de sécurité 
 app.use(cors({
   origin: true,
   credentials: true

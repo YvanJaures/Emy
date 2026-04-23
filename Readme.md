@@ -287,6 +287,11 @@ REDIS_URL=*****
 NODE_ENV=*****
 
 ```
+et une autre dans 'emy_app'
+```env
+API_BASE=***** url vers votre serveur d'api
+PORT=*** port vers le serveur 
+```
 
 ### Configuration Prisma
 Le fichier `prisma/schema.prisma` contient la configuration de la base de données :
@@ -363,12 +368,16 @@ npx prisma studio
 
 ### Avec Docker
 ```bash
-
+## 1 - Construire votre propre image et conteneur
 # Build de l'image et conteneur
 docker compose up --build
 
 # Supprimer le conteneur
 docker compose down
+
+## 2 - Installer l'image à partir de github
+
+docker pull ghcr.io/yvanjaures/emy-app:latest
 
 # Lancer le conteneur
 docker compose start
@@ -378,12 +387,19 @@ docker compose stop
 ```
 L'application complète sera disponible via **http://localhost:5015
 
+Utilisateur de test avec accréditation administrateur en cas d'utilisation du fichier seed.js:
+Nom utilisateur : Emy
+Mot de passe    : 12345678
+
 ### Mode développement
 ```bash
 # Terminal 1 : Backend
 npm run dev
 
 ```
+Utilisateur de test avec accréditation administrateur en cas d'utilisation du fichier seed.js:
+Nom utilisateur : Emy
+Mot de passe    : 12345678
 
 ### Mode production
 ```bash
@@ -539,7 +555,7 @@ POST   /member/sponsor/prize     # Parrainer prix
 - **Middleware d'authentification** pour routes protégées
 
 ### Sécurité
-- **Helmet.js** : Headers de sécurité HTTP
+- **Helmet.js** : Headers de sécurité HTTP // désactivé
 - **CORS** : Contrôle accès cross-origin
 - **Validation** des entrées utilisateur
 - **Protection XSS** et injection SQL via Prisma
