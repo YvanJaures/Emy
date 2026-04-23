@@ -12,22 +12,22 @@ import routerAdmin from './src/routes/admin.js'
 import routerCommunity from './src/routes/community.js'
 import routerTournament from './src/routes/tournaments.js'
 import routerSponsor from './src/routes/sponsor.js'
-import next from 'next'
+//import next from 'next'
 
 
 // Defini si nous sommes en production ou en developpement
 const dev = process.env.NODE_ENV !== "production";
 
 const PORT = process.env.PORT ;
-const nextApp = next({ dev, dir: "./emy_app" });
-const handle = nextApp.getRequestHandler();
+//const nextApp = next({ dev, dir: "./emy_app" });
+//const handle = nextApp.getRequestHandler();
 
-await nextApp.prepare();
+//await nextApp.prepare();
 
 const app=express()
 const MemoryStore=memorystore(session)
 
-//app.use(helmet())   // helmet désactivé: Faille de sécurité 
+app.use(helmet())   // helmet désactivé: Faille de sécurité 
 app.use(cors({
   origin: true,
   credentials: true
@@ -59,7 +59,7 @@ app.get("/api/health", (req, res) => res.json({ ok: true }));
 
 // Specifier que toutes les requêtes restantes, Next.js s’en occupe
 // Doit toujours etre place apres toutes les requetes HTTP
-app.all(/.*/, (req, res) => handle(req, res));
+//app.all(/.*/, (req, res) => handle(req, res));
 
 app.listen(PORT, () => {
   console.log(`Serveur unique: http://localhost:${PORT} (dev=${dev})`);
