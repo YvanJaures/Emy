@@ -27,7 +27,6 @@ const PORT = process.env.PORT ;
 
 const app=express()
 //const MemoryStore=memorystore(session)
-await redisClient.connect();
 
 app.use(helmet())   // helmet désactivé: Faille de sécurité 
 app.use(cors({
