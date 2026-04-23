@@ -61,11 +61,6 @@ app.get("/api/health", (req, res) => res.json({ ok: true }));
 // Doit toujours etre place apres toutes les requetes HTTP
 //app.all(/.*/, (req, res) => handle(req, res));
 
-
-if (process.env.NODE_ENV === 'production') {
-
-} else {
-  app.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Serveur unique: http://localhost:${PORT} (dev=${dev})`);
-  });
-}
+});
