@@ -55,6 +55,7 @@ app.use('/api',routerCommunity)
 app.use('/api',routerTournament)
 // API pour tester le backend
 app.get("/api/health", (req, res) => res.json({ ok: true }));
+app.get("/api/test", (req, res) => res.json({ message: "Salut! Je fonctionne très bien." }))
 
 
 // Specifier que toutes les requêtes restantes, Next.js s’en occupe
