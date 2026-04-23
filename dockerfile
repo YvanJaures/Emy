@@ -9,8 +9,7 @@ COPY package.json package-lock.json ./
 # Install dependencies
 RUN npm ci
 
-RUN npx prisma generate
-
+RUN npx prisma generate --schema=./prisma/schema.prisma
 # Copy source code
 COPY . .
 
