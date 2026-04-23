@@ -379,6 +379,9 @@ docker compose down
 
 docker pull ghcr.io/yvanjaures/emy-app:latest
 
+# lancer l'image avec
+docker run emy-app
+
 # Lancer le conteneur
 docker compose start
 
