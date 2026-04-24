@@ -15,7 +15,31 @@ import routerSponsor from './src/routes/sponsor.js'
 import { redis } from './src/services/redis.js'
 import {RedisStore} from 'connect-redis';
 //import next from 'next'
+import { createClient } from "redis"
 
+export let redis = null
+
+export async function getRedis(){
+    try {
+        redis = createClient({
+            url: process.env.REDIS_URL
+        })
+
+        redis.on("error", (err) => {//console.error("Redis error:", err)
+            if(err){
+                console.warn("Redis non disponible, cache désactivé.")
+                return redis=null 
+            }   
+        })
+
+        await redis.connect()
+        return redis
+    } catch (err) {
+        console.warn("Redis non disponible, cache désactivé. Error")
+        return null
+    }
+}
+getRedis()
 
 // Defini si nous sommes en production ou en developpement
 const dev = process.env.NODE_ENV !== "production";

@@ -1,28 +1,28 @@
 import { createClient } from "redis"
 
-export const redis = getRedis()
+export let redis = null
 
-async function getRedis(){
+export async function getRedis(){
     try {
-        const redis = createClient({
+        redis = createClient({
             url: process.env.REDIS_URL
         })
 
         redis.on("error", (err) => {//console.error("Redis error:", err)
-
-            console.warn("Redis non disponible, cache désactivé.")
-            return null 
+            if(err){
+                console.warn("Redis non disponible, cache désactivé.")
+                return redis=null 
+            }   
         })
 
+        await redis.connect()
         return redis
     } catch (err) {
         console.warn("Redis non disponible, cache désactivé. Error")
         return null
     }
 }
-if(redis){
-    await redis.connect()
-}
+getRedis()
 
 export async function GetRedisCache(recherche) {
     if (!redis) return null
