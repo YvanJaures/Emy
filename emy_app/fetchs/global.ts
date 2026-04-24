@@ -1,7 +1,6 @@
-"use server"
 import {CommunityDTO,MemberDTO, TournamentDTO} from '../hooks/Type_DTO'
 export async function getUser(){
-    const res=await fetch(process.env.API_BASE+'/api/user',{
+    const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/user',{
         credentials:"include"
     })
     if(res.ok){
@@ -29,7 +28,7 @@ export async function fetchApi(payload:Object,route:string,method:string){
 
 }
 export async function getMemberByName(user_name:string){
-    const res=await fetch(process.env.API_BASE+'/api/member/user_name?user_name='+user_name,{
+    const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/member/user_name?user_name='+user_name,{
         credentials:"include"
     })
     if(res.ok){
@@ -39,7 +38,7 @@ export async function getMemberByName(user_name:string){
     return null   
 }
 export async function getMembers(){
-    const res=await fetch(process.env.API_BASE+'/api/members',{
+    const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/members',{
         credentials:"include"
     })
     if(res.ok){
@@ -49,7 +48,7 @@ export async function getMembers(){
     return null
 }
 export async function getCommunityMembers(id_community:number){
-    const res=await fetch(process.env.API_BASE+'/api/members/community?id_community='+id_community,{
+    const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/members/community?id_community='+id_community,{
         credentials:"include"
     })
     if(res.ok){
@@ -59,7 +58,7 @@ export async function getCommunityMembers(id_community:number){
     return []
 }
 export async function getPublicTournaments(){
-    const res=await fetch(process.env.API_BASE+'/api/tournaments',{
+    const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/tournaments',{
         credentials:"include"
     })
     if(!res.ok) return []
@@ -67,7 +66,7 @@ export async function getPublicTournaments(){
     return tours.filter((t)=>!t.Community.privacy)
 }
 export async function getCommunityTournaments(id_tour:number){
-    const res=await fetch(process.env.API_BASE+'/api/tournament?id_community='+id_tour,{
+    const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/tournament?id_community='+id_tour,{
         credentials:"include"
     })
     if(res.ok){
@@ -77,7 +76,7 @@ export async function getCommunityTournaments(id_tour:number){
     return []
 }
 export async function getCommunities(){
-    const res=await fetch(process.env.API_BASE+'/api/communities',{
+    const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/communities',{
         credentials:"include"
     })
     if(res.ok){
@@ -87,7 +86,7 @@ export async function getCommunities(){
     return null
 }
 export async function getCommunityById(id_community:number){
-    const res=await fetch(process.env.API_BASE+'/api/community'+id_community,{
+    const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/community'+id_community,{
         credentials:"include"
     })
     if(res.ok){
@@ -101,7 +100,7 @@ export async function getCommunityById(id_community:number){
  */
 export async function addCommunityMember(payload:Object){
     try{
-        const res=await fetch(process.env.API_BASE+'/api/member/community/join',{
+        const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/member/community/join',{
             method:'POST',
             headers:{'Content-Type':'application/json'},
             credentials:"include",
@@ -117,7 +116,7 @@ export async function addCommunityMember(payload:Object){
 }
 export async function addTeamMemberWait(payload:Object){
     try{
-        const res=await fetch(process.env.API_BASE+'/api/member/team/add',{
+        const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/member/team/add',{
             method:'POST',
             headers:{'Content-Type':'application/json'},
             credentials:"include",
@@ -133,7 +132,7 @@ export async function addTeamMemberWait(payload:Object){
 }
 export async function deleteMemberCommunity(user_name:string,id_community:number){
     try {
-        const res = await fetch(process.env.API_BASE+'/api/member/community', {
+        const res = await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/member/community', {
             method: "DELETE",
             headers: { "Content-Type": "application/json","role":"admin"},
             credentials: "include",
@@ -152,7 +151,7 @@ export async function deleteMemberCommunity(user_name:string,id_community:number
     }
 }
 export async function deconnexion() {
-    const response=await fetch(process.env.API_BASE+'/api/deconnexion',{
+    const response=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/deconnexion',{
         method:'POST',
         credentials:"include"
     })
@@ -166,7 +165,7 @@ export async function deconnexion() {
  * et de l'afficher.
  */
 export async function getUserTeamsDetails() {
-    const res = await fetch(process.env.API_BASE+'/api/member/team/details', {
+    const res = await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/member/team/details', {
         credentials: "include"
     });
     if (res.ok) {
@@ -177,7 +176,7 @@ export async function getUserTeamsDetails() {
 }
 export async function getSponsors(){
     try{
-        const res=await fetch(process.env.API_BASE+'/api/sponsors/all',{
+        const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/sponsors/all',{
             credentials: "include"
         })
         if (res.ok) {
@@ -190,7 +189,7 @@ export async function getSponsors(){
 }
 export async function getSponsorByUserName(user_name:string){
     try{
-        const res=await fetch(process.env.API_BASE+'/api/sponsor?user_name='+user_name,{
+        const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/sponsor?user_name='+user_name,{
             credentials: "include"
         })
         if (res.ok) {
@@ -204,7 +203,7 @@ export async function getSponsorByUserName(user_name:string){
 }
 export async function addSponsor(sponsorData:Object){
     try{
-        const res=await fetch(process.env.API_BASE+'/api/sponsor/add',{
+        const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/sponsor/add',{
             method:'POST',
             headers:{'Content-Type':'application/json'},
             credentials:"include",
@@ -221,7 +220,7 @@ export async function addSponsor(sponsorData:Object){
 }
 export async function deleteSponsor(user_name:string){
     try{
-        const res=await fetch(process.env.API_BASE+'/api/sponsor/delete?user_name='+user_name,{  
+        const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/sponsor/delete?user_name='+user_name,{  
             method:'DELETE',
             headers:{'Content-Type':'application/json'},
             credentials:"include"
@@ -274,7 +273,7 @@ export async function addTeamMany(payload:{name:string, id_tour:number, key_team
  */
 export async function base(payload:Object){
     try{
-        const res=await fetch(process.env.API_BASE+'/api/member/add',{
+        const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/member/add',{
             method:'POST',
             headers:{'Content-Type':'application/json'},
             credentials:"include",
