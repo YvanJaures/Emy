@@ -34,9 +34,20 @@ app.use(helmet({
   crossOriginOpenerPolicy: false,
 })) 
 app.use(cors({
-  origin: process.env.EMY_URL,
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+
+    if (
+      origin.endsWith(".vercel.app") ||
+      origin === process.env.EMY_URL
+    ) {
+      return callback(null, true);
+    }
+
+    return callback(new Error("CORS blocked"));
+  },
   credentials: true
-}))
+}));
 
 app.use(compression())
 app.use(express.json())
