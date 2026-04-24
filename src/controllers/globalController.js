@@ -318,7 +318,6 @@ export const connexion = async (request, response, next) => {
     if (!user) return response.status(401).json(info);
     request.logIn(user, (error) => {
       if (error) return next(error);
-      console.log('sessionID:', request.sessionID)
       response.sendStatus(200);
     });
   })(request, response, next);
