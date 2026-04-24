@@ -64,7 +64,7 @@ export default function CreateTeamForm({
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch(tournamentsUrl, { cache: "no-store" });
+        const res = await fetch(tournamentsUrl, { cache: "no-store",credentials:"include" });
         if (!res.ok) return;
         const data = await res.json();
         setTournaments(data);
@@ -88,8 +88,8 @@ export default function CreateTeamForm({
         const res = await fetch(`${detailsUrl}?id_team=${id_team}`, {
           //method: "GET",
           cache: "no-store",
-          //credentials: "include",
-          //headers: { role: "admin" },
+          credentials: "include",
+          headers: { role: "admin" },
         });
 
         const data = (await res.json().catch(() => null)) as

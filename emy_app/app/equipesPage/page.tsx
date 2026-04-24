@@ -40,6 +40,7 @@ useEffect(() => {
       const res = await fetch(`/api/admin/tour/teams?id_community=${idCommunity}`, {
         cache: "no-store",
         headers: { role: "admin" },
+        credentials:"include"
       });
 
       if (!res.ok) throw new Error("Erreur chargement équipes");

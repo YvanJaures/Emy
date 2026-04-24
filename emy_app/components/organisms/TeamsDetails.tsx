@@ -32,6 +32,7 @@ export default function TeamsDetailsPage() {
       const res = await fetch(process.env.NEXT_PUBLIC_API_BASE+`/api/admin/tour/${id_tour}/teams`, {
         cache: "no-store",
         headers: { role: "admin" },
+        credentials:"include"
       });
 
       if (!res.ok) {
@@ -81,6 +82,7 @@ export default function TeamsDetailsPage() {
       const res = await fetch(process.env.NEXT_PUBLIC_API_BASE+`/api/admin/team`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json", role: "admin" },
+        credentials:"include",
         body: JSON.stringify({ id_team: team.id_team, id_tour }),
       });
 

@@ -36,7 +36,9 @@ export default function Page(){
     const handleCode= async ()=>{
         setLoading(true)
         let codeV=createCode()
-        const res0=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/member/email?email='+email)
+        const res0=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/member/email?email='+email,{
+            credentials:"include"
+        })
         
         if(!res0.ok){ 
             const ress=await res0.json()

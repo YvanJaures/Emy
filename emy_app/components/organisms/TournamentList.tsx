@@ -33,6 +33,7 @@ export default function TournamentList({
           "Content-Type": "application/json",
           role: "admin",
         },
+        credentials:"include",
         body: JSON.stringify({
           id_tour,
           id_community,

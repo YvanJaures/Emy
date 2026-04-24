@@ -16,6 +16,7 @@ export async function fetchApi(payload:Object,route:string,method:string){
         const res=await fetch(route,{
             method:method,
             headers:{'Content-Type':'application/json'},
+            credentials:"include",
             body:JSON.stringify(payload)
         })
         if(!res.ok){
@@ -103,6 +104,7 @@ export async function addCommunityMember(payload:Object){
         const res=await fetch(process.env.API_BASE+'/api/member/community/join',{
             method:'POST',
             headers:{'Content-Type':'application/json'},
+            credentials:"include",
             body:JSON.stringify(payload)
         })
         if(!res.ok){
@@ -118,6 +120,7 @@ export async function addTeamMemberWait(payload:Object){
         const res=await fetch(process.env.API_BASE+'/api/member/team/add',{
             method:'POST',
             headers:{'Content-Type':'application/json'},
+            credentials:"include",
             body:JSON.stringify(payload)
         })
         if(!res.ok){
@@ -150,7 +153,8 @@ export async function deleteMemberCommunity(user_name:string,id_community:number
 }
 export async function deconnexion() {
     const response=await fetch(process.env.API_BASE+'/api/deconnexion',{
-        method:'POST'
+        method:'POST',
+        credentials:"include"
     })
     if(response.ok){
         location.replace('/')  
@@ -173,7 +177,9 @@ export async function getUserTeamsDetails() {
 }
 export async function getSponsors(){
     try{
-        const res=await fetch(process.env.API_BASE+'/api/sponsors/all')
+        const res=await fetch(process.env.API_BASE+'/api/sponsors/all',{
+            credentials: "include"
+        })
         if (res.ok) {
             return await res.json();
         }
@@ -184,7 +190,9 @@ export async function getSponsors(){
 }
 export async function getSponsorByUserName(user_name:string){
     try{
-        const res=await fetch(process.env.API_BASE+'/api/sponsor?user_name='+user_name)
+        const res=await fetch(process.env.API_BASE+'/api/sponsor?user_name='+user_name,{
+            credentials: "include"
+        })
         if (res.ok) {
             return await res.json();
         }
@@ -199,6 +207,7 @@ export async function addSponsor(sponsorData:Object){
         const res=await fetch(process.env.API_BASE+'/api/sponsor/add',{
             method:'POST',
             headers:{'Content-Type':'application/json'},
+            credentials:"include",
             body:JSON.stringify(sponsorData)
         })
         if(!res.ok){
@@ -214,7 +223,8 @@ export async function deleteSponsor(user_name:string){
     try{
         const res=await fetch(process.env.API_BASE+'/api/sponsor/delete?user_name='+user_name,{  
             method:'DELETE',
-            headers:{'Content-Type':'application/json'}
+            headers:{'Content-Type':'application/json'},
+            credentials:"include"
         })
         if(!res.ok){
             return false
@@ -267,6 +277,7 @@ export async function base(payload:Object){
         const res=await fetch(process.env.API_BASE+'/api/member/add',{
             method:'POST',
             headers:{'Content-Type':'application/json'},
+            credentials:"include",
             body:JSON.stringify(payload)
         })
         if(!res.ok){

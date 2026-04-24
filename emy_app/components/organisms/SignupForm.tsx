@@ -223,6 +223,7 @@ export default function SignupForm() {
 
         const res = await fetch(
           process.env.NEXT_PUBLIC_API_BASE+`/api/member/user_name?user_name=${encodeURIComponent(username)}`,
+          {credentials:"include"}
         );
 
         if (!res.ok) {
@@ -260,6 +261,7 @@ export default function SignupForm() {
           process.env.NEXT_PUBLIC_API_BASE+`/api/member/user_name?user_name=${encodeURIComponent(
             form.user_name.trim(),
           )}`,
+          {credentials:"include"}
         );
 
         if (res.ok) {
@@ -306,6 +308,7 @@ export default function SignupForm() {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials:"include",
         body: JSON.stringify(payload),
       });
 
