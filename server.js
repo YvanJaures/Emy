@@ -40,6 +40,7 @@ app.use(cors({
 
 app.use(compression())
 app.use(express.json())
+app.set('trust proxy', 1);
 app.use(session({
   store: redisClient ? new RedisStore({ client: redisClient }) : new MemoryStore({checkPeriod:3600000}),
   secret: process.env.SESSION_SECRET,
