@@ -50,7 +50,7 @@ export const stream=async (request, response) => {
 export const getUser = async (request, response) => {
   const user = request.user;
   if (!user) {
-    response.status(400).json({ info: "no_user" });
+    response.status(200).json(null);;
     return;
   }
   response.status(200).json(user);
@@ -318,7 +318,7 @@ export const connexion = async (request, response, next) => {
     if (!user) return response.status(401).json(info);
     request.logIn(user, (error) => {
       if (error) return next(error);
-      response.pushJson({data:request.user},'connexion')
+      console.log('sessionID:', request.sessionID)
       response.sendStatus(200);
     });
   })(request, response, next);
