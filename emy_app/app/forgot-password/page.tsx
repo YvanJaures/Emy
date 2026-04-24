@@ -71,7 +71,7 @@ export default function Page(){
 
         }
 
-        const res=await fetchApi(payload,'/api/sendMail/verificationEmail','POST')
+        const res=await fetchApi(payload,process.env.NEXT_PUBLIC_API_BASE+'/api/sendMail/verificationEmail','POST')
 
         if(res){
 
