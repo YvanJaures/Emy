@@ -49,7 +49,6 @@ export const stream=async (request, response) => {
  */
 export const getUser = async (request, response) => {
   const user = request.user;
-  console.log("user : "+user)
   if (!user) {
     response.status(200).json(null);;
     return;
