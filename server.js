@@ -37,7 +37,9 @@ app.use(cors({
 
 app.use(compression())
 app.use(express.json())
-
+if(redis){
+    await redis.connect()
+}
 app.use(session({
   store: new RedisStore({ client: redis }),
   secret: process.env.SESSION_SECRET,
