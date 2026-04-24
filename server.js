@@ -31,7 +31,7 @@ const app=express()
 
 app.use(helmet())   // helmet désactivé: Faille de sécurité 
 app.use(cors({
-  origin: true,
+  origin: process.env.EMY_URL,
   credentials: true
 }))
 
