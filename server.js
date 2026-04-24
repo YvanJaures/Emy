@@ -13,6 +13,7 @@ import routerCommunity from './src/routes/community.js'
 import routerTournament from './src/routes/tournaments.js'
 import routerSponsor from './src/routes/sponsor.js'
 import { redis } from './src/services/redis.js'
+import {RedisStore} from 'connect-redis';
 //import next from 'next'
 
 
