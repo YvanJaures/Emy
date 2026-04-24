@@ -29,7 +29,10 @@ const PORT = process.env.PORT ;
 const app=express()
 //const MemoryStore=memorystore(session)
 
-app.use(helmet())   // helmet désactivé: Faille de sécurité 
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: "cross-origin" },
+  crossOriginOpenerPolicy: false,
+})) 
 app.use(cors({
   origin: process.env.EMY_URL,
   credentials: true
@@ -43,9 +46,9 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: true,
+    secure: false,
     httpOnly: true,
-    sameSite: 'none',
+    sameSite: 'lax',
     maxAge: 1000 * 60 * 60 * 2 // 2 heures
   }
 }));
