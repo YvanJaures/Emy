@@ -8,21 +8,19 @@ export async function getRedis(){
             url: process.env.REDIS_URL
         })
 
-        redis.on("error", (err) => {//console.error("Redis error:", err)
-            if(err){
-                console.warn("Redis non disponible, cache désactivé.")
-                return redis=null 
-            }   
+        redis.on("error", (err) => {
+            console.warn("Redis non disponible, cache désactivé.")
         })
 
         await redis.connect()
+        console.log("Redis connecté")
         return redis
     } catch (err) {
-        console.warn("Redis non disponible, cache désactivé. Error")
+        console.warn("Redis non disponible, cache désactivé.")
+        redis = null
         return null
     }
 }
-getRedis()
 
 export async function GetRedisCache(recherche) {
     if (!redis) return null

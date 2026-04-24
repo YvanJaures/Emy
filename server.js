@@ -12,12 +12,13 @@ import routerAdmin from './src/routes/admin.js'
 import routerCommunity from './src/routes/community.js'
 import routerTournament from './src/routes/tournaments.js'
 import routerSponsor from './src/routes/sponsor.js'
-import { redis } from './src/services/redis.js'
+import { getRedis } from './src/services/redis.js'
 import {RedisStore} from 'connect-redis';
 //import next from 'next'
 
 // Defini si nous sommes en production ou en developpement
 const dev = process.env.NODE_ENV !== "production";
+const redisClient = await getRedis()
 
 const PORT = process.env.PORT ;
 //const nextApp = next({ dev, dir: "./emy_app" });
@@ -37,7 +38,7 @@ app.use(cors({
 app.use(compression())
 app.use(express.json())
 app.use(session({
-  store: new RedisStore({ client: redis }),
+  store: redisClient ? new RedisStore({ client: redisClient }) : undefined,
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
