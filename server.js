@@ -27,7 +27,7 @@ const PORT = process.env.PORT ;
 //await nextApp.prepare();
 
 const app=express()
-//const MemoryStore=memorystore(session)
+const MemoryStore=memorystore(session)
 
 app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" },
@@ -41,14 +41,14 @@ app.use(cors({
 app.use(compression())
 app.use(express.json())
 app.use(session({
-  store: redisClient ? new RedisStore({ client: redisClient }) : undefined,
+  store: redisClient ? new RedisStore({ client: redisClient }) : new MemoryStore({checkPeriod:3600000}),
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: false,
+    secure: true,
     httpOnly: true,
-    sameSite: 'lax',
+    sameSite: 'none',
     maxAge: 1000 * 60 * 60 * 2 // 2 heures
   }
 }));
