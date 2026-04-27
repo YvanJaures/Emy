@@ -3,7 +3,7 @@ import Title from '../atoms/Title';
 import CommunityBar from '../molecules/CommunityBar'
 export default function PopCommunity(props:{list:Array<any>}){
     return(
-    <div className='flex flex-col gap-5 justify-center items-center bg-[url(/assets/arrieres_plan/CarolinaLowCountry.png)] bg-cover bg-no-repeat p-5 w-full'>
+    <div className='flex flex-col gap-5 justify-center items-center bg-[url(/assets/arrieres_plan/CarolinaLowcountry.png)] bg-cover bg-no-repeat p-5 w-full'>
         <div className="w-full pb-4">
           <div className="flex items-baseline justify-between mb-4 mx-auto">
             <h2 className="text-white text-[24px] underline">COMMUNAUTÉS POPULAIRES</h2>
