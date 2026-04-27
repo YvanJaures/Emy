@@ -1,5 +1,5 @@
-import { cron } from "node-cron";
-import { axios } from "axios";
+import cron from "node-cron";
+import axios from "axios";
 
 const SERVER_URL = process.env.RENDER_URL;
 
