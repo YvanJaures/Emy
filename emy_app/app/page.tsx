@@ -8,17 +8,17 @@ import Footer from "@/components/organisms/Footer";
 import Navbar from "@/components/organisms/NavBar";
 import MetaData from "@/components/organisms/MetaData";
 import Founders from "@/components/organisms/Founders";
-import Constructing from "@/components/organisms/Constructing"
-import LoadingAnimation from "@/components/organisms/LoadingAnimation";
-import { useAuth, useConnexion } from "@/hooks/useAuth";
+import Constructing from "@/components/organisms/Constructing";
+import { useConnexion } from "@/hooks/useAuth";
 
 export default function Home() {
   const router = useRouter();
-  const {member}=useConnexion();
+  const { member } = useConnexion();
+
   const list_communautes = [
     {
       name: "Ottawa city",
-      details: "Communauté de la ville d’ottawa. Rejoins nous pour du fun!",
+      details: "Communauté de la ville d'ottawa. Rejoins nous pour du fun!",
       avatar: "/assets/arrieres_plan/AutumnParkland.png",
       members: 150,
       location: "New York, Canada",
@@ -36,7 +36,7 @@ export default function Home() {
     },
     {
       name: "Oshawa city",
-      details: "Communauté de la ville d’oshawa. Rejoins nous pour du fun!",
+      details: "Communauté de la ville d'oshawa. Rejoins nous pour du fun!",
       avatar: "/assets/arrieres_plan/EtangGolf.png",
       members: 180,
       location: "Madrid, Canada",
@@ -44,40 +44,125 @@ export default function Home() {
       privacy: false,
     },
   ];
-  if(member) location.href='/communautes'
+
+  if (member) location.href = "/communautes";
+
   return (
-    <div className="flex flex-col gap-6 min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <MetaData seoTitle="Accueil" seoDescription="Accueil du site"></MetaData>
+    <div className="flex flex-col min-h-screen bg-zinc-50 font-sans dark:bg-black">
+      <MetaData seoTitle="Accueil" seoDescription="Accueil du site" />
       <Navbar />
-      <div className="w-full bg-contain h-[300px] bg-no-repeat bg-clip-content bg-fixed overflow-hidden">
+
+      {/* Hero */}
+      <div className="relative w-full h-[400px] overflow-hidden">
         <img
           src="/assets/arrieres_plan/AlpineFairwayCanada.png"
           alt="image accueil des alpines"
-          className="h-110 w-full"
+          className="w-full h-full object-cover"
         />
+        <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center gap-5 px-6 text-center">
+          <span className="text-xs tracking-[3px] text-white/70 uppercase border border-white/20 px-4 py-1 rounded-full">
+            Plateforme de golf #1 au Canada
+          </span>
+          <Title className="text-[42px] text-white drop-shadow-md">
+            BIENVENUE SUR EMY
+          </Title>
+          <p className="text-white/80 max-w-xl text-sm leading-relaxed">
+            Découvrez toutes les compétitions de golf dans votre région.
+            Rejoignez une communauté et participez à des tournois organisés
+            régulièrement.
+          </p>
+          <div className="flex w-full justify-evenly mt-2">
+            <Button
+              title="S'INSCRIRE"
+              onClick={() => router.push("/signup")}
+              className="bg-[#0F70AC] text-white border-none w-fit"
+              color="#0F70AC"
+            />
+            <Button
+              title="TOURNOIS"
+              onClick={() => router.push("/tournois")}
+              className="bg-white/10 text-white border-none w-fit backdrop-blur-sm"
+            />
+          </div>
+        </div>
       </div>
-      <div className="flex flex-col justify-center items-center p-5 gap-5">
-        <Title className="text-[40px] text-start">BIENVENUE</Title>
-        <span className="text-wrap text-center">
-          Emy est une plateforme en ligne d’hébergement de tournois de golf.
-          C’est l’occasion de découvrir pour vous passionés de golf toutes les
-          compétitions dans votre région. N’attendez plus, inscrivez vous dès
-          maintenant et réjoingnez une de nos nombreuses communautés remplis
-           de passionés de golf comme vous. Des tournois sont réguliérement 
-           organisé en fonction des communautés alors, n'attendez plus et 
-           rejoignez les pour plus de fun.
-        </span>
-        <Button
-          title="S'INSCRIRE"
-          onClick={() => router.push("/signup")}
-          className="bg-[#0F70AC] text-white border-none w-fit"
-          color="#0F70AC"
-        ></Button>
+
+      {/* Stats */}
+      <div className="grid grid-cols-3 bg-[#0F70AC]">
+        {[
+          { num: "550+", label: "Membres" },
+          { num: "12+", label: "Communautés" },
+          { num: "40+", label: "Tournois" },
+        ].map((s, i) => (
+          <div key={i} className="flex flex-col items-center justify-center py-5 border-r border-white/20 last:border-r-0 dark:bg-gray-800/90">
+            <span className="text-white text-2xl font-medium">{s.num}</span>
+            <span className="text-white/60 text-xs tracking-widest uppercase mt-1">{s.label}</span>
+          </div>
+        ))}
       </div>
-      <PopCommunity list={list_communautes}></PopCommunity>
-      <Button title="GO TO profile" onClick={() => router.push("/profilAdmin")} />
-      <Founders/>
-      <Constructing/>
+
+      {/* Description */}
+      <div className="flex flex-col items-center px-6 py-12 gap-4 max-w-2xl mx-auto text-center">
+        <Title className="text-[28px]">QU'EST-CE QUE EMY ?</Title>
+        <p className="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed">
+          Emy est une plateforme en ligne d'hébergement de tournois de golf.
+          N'attendez plus, inscrivez-vous dès maintenant et rejoignez une de nos
+          nombreuses communautés remplies de passionnés de golf comme vous.
+        </p>
+      </div>
+
+      {/* Communautés populaires */}
+
+      <PopCommunity list={list_communautes} />
+
+      {/* Features */}
+      <div className="w-full bg-zinc-100 dark:bg-black py-12 px-6 mt-6">
+        <div className="max-w-5xl mx-auto">
+          <Title className="text-[22px] text-center mb-8">POURQUOI CHOISIR EMY ?</Title>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                title: "Tournois organisés",
+                desc: "Des compétitions régulières adaptées à tous les niveaux.",
+              },
+              {
+                title: "Communautés locales",
+                desc: "Rejoignez des golfeurs passionnés près de chez vous.",
+              },
+              {
+                title: "Inscription simple",
+                desc: "Créez votre profil et commencez à jouer en quelques minutes.",
+              },
+            ].map((f, i) => (
+              <div
+                key={i}
+                className="bg-white dark:bg-gray-800 rounded-xl p-6 flex flex-col gap-3 border border-zinc-200 dark:border-zinc-700"
+              >
+                <p className="font-medium text-sm tracking-wide">{f.title}</p>
+                <p className="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">{f.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Fondateurs */}
+      <Founders />
+
+      {/* CTA final */}
+      <div className="w-full bg-[url(/assets/arrieres_plan/CoastalCarolina2.png)] brightness-80 bg-center bg-cover py-14 dark:bg-gray-800/90">
+        <div className="w-full px-6 flex brightness-200 flex-col items-center gap-4 text-center">
+          <Title className="text-[26px] text-white">PRÊT À REJOINDRE LA COMMUNAUTÉ ?</Title>
+          <p className="text-white/70 text-sm max-w-md">
+            Des tournois sont organisés régulièrement. Ne manquez plus aucune compétition près de chez vous.
+          </p>
+          <Button
+            title="CRÉER MON COMPTE"
+            onClick={() => router.push("/signup")}
+            className="bg-white text-[#0F70AC] border-none w-fit mt-2 font-medium "
+          />
+        </div>
+      </div>
       <Footer />
     </div>
   );
