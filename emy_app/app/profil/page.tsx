@@ -54,7 +54,7 @@ export default function Profil() {
     useEffect(() => {
         const fetchTeams = async () => {
             try {
-                const res = await fetch(`/api/member/my-teams`, {
+                const res = await fetch(process.env.NEXT_PUBLIC_API_BASE+`/api/member/my-teams`, {
                     credentials: "include",
                 });
 
@@ -73,7 +73,7 @@ export default function Profil() {
     useEffect(() => {
         const fetchTournaments = async () => {
             try {
-                const res = await fetch(`/api/member/my-tournaments`, {
+                const res = await fetch(process.env.NEXT_PUBLIC_API_BASE+`/api/member/my-tournaments`, {
                     credentials: "include",
                 });
 
@@ -149,7 +149,7 @@ export default function Profil() {
         if (Object.keys(validationErrors).length > 0) return;
 
         try {
-            const res = await fetch("/api/member/update", {
+            const res = await fetch(process.env.NEXT_PUBLIC_API_BASE+"/api/member/update", {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
