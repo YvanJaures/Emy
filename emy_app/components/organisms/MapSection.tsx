@@ -13,68 +13,71 @@ export type Location = {
     link:string;
     type:string;
 }
-
-const communities = [
-  { name: "Ottawa City" , address: "Ottawa, ON",  members: 150, lat: 45.4215, lng: -75.6972  ,link:"/communautes"},
-  { name: "Toronto City",  address: "Ajax, ON", members: 220, lat: 43.6532, lng: -79.3832    ,link:"/communautes"},
-  { name: "Oshawa City" ,  address: "Oshawa, ON",  members: 180, lat: 43.8971, lng: -78.8658 ,link:"/communautes"},
-];
-
-const golfCourses = [
-  { name: "Greens at Kanata", address: "Ottawa, ON",  lat: 45.3088, lng: -75.9176 ,link:"/tournois"},
-  { name: "Deer Creek Golf" ,  address: "Ajax, ON",   lat: 43.8508, lng: -79.0204 ,link:"/tournois"},
-  { name: "Lakeridge Links" ,  address: "Oshawa, ON", lat: 43.9445, lng: -78.911  ,link:"/tournois"},
-];
-
-export default function MapSection() {
-  const [center, setCenter] = useState<[number, number]>([44.2, -77.5]);
-  const [zoom, setZoom] = useState(7);
-  const [filter, setFilter] = useState<"all" | "community" | "golf">("all");
-  const [selected, setSelected] = useState<any>(null);
-  const [locations,setLocations]=useState<Location[] | null>(null)
-  const darkProvider = (x: number, y: number, z: number) =>
-    `https://basemaps.cartocdn.com/dark_all/${z}/${x}/${y}.png`;
-  const handleSearch = (query: string) => {
-    const q = query.toLowerCase();
-
-    const c = communities.find(c => c.name.toLowerCase().includes(q));
-    const g = golfCourses.find(g =>
-      g.name.toLowerCase().includes(q) ||
-      g.address.toLowerCase().includes(q)
+type geocodeResult = {
+    lat:number,
+    lng:number
+}
+export async function geocodeAddress(address: string) {
+    const res = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`
     );
 
-    if (c) setCenter([c.lat, c.lng]);
-    else if (g) setCenter([g.lat, g.lng]);
-  };
+    const data = await res.json();
+
+    if (!data || data.length === 0) return {lat:0,lng:0} as geocodeResult;
+
+    return {
+        lat: parseFloat(data[0].lat),
+        lng: parseFloat(data[0].lon),
+    } as geocodeResult;
+}
+export default function MapSection() {
+    const [center, setCenter] = useState<[number, number]>([44.2, -77.5]);
+    const [zoom, setZoom] = useState(7);
+    const [filter, setFilter] = useState<"all" | "community" | "golf">("all");
+    const [selected, setSelected] = useState<any>(null);
+    const [locations,setLocations]=useState<Location[] | null>(null)
+    const darkProvider = (x: number, y: number, z: number) =>
+      `https://basemaps.cartocdn.com/dark_all/${z}/${x}/${y}.png`;
+    const handleSearch = (query: string) => {
+        const q = query.toLowerCase();
+        const g = locations?.find(g =>
+          g.name.toLowerCase().includes(q) ||
+          g.address.toLowerCase().includes(q)
+        );
+        if (g) setCenter([g.lat, g.lng]);
+    };
   useEffect(()=>{
     (async()=>{
         const communitiesFetch=await getCommunities();
         const tournamentsFetch=await getPublicTournaments();
         const locations:Location[]=[]
-        communitiesFetch?.forEach((c:CommunityDTO)=>{
+        for (const c of communitiesFetch || []) {
+            const geo:geocodeResult=await geocodeAddress(c.location?? '')
             const loc={
                 name:c.name?? 'nom inconnu',
                 address:c.location?? 'adresse inconnue',
                 members:c.members ?? 0,
-                lat:0,
-                lng:0,
+                lat:geo.lat,
+                lng:geo.lng,
                 link:"/communautes/"+c.id_community,
                 type:"community"
             }
             locations.push(loc)
-        })
-        tournamentsFetch?.forEach((t:TournamentDTO)=>{
+        }
+        for (const t of tournamentsFetch || []) {
+            const geo:geocodeResult= await geocodeAddress(t.location?? '')
             const loc={
                 name:t.name?? 'nom inconnu',
                 address:t.location?? 'adresse inconnue',
                 members:t.Player?.length ?? 0,
-                lat:0,
-                lng:0,
+                lat:geo.lat,
+                lng:geo.lng,
                 link:"/communautes/tournois/"+t.id_tour,
                 type:"tournament"
             }
             locations.push(loc)
-        })
+        }
         setLocations(locations)
     })()
   },[])
