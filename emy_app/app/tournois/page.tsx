@@ -12,7 +12,7 @@ export default function Page(){
     const [loading,setLoading]=useState(true)
     const [searched,setSearched]=useState('')
     useEffect(()=>{
-        (async()=>{setTournois(await getPublicTournaments());setLoading(false)})()
+        (async()=>{setTournois(await getPublicTournaments()?? []);setLoading(false)})()
     },[])
     return(
         <>
