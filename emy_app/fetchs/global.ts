@@ -1,13 +1,18 @@
 import {CommunityDTO,MemberDTO, TournamentDTO} from '../hooks/Type_DTO'
 export async function getUser(){
-    const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/user',{
-        credentials:"include"
-    })
-    if(res.ok){
-        const user= await res.json()
-        return user
+    try{
+
+        const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/user',{
+            credentials:"include"
+        })
+        if(res.ok){
+            const user= await res.json()
+            return user
+        }
+        return null
+    }catch(e){
+        console.log(e)
     }
-    return null
 
 }
 export async function fetchApi(payload:Object,route:string,method:string){
@@ -28,72 +33,105 @@ export async function fetchApi(payload:Object,route:string,method:string){
 
 }
 export async function getMemberByName(user_name:string){
-    const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/member/user_name?user_name='+user_name,{
-        credentials:"include"
-    })
-    if(res.ok){
-        const member= await res.json()
-        return member as MemberDTO
+    try{
+
+        const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/member/user_name?user_name='+user_name,{
+            credentials:"include"
+        })
+        if(res.ok){
+            const member= await res.json()
+            return member as MemberDTO
+        }
+        return null   
+    }catch(e){
+        console.log(e)
     }
-    return null   
 }
 export async function getMembers(){
-    const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/members',{
-        credentials:"include"
-    })
-    if(res.ok){
-        const members= await res.json()
-        return members
+    try{
+        const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/members',{
+            credentials:"include"
+        })
+        if(res.ok){
+            const members= await res.json()
+            return members
+        }
+        return null
+    }catch(e){
+        console.log(e)
     }
-    return null
 }
 export async function getCommunityMembers(id_community:number){
-    const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/members/community?id_community='+id_community,{
-        credentials:"include"
-    })
-    if(res.ok){
-        const members= await res.json()
-        return members
-    }   
-    return []
+    try{
+
+        const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/members/community?id_community='+id_community,{
+            credentials:"include"
+        })
+        if(res.ok){
+            const members= await res.json()
+            return members
+        }   
+        return []
+    }catch(e){
+        console.log(e)
+    }
 }
 export async function getPublicTournaments(){
-    const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/tournaments',{
-        credentials:"include"
-    })
-    if(!res.ok) return []
-    const tours:TournamentDTO[]=(await res.json())
-    return tours.filter((t)=>!t.Community.privacy)
+    try{
+
+        const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/tournaments',{
+            credentials:"include"
+        })
+        if(!res.ok) return []
+        const tours:TournamentDTO[]=(await res.json())
+        return tours.filter((t)=>!t.Community.privacy)
+    }catch(e){
+        console.log(e)
+    }
 }
 export async function getCommunityTournaments(id_tour:number){
-    const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/tournament?id_community='+id_tour,{
-        credentials:"include"
-    })
-    if(res.ok){
-        const tournaments= await res.json()
-        return tournaments
-    }   
-    return []
+    try{
+
+        const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/tournament?id_community='+id_tour,{
+            credentials:"include"
+        })
+        if(res.ok){
+            const tournaments= await res.json()
+            return tournaments
+        }   
+        return []
+    }catch(e){
+        console.log(e)
+    }
 }
 export async function getCommunities(){
-    const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/communities',{
-        credentials:"include"
-    })
-    if(res.ok){
-        const communities= await res.json()
-        return communities
+    try{
+
+        const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/communities',{
+            credentials:"include"
+        })
+        if(res.ok){
+            const communities= await res.json()
+            return communities
+        }
+        return null
+    }catch(e){
+        console.log(e)
     }
-    return null
 }
 export async function getCommunityById(id_community:number){
-    const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/community'+id_community,{
-        credentials:"include"
-    })
-    if(res.ok){
-        const community= await res.json()
-        return community as CommunityDTO
+    try{
+        const res=await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/community'+id_community,{
+            credentials:"include"
+        })
+        if(res.ok){
+            const community= await res.json()
+            return community as CommunityDTO
+        }
+        return null  
+    }catch(e){
+        console.log(e)
     }
-    return null  
 }
 /**
  * ajoute un membre à une communauté
@@ -165,14 +203,19 @@ export async function deconnexion() {
  * et de l'afficher.
  */
 export async function getUserTeamsDetails() {
-    const res = await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/member/team/details', {
-        credentials: "include"
-    });
-    if (res.ok) {
-        return await res.json();
-    }
+    try{
 
-    return [];
+        const res = await fetch(process.env.NEXT_PUBLIC_API_BASE+'/api/member/team/details', {
+            credentials: "include"
+        });
+        if (res.ok) {
+            return await res.json();
+        }
+    
+        return [];
+    }catch(e){
+        console.log(e)
+    }
 }
 export async function getSponsors(){
     try{

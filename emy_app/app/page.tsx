@@ -10,11 +10,12 @@ import MetaData from "@/components/organisms/MetaData";
 import Founders from "@/components/organisms/Founders";
 import Constructing from "@/components/organisms/Constructing";
 import { useConnexion } from "@/hooks/useAuth";
+import dynamic from "next/dynamic";
+import MapSection from "@/components/organisms/MapSection";
 
 export default function Home() {
   const router = useRouter();
   const { member } = useConnexion();
-
   const list_communautes = [
     {
       name: "Ottawa city",
@@ -145,7 +146,7 @@ export default function Home() {
           </div>
         </div>
       </div>
-
+      <MapSection/>
       {/* Fondateurs */}
       <Founders />
 
