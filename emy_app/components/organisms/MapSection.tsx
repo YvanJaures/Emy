@@ -4,6 +4,7 @@ import { getCommunities,getPublicTournaments } from "@/fetchs/global";
 import { CommunityDTO, TournamentDTO } from "@/hooks/Type_DTO";
 import { Map, Marker, Overlay } from "pigeon-maps";
 import { useEffect, useState } from "react";
+import { GetRedisCache, SetRedisCache } from "@/fetchs/redisCache";
 export type Location = {
     name: string | 'nom inconnu';
     address:string| 'adresse inconnue';
@@ -18,18 +19,30 @@ type geocodeResult = {
     lng:number
 }
 export async function geocodeAddress(address: string) {
-    const res = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`
-    );
+    const cached:geocodeResult=await GetRedisCache(address)
+    if(cached) return cached
+    let coord:geocodeResult = {
+        lat: 0,
+        lng: 0,
+    }
+    setTimeout(async() => {
+            const res = await fetch(
+                `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`
+            );
+        
+            const data = await res.json();
+        
+            if (!data || data.length === 0) return {lat:0,lng:0} as geocodeResult;
+        
+            coord = {
+                lat: parseFloat(data[0].lat),
+                lng: parseFloat(data[0].lon),
+            }
+            await SetRedisCache(address,coord)
+            return coord
 
-    const data = await res.json();
-
-    if (!data || data.length === 0) return {lat:0,lng:0} as geocodeResult;
-
-    return {
-        lat: parseFloat(data[0].lat),
-        lng: parseFloat(data[0].lon),
-    } as geocodeResult;
+    }, 1002); // pour éviter de faire trop de requetes en même temps
+    return coord
 }
 export default function MapSection() {
     const [center, setCenter] = useState<[number, number]>([44.2, -77.5]);
