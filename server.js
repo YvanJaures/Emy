@@ -41,7 +41,7 @@ app.use(cors({
     if (
       origin.endsWith(".vercel.app") ||
       origin === process.env.EMY_URL ||
-      origin === "https://nominatim.openstreetmap.org/search" // Autoriser les requêtes vers Nominatim
+      origin.startsWith("https://nominatim.openstreetmap.org/search") // Autoriser les requêtes vers Nominatim
     ) {
       return callback(null, true);
     }
