@@ -13,6 +13,7 @@ import routerAdmin from './src/routes/admin.js'
 import routerCommunity from './src/routes/community.js'
 import routerTournament from './src/routes/tournaments.js'
 import routerSponsor from './src/routes/sponsor.js'
+import routerCache from './src/routes/cache.js'
 import { getRedis } from './src/services/redis.js'
 import {RedisStore} from 'connect-redis';
 //import next from 'next'
@@ -75,6 +76,7 @@ app.use('/api',routerAdmin)
 app.use('/api',routerSponsor)
 app.use('/api',routerCommunity)
 app.use('/api',routerTournament)
+app.use('/api',routerCache)
 // API pour tester le backend
 app.get("/api/health", (req, res) => res.json({ ok: true }));
 app.get("/api/test", (req, res) => res.json({ message: "Salut! Je fonctionne très bien." }))

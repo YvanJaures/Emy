@@ -36,6 +36,13 @@ export async function SetRedisCache(recherche, data) {
         EX: 600 // cache pour 10 minutes
     })
 }
+export async function SetRedisLocationCache(recherche, data) {
+    if (!redis) return
+    console.log('setting cache')
+    await redis.set(recherche, JSON.stringify(data), {
+        EX: 259200 // cache pour 72 heures
+    })
+}
 
 export async function DelRedisCache(recherche) {
     if (!redis) return
