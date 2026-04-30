@@ -51,7 +51,7 @@ export default function MapSection() {
     const [filter, setFilter] = useState<string>("Tous");
     const [selected, setSelected] = useState<any>(null);
     const [locations,setLocations]=useState<Location[] | null>(null)
-    const [dark,setDark]=useState(window.matchMedia('(prefers-color-scheme: dark)').matches)
+    const [dark,setDark]=useState(false)
     const router=useRouter();
     const darkProvider = (x: number, y: number, z: number) =>
       `https://basemaps.cartocdn.com/dark_all/${z}/${x}/${y}.png`;
@@ -119,8 +119,19 @@ export default function MapSection() {
     })()
   },[])
   useEffect(()=>{
-      setDark( window.matchMedia('(prefers-color-scheme: dark)').matches)
-  },[window.matchMedia('(prefers-color-scheme: dark)').matches])
+      if (typeof window === 'undefined') return;
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      // set initial
+      setDark(mediaQuery.matches);
+      // listener
+      const handler = (e: MediaQueryListEvent) => {
+      setDark(e.matches);
+      };
+      mediaQuery.addEventListener('change', handler);
+      return () => {
+      mediaQuery.removeEventListener('change', handler);
+      };
+  },[])
   const handleViewLocation=(location:Location|null)=>{
       if(!location) return
         setCenter([location.lat,location.lng])
