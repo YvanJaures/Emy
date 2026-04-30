@@ -154,7 +154,7 @@ export default function MapSection() {
         />
 
         {/* Filters */}
-        <div className="flex gap-2 mb-4">
+        <div className="flex gap-2 mb-4 flex-wrap">
           {["Tous", "Communautes", "Tournois"].map(f => (
             <button
               key={f}
