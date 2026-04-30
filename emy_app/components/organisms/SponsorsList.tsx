@@ -106,7 +106,7 @@ export default function Page({sponsors,_loading,search}:Props){
 
     return(
         <>
-            <div className="flex items-center justify-between items-center gap-5 p-2">
+            <div className="text-2xl font-bold text-start p-2 flex items-center justify-between items-center gap-5 p-2">
                 <p className="text-lg">{onFilter ? "MON COMPTE" : "LISTE DE COMMANDITAIRES"}</p>
                 {!loading && <CiFilter
                     className={`${onFilter && "text-[#0b78b9]"} hover:cursor-pointer hover:text-[#0b78b9]`}
@@ -117,19 +117,21 @@ export default function Page({sponsors,_loading,search}:Props){
             </div>
             
             {_loading && [...Array(10)].map((_,index)=>(<LoadSponsorCard key={index}/>))}
-            
-            {!_loading &&sponsorsList.length>0?(sponsorsList.map((sponsor,i)=>(<SponsorCard key={sponsor.user_name} sponsor={sponsor}></SponsorCard>))):(
-                <li>
-                    <p className="text-center text-gray-500 drak:text-gray-200">
-                        Aucun commanditaire pour l'instant.
-                    </p>
-                </li>
-                )}
+            <ul className="flex flex-wrap gap-2 justify-center w-full"> 
+                {!_loading &&sponsorsList.length>0?(sponsorsList.map((sponsor,i)=>(<SponsorCard key={sponsor.user_name} sponsor={sponsor}></SponsorCard>)))
+                :(
+                    <li>
+                        <p className="text-center text-gray-500 drak:text-gray-200">
+                            Aucun commanditaire pour l'instant.
+                        </p>
+                    </li>
+                )} 
+                {!_has &&(<li id="devenir-commanditaire" className="flex w-105 border border-dashed rounded-md h-[6rem] items-center justify-center gap-2 text-sm text-[#0b78b9] opacity-80 hover:opacity-100 hover:cursor-pointer"
+                    onClick={handleDevenirCommanditaire}>
+                    DEVENIR COMMANDITAIRE
+                </li>)}
+            </ul>
 
-            {!_has &&(<span id="devenir-commanditaire" className="flex border border-dashed rounded-md h-[6rem] items-center justify-center gap-2 text-sm text-[#0b78b9] opacity-80 hover:opacity-100 hover:cursor-pointer"
-                onClick={handleDevenirCommanditaire}>
-                DEVENIR COMMANDITAIRE
-            </span>)}
             {/** Confirmation de redirection vers la page de connexion */}
             {onConfirmation && (
               <Confirmation

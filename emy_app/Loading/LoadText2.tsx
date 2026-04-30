@@ -1,0 +1,11 @@
+// cn: className
+export default function Text({cn}:{cn?:string}){
+
+    return(
+        <>
+            <div className={`text-center bg-gray-100 animate-pulse text-gray-100 dark:text-gray-600 dark:bg-gray-600 overflow-hidden rounded-xl ${cn}`}>
+                h
+            </div>
+        </>
+    )
+}
