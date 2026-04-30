@@ -5,6 +5,7 @@ import { CommunityDTO, TournamentDTO } from "@/hooks/Type_DTO";
 import { Map, Marker, Overlay } from "pigeon-maps";
 import { useEffect, useState } from "react";
 import { GetRedisCache, SetRedisCache } from "@/fetchs/redisCache";
+import { useRouter } from "next/navigation";
 export type Location = {
     name: string | 'nom inconnu';
     address:string| 'adresse inconnue';
@@ -47,9 +48,11 @@ export async function geocodeAddress(address: string) {
 export default function MapSection() {
     const [center, setCenter] = useState<[number, number]>([44.2, -77.5]);
     const [zoom, setZoom] = useState(7);
-    const [filter, setFilter] = useState<"all" | "community" | "golf">("all");
+    const [filter, setFilter] = useState<string>("Tous");
     const [selected, setSelected] = useState<any>(null);
     const [locations,setLocations]=useState<Location[] | null>(null)
+    const [dark,setDark]=useState(window.matchMedia('(prefers-color-scheme: dark)').matches)
+    const router=useRouter();
     const darkProvider = (x: number, y: number, z: number) =>
       `https://basemaps.cartocdn.com/dark_all/${z}/${x}/${y}.png`;
     const handleSearch = (query: string) => {
@@ -64,7 +67,27 @@ export default function MapSection() {
     (async()=>{
         const communitiesFetch=await getCommunities();
         const tournamentsFetch=await getPublicTournaments();
-        const locations:Location[]=[]
+        const locations:Location[]=[
+            {
+                name: "Ottawa",
+                address: "Ottawa, ON, Canada",
+                members: 100,
+                lat: 45.4215,
+                lng: -75.6972,
+                link: "",
+                type: "tournament"
+            },
+            {
+                name: "Toronto",
+                address: "Toronto, ON, Canada",
+                members: 200,
+                lat: 43.6532,
+                lng: -79.3832,
+                link: "",
+                type: "community"
+            }
+        ]
+        /*
         for (const c of communitiesFetch || []) {
             const geo:geocodeResult=await geocodeAddress(c.location?? '')
             const loc={
@@ -91,9 +114,19 @@ export default function MapSection() {
             }
             locations.push(loc)
         }
+        */
         setLocations(locations)
     })()
   },[])
+  useEffect(()=>{
+      setDark( window.matchMedia('(prefers-color-scheme: dark)').matches)
+  },[window.matchMedia('(prefers-color-scheme: dark)').matches])
+  const handleViewLocation=(location:Location|null)=>{
+      if(!location) return
+        setCenter([location.lat,location.lng])
+        setZoom(18)
+        setSelected(location)
+  }
   return (
     <div className="w-full px-6 py-10">
       <div className="max-w-5xl mx-auto">
@@ -111,7 +144,7 @@ export default function MapSection() {
 
         {/* Filters */}
         <div className="flex gap-2 mb-4">
-          {["all", "community", "golf"].map(f => (
+          {["Tous", "Communautes", "Tournois"].map(f => (
             <button
               key={f}
               onClick={() => setFilter(f as any)}
@@ -121,20 +154,26 @@ export default function MapSection() {
             >
               {f}
             </button>
-          ))}
+          ))}            
+          <button
+              onClick={() => router.push('/carte')}
+              className={`px-3 py-1 rounded hover:cursor-pointer border dark:border-white`}
+            >
+              Voir
+            </button>
         </div>
 
         {/* Map */}
         <Map
           height={450}
-          boxClassname="bg-white dark:bg-black"
+          boxClassname="bg-white dark:bg-[#262626]"
           center={center}
           zoom={zoom}
           onBoundsChanged={({ center, zoom }) => {
             setCenter(center);
             setZoom(zoom);
           }}
-          provider={darkProvider}
+          provider={dark? darkProvider:undefined}
         >
           {
             locations?.map((l,index) => (
@@ -142,33 +181,11 @@ export default function MapSection() {
                 key={index}
                 anchor={[l.lat, l.lng]}
                 color={l.type==="community"? "blue" : "green"}
-                onClick={() => setSelected(l)}
-                className={(filter==="community"||filter==="all") && l.type==="community"? "" : "hidden"}
+                onClick={() => handleViewLocation(l)}
+                className={filter==="Tous" ? "" : filter==="Communautes" && l.type==="community" ? "" : filter==="Tournois" && l.type==="tournament" ? "" : "hidden"}
               />
             ))
           }
-          {/* Communities
-          {(filter === "all" || filter === "community") &&
-            communities.map((c) => (
-              <Marker
-                key={c.name}
-                anchor={[c.lat, c.lng]}
-                color="blue"
-                onClick={() => setSelected({ ...c, type: "community" })}
-              />
-            ))}
- */}
-          {/* Golf 
-          {(filter === "all" || filter === "golf") &&
-            golfCourses.map((g) => (
-              <Marker
-                key={g.name}
-                anchor={[g.lat, g.lng]}
-                color="green"
-                onClick={() => setSelected({ ...g, type: "golf" })}
-              />
-            ))}
-*/}
           {/* Popup (Overlay) */}
           {selected && (
             <Overlay anchor={[selected.lat, selected.lng]}>

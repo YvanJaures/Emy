@@ -8,9 +8,7 @@ import Footer from "@/components/organisms/Footer";
 import Navbar from "@/components/organisms/NavBar";
 import MetaData from "@/components/organisms/MetaData";
 import Founders from "@/components/organisms/Founders";
-import Constructing from "@/components/organisms/Constructing";
 import { useConnexion } from "@/hooks/useAuth";
-import dynamic from "next/dynamic";
 import MapSection from "@/components/organisms/MapSection";
 
 export default function Home() {
@@ -54,7 +52,7 @@ export default function Home() {
       <Navbar />
 
       {/* Hero */}
-      <div className="relative w-full h-[400px] overflow-hidden">
+      <div className="relative w-full max-sm:h-140 overflow-hidden">
         <img
           src="/assets/arrieres_plan/AlpineFairwayCanada.png"
           alt="image accueil des alpines"
@@ -151,8 +149,8 @@ export default function Home() {
       <Founders />
 
       {/* CTA final */}
-      <div className="w-full bg-[url(/assets/arrieres_plan/CoastalCarolina2.png)] brightness-80 bg-center bg-cover py-14 dark:bg-gray-800/90">
-        <div className="w-full px-6 flex brightness-200 flex-col items-center gap-4 text-center">
+      <div className="w-full bg-[url(/assets/arrieres_plan/CoastalCarolina2.png)] bg-center bg-cover dark:bg-gray-800/90">
+        <div className="w-full flex flex-col items-center gap-4 text-center bg-black/55 h-full py-20 px-6">
           <Title className="text-[26px] text-white">PRÊT À REJOINDRE LA COMMUNAUTÉ ?</Title>
           <p className="text-white/70 text-sm max-w-md">
             Des tournois sont organisés régulièrement. Ne manquez plus aucune compétition près de chez vous.
@@ -160,7 +158,7 @@ export default function Home() {
           <Button
             title="CRÉER MON COMPTE"
             onClick={() => router.push("/signup")}
-            className="bg-white text-[#0F70AC] border-none w-fit mt-2 font-medium "
+            className="bg-black  text-[#0F70AC] border-none w-fit mt-2 font-medium "
           />
         </div>
       </div>

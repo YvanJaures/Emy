@@ -16,6 +16,7 @@ type NavItem = { label: string; href: string };
 
 let navItems: NavItem[] = [
   { label: "ACCUEIL", href: "/" },
+  { label: "CARTE", href: "/carte" },
   { label: "COMMUNAUTÉS", href: "/communautes" },
   { label: "TOURNOIS", href: "/tournois" },
   { label: "COMMANDITAIRES", href: "/commanditaires" },
@@ -32,6 +33,7 @@ export default function Navbar({_searched}:{_searched?:(value:string)=>void}) {
 
   if(member){
     navItems=[
+      { label: "CARTE", href: "/carte" },
       { label: "COMMUNAUTÉS", href: "/communautes" },
       { label: "TOURNOIS", href: "/tournois" },
       { label: "COMMANDITAIRES", href: "/commanditaires" },
