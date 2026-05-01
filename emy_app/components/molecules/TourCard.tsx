@@ -5,7 +5,7 @@ import { useMemo } from "react";
 import { GrMapLocation } from "react-icons/gr";
 import ImageDefault from "../atoms/ImageDefault";
 import {useRouter} from "next/navigation"
-export default function Card({tournament}:{tournament:TournamentDTO}){
+export default function Card({tournament,filter}:{tournament:TournamentDTO,filter:number}){
     const router=useRouter()
     const etat=useMemo(()=>{
         let etat:number=-2
@@ -47,7 +47,7 @@ export default function Card({tournament}:{tournament:TournamentDTO}){
         return date
     },[tournament])
     return(
-        <div className="w-40 h-60 shadow-lg border border-black/10 p-1 dark:bg-gray-800 rounded-lg overflow-hidden">
+        <div className={` ${(etat!==filter && filter!==-2)? 'hidden':''} w-40 h-60 shadow-lg border border-black/10 p-1 dark:bg-gray-800 rounded-lg overflow-hidden`}>
             <div className="overflow-hidden h-full flex flex-col justify-center items-center gap-2">
                 <ImageDefault
                     avatar={tournament.avatar ?? ''}
@@ -100,7 +100,7 @@ export default function Card({tournament}:{tournament:TournamentDTO}){
                     </span>
                     <Button 
                         title="voir"
-                        className="border-none h-4 w-25"
+                        className="border-none h-5 w-25"
                         onClick={()=> router.push('/communautes/tournois/'+tournament.id_tour)}
                     />
                     <a href={`https://www.google.com/maps/place/${tournament.location ?? '/'}`} target="_blank" rel="noopener noreferrer"

@@ -29,7 +29,7 @@ const Button: React.FC<ButtonProps> = ({
   className = "",
   type = "button",
   // par defaut (si tu ne fournis rien)
-  size = "text-base",
+  size = "text-[10px]",
   color = "bg-black/80 border-black/80 text-white hover:bg-black/90",
 }) => {
   return (

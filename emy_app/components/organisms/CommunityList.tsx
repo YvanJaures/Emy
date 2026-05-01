@@ -20,6 +20,7 @@ export default function CommunityList({communities,member,search,loading}:Props)
     const [_communities,setCommunities]=useState(communities)
     // le membre est-il membre de cette communauté? pour le tri
     const [isClicked,setIsClicked]=useState(false)
+    const [filter,setFilter]=useState<string>("Tous")
     const pathname = usePathname();
     const [searched,setSearched]=useState<string>(search?? "")
     useEffect(()=>{
@@ -66,14 +67,31 @@ export default function CommunityList({communities,member,search,loading}:Props)
                 onClick={()=>{setIsClicked(!isClicked)}}/>}
                 {!member && <LoadRoundButton/>}
             </span>
-            <ul className="w-full flex flex-col gap-5 p-2">
+            <div className="flex px-2 my-2 gap-2">
+                {(['Tous','Publique','Privée'] as string[]).map((f,i)=>(
+                    <button 
+                        key={i} 
+                        onClick={()=>setFilter(f)}
+                        className={`${filter===f? 'bg-gray-600 text-blue-200':'bg-black dark:bg-gray-800'} 
+                        text-white px-3 py-1 rounded hover:bg-gray-600 
+                        hover:cursor-pointer border dark:border-white/10
+                        dark:hover:bg-gray-600 hover:bg-black/95 shadow-lg
+                        `}
+                    >
+                    {f}
+                    </button>
+                ))}
+            </div>
+            <ul className="w-full flex justify-evenly flex-wrap gap-2 p-1">
                 { communities &&
                     _communities.map((community)=>(
                         <CommunityRow
-                        member={member}
-                        community={community}
-                        key={community.id_community}
-                        isMine={isClicked? true:false}/>
+                            member={member}
+                            community={community}
+                            key={community.id_community}
+                            isMine={isClicked? true:false}
+                            filter={filter}
+                        />
                     ))
                 }
                 {
@@ -86,7 +104,7 @@ export default function CommunityList({communities,member,search,loading}:Props)
                         <p className="group-hover:text-[#0F70AC]"> Rejoindre une communauté</p>
                     </li>)
                 }
-                {(loading && loading) && [...Array(5)].map((_,index)=>(
+                {(loading && loading) && [...Array(15)].map((_,index)=>(
                     <LoadCommunityRow key={index}/>
                 ))}
                 { communities ?

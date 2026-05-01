@@ -16,12 +16,13 @@ type Props = {
   community: CommunityDTO;
   member: MemberDTO | null;
   isMine: boolean;
+  filter?: string;
 };
 
 /**
  * block représentant une communauté
  */
-export default function CommunityRow({ community, member, isMine }: Props) {
+export default function CommunityRow({ community, member, isMine,filter }: Props) {
   // le membre est-il membre de cette communauté?
   const [isVisible, setIsVisible] = useState(true);
   // le membre est-il membre de cette communauté? pour le tri
@@ -37,6 +38,12 @@ export default function CommunityRow({ community, member, isMine }: Props) {
   const [showCom,setShowCom]=useState(false);
 
   const date=(new Date(community.created))?.toLocaleDateString()
+  const filteredCommunity=()=>{
+    if(filter==="Publique" && !community.privacy || filter==="Tous") return false
+    if(filter==="Privée" && community.privacy || filter==="Tous") return false
+    if(filter==="Tous") return false
+    return true
+  }
   useEffect(() => {
     (() => {
       try {
@@ -110,35 +117,37 @@ export default function CommunityRow({ community, member, isMine }: Props) {
     <>
     <li
       className={`${onPopUp ? "pointer-events-none blur-md" : ""} ${_isMine? '':'hidden'} 
-        flex flex-wrap justify-center items-center 
-        shadow-xl dark:shadow-black/30
-        bg-white dark:bg-gray-800
-        text-gray-900 dark:text-gray-100
-        rounded-xl max-sm:flex-col hover:cursor-pointer transition-all`}
+        flex flex-wrap justify-between items-center 
+        shadow-xl dark:shadow-black/30 overflow-hidden
+        bg-white dark:bg-gray-800 w-full max-sm:w-2/5 min-sm:w-2/5 max-lg:w-92
+        text-gray-900 dark:text-gray-100 max-sm:h-1/2 transition-all ease-in-out
+        rounded-xl max-sm:flex-col hover:cursor-pointer transition-all
+        ${filteredCommunity() ? 'hidden':''}
+        `}
       id={'community-'+community.id_community.toString()}
       onClick={() => setIsVisible(!isVisible)}
     >
-      <span className="flex-50 overflow-hidden rounded-xl w-full">
+      <span className="flex-60 max-sm:flex-40 overflow-hidden rounded-xl w-full">
         <ImageDefault
           avatar={community.avatar ?? ""}
           title="image de couverture de la communauté"
-          className="w-full h-50 object-cover"
+          className="w-full h-40 object-cover"
           onClick={()=>handleShow()}
         />
       </span>
 
       <div
-        className={`flex flex-50 flex-col flex-nowrap p-2 justify-center items-center h-full
+        className={`flex flex-60 flex-col max-sm:flex-60 flex-nowrap p-2 gap-1 justify-center items-center h-full
            overflow-hidden ${isVisible ? " max-sm:hidden" : "max-sm:flex"} transition-shadow
            w-full`}
       >
         <Title
           as="h2"
           children={community.name?.toUpperCase()}
-          className="flex-10"
+          className="w-full flex-15 text-[12px] max-sm:text-[10px] text-nowrap text-ellipsis text-center overflow-hidden"
         />
 
-        <p className="flex-50 text-center w-full text-gray-700 dark:text-gray-300">
+        <p className="flex-40 text-[10px] line-clamp-3 max-sm:line-clamp-1 text-center w-full text-gray-700 dark:text-gray-300 text-wrap text-ellipsis overflow-hidden">
           {community.details}
         </p>
 
@@ -147,41 +156,41 @@ export default function CommunityRow({ community, member, isMine }: Props) {
             disabled={community.privacy}
             title={"Privée"}
             color="[#0F70AC]"
-            className="disabled:cursor-not-allowed bg-[#0F70AC] text-white border-none flex-20"
+            className="disabled:cursor-not-allowed h-6 w-20 text-[12px] bg-[#0F70AC]  text-white border-none flex-10"
           />
         ) : (
           <Button
             title={isMember ? "AFFICHER" : "REJOINDRE"}
             color="[#0F70AC]"
-            className="bg-[#0F70AC] text-white disabled:cursor-not-allowed border-none flex-20"
+            className="h-6 w-20 bg-[#0F70AC] text-[12px] text-white disabled:cursor-not-allowed border-none flex-10"
             onClick={() => {
-                              if(!isMember) handleJoin();
-                              if(isMember) handleShow();
-                            }}
+              if(!isMember) handleJoin();
+              if(isMember) handleShow();
+            }}
           />
         )}
 
-        <footer className="flex flex-row justify-between items-center w-full flex-20 text-gray-700 dark:text-gray-300">
-          <span className="flex-50 flex flex-col justify-start items-center">
-            <span className="text-start w-full flex gap-1">
+        <footer className="flex flex-30 flex-row justify-between items-center w-full flex-20 text-gray-700 dark:text-gray-300">
+          <span className="flex-70 flex flex-col justify-start items-center max-sm:line-clamp-1">
+            <span className="text-start flex gap-1 text-[10px] justify-start">
               <GrMapLocation className="justify-center items-center hidden max-sm:flex" />
-              <p className="max-sm:hidden">Adresse:</p>
+              <p className="max-sm:hidden max-lg:hidden">Adresse:</p>
               {community.location}
             </span>
 
-            <p className="text-start w-full flex">
+            <p className="text-start w-full flex text-[10px] max-sm:line-clamp-1">
               Créé le {date} par {community.Admin[0]?.user_name}
             </p>
           </span>
 
-          <span className="flex-50 flex flex-col justify-end items-center">
-            <span className="text-end w-full flex gap-1 justify-end">
+          <span className="flex-30 flex flex-col justify-end items-center text-[10px]">
+            <span className="text-end flex gap-1 justify-end">
               <LuUsers className="justify-center items-center hidden max-sm:flex" />
               {community.Community_member?.length}
               <p className="max-sm:hidden">Membres</p>
             </span>
 
-            <span className="text-end w-full flex gap-1 justify-end">
+            <span className="text-end flex gap-1 justify-end">
               <TbTournament className="justify-center items-center hidden max-sm:flex" />
               {community.Tournament ? community.Tournament.length : "0"}{" "}
               <p className="max-sm:hidden">Tournois</p>
@@ -193,13 +202,13 @@ export default function CommunityRow({ community, member, isMine }: Props) {
       <Title
         as="h2"
         children={community.name?.toUpperCase()}
-        className={`flex-10 hidden p-2 ${
-          isVisible ? " max-sm:flex" : "max-sm:hidden"
+        className={`hidden w-full p-2 flex-15 text-[12px] max-sm:text-[10px] text-nowrap text-ellipsis text-center overflow-hidden ${
+          isVisible ? " max-sm:block" : "hidden"
         }`}
       />
 
       <IoIosArrowDown
-        className={`hover:cursor-pointer hidden max-sm:flex text-gray-700 dark:text-gray-300 ${
+        className={`hover:cursor-pointer flex-5 hidden max-sm:flex text-gray-700 dark:text-gray-300 ${
           isVisible ? "" : "rotate-180"
         }`}
       />

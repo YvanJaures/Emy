@@ -117,7 +117,7 @@ export default function Page({sponsors,_loading,search}:Props){
             </div>
             
             {_loading && [...Array(10)].map((_,index)=>(<LoadSponsorCard key={index}/>))}
-            <ul className="flex flex-wrap gap-2 justify-center w-full"> 
+            <ul className="flex flex-wrap gap-2 justify-evenly w-full"> 
                 {!_loading &&sponsorsList.length>0?(sponsorsList.map((sponsor,i)=>(<SponsorCard key={sponsor.user_name} sponsor={sponsor}></SponsorCard>)))
                 :(
                     <li>
