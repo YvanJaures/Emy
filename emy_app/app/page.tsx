@@ -52,7 +52,7 @@ export default function Home() {
       <Navbar />
 
       {/* Hero */}
-      <div className="relative w-full max-sm:h-140 overflow-hidden">
+      <div className="relative w-full max-sm:h-140 overflow-hidden animate-slide-up">
         <img
           src="/assets/arrieres_plan/AlpineFairwayCanada.png"
           alt="image accueil des alpines"
@@ -87,7 +87,7 @@ export default function Home() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 bg-[#0F70AC]">
+      <div className="grid grid-cols-3 bg-[#0F70AC] animate-fade-in">
         {[
           { num: "550+", label: "Membres" },
           { num: "12+", label: "Communautés" },

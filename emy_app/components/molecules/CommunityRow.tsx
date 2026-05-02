@@ -121,7 +121,7 @@ export default function CommunityRow({ community, member, isMine,filter }: Props
         shadow-xl dark:shadow-black/30 overflow-hidden
         bg-white dark:bg-gray-800 w-full max-sm:w-38 min-sm:w-2/5 max-lg:w-92
         text-gray-900 dark:text-gray-100 max-sm:h-1/2 transition-all ease-in-out
-        rounded-xl max-sm:flex-col hover:cursor-pointer transition-all
+        rounded-xl max-sm:flex-col hover:cursor-pointer transition-all animate-slide-up
         ${filteredCommunity() ? 'hidden':''}
         `}
       id={'community-'+community.id_community.toString()}

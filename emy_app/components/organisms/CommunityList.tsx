@@ -5,7 +5,7 @@ import { CiFilter  } from "react-icons/ci";
 import Title from "../atoms/Title"
 import CommunityRow from "../molecules/CommunityRow";
 import { IoAddCircleOutline } from "react-icons/io5";
-
+import NoContent from "../molecules/NoContent";
 import {useState,useEffect} from 'react'
 import { usePathname } from "next/navigation";
 import LoadCommunityRow from "@/Loading/LoadCommunityRow";
@@ -108,18 +108,23 @@ export default function CommunityList({communities,member,search,loading}:Props)
                     <LoadCommunityRow key={index}/>
                 ))}
                 { communities ?
-                    communities.length===0 &&
-                    (<li className="group hover:border-[#0F70AC] hover:cursor-pointer border border-dashed h-15 rounded-xl
-                        flex justify-center items-center flex-col"
-                        onClick={()=>''}>
-                        <IoAddCircleOutline 
-                        className="group-hover:text-[#0F70AC]"/>
-                        <p className="group-hover:text-[#0F70AC]"> Créer une communauté</p>
-                    </li>
+                    communities.length===0  || _communities.length===0  &&
+                    (
+                    <NoContent action={
+                        <li className="group hover:border-[#0F70AC] hover:cursor-pointer border border-dashed h-15 rounded-xl
+                            flex justify-center items-center flex-col"
+                            onClick={()=>''}>
+                            <IoAddCircleOutline 
+                            className="group-hover:text-[#0F70AC]"/>
+                            <p className="group-hover:text-[#0F70AC]"> Créer une communauté</p>
+                        </li>
+                    }>
+                    </NoContent>
                     ):(
-                        <p className="text-center p-15 text-md"> Une erreur est survenue...</p>
+                        <NoContent />
                     )
                 }
+                
             </ul>
         </div>
     )
