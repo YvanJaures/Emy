@@ -222,27 +222,49 @@ export default function TournamentBlockSlug({ tournament }: Props) {
   const handleCloseCreation = () => {
     setOpenCreation(false);
   };
+  const handleShareClick=()=>{
+    if(navigator.share){
+      try{
+
+          navigator.share({
+            title:tournament.name,
+            text:tournament.Community.details ?? "Rejoignez moi sur ce tournoi !",
+            url:location.href
+          })
+        }catch(error){
+          console.error("Erreur lors du partage :", error);
+        }
+      }else{
+        alert('Partage non supporté sur ce navigateur');
+      }
+
+  }
   return (
     <>
       <div className="flex flex-col mb-10">
         <span className="flex flex-5 justify-between items-center p-2 dark:bg-gray-800">
            <RiArrowLeftSLine 
+              title="Retour à la communauté"
               onClick={()=>router?.push('/communautes/'+tournament?.Community.id_community)}
-              className="hover:cursor-pointer hover:bg-gray-200 rounded-full stroke-2 dark:hover:bg-white/30"/>
-          <p>{tournament ? tournament?.name : "Tournoi"}</p>
-          <GrShare />
+              className="hover:cursor-pointer size-6 hover:bg-gray-200 rounded-full stroke-2 dark:hover:bg-white/30"/>
+          <p className="font-bold">{tournament ? tournament?.name : "Tournoi"}</p>
+          <GrShare 
+            title="Partager"
+            onClick={handleShareClick}
+            className="hover:cursor-pointer"
+          />
         </span>
         <span className="flex-10">
           <ImageDefault
             title={tournament ? tournament?.name : "avatar du tournoi"}
             avatar={(tournament.avatar?.startsWith('h')||tournament.avatar?.startsWith('h'))? tournament.avatar:'/assets/arrieres_plan/AutumnParkland.png'}
-            className="object-cover h-50 w-full flex justify-center items-center"
+            className="object-cover h-40 w-full object-contain flex justify-center items-center"
           />
         </span>
-        <section className="flex-20 p-2 gap-2 flex border-b ml-2 mr-2">
-          <section className="flex-80 flex flex-col text-gray-400 gap-2">
+        <section className="flex-20 h-full p-2 gap-2 flex border-b max-sm:text-[12px]">
+          <section className="flex-90 h-full flex flex-col text-gray-400 gap-2">
             <p>{tournament?.Community.details}</p>
-            <div className="flex">
+            <div className="flex justify-between">
               <div className="dark:text-gray-200">
                 groupes : {tournament?.Team?.length} /{tournament?.members / 4}
                 <br />
@@ -266,31 +288,33 @@ export default function TournamentBlockSlug({ tournament }: Props) {
                 {etat === -1 && (
                   <div className="flex justify-start items-center gap-1">
                     status:
-                    <p className="w-2  h-2 rounded-full bg-green-600 text-center"></p>
-                    commence bientôt
+                    <p className="w-2 line-clamp-1 text-nowrap h-2 rounded-full bg-green-600 text-start"></p>
+                    A venir
                   </div>
                 )}
                 {etat === 0 && (
                   <div className="flex justify-start items-center gap-1">
                     status:
-                    <p className="w-2  h-2 rounded-full bg-orange-300 text-center"></p>
+                    <p className="w-2 line-clamp-1 text-nowrap  h-2 rounded-full bg-orange-300 text-center"></p>
                     en cours
                   </div>
                 )}
                 {etat === 1 && (
                   <div className="flex justify-start items-center gap-1">
                     status:
-                    <p className="w-2  h-2 rounded-full bg-red-600 text-center"></p>
+                    <p className="w-2 line-clamp-1  h-2 rounded-full bg-red-600 text-center"></p>
                     terminé
                   </div>
                 )}
               </div>
-              <span className="boder flex-50 flex justify-center items-end">
+              <span className="boder left-2/5 translate-y-8 absolute flex-50 flex justify-center items-end">
                 {etat === -1 && (
                   <Button
                     title={isPlayer?"Inscrit":"S'inscrire"}
                     disabled={isPlayer}
-                    className={isPlayer?"hover:cursor-not-allowed border-none":"bg-[#0F70AC] bg-#0F70AC flex justify-center border-none"}
+                    className={`${isPlayer?"hover:cursor-not-allowed border-none":"bg-[#0F70AC] bg-#0F70AC flex justify-center border-none"} max-sm:h-7 
+                            
+                    `}
                     onClick={handleRegistrationClick}
                   />
                 )}
@@ -302,35 +326,37 @@ export default function TournamentBlockSlug({ tournament }: Props) {
               </span>
             </div>
           </section>
-          <span className="flex-20 h-full text-lg">
+          <span className="flex-10 h-full text-lg max-sm:text-[12px] flex-col justify-start items-end gap-2 flex">
             <p className="flex justify-start items-center gap-2">
-              <LuUsers className="" /> {tournament?.Player?.length ?? 0}/
+              {tournament?.Player?.length ?? 0}/
               {tournament?.members}
+              <LuUsers title="Nombre de participants" className="" /> 
             </p>
             <a
               href={`https://www.google.com/maps/place/${tournament?.location ?? "/"}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex gap-1 justify-start items-center hover:underline"
+              className="flex gap-1 justify-end items-center hover:underline"
             >
-              <GrMapLocation className="hover:cursor-pointer hover:text-[#0F70AC]" />
-              <p className="max-sm:hidden overflow-hidden">
+              
+              <p className="text-ellipsis text-nowrap overflow-hidden">
                 {tournament?.location}
               </p>
+              <GrMapLocation title="Localisation" className="hover:cursor-pointer hover:text-[#0F70AC]" />
             </a>
             <p className="flex justify-start items-center gap-2">
-              <MdOutlineLock className="" /> Ouvert
+              Ouvert<MdOutlineLock title="Accès" className="" /> 
             </p>
             <p className="flex justify-start items-center gap-2">
-              <CiGlobe className="" /> EN, FR
+              en, fr <CiGlobe title="Langues" className="" />
             </p>
             <p className="flex justify-start items-center gap-2">
-              <CiBadgeDollar className="" /> {tournament?.fees ?? 0}
+              {tournament?.fees ?? 0} <CiBadgeDollar title="Frais" className="" /> 
             </p>
           </span>
         </section>
         <section className="p-3 ">
-          <p>EQUIPES</p>
+          <p className="max-sm:text-[15px] font-semibold">EQUIPES</p>
           <TournamentTeamsBlock
             t={_tour}
             admin={false}

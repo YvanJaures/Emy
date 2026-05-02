@@ -5,7 +5,7 @@ import { SlMagnifier } from "react-icons/sl";
 import { FaGlobeAmericas } from "react-icons/fa";
 import { LuUsers } from "react-icons/lu";
 import { TbTournament } from "react-icons/tb";
-import { GrMapLocation } from "react-icons/gr";
+import { GrMapLocation, GrShare } from "react-icons/gr";
 import Title from "../atoms/Title";
 import ImageDefault from "../atoms/ImageDefault";
 import { useState, useEffect } from "react";
@@ -38,7 +38,21 @@ export default function CommunityBlockSlug({ community }: Props) {
   const [view, setView] = useState(1);
   const router = useRouter();
   const { member } = useConnexion();
-
+  const handleShareClick=()=>{
+      if(navigator.share){
+      try{
+          navigator.share({
+              title:community.name,
+              text:community.details ?? "Rejoignez moi sur cette communauté !",
+              url:location.href
+          })
+          }catch(error){
+          console.error("Erreur lors du partage :", error);
+          }
+      }else{
+          alert('Partage non supporté sur ce navigateur');
+      }
+  }
   useEffect(() => {
     const handleIsMember = () => {
       community.Community_member?.forEach((memb) => {
@@ -89,23 +103,27 @@ export default function CommunityBlockSlug({ community }: Props) {
       className="z-150 absolute fixed flex flex-col top-0 left-0 
             bg-white h-lvh w-full overflow-scroll max-sm:h-full dark:bg-black"
     >
-      <header
-        className="flex-5 absolute sticky top-0 left-0
-                flex justify-between items-center w-full p-3 bg-white/70 z-99 dark:bg-gray-800"
-      >
-        {/* <Title
+            <header className="flex-5 absolute sticky top-0 left-0 dark:bg-gray-800
+                flex justify-between items-center w-full p-3 bg-white/70 z-99">
+                <RiArrowLeftSLine 
+                    title="Retour"
+                    onClick={()=>router?.push('/communautes#community-'+community.id_community)}
+                    className="hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-black/20 rounded-full stroke-2 size-5"/>
+                <Title
                     children={community.name}
                     as='h2'
-                    className="bold"/> */}
-        <RiArrowLeftSLine 
-                onClick={()=>router?.push('/communautes#community-'+community.id_community)}
-                className="hover:cursor-pointer hover:bg-gray-200 rounded-full stroke-2 dark:hover:bg-black/20"/>
-        <Title as="h2" className="bold">
-          {community.name}
-        </Title>
-        <p>Identifiant : {community.id_community}</p>
-        <SlMagnifier className="hover:cursor-pointer stroke-2" />
-      </header>
+                    className="bold max-sm:text-[14px] overflow-hidden line-clamp-1"/>
+                <p className="font-semibold max-sm:text-[14px] overflow-hidden line-clamp-1">Id : {community.id_community}</p>
+                <SlMagnifier 
+                    className="hover:cursor-pointer stroke-2 size-4 stroke-2"
+                    onClick={()=>alert('La recherche est en cours de développement')}
+                />
+                <GrShare 
+                    title="Partager"
+                    onClick={handleShareClick}
+                    className="hover:cursor-pointer size-4 stroke-2"
+                />
+            </header>
       <main className="flex-95 flex flex-col w-full justify-start items-center">
         <div className="flex-20 w-full">
           <ImageDefault
@@ -149,7 +167,7 @@ export default function CommunityBlockSlug({ community }: Props) {
               {view === 1 && <TourViewList tournaments={tournaments} className="mt-17"/>}
               {view === 2 && <UserViewList members={members} />}
               {view === 3 && (
-                <p className="absolute w-full mt-17 p-3 flex flex-col justify-start items-center">
+                <p className="absolute w-full mt-17 p-3 flex flex-col justify-start items-center max-sm:text-[12px]">
                   {community.details}
                 </p>
               )}

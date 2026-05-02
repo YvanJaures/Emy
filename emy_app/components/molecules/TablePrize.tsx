@@ -117,14 +117,13 @@ export default function TablePrize({prizes,onSelect,success}:Props){
         <>
             <div className="p-2">
                 <table className="w-full rounded-xl shadow-md dark:text-gray-200">
-                    <caption className="text-start ml-2">LISTE DE COMMANDITES</caption>
-                    <thead className="bg-gray-200 h-15 dark:bg-gray-800">
+                    <caption className="text-start max-sm:text-[15px] font-semibold">LISTE DE COMMANDITES</caption>
+                    <thead className="bg-gray-200 h-10 text-start dark:bg-gray-800 max-sm:text-[12px] font-semibold">
                         <tr>
                             <th className="flex-5">
                                 <input type="checkbox" name="tous" id="tous" 
                                     checked={tous}
                                     onChange={()=>{handleTous()}}/>
-                                Tous
                             </th>
                             <th>
                                 Commandites
@@ -147,7 +146,7 @@ export default function TablePrize({prizes,onSelect,success}:Props){
                         {/* Mapping des prix pour afficher chaque ligne du tableau */}
                         { prizesList?.map((prize,i)=>(
                             <tr key={prize?.id_prize} 
-                                className="p-2 hover:bg-black/2 hover:cursor-pointer dark:hover:bg-white/20"
+                                className="p-2 hover:bg-black/2 hover:cursor-pointer dark:hover:bg-white/20 max-sm:text-[10px]"
                                 onClick={()=>{
                                     if((prize.Prize_sponsor?.length ?? 0) <= prize.spots && !added[i]) handleCheck(i)
                                 }}>
@@ -157,7 +156,7 @@ export default function TablePrize({prizes,onSelect,success}:Props){
                                     checked={checked[i]}
                                     onChange={()=>{handleCheck(i);}}/>)}
                                 </td>
-                                <td className="p-2 ">{prize.name}</td>
+                                <td className="p-2 text-nowrap overflow-hidden line-clamp-1">{prize.name}</td>
                                 <td className="p-2 ">${prize.value}</td>
                                 <td className="p-2 ">{prize.group_spot*4}</td>
                                 <td className="p-2 ">{prize.group_spot}</td>
@@ -179,7 +178,7 @@ export default function TablePrize({prizes,onSelect,success}:Props){
                             <td>
                                 <Button
                                     title="Commanditer"
-                                    className={`${selected.length===0 && "hover:cursor-not-allowed"} border-none h-8`}
+                                    className={`${selected.length===0 && "hover:cursor-not-allowed"} border-none h-8 max-sm:h-6 max-sm:w-23`}
                                     disabled={selected.length===0}
                                     containerClassName={`${selected.length===0 && "hover:cursor-not-allowed"} `}
                                     onClick={handleCommanditer}/>

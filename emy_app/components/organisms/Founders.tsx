@@ -7,27 +7,27 @@ export default function Founders(){
     {
         name: "Emma Raissa",
         img: "/assets/avatars/prof.png",
-        email: "emmaraissa@email.com",
+        email: "emmaraissa@gmail.com",
         username: "fondatrice"
     },
     {
         name: "Mathieu Larocque",
         img: "/assets/avatars/mathieu.png",
-        email: "mathieularocque@email.com",
+        email: "mathieularocque@gmail.com",
         username: "fondateur"
     },
     {
         name: "Yvan Jaures",
         img: "/assets/avatars/yvan.png",
-        email: "yvanjaures@email.com",
+        email: "yvanjauresnzali@gmail.com",
         username: "fondateur"
     }
     ]
     return(
         <>
-            <section className="w-full gap-5 flex flex-col items-center justify-center py-2">
-                <Title className="bold text-[25px]" as="h2">Rencontrez nos fondateurs</Title>
-                <div className="flex flex-row justify-center items-center flex-wrap-reverse gap-5 mw-full">
+            <section className="w-full gap-3 flex flex-col items-center justify-center py-2">
+                <Title className="bold text-[25px] max-sm:text-[20px]" as="h2">Rencontrez nos fondateurs</Title>
+                <div className="flex flex-row justify-center items-center flex-wrap-reverse gap-3 mw-full">
                     {founders.map((founder,i)=>(
                         <FounderCard key={i} name={founder.name} 
                         img={founder.img} email={founder.email}

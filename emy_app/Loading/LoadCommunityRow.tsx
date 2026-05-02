@@ -7,11 +7,11 @@ import { IoIosArrowDown } from "react-icons/io";
   return (
     <>
         <li
-        className={`flex flex-row flex-wrap justify-center items-center 
-            shadow-xl dark:shadow-black/30
-            bg-white dark:bg-gray-800
-            text-gray-100 dark:text-gray-100
-            rounded-xl max-sm:flex-col`}
+        className={`flex flex-wrap justify-between items-center 
+        shadow-xl dark:shadow-black/30 overflow-hidden
+        bg-white dark:bg-gray-800 w-full max-sm:w-38 min-sm:w-2/5 max-lg:w-92
+        text-gray-900 dark:text-gray-100 max-sm:h-1/2 transition-all ease-in-out
+        rounded-xl max-sm:flex-col hover:cursor-pointer transition-all`}
         >
         <div className="flex-50 animate-pulse text-gray-100 bg-gray-100 h-50 overflow-hidden rounded-xl w-full max-sm:hidden dark:opacity-15 dark:text-gray-600 dark:bg-gray-600">
             image

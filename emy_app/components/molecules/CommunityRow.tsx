@@ -119,7 +119,7 @@ export default function CommunityRow({ community, member, isMine,filter }: Props
       className={`${onPopUp ? "pointer-events-none blur-md" : ""} ${_isMine? '':'hidden'} 
         flex flex-wrap justify-between items-center 
         shadow-xl dark:shadow-black/30 overflow-hidden
-        bg-white dark:bg-gray-800 w-full max-sm:w-2/5 min-sm:w-2/5 max-lg:w-92
+        bg-white dark:bg-gray-800 w-full max-sm:w-38 min-sm:w-2/5 max-lg:w-92
         text-gray-900 dark:text-gray-100 max-sm:h-1/2 transition-all ease-in-out
         rounded-xl max-sm:flex-col hover:cursor-pointer transition-all
         ${filteredCommunity() ? 'hidden':''}

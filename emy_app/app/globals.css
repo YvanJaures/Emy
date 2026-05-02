@@ -14,11 +14,16 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #0e0d0d;
     --foreground: #ededed;
   }
 }
-
+@media (prefers-color-scheme: light) {
+  :root {
+    --foreground: #0e0d0d;
+    --background: #ededed;
+  }
+}
 body {
   background: var(--background);
   color: var(--foreground);
@@ -26,6 +31,7 @@ body {
   min-width: 350px;
   margin:0 0 0 0;
   /* overflow:hidden; */
+  scroll-behavior: smooth;
   overflow-y: auto;
   overflow-x: hidden;
 }

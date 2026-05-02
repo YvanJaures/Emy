@@ -103,7 +103,7 @@ export default function Navbar({_searched}:{_searched?:(value:string)=>void}) {
         {/* Actions à droite */}
         <div className="flex items-center flex-20 justify-end gap-2 w-[10%] mr-2 max-lg:w-[20%]">
 
-          {/* Dark mode button */}
+          {/* Dark mode button 
           <button
             type="button"
             aria-label="Activer/Désactiver le mode sombre"
@@ -114,6 +114,7 @@ export default function Navbar({_searched}:{_searched?:(value:string)=>void}) {
           >
             <FaMoon className="h-5 w-5" />
           </button>
+          */}
           <FaMagnifyingGlass 
             className={`hover:cursor-pointer hover:text-[#0F70AC] lg:hidden ${search && 'text-[#0F70AC]'}`}
             onClick={handleSearch}

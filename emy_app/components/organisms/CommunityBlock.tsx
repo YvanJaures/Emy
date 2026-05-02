@@ -6,7 +6,7 @@ import { SlMagnifier } from "react-icons/sl";
 import { FaGlobeAmericas } from "react-icons/fa";
 import { LuUsers } from "react-icons/lu";
 import { TbTournament } from "react-icons/tb";
-import { GrMapLocation } from "react-icons/gr";
+import { GrMapLocation, GrShare } from "react-icons/gr";
 import Title from "../atoms/Title"
 import ImageDefault from "../atoms/ImageDefault";
 import {useState,useEffect} from 'react'
@@ -43,7 +43,23 @@ export default function CommunityBlock({community,_isMember,onShown}:Props){
         onShown(false)
     }
 
-    
+    const handleShareClick=()=>{
+        if(navigator.share){
+        try{
+
+            navigator.share({
+                title:community.name,
+                text:community.details ?? "Rejoignez moi sur cette communauté !",
+                url:location.href
+            })
+            }catch(error){
+            console.error("Erreur lors du partage :", error);
+            }
+        }else{
+            alert('Partage non supporté sur ce navigateur');
+        }
+
+    }
     useEffect(()=>{
         const handleIsMember=()=>{
             community.Community_member?.forEach((memb)=>{
@@ -94,15 +110,23 @@ export default function CommunityBlock({community,_isMember,onShown}:Props){
             <header className="flex-5 absolute sticky top-0 left-0 dark:bg-gray-800
                 flex justify-between items-center w-full p-3 bg-white/70 z-99">
                 <RiArrowLeftSLine 
+                    title="Retour"
                     onClick={()=>handleShow()}
-                    className="hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-black/20 rounded-full stroke-2"/>
+                    className="hover:cursor-pointer hover:bg-gray-200 dark:hover:bg-black/20 rounded-full stroke-2 size-5"/>
                 <Title
                     children={community.name}
                     as='h2'
-                    className="bold"/>
-                <p>Identifiant : {community.id_community}</p>
+                    className="bold max-sm:text-[14px] overflow-hidden line-clamp-1"/>
+                <p className="font-semibold max-sm:text-[14px] overflow-hidden line-clamp-1">Id : {community.id_community}</p>
                 <SlMagnifier 
-                    className="hover:cursor-pointer stroke-2"/>
+                    className="hover:cursor-pointer stroke-2 size-4 stroke-2"
+                    onClick={()=>alert('La recherche est en cours de développement')}
+                />
+                <GrShare 
+                    title="Partager"
+                    onClick={handleShareClick}
+                    className="hover:cursor-pointer size-4 stroke-2"
+                />
             </header>
             <main className="flex-95 flex flex-col w-full justify-start items-center dark:bg-black">
                 <div className="flex-20 w-full">
@@ -171,7 +195,7 @@ export default function CommunityBlock({community,_isMember,onShown}:Props){
                         )
                         }
                         {   view===3 &&(
-                            <p className="absolute w-full mt-17 p-3 flex flex-col justify-start items-center dark:bg-black">
+                            <p className="absolute w-full mt-17 p-3 flex flex-col justify-start items-center dark:bg-black max-sm:text-[12px]">
                                 {community.details}
                             </p>
                         )

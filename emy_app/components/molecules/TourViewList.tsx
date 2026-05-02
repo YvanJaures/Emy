@@ -5,6 +5,7 @@ import { FaRegEye } from "react-icons/fa";
 import { useState,useMemo, useEffect } from "react";
 import { GrMapLocation } from "react-icons/gr";
 import LoadTourRow from "@/Loading/LoadTourRow";
+import { useRouter } from "next/navigation";
 /**
  * liste des tournois de la communautés
  * @param props : { TournamentDTO[] }
@@ -13,6 +14,7 @@ import LoadTourRow from "@/Loading/LoadTourRow";
 export default function TourViewList(props:{tournaments:TournamentDTO[],className?:string,loading?:boolean,search?:string}){
     const[tournaments,setTournaments]=useState<TournamentDTO[]|[]>([])
     const [searched,setSearched]=useState<string>(props.search?? "")
+    const router=useRouter()
 
     useEffect(()=>{
         if(searched==="404") return setTournaments(props.tournaments)
@@ -83,48 +85,53 @@ export default function TourViewList(props:{tournaments:TournamentDTO[],classNam
             {!props.loading&& tournaments.length>0 ?
                 (tournaments.map((tournament,i)=>(
                     <li key={tournament.id_tour} className="group hover:cursor-pointer hover:bg-black/10 p-1 flex justify-start items-center w-full gap-1"
-                        onClick={()=> location.href='/communautes/tournois/'+tournament.id_tour}>
+                        onClick={()=> router.push('/communautes/tournois/'+tournament.id_tour)}>
                         <ImageDefault
                         avatar={tournament.avatar ?? ''}
                         title='image de profil du membre'
-                        onClick={()=> location.href='/communautes/tournois/'+tournament.id_tour}
+                        onClick={()=> router.push('/communautes/tournois/'+tournament.id_tour)}
                         className='w-10 h-10 rounded-full p-1'/>
-                        <p className=" flex-25 max-sm:text-[13px] text-gray-500 italic"><sub>@</sub>{tournament.name ?? 'name'}</p>
-                        <p className=" flex-25 max-sm:text-[13px] text-gray-500 italic"><sub>@</sub>{tournament.id_tour ?? 'id'}</p>
-                        <p className="flex flex-45 justify-start items-center gap-1 flex-10 max-sm:text-[13px] text-gray-500 italic">
+                        <p className=" flex-25 max-sm:text-[11px] text-gray-500 italic line-clamp-1"><sub>@</sub>{tournament.name ?? 'name'}</p>
+                        <p className=" flex-25 max-sm:text-[11px] text-gray-500 italic line-clamp-1"><sub>@</sub>{tournament.id_tour ?? 'id'}</p>
+                        <span className="flex flex-45 justify-start items-center gap-1 flex-10 max-sm:text-[11px] text-gray-500 italic line-clamp-1 text-nowrap text-ellipsis overflow-hidden">
                             {
                                 etats[i]===-2 &&
-                                (<sub className="w-2  h-2 rounded-full bg-green-600"></sub>)
-                            }
-                            {
-                                etats[i]===-2 &&
-                                ('erreur')
+                                (
+                                <>
+                                    <p className="w-2  h-2 rounded-full bg-green-600 text-center text-white dark:text-gray-800">o</p>
+                                    erreur
+                                </>
+                                )
+                                
                             }
                             {
                                 etats[i]===-1 &&
-                                (<sub className="w-2  h-2 rounded-full bg-green-600"></sub>)
-                            }
-                            {
-                                etats[i]===-1 &&
-                                ('Commence le: '+dates[i].start)
-                            }
-                            {
-                                etats[i]===0 &&
-                                (<sub className="w-2  h-2 rounded-full bg-orange-300"></sub>)
+                                (
+                                <>
+                                    <p className="w-2  h-2 rounded-full bg-green-600 text-center text-white dark:text-gray-800">o</p>
+                                    Commence le: {dates[i].start}
+                                </>
+                                )
                             }
                             {
                                 etats[i]===0 &&
-                                ('En cours depuis le: '+dates[i].start)
+                                (
+                                <>
+                                    <p className="w-2  h-2 rounded-full bg-orange-300 text-center text-white dark:text-gray-800">o</p>
+                                    En cours depuis le: {dates[i].start}
+                                </>
+                                )
                             }
                             {
                                 etats[i]===1 &&
-                                (<sub className="w-2  h-2 rounded-full bg-red-600"></sub>)
+                                (
+                                <>
+                                    <p className="w-2  h-2 rounded-full bg-red-600 text-center text-white dark:text-gray-800">o</p>
+                                    Terminé le: {dates[i].end}
+                                </>
+                                )
                             }
-                            {
-                                etats[i]===1 &&
-                                ('Terminé le: '+dates[i].end)
-                            }
-                        </p>
+                        </span>
                         <a href={`https://www.google.com/maps/place/${tournament.location ?? '/'}`} target="_blank" rel="noopener noreferrer"
                             className="flex flex-col flex-25 gap-1 justify-center items-center hover:underline dark:text-gray-200">
                             <p className="max-sm:hidden hover:underine dark:text-gray-200">
@@ -132,10 +139,10 @@ export default function TourViewList(props:{tournaments:TournamentDTO[],classNam
                                 {tournament.location}
                             </p>
                             <GrMapLocation 
-                                className="hover:cursor-pointer hover:text-[#0F70AC] hidden max-sm:block"/>
+                                className="hover:cursor-pointer hover:text-[#0F70AC] hidden max-sm:block max-sm:text-[12px]"/>
                         </a>
                         <FaRegEye 
-                        className="flex flex-5 text-end justify-end group-hover:text-[#0F70AC]"/>
+                            className="flex flex-5 text-end justify-end group-hover:text-[#0F70AC] max-sm:text-[12px]"/>
                     </li>
                 )) 
                 ):(

@@ -196,7 +196,7 @@ export default function MapSection() {
           onKeyDown={(e) => {
             if (e.key === "Enter") handleSearch((e.target as HTMLInputElement).value);
           }}
-          className={"px-3 py-2 mb-4 w-full absolute fixed rounded-xl shadow-xl top-5 z-40 bg-transparent text-black/90 backdrop-blur outline-none dark:text-white"}
+          className={"w-[95%] left-[2.5%]  h-10 absolute px-2 rounded-xl shadow-xl top-7 z-40 bg-transparent text-black/90 backdrop-blur outline-none dark:text-white"}
         />
 
         {/* Map */}
