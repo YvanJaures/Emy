@@ -43,12 +43,12 @@ export default function Confirmation({ title, message,onConfirmed,showConfirm}: 
     <div className={"z-99 border border-orange-400 dark:bg-gray-800 bg-white flex absolute fixed flex-col justify-center"+
             "items-center top-1/2 left-1/2 "+
             "-translate-x-1/2 -translate-y-1/2 p-2 rounded-sm"}>
-        <h2 className="bold text-center w-full bg-orange-400/20 flex justify-start p-1 items-center gap-1 text-md">
-            <ImWarning className="text-orange-400 w-3 h-3"/>
+        <h2 className="bold text-center w-full bg-orange-400/20 flex justify-center w-full p-1 items-center gap-1 text-xl font-bold">
+            <ImWarning className="text-orange-400 w-5 h-5"/>
 
             {title}
         </h2>
-        <span className="text-xl p-2 text-center text-wrap bg-orange-400/20">
+        <span className="text-lg p-2 text-center text-wrap bg-orange-400/20">
             {message}
         </span>
         <span className="flex gap-10  w-full p-3

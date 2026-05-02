@@ -1,4 +1,5 @@
 "use client";
+import Confirmation from "@/components/organisms/Confirmation";
 import LoadingAnimation from "@/components/organisms/LoadingAnimation";
 import LoginForm from "@/components/organisms/LoginForm";
 import MetaData from "@/components/organisms/MetaData";
@@ -53,6 +54,13 @@ export default function LoginPage() {
             </div>
         </section>
       </div>
+      <Confirmation
+        title="Etes vous sur iOS ?"
+        message="La connexion est actuellement désactivé pour tous les appareils ios. Nous travaillons actuellement sur la mise à jour de cette fonctionnalité. Merci de votre compréhension!"
+        onConfirmed={(res) => {
+        }}
+        showConfirm={true}
+      />
     </main>
   </>
   );
