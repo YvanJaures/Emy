@@ -41,7 +41,7 @@ export default function Page(){
             <NavBar _searched={(res)=>setSearched(res)}/>
             <ScrollToHash/>
             <div className="p-2">
-                {sponsorsList &&(<SponsorsList sponsors={sponsorsList} _loading={loading} search={searched}></SponsorsList>)}
+                <SponsorsList sponsors={sponsorsList} _loading={loading} search={searched}></SponsorsList>
             </div>
             <Footer/>
         </>

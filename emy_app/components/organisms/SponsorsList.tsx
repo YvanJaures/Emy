@@ -12,6 +12,8 @@ import SponsorForm, { FormClose } from "./SponsorForm";
 import LoadSponsorCard from "@/Loading/LoadSponsorCard";
 import LoadRoundButton from "@/Loading/LoadRoundButton";
 import Alert from "../molecules/Alert";
+import NoContent from "../molecules/NoContent";
+import { NoResult } from "../molecules/NoResult";
 
 /**
  * Interface des propriétés du composant SponsorsList
@@ -37,7 +39,7 @@ type Props={
 export default function Page({sponsors,_loading,search}:Props){
     const [onFilter,setOnFilter]=useState(false);
     const [sponsorsList,setSponsorsList]=useState<SponsorDTO[]>(sponsors);
-    const [sponsorsListV2,setSponsorsListV2]=useState<SponsorDTO[]>(sponsorsList);
+    const [sponsorsListV2,setSponsorsListV2]=useState<SponsorDTO[]|[]>([]);
       // Affichage ou non de la redirection vers la page de connxion
     const [onConfirmation, SetOnConfirmation] = useState(false);
     const [onPopUp, SetOnPopUp] = useState(false);
@@ -69,7 +71,7 @@ export default function Page({sponsors,_loading,search}:Props){
     const handleFilter=()=>{
         setSponsorsListV2(sponsorsList);
         setOnFilter(!onFilter);
-        if(!onFilter) setSponsorsList(sponsorsList.filter(sponsor=>sponsor.user_name===member?.user_name));
+        if(!onFilter) setSponsorsList(sponsorsList?.filter(sponsor=>sponsor.user_name===member?.user_name));
         else setSponsorsList(sponsorsListV2);
     }
     const handleDevenirCommanditaire=()=>{
@@ -88,7 +90,6 @@ export default function Page({sponsors,_loading,search}:Props){
         setOnError(true)
         setValidationMessage('impossible de devenir commanditaire pour l\'instant')
     }
-    
     const has=()=>{
         if(!member || !sponsors) return false
         const has= sponsorsList.some((sponsor)=>sponsor.user_name===member?.user_name)
@@ -117,19 +118,32 @@ export default function Page({sponsors,_loading,search}:Props){
             </div>
             
             {_loading && [...Array(10)].map((_,index)=>(<LoadSponsorCard key={index}/>))}
-            <ul className="flex flex-wrap gap-2 justify-evenly w-full"> 
-                {!_loading &&sponsorsList.length>0?(sponsorsList.map((sponsor,i)=>(<SponsorCard key={sponsor.user_name} sponsor={sponsor}></SponsorCard>)))
-                :(
+            <ul className="flex flex-wrap justify-evenly w-full"> 
+                {sponsorsList ? 
+                ( !_loading && sponsorsList.length>0?
+                    (sponsorsList.map((sponsor,i)=>(
+                     <SponsorCard key={sponsor.user_name} sponsor={sponsor}></SponsorCard>))
+                    ):(
                     <li>
-                        <p className="text-center text-gray-500 drak:text-gray-200">
-                            Aucun commanditaire pour l'instant.
-                        </p>
+                        {
+                            searched==="404" ||searched==="" && <NoContent/>
+                        }
                     </li>
-                )} 
-                {!_has &&(<li id="devenir-commanditaire" className="flex w-105 border border-dashed rounded-md h-[6rem] items-center justify-center gap-2 text-sm text-[#0b78b9] opacity-80 hover:opacity-100 hover:cursor-pointer"
+                )):(
+                    <NoContent/>
+                )
+                }
+                { searched!=="" && searched!=="404" && sponsorsList.length===0 ?(
+                    <NoResult/>
+                ):(
+                        sponsorsListV2.length>0 && <NoContent/>
+                )}
+                {!_has &&(
+                    <li id="devenir-commanditaire" className="flex w-full border border-dashed rounded-md h-[3rem] items-center justify-center gap-2 text-[12px] text-[#0b78b9] opacity-80 hover:opacity-100 hover:cursor-pointer"
                     onClick={handleDevenirCommanditaire}>
                     DEVENIR COMMANDITAIRE
-                </li>)}
+                    </li>
+                )}
             </ul>
 
             {/** Confirmation de redirection vers la page de connexion */}

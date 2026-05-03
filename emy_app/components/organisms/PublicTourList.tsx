@@ -1,13 +1,28 @@
 import { TournamentDTO } from "@/hooks/Type_DTO"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import TourCard from "../molecules/TourCard"
 import LoadTourCard from "@/Loading/LoadTourCard"
 import Button from "../atoms/Button"
+import NoContent from "../molecules/NoContent"
+import { NoResult } from "../molecules/NoResult"
 
 export default function PublicTourList(props:{tournaments:TournamentDTO[],className?:string,loading?:boolean,search?:string}){
     const [tournaments,setTournaments]=useState<TournamentDTO[]|[]>([])
     const [searched,setSearched]=useState<string>(props.search?? "")
     const [filter,setFilter]=useState<number>(-2)
+    const ulRef=useRef<HTMLUListElement>(null)
+
+    useEffect(()=>{
+        if(!props.search) return
+        setSearched(props.search)
+    },[props.search])
+
+    useEffect(()=>{
+        if(searched==="404") return setTournaments(props.tournaments)
+        const ts=tournaments.filter((t)=>t.name.toLowerCase().includes(searched.toLowerCase()))
+        setTournaments(ts)
+    },[searched])
+
     useEffect(()=>{
         setTournaments(props.tournaments)
     },[props.tournaments])
@@ -29,9 +44,11 @@ export default function PublicTourList(props:{tournaments:TournamentDTO[],classN
                     </button>
                 ))}
             </div>
-            <ul className="flex gap-3 flex-wrap justify-start max-sm:justify-evenly mb-5 px-2">
+            <ul ref={ulRef} className="flex gap-3 flex-wrap justify-start max-sm:justify-evenly mb-5 px-2">
                 {props.loading&& ([...Array(10)].map((_,index)=>(<LoadTourCard key={index}/>)))}
                 {tournaments.map((tournament)=>(<TourCard key={tournament.id_tour} tournament={tournament} filter={filter} />))}
+                {searched==='' || searched==='404'&& tournaments.length===0 && (<NoContent/>)}
+                {(searched!==''&& searched!=='404' &&tournaments.length===0 ) && (<NoResult/>)}
             </ul>
         </div>
     )

@@ -10,6 +10,7 @@ import {useState,useEffect} from 'react'
 import { usePathname } from "next/navigation";
 import LoadCommunityRow from "@/Loading/LoadCommunityRow";
 import LoadRoundButton from "@/Loading/LoadRoundButton";
+import { NoResult } from "../molecules/NoResult";
 type Props={
     communities:CommunityDTO[],
     member:MemberDTO|null,
@@ -108,23 +109,23 @@ export default function CommunityList({communities,member,search,loading}:Props)
                     <LoadCommunityRow key={index}/>
                 ))}
                 { communities ?
-                    communities.length===0  || _communities.length===0  &&
+                    communities.length===0  || _communities.length===0 && searched===''  &&
                     (
-                    <NoContent action={
-                        <li className="group hover:border-[#0F70AC] hover:cursor-pointer border border-dashed h-15 rounded-xl
-                            flex justify-center items-center flex-col"
-                            onClick={()=>''}>
-                            <IoAddCircleOutline 
-                            className="group-hover:text-[#0F70AC]"/>
-                            <p className="group-hover:text-[#0F70AC]"> Créer une communauté</p>
-                        </li>
-                    }>
-                    </NoContent>
+                        <NoContent action={
+                            <li className="group hover:border-[#0F70AC] hover:cursor-pointer border border-dashed h-12 w-60 rounded-xl
+                                flex justify-center items-center flex-col"
+                                onClick={()=>''}>
+                                <IoAddCircleOutline 
+                                className="group-hover:text-[#0F70AC]"/>
+                                <p className="group-hover:text-[#0F70AC] text-[13px]"> Créer une communauté</p>
+                            </li>
+                        }>
+                        </NoContent>
                     ):(
-                        <NoContent />
+                        <NoContent/>
                     )
                 }
-                
+                 {(searched!==''&& searched!=='404' && _communities.length===0 ) && (<NoResult/>)}
             </ul>
         </div>
     )

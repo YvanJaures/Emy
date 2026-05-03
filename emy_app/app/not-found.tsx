@@ -7,15 +7,15 @@ export default function Error404Page(){
     return(
         <div className="w-full h-dvh bg-cover bg-[url(/assets/emy_error_404_v2.png)]
          bg-clip-content bg-center bg-no-repeat bg-fixed overflow-hidden 
-         flex flex-col overflow-scroll">
-        <div className="bg-white w-full h-fit p-10 
+         flex flex-col overflow-scroll justify-end">
+        <div className="w-full h-fit p-10 h-full bg-black/40 backdrop-blur-sm text-center
           flex flex-col justify-center items-center gap-3 max-sm:text-[20px] text-[30px] bold">
           <Title className="flex justify-center items-center gap-2
-            text-[30px] bold">
-            <p className="text-red-700 text-[50px]">×</p>
+            text-[30px] bold max-sm:text-[27px]">
+            <p className="text-red-700 text-[50px] max-sm:text-[40px]">×</p>
             Page introuvable
           </Title>
-          Il semble que la page soit hors limite.
+          Il semble que la page soit hors actuellement limite. Veuillez retourner à la page précédente ou réessayer plus tard.
         <Button
             title="RETOUR"
             onClick={() => router.back()}
@@ -24,11 +24,6 @@ export default function Error404Page(){
             color="#0F70AC"
         ></Button>
         </div>
-        <img
-           src="/assets/emy_error_404_v2.png"
-           alt="image de page introuvable"
-           className="h-dvh w-full object-cover top-0"
-         />
       </div>
     )
 }

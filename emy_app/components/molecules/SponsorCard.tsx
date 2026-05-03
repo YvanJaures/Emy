@@ -27,7 +27,7 @@ type Props={
  */
 export default function SponsorCard({sponsor}:Props){
     return(
-        <div className="w-105 shadow-md mb-5 bg-white rounded-lg flex flex-wrap items-center justify-start gap-2 p-2 dark:text-white dark:bg-gray-800 dark:text-gray-200">
+        <div className="w-105 shadow-md mb-3 bg-white rounded-lg flex flex-wrap items-center justify-start gap-2 p-2 dark:text-white dark:bg-gray-800 dark:text-gray-200">
             <ImageDefault
                 avatar={sponsor.Member.avatar}
                 title="Avatar du commanditaire"
