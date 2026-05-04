@@ -10,7 +10,6 @@ export default function PublicTourList(props:{tournaments:TournamentDTO[],classN
     const [tournaments,setTournaments]=useState<TournamentDTO[]|[]>([])
     const [searched,setSearched]=useState<string>(props.search?? "")
     const [filter,setFilter]=useState<number>(-2)
-    const [empty,setEmpty]=useState(false)
     const ulRef=useRef<HTMLUListElement>(null)
     useEffect(()=>{
         if(!props.search) return
@@ -27,12 +26,6 @@ export default function PublicTourList(props:{tournaments:TournamentDTO[],classN
     useEffect(()=>{
         setTournaments(props.tournaments)
     },[props.tournaments])
-
-    useEffect(()=>{
-        if(!ulRef.current || filter===-2 ) return
-        if(filter!==-2 && ulRef.current?.children.length===0) return setEmpty(true)
-
-    },[filter])
     return(
         <div>
             
@@ -57,7 +50,7 @@ export default function PublicTourList(props:{tournaments:TournamentDTO[],classN
                 {(!props.loading && (searched==='' || searched==='404' )&& tournaments.length===0) && (<NoContent/>)}
                 {(searched!==''&& searched!=='404' &&tournaments.length===0 ) && (<NoResult/>)}
             </ul>
-            {empty &&<NoContent/>}
+            {ulRef.current?.children.length===0 &&<NoContent/>}
         </div>
     )
 }

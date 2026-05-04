@@ -24,7 +24,6 @@ export default function CommunityList({communities,member,search,loading}:Props)
     const [filter,setFilter]=useState<string>("Tous")
     const pathname = usePathname();
     const [searched,setSearched]=useState<string>(search?? "")
-    const [empty,setEmpty]=useState(false)
     const ulRef=useRef<HTMLUListElement>(null)
     useEffect(()=>{
         if(!communities) return
@@ -57,11 +56,6 @@ export default function CommunityList({communities,member,search,loading}:Props)
       }
     }
   }, [pathname]);
-
-    useEffect(()=>{
-        if(filter==="Tous" || !ulRef.current) return
-        if(ulRef.current?.children.length===0) return setEmpty(true)
-    },[filter])
   
     return(
         <div className="w-full p-2">
@@ -140,7 +134,7 @@ export default function CommunityList({communities,member,search,loading}:Props)
                     )
                 }
             </ul>
-            {empty &&<NoContent/>}
+            {ulRef.current?.children.length===0 &&<NoContent/>}
         </div>
     )
 }
