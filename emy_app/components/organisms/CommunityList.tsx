@@ -134,7 +134,7 @@ export default function CommunityList({communities,member,search,loading}:Props)
                     )
                 }
             </ul>
-            {ulRef.current?.children.length===0 &&<NoContent/>}
+            {(filter!=="Tous" && ulRef.current?.children.length===0) &&<NoContent/>}
         </div>
     )
 }
