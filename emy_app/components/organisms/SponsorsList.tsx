@@ -62,7 +62,7 @@ export default function Page({sponsors,_loading,search}:Props){
         if(searched===''){
             return setSponsorsList(sponsors)
         }
-        const sps=sponsorsList.filter((s)=>s.company_name.toLowerCase().includes(searched.toLowerCase()))
+        const sps=sponsors.filter((s)=>s.company_name.toLowerCase().includes(searched.toLowerCase()))
         setSponsorsList(sps)
     },[searched])
 
@@ -73,7 +73,7 @@ export default function Page({sponsors,_loading,search}:Props){
         setSearched(search)
     },[search])
     const handleFilter=()=>{
-        setSponsorsListV2(sponsorsList);
+        setSponsorsListV2(sponsors);
         setOnFilter(!onFilter);
         if(!onFilter) setSponsorsList(sponsorsList?.filter(sponsor=>sponsor.user_name===member?.user_name));
         else setSponsorsList(sponsorsListV2);

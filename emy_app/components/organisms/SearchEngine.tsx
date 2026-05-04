@@ -22,6 +22,7 @@ export default function Search({search,close}:{search?:(value:string)=>void,clos
                 placeholder="recherche..."
                 value={_search}
                 autoFocus
+                onKeyDown={handleSearch}
                 onChange={(e:React.ChangeEvent<HTMLInputElement>)=>{setSearch(e.target.value)}}
                 className=" p-2 flex-80 rounded-xl h-7 max-sm:text-[13px] outline-[#0F70AC]" 
             />

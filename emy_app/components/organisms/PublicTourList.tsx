@@ -18,8 +18,9 @@ export default function PublicTourList(props:{tournaments:TournamentDTO[],classN
     },[props.search])
 
     useEffect(()=>{
+        if(!props.tournaments) return
         if(searched==="404") return setTournaments(props.tournaments)
-        const ts=tournaments.filter((t)=>t.name.toLowerCase().includes(searched.toLowerCase()))
+        const ts=props.tournaments.filter((t)=>t.name.toLowerCase().includes(searched.toLowerCase()))
         setTournaments(ts)
     },[searched])
 
@@ -53,7 +54,7 @@ export default function PublicTourList(props:{tournaments:TournamentDTO[],classN
             <ul ref={ulRef} className="flex gap-3 flex-wrap justify-evenly max-sm:justify-evenly mb-5 px-2">
                 {props.loading&& ([...Array(10)].map((_,index)=>(<LoadTourCard key={index}/>)))}
                 {tournaments.map((tournament)=>(<TourCard key={tournament.id_tour} tournament={tournament} filter={filter} />))}
-                {(!props.loading&&searched==='' || searched==='404'&& tournaments.length===0 || !tournaments) && (<NoContent/>)}
+                {(!props.loading && (searched==='' || searched==='404' )&& tournaments.length===0) && (<NoContent/>)}
                 {(searched!==''&& searched!=='404' &&tournaments.length===0 ) && (<NoResult/>)}
             </ul>
             {empty &&<NoContent/>}

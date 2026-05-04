@@ -29,10 +29,13 @@ const MemoryStore=memorystore(session)
 
 //app.use(helmet())   // helmet désactivé: Faille de sécurité 
 app.use(cors({
-  origin: true,
-  credentials: true
-}))
-
+  origin: [
+    'http://localhost:5015',
+    'http://localhost:3000'
+  ],
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'access_key']
+}));
 app.use(compression())
 app.use(express.json())
 app.use(session({

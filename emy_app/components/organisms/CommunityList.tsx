@@ -27,8 +27,9 @@ export default function CommunityList({communities,member,search,loading}:Props)
     const [empty,setEmpty]=useState(false)
     const ulRef=useRef<HTMLUListElement>(null)
     useEffect(()=>{
+        if(!communities) return
         if(searched==="404") return setCommunities(communities)
-        const coms=_communities?.filter((com :CommunityDTO)=>com.name.toLowerCase().includes(searched.toLowerCase()))
+        const coms=communities?.filter((com :CommunityDTO)=>com.name.toLowerCase().includes(searched.toLowerCase()))
         setCommunities(coms)
     },[searched])
 
@@ -90,16 +91,20 @@ export default function CommunityList({communities,member,search,loading}:Props)
                 ))}
             </div>
             <ul className="w-full flex justify-evenly flex-wrap gap-2 p-1" ref={ulRef}>
-                { communities &&
-                    _communities.map((community)=>(
-                        <CommunityRow
-                            member={member}
-                            community={community}
-                            key={community.id_community}
-                            isMine={isClicked? true:false}
-                            filter={filter}
-                        />
-                    ))
+                { communities ?
+                    (
+                        _communities.map((community)=>(
+                            <CommunityRow
+                                member={member}
+                                community={community}
+                                key={community.id_community}
+                                isMine={isClicked? true:false}
+                                filter={filter}
+                            />
+                        ))
+                    ):(
+                        <NoContent/>
+                    )
                 }
                 {
                     isClicked &&
@@ -114,9 +119,10 @@ export default function CommunityList({communities,member,search,loading}:Props)
                 {(loading && loading) && [...Array(15)].map((_,index)=>(
                     <LoadCommunityRow key={index}/>
                 ))}
-                { communities ?
-                    communities.length===0  || _communities.length===0 && searched===''  ?
+                { communities && !loading &&
                     (
+                        communities.length===0  && searched===''  ?
+                        (
                             <NoContent action={
                                 <li className="group hover:border-[#0F70AC] hover:cursor-pointer border border-dashed h-12 w-60 rounded-xl
                                     flex justify-center items-center flex-col"
@@ -128,10 +134,9 @@ export default function CommunityList({communities,member,search,loading}:Props)
                             }>
                             </NoContent>
                         ):(
-                            searched!==''&& searched!=='404' && _communities.length===0 ? (<NoResult/>):(<NoContent/>)
+                            (_communities.length===0  && (searched!=='404' && searched!=='') ) && (<NoResult/>)
+                            
                         )
-                    :(
-                        <NoContent/>
                     )
                 }
             </ul>

@@ -282,7 +282,7 @@ export async function addTeamMany(payload:{name:string, id_tour:number, key_team
     try{
         for(let i=0; i<payload.length; i++){
             const p = payload[i];
-            const response = await fetch(`/api/member/team`, {
+            const response = await fetch(process.env.NEXT_PUBLIC_API_BASE+`/api/member/team`, {
                 method: "POST",
                 headers: {
                 "Content-Type": "application/json",
@@ -309,6 +309,36 @@ export async function addTeamMany(payload:{name:string, id_tour:number, key_team
             res.push({index:i,status:false})
         }
         return res;
+    }
+}
+export async function geoCode(address:string){
+    try{
+        const params = new URLSearchParams({ address });
+        console.log(process.env.NEXT_PUBLIC_API_GEO+'/api/geocode?address='+params)
+        const res=await fetch(process.env.NEXT_PUBLIC_API_GEO+'/api/geocode?'+params,{
+            headers:{'access_key':`${process.env.NEXT_PUBLIC_ACCESS_KEY}`}
+        })
+        if(!res.ok){
+            console.log('ERREUR lors de la récupération des coordonées :status: '+res.status)
+            return
+        }
+        return await res.json()
+    }catch(error){
+        console.log("Une erreur s'est produite ici"+error)
+    }
+}
+export async function geoCodeReverse(lat:number,lon:number){
+    try{
+        const res=await fetch(process.env.NEXT_PUBLIC_API_GEO+'/api/reverse?lat='+lat+'&lon='+lon,{
+            headers:{'access_key':`${process.env.NEXT_PUBLIC_ACCESS_KEY}`}
+        })
+        if(!res.ok){
+            console.log('ERREUR lors de la récupération des coordonées :status: '+res.status)
+            return 
+        }
+        return await res.json()
+    }catch(error){
+
     }
 }
 /**

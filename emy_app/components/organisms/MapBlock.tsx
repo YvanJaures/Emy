@@ -1,6 +1,6 @@
 "use client";
 
-import { getCommunities,getPublicTournaments } from "@/fetchs/global";
+import { geoCode, geoCodeReverse, getCommunities,getPublicTournaments } from "@/fetchs/global";
 import { CommunityDTO, TournamentDTO } from "@/hooks/Type_DTO";
 import { Map, Marker, Overlay } from "pigeon-maps";
 import { useEffect, useState } from "react";
@@ -20,48 +20,50 @@ type Position = {
 }
 export type Location = {
     name: string | 'nom inconnu';
-    address:string| 'adresse inconnue';
-    members?: number | 'inconnu';
+    members?: number | 0;
     lat: number;
-    lng: number;
+    lon: number;
     link:string;
     type:string;
-}
-type geocodeResult = {
-    lat:number,
-    lng:number
-}
-export async function geocodeAddress(address: string) {
-    const cached:geocodeResult=await GetRedisCache(address)
-    if(cached) return cached
-    let coord:geocodeResult = {
-        lat: 0,
-        lng: 0,
+    city?:string,
+    country?:string,
+    displayName?:string,
+    address?: {
+      street: string,
+      houseNumber: string,
+      city:string,
+      postcode: string,
+      country: string,
+      countryCode: string
     }
-    setTimeout(async() => {
-            const res = await fetch(
-                `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`
-            );
-        
-            const data = await res.json();
-        
-            if (!data || data.length === 0) return {lat:0,lng:0} as geocodeResult;
-        
-            coord = {
-                lat: parseFloat(data[0].lat),
-                lng: parseFloat(data[0].lon),
-            }
-            await SetRedisCache(address,coord)
-            return coord
-
-    }, 1002); // pour éviter de faire trop de requetes en même temps
-    return coord
 }
+type geoCode =   {
+    lat: number,
+    lon: number,
+    displayName: string,
+    type: string,
+    country: string,
+    city: string
+  }
+type geocodeReverse={
+    lat: number,
+    lon: number,
+    displayName:string,
+    address: {
+      street: string,
+      houseNumber: string,
+      city:string,
+      postcode: string,
+      country: string,
+      countryCode: string
+    }
+}
+
 export default function MapSection() {
     const [center, setCenter] = useState<[number, number]>([44.2, -77.5]);
     const [zoom, setZoom] = useState(10);
     const [filter, setFilter] = useState<string>("Tous");
-    const [selected, setSelected] = useState<any>(null);
+    const [selected, setSelected] = useState<Location|null>(null);
     const [locations,setLocations]=useState<Location[] | null>(null)
     const [myLocation,setMyLocation]=useState<Location| null>(null)
     const [dark,setDark]=useState(false)
@@ -72,62 +74,49 @@ export default function MapSection() {
         const q = query.toLowerCase();
         const g = locations?.find(g =>
           g.name.toLowerCase().includes(q) ||
-          g.address.toLowerCase().includes(q)
+          g.displayName?.toLowerCase().includes(q)
         );
-        if (g) setCenter([g.lat, g.lng]);
+        if (g) setCenter([g.lat, g.lon]);
     };
     useEffect(()=>{
         (async()=>{
             const communitiesFetch=await getCommunities();
             const tournamentsFetch=await getPublicTournaments();
-            const locations:Location[]=[
-                {
-                    name: "Ottawa",
-                    address: "Ottawa, ON, Canada",
-                    members: 100,
-                    lat: 45.4215,
-                    lng: -75.6972,
-                    link: "",
-                    type: "tournament"
-                },
-                {
-                    name: "Toronto",
-                    address: "Toronto, ON, Canada",
-                    members: 200,
-                    lat: 43.6532,
-                    lng: -79.3832,
-                    link: "",
-                    type: "community"
-                }
-            ]
-            /*
+            const locations:Location[]=[]
             for (const c of communitiesFetch || []) {
-                const geo:geocodeResult=await geocodeAddress(c.location?? '')
-                const loc={
+                const result=await geoCode(c.location?? '')
+                if(!result || result.length===0) continue
+                const geo:geoCode=result[0]
+                const loc:Location={
                     name:c.name?? 'nom inconnu',
-                    address:c.location?? 'adresse inconnue',
                     members:c.members ?? 0,
                     lat:geo.lat,
-                    lng:geo.lng,
+                    lon:geo.lon,
                     link:"/communautes/"+c.id_community,
-                    type:"community"
+                    type:"community",
+                    displayName:geo.displayName,
+                    city:geo.city,
+                    country:geo.country
                 }
                 locations.push(loc)
             }
             for (const t of tournamentsFetch || []) {
-                const geo:geocodeResult= await geocodeAddress(t.location?? '')
-                const loc={
+                const result=await geoCode(t.location?? '')
+                if(!result) continue
+                const geo:geoCode=result[0]
+                const loc:Location={
                     name:t.name?? 'nom inconnu',
-                    address:t.location?? 'adresse inconnue',
                     members:t.Player?.length ?? 0,
                     lat:geo.lat,
-                    lng:geo.lng,
-                    link:"/communautes/tournois/"+t.id_tour,
-                    type:"tournament"
+                    lon:geo.lon,
+                    link:"/communautes/"+t.id_community,
+                    type:"tournament",
+                    displayName:geo.displayName,
+                    city:geo.city,
+                    country:geo.country
                 }
                 locations.push(loc)
             }
-            */
             setLocations(locations)
             handleGetLocation()
         })()
@@ -159,11 +148,13 @@ export default function MapSection() {
     const handleGetLocation = async () => {
         try {
         const position:Position = await getLocation();
+        const position2:geocodeReverse=await geoCodeReverse(position.coords.latitude,position.coords.longitude)
         const myLoc = {
             name: "Ma position",
-            address: "Votre position actuelle",
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
+            displayName:position2.displayName,
+            address: position2.address,
+            lat: position2.lat,
+            lon: position2.lon,
             link: "",
             type: "myLocation"
         };
@@ -176,7 +167,7 @@ export default function MapSection() {
     }
     const handleViewLocation=(location:Location|null)=>{
         if(!location) return
-        setCenter([location.lat,location.lng])
+        setCenter([location.lat,location.lon])
         setZoom(18)
         setSelected(location)
     }
@@ -214,7 +205,7 @@ export default function MapSection() {
             locations?.map((l,index) => (
               <Marker
                 key={index}
-                anchor={[l.lat, l.lng]}
+                anchor={[l.lat, l.lon]}
                 color={l.type==="community"? "blue" : "green"}
                 onClick={() => handleViewLocation(l)}
                 className={filter==="Tous" ? "" : filter==="Communautes" && l.type==="community" ? "" : filter==="Tournois" && l.type==="tournament" ? "" : "hidden"}
@@ -222,14 +213,14 @@ export default function MapSection() {
             ))
           }
             <Marker
-                anchor={[myLocation?.lat ?? 0, myLocation?.lng ?? 0]}
+                anchor={[myLocation?.lat ?? 0, myLocation?.lon ?? 0]}
                 color={"yellow"}
                 onClick={() => handleViewLocation(myLocation)}
                 className={""}
             />
           {/* Popup (Overlay) */}
           {selected && (
-            <Overlay anchor={[selected.lat, selected.lng]}>
+            <Overlay anchor={[selected.lat, selected.lon]}>
               <div
                 style={{
                   padding: "10px",
@@ -244,7 +235,7 @@ export default function MapSection() {
                 {selected.type === "community" && (
                   <p>{selected.members} membres</p>
                 )}
-                <p>{selected.address}</p>
+                <p>{selected.displayName}</p>
                 <a href={selected.link} className="text-blue-500 text-sm hover:underline">
                   En savoir plus
                 </a>
