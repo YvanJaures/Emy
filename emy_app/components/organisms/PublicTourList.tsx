@@ -10,8 +10,8 @@ export default function PublicTourList(props:{tournaments:TournamentDTO[],classN
     const [tournaments,setTournaments]=useState<TournamentDTO[]|[]>([])
     const [searched,setSearched]=useState<string>(props.search?? "")
     const [filter,setFilter]=useState<number>(-2)
+    const [empty,setEmpty]=useState(false)
     const ulRef=useRef<HTMLUListElement>(null)
-
     useEffect(()=>{
         if(!props.search) return
         setSearched(props.search)
@@ -26,6 +26,12 @@ export default function PublicTourList(props:{tournaments:TournamentDTO[],classN
     useEffect(()=>{
         setTournaments(props.tournaments)
     },[props.tournaments])
+
+    useEffect(()=>{
+        if(!ulRef.current || filter===-2 ) return
+        if(filter!==-2 && ulRef.current?.children.length===0) return setEmpty(true)
+
+    },[filter])
     return(
         <div>
             
@@ -44,12 +50,13 @@ export default function PublicTourList(props:{tournaments:TournamentDTO[],classN
                     </button>
                 ))}
             </div>
-            <ul ref={ulRef} className="flex gap-3 flex-wrap justify-start max-sm:justify-evenly mb-5 px-2">
+            <ul ref={ulRef} className="flex gap-3 flex-wrap justify-evenly max-sm:justify-evenly mb-5 px-2">
                 {props.loading&& ([...Array(10)].map((_,index)=>(<LoadTourCard key={index}/>)))}
                 {tournaments.map((tournament)=>(<TourCard key={tournament.id_tour} tournament={tournament} filter={filter} />))}
-                {searched==='' || searched==='404'&& tournaments.length===0 && (<NoContent/>)}
+                {(!props.loading&&searched==='' || searched==='404'&& tournaments.length===0 || !tournaments) && (<NoContent/>)}
                 {(searched!==''&& searched!=='404' &&tournaments.length===0 ) && (<NoResult/>)}
             </ul>
+            {empty &&<NoContent/>}
         </div>
     )
 }

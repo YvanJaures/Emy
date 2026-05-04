@@ -6,7 +6,7 @@ import Title from "../atoms/Title"
 import CommunityRow from "../molecules/CommunityRow";
 import { IoAddCircleOutline } from "react-icons/io5";
 import NoContent from "../molecules/NoContent";
-import {useState,useEffect} from 'react'
+import {useState,useEffect, useRef} from 'react'
 import { usePathname } from "next/navigation";
 import LoadCommunityRow from "@/Loading/LoadCommunityRow";
 import LoadRoundButton from "@/Loading/LoadRoundButton";
@@ -24,6 +24,8 @@ export default function CommunityList({communities,member,search,loading}:Props)
     const [filter,setFilter]=useState<string>("Tous")
     const pathname = usePathname();
     const [searched,setSearched]=useState<string>(search?? "")
+    const [empty,setEmpty]=useState(false)
+    const ulRef=useRef<HTMLUListElement>(null)
     useEffect(()=>{
         if(searched==="404") return setCommunities(communities)
         const coms=_communities?.filter((com :CommunityDTO)=>com.name.toLowerCase().includes(searched.toLowerCase()))
@@ -55,6 +57,10 @@ export default function CommunityList({communities,member,search,loading}:Props)
     }
   }, [pathname]);
 
+    useEffect(()=>{
+        if(filter==="Tous" || !ulRef.current) return
+        if(ulRef.current?.children.length===0) return setEmpty(true)
+    },[filter])
   
     return(
         <div className="w-full p-2">
@@ -83,7 +89,7 @@ export default function CommunityList({communities,member,search,loading}:Props)
                     </button>
                 ))}
             </div>
-            <ul className="w-full flex justify-evenly flex-wrap gap-2 p-1">
+            <ul className="w-full flex justify-evenly flex-wrap gap-2 p-1" ref={ulRef}>
                 { communities &&
                     _communities.map((community)=>(
                         <CommunityRow
@@ -109,24 +115,27 @@ export default function CommunityList({communities,member,search,loading}:Props)
                     <LoadCommunityRow key={index}/>
                 ))}
                 { communities ?
-                    communities.length===0  || _communities.length===0 && searched===''  &&
+                    communities.length===0  || _communities.length===0 && searched===''  ?
                     (
-                        <NoContent action={
-                            <li className="group hover:border-[#0F70AC] hover:cursor-pointer border border-dashed h-12 w-60 rounded-xl
-                                flex justify-center items-center flex-col"
-                                onClick={()=>''}>
-                                <IoAddCircleOutline 
-                                className="group-hover:text-[#0F70AC]"/>
-                                <p className="group-hover:text-[#0F70AC] text-[13px]"> Créer une communauté</p>
-                            </li>
-                        }>
-                        </NoContent>
-                    ):(
+                            <NoContent action={
+                                <li className="group hover:border-[#0F70AC] hover:cursor-pointer border border-dashed h-12 w-60 rounded-xl
+                                    flex justify-center items-center flex-col"
+                                    onClick={()=>''}>
+                                    <IoAddCircleOutline 
+                                    className="group-hover:text-[#0F70AC]"/>
+                                    <p className="group-hover:text-[#0F70AC] text-[13px]"> Créer une communauté</p>
+                                </li>
+                            }>
+                            </NoContent>
+                        ):(
+                            searched!==''&& searched!=='404' && _communities.length===0 ? (<NoResult/>):(<NoContent/>)
+                        )
+                    :(
                         <NoContent/>
                     )
                 }
-                 {(searched!==''&& searched!=='404' && _communities.length===0 ) && (<NoResult/>)}
             </ul>
+            {empty &&<NoContent/>}
         </div>
     )
 }

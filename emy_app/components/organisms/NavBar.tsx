@@ -31,7 +31,7 @@ export default function Navbar({_searched}:{_searched?:(value:string)=>void}) {
   const [notifications,setNotifications]=useState<any[]|null>(null)
   const router=useRouter()
   const {member,loading}=useConnexion();
-
+  
   if(member){
     navItems=[
       { label: "CARTE", href: "/carte" },
@@ -54,18 +54,18 @@ export default function Navbar({_searched}:{_searched?:(value:string)=>void}) {
       <div className="flex h-[72px] w-full items-center justify-between">
 
         {/* Logo */}
-        <div className="flex justify-center items-center p-5 h-[50%] w-[20%] max-lg:w-[40%]">
+        <div className="flex justify-start items-center p-5 h-[50%] w-[20%] max-lg:w-[40%]">
           <img
             src="/assets/logos/emy_head.png"
             alt="EMY"
-            className="object-contain w-[80%]"
+            className="object-contain w-[80%] max-lg:w-40 min-xl:w-40"
           />
         </div>
 
         {/* Menu centré (Desktop) */}
-        <nav className="hidden lg:flex items-center justify-evenly w-[70%]">
+        <nav className="hidden lg:flex items-center justify-evenly w-full">
 
-          {member && (
+          {(
             <button
               className={[
                 "uppercase text-xs tracking-widest",

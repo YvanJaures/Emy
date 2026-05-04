@@ -54,8 +54,12 @@ export default function Page({sponsors,_loading,search}:Props){
         setOnError(false)
     }
     useEffect(()=>{
+        if(!sponsorsList || !sponsors) return
         if(searched==="404") {
             if(onFilter) return setSponsorsList(sponsorsListV2.filter(sponsor=>sponsor.user_name===member?.user_name));
+            return setSponsorsList(sponsors)
+        }
+        if(searched===''){
             return setSponsorsList(sponsors)
         }
         const sps=sponsorsList.filter((s)=>s.company_name.toLowerCase().includes(searched.toLowerCase()))
@@ -133,12 +137,12 @@ export default function Page({sponsors,_loading,search}:Props){
                     <NoContent/>
                 )
                 }
-                { searched!=="" && searched!=="404" && sponsorsList.length===0 ?(
+                {(sponsorsList && searched!=="" && searched!=="404" && sponsorsList.length===0 )?(
                     <NoResult/>
                 ):(
-                        sponsorsListV2.length>0 && <NoContent/>
+                       sponsorsList && sponsorsList.length===0 && <NoContent/>
                 )}
-                {!_has &&(
+                {!_has &&sponsorsList &&(
                     <li id="devenir-commanditaire" className="flex w-full border border-dashed rounded-md h-[3rem] items-center justify-center gap-2 text-[12px] text-[#0b78b9] opacity-80 hover:opacity-100 hover:cursor-pointer"
                     onClick={handleDevenirCommanditaire}>
                     DEVENIR COMMANDITAIRE
