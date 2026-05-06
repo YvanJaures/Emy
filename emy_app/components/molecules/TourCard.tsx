@@ -63,7 +63,7 @@ export default function Card({tournament,filter}:{tournament:TournamentDTO,filte
                     >{tournament.name}</h2>
                     <span className="flex flex-col text-[10px] justify-center items-center w-full">
                         <p className="flex-35 text-center">@{tournament.id_tour}</p>
-                        <p className="flex flex-65 justify-center items-center gap-1 text-gray-500 italic">
+                        <p className="flex flex-65 justify-center items-center gap-1 text-gray-500 italic line-clamp-1 text-ellipsis overflow-hidden text-nowrap">
                             {
                                 etat===-2 &&
                                 (<sub className="w-2  h-2 rounded-full bg-green-600"></sub>)

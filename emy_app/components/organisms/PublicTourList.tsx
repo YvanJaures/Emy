@@ -50,7 +50,7 @@ export default function PublicTourList(props:{tournaments:TournamentDTO[],classN
                 {(!props.loading && (searched==='' || searched==='404' )&& tournaments.length===0) && (<NoContent/>)}
                 {(searched!==''&& searched!=='404' &&tournaments.length===0 ) && (<NoResult/>)}
             </ul>
-            {(filter!==-2 && ulRef.current?.children.length===0 )&&<NoContent/>}
+            {(filter!==-2 && (ulRef.current?.children.length===Array.prototype.map.call(ulRef.current?.children,c=>c.classList.contains('hidden')).filter((e)=>e).length)) &&<NoContent/>}
         </div>
     )
 }

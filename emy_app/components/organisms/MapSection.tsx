@@ -52,6 +52,7 @@ export default function MapSection() {
     const [filter, setFilter] = useState<string>("Tous");
     const [selected, setSelected] = useState<any>(null);
     const [locations,setLocations]=useState<Location[] | null>(null)
+    const [loading,setLoading]=useState(false)
     const [dark,setDark]=useState(false)
     const router=useRouter();
     const darkProvider = (x: number, y: number, z: number) =>
@@ -66,6 +67,7 @@ export default function MapSection() {
     };
     useEffect(()=>{
         (async()=>{
+            setLoading(true)
             const communitiesFetch=await getCommunities();
             const tournamentsFetch=await getPublicTournaments();
             const locations:Location[]=[]
@@ -104,6 +106,7 @@ export default function MapSection() {
                 locations.push(loc)
             }
             setLocations(locations)
+            setLoading(false)
         })()
     },[])
   useEffect(()=>{
@@ -127,7 +130,7 @@ export default function MapSection() {
         setSelected(location)
   }
   return (
-    <div className="w-full px-6 py-10">
+    <div className="w-full px-6 py-10 relative">
       <div className="max-w-5xl mx-auto">
 
         <h2 className="text-xl font-semibold mb-2">CARTE DES TERRAINS</h2>
@@ -221,6 +224,13 @@ export default function MapSection() {
             </Overlay>
           )}
 
+          {loading && 
+            <div className="w-full h-full bg-black/20 pointer-events-none absolute top-0 flex justify-center items-center gap-2 text-white font-semibold">
+                <div className="rounded-full animate-spin bg-white w-5 h-7">
+                </div>
+                Chargement...
+            </div>
+          }
         </Map>
       </div>
     </div>

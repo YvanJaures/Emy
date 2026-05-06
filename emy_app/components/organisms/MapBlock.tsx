@@ -15,6 +15,7 @@ export default function MapSection() {
     const [selected, setSelected] = useState<Location|null>(null);
     const [locations,setLocations]=useState<Location[] | null>(null)
     const [myLocation,setMyLocation]=useState<Location| null>(null)
+    const [loading,setLoading]=useState(false)
     const [dark,setDark]=useState(false)
     const router=useRouter();
     const darkProvider = (x: number, y: number, z: number) =>
@@ -28,7 +29,8 @@ export default function MapSection() {
         if (g) setCenter([g.lat, g.lon]);
     };
     useEffect(()=>{
-        (async()=>{
+      (async()=>{
+            await setLoading(true);
             const communitiesFetch=await getCommunities();
             const tournamentsFetch=await getPublicTournaments();
             const locations:Location[]=[]
@@ -67,12 +69,12 @@ export default function MapSection() {
                 locations.push(loc)
             }
             setLocations(locations)
-            handleGetLocation()
+            await handleGetLocation()
+            setLoading(false);
         })()
     },[])
     useEffect(()=>{
             if (typeof window === 'undefined') return;
-
         const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
         // set initial
@@ -84,7 +86,6 @@ export default function MapSection() {
         };
 
         mediaQuery.addEventListener('change', handler);
-
         return () => {
         mediaQuery.removeEventListener('change', handler);
         };
@@ -95,6 +96,7 @@ export default function MapSection() {
         }) as Promise<Position>;
         };
     const handleGetLocation = async () => {
+        setLoading(true)
         try {
         const position:Position = await getLocation();
         const position2:geocodeReverse=await geoCodeReverse(position.coords.latitude,position.coords.longitude)
@@ -113,6 +115,7 @@ export default function MapSection() {
         } catch (err) {
         console.log(err);
         }
+        setLoading(false)
     }
     const handleViewLocation=(location:Location|null)=>{
         if(!location) return
@@ -126,7 +129,7 @@ export default function MapSection() {
     }
   return (
     <div className="w-full h-screen">
-      <div className="w-full h-screen">
+      <div className={`${loading?'bg-black/10':''} w-full h-screen`}>
 
         {/*<h2 className="text-xl font-semibold mb-2">CARTE DES TERRAINS</h2>*/}
 
@@ -141,7 +144,7 @@ export default function MapSection() {
 
         {/* Map */}
         <Map
-          boxClassname="bg-[#aad3df] dark:bg-[#262626]"
+          boxClassname={`${loading?'pointer-events-none':''} bg-[#aad3df] dark:bg-[#262626]`}
           center={center}
           zoom={zoom}
           onBoundsChanged={({ center, zoom }) => {
@@ -189,7 +192,7 @@ export default function MapSection() {
                   En savoir plus
                 </a>
                 <button
-                  onClick={() =>{ setSelected(null);setZoom(10)}}
+                  onClick={() =>{ setSelected(null);setZoom(4)}}
                   style={{
                     marginTop: "5px",
                     fontSize: "12px",
@@ -204,6 +207,13 @@ export default function MapSection() {
           )}
 
         </Map>
+        {loading && 
+          <div className="w-full h-full bg-black/20 pointer-events-none absolute top-0 flex justify-center items-center gap-2 text-white font-semibold">
+              <div className="rounded-full animate-spin bg-white w-5 h-7">
+              </div>
+              Chargement...
+          </div>
+        }
         {/* Filters */}
         <div className="flex gap-2 absolute bottom-0 z-40 bg-transparent backdrop-blur shadow-xl w-full flex justify-evenly items-center py-3 mb-0">
           {["Tous", "Communautes", "Tournois"].map(f => (

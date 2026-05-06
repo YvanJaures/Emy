@@ -123,24 +123,24 @@ export default function Page({sponsors,_loading,search}:Props){
             
             {_loading && [...Array(10)].map((_,index)=>(<LoadSponsorCard key={index}/>))}
             <ul className="flex flex-wrap justify-evenly w-full"> 
-                {sponsorsList ? 
-                ( !_loading && sponsorsList.length>0?
+                {sponsorsList? 
+                (  sponsorsList.length>0 && !_loading  ?
                     (sponsorsList.map((sponsor,i)=>(
                      <SponsorCard key={sponsor.user_name} sponsor={sponsor}></SponsorCard>))
                     ):(
                     <li>
                         {
-                            searched==="404" ||searched==="" && <NoContent/>
+                             sponsorsList.length>0 && (searched==="404" ||searched==="" )&& !_loading && <NoContent/>
                         }
                     </li>
                 )):(
                     <NoContent/>
                 )
                 }
-                {(sponsorsList && searched!=="" && searched!=="404" && sponsorsList.length===0 )?(
+                {(sponsorsList && !_loading && searched!=="" && searched!=="404" && sponsorsList.length===0 )?(
                     <NoResult/>
                 ):(
-                       sponsorsList && sponsorsList.length===0 && <NoContent/>
+                       sponsorsList && sponsorsList.length===0 && !_loading && <NoContent/>
                 )}
                 {!_has &&sponsorsList &&(
                     <li id="devenir-commanditaire" className="flex w-full border border-dashed rounded-md h-[3rem] items-center justify-center gap-2 text-[12px] text-[#0b78b9] opacity-80 hover:opacity-100 hover:cursor-pointer"

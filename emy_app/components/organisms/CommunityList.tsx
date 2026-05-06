@@ -134,7 +134,7 @@ export default function CommunityList({communities,member,search,loading}:Props)
                     )
                 }
             </ul>
-            {(filter!=="Tous" && ulRef.current?.children.length===0) &&<NoContent/>}
+            {(filter!=="Tous" && (ulRef.current?.children.length===Array.prototype.map.call(ulRef.current?.children,c=>c.classList.contains('hidden')).filter((e)=>e).length)) &&<NoContent/>}
         </div>
     )
 }
