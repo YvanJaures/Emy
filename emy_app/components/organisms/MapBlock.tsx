@@ -1,63 +1,12 @@
 "use client";
 
 import { geoCode, geoCodeReverse, getCommunities,getPublicTournaments } from "@/fetchs/global";
-import { CommunityDTO, TournamentDTO } from "@/hooks/Type_DTO";
+import { CommunityDTO, geocodeReverse, Position,Location,geoCodeData, TournamentDTO } from "@/hooks/Type_DTO";
 import { Map, Marker, Overlay } from "pigeon-maps";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { GetRedisCache, SetRedisCache } from "@/fetchs/redisCache";
-type Position = {
-  coords: {
-    latitude: number,
-    longitude: number,
-    altitude: number | null,
-    accuracy: number,
-    altitudeAccuracy: number | null,
-    heading: number | null,
-    speed: number | null
-  },
-  timestamp: number
-}
-export type Location = {
-    name: string | 'nom inconnu';
-    members?: number | 0;
-    lat: number;
-    lon: number;
-    link:string;
-    type:string;
-    city?:string,
-    country?:string,
-    displayName?:string,
-    address?: {
-      street: string,
-      houseNumber: string,
-      city:string,
-      postcode: string,
-      country: string,
-      countryCode: string
-    }
-}
-type geoCode =   {
-    lat: number,
-    lon: number,
-    displayName: string,
-    type: string,
-    country: string,
-    city: string
-  }
-type geocodeReverse={
-    lat: number,
-    lon: number,
-    displayName:string,
-    address: {
-      street: string,
-      houseNumber: string,
-      city:string,
-      postcode: string,
-      country: string,
-      countryCode: string
-    }
-}
+
 
 export default function MapSection() {
     const [center, setCenter] = useState<[number, number]>([44.2, -77.5]);
@@ -86,7 +35,7 @@ export default function MapSection() {
             for (const c of communitiesFetch || []) {
                 const result=await geoCode(c.location?? '')
                 if(!result || result.length===0) continue
-                const geo:geoCode=result[0]
+                const geo:geoCodeData=result[0]
                 const loc:Location={
                     name:c.name?? 'nom inconnu',
                     members:c.members ?? 0,
@@ -103,7 +52,7 @@ export default function MapSection() {
             for (const t of tournamentsFetch || []) {
                 const result=await geoCode(t.location?? '')
                 if(!result) continue
-                const geo:geoCode=result[0]
+                const geo:geoCodeData=result[0]
                 const loc:Location={
                     name:t.name?? 'nom inconnu',
                     members:t.Player?.length ?? 0,
@@ -240,7 +189,7 @@ export default function MapSection() {
                   En savoir plus
                 </a>
                 <button
-                  onClick={() => setSelected(null)}
+                  onClick={() =>{ setSelected(null);setZoom(10)}}
                   style={{
                     marginTop: "5px",
                     fontSize: "12px",

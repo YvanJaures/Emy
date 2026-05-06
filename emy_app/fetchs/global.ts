@@ -1,3 +1,4 @@
+import { Location, Position, geocodeReverse } from '@/hooks/Type_DTO'
 import {CommunityDTO,MemberDTO, TournamentDTO} from '../hooks/Type_DTO'
 export async function getUser(){
     try{
@@ -314,7 +315,6 @@ export async function addTeamMany(payload:{name:string, id_tour:number, key_team
 export async function geoCode(address:string){
     try{
         const params = new URLSearchParams({ address });
-        console.log(process.env.NEXT_PUBLIC_API_GEO+'/api/geocode?address='+params)
         const res=await fetch(process.env.NEXT_PUBLIC_API_GEO+'/api/geocode?'+params,{
             headers:{'access_key':`${process.env.NEXT_PUBLIC_ACCESS_KEY}`}
         })
@@ -325,6 +325,22 @@ export async function geoCode(address:string){
         return await res.json()
     }catch(error){
         console.log("Une erreur s'est produite ici"+error)
+    }
+}
+export async function autoComplete(q:string){
+    try{
+        const params = new URLSearchParams({ q });
+        const res=await fetch(process.env.NEXT_PUBLIC_API_GEO+'/api/autocomplete?'+params,{
+            headers:{'access_key':`${process.env.NEXT_PUBLIC_ACCESS_KEY}`}
+        })
+        if(!res.ok){
+            console.log('ERREUR lors de la récupération des coordonées :status: '+ (await res.json()).error)
+            return null
+        }
+        return await res.json()
+    }catch(error){
+        console.log("Une erreur s'est produite ici"+error)
+        return null
     }
 }
 export async function geoCodeReverse(lat:number,lon:number){
@@ -338,7 +354,32 @@ export async function geoCodeReverse(lat:number,lon:number){
         }
         return await res.json()
     }catch(error){
-
+        console.log("Une erreur s'est produite ici"+error)
+    }
+}
+export const getLocation = () => {
+    return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+    }) as Promise<Position>;
+    };
+export const getMemberLocation = async () => {
+    try {
+    const position:Position = await getLocation();
+    const position2:geocodeReverse=await geoCodeReverse(position.coords.latitude,position.coords.longitude)
+    if(!position2) return null
+    const myLoc:Location = {
+        name: "Ma position",
+        displayName:position2.displayName,
+        address: position2.address,
+        lat: position2.lat,
+        lon: position2.lon,
+        link: "",
+        type: "myLocation"
+    };
+    return myLoc
+    } catch (err) {
+        console.log(err);
+        return null
     }
 }
 /**

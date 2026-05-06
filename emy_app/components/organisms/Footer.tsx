@@ -22,8 +22,8 @@ const aboutLinks: FooterLink[] = [
 ];
 
 const privacyLinks: FooterLink[] = [
-  { label: "POLITIQUE DE SÉCURITÉ", href: "/security-policy" },
-  { label: "TERMES ET CONDITIONS", href: "/terms" },
+  { label: "POLITIQUE DE SÉCURITÉ", href: "/security-policies" },
+  { label: "TERMES ET CONDITIONS", href: "/termesEtConditions" },
 ];
 
 /**

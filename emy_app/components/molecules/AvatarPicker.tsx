@@ -104,15 +104,15 @@ export default function AvatarPicker({
   }
 
   return (
-    <div className="relative my-2" ref={containerRef}>
-      <label className="mb-2 block text-xs text-black">
+    <div className="relative my-2 dark:text-white" ref={containerRef}>
+      <label className="mb-2 block text-xs text-black dark:text-white">
         Choisissez un avatar
       </label>
 
       <button
         type="button"
         onClick={() => setOpen((prev) => !prev)}
-        className={`flex w-full items-center justify-between rounded-lg border bg-white px-3 py-2 text-xs ${
+        className={`flex w-full items-center justify-between rounded-lg border bg-white px-3 py-2 text-xs dark:bg-gray-800 ${
           error ? "border-red-500" : "border-gray-300"
         }`}
       >
@@ -135,7 +135,7 @@ export default function AvatarPicker({
       </button>
 
       {open && (
-        <div className="absolute z-50 mt-2 w-full rounded-lg border border-gray-300 bg-white shadow-lg">
+        <div className="absolute z-50 mt-2 w-full rounded-lg border border-gray-300 bg-white dark:bg-gray-800 shadow-lg overflow-y-scroll h-50">
           {avatars.map((avatar) => {
             const isSelected = value === avatar.value;
 
@@ -144,7 +144,7 @@ export default function AvatarPicker({
                 key={avatar.value}
                 type="button"
                 onClick={() => handleSelect(avatar.value)}
-                className={`flex w-full items-center gap-3 px-3 py-2 text-left hover:bg-gray-100 ${
+                className={`flex w-full items-center gap-3 px-3 py-2 text-left hover:bg-gray-100 dark:bg-gray-800 ${
                   isSelected ? "bg-blue-50" : ""
                 }`}
               >
@@ -153,7 +153,7 @@ export default function AvatarPicker({
                   alt={avatar.label}
                   className="h-10 w-10 rounded-full object-cover"
                 />
-                <span className="text-xs text-black">{avatar.label}</span>
+                <span className="text-xs text-black text-gray-500">{avatar.label}</span>
               </button>
             );
           })}

@@ -208,3 +208,55 @@ export type SignupFormData = {
   acceptTerms: boolean;
   phone: string;
 };
+export type Position = {
+  coords: {
+    latitude: number,
+    longitude: number,
+    altitude: number | null,
+    accuracy: number,
+    altitudeAccuracy: number | null,
+    heading: number | null,
+    speed: number | null
+  },
+  timestamp: number
+}
+export type Location = {
+    name: string | 'nom inconnu';
+    members?: number | 0;
+    lat: number;
+    lon: number;
+    link:string;
+    type:string;
+    city?:string,
+    country?:string,
+    displayName?:string,
+    address?: {
+      street: string,
+      houseNumber: string,
+      city:string,
+      postcode: string,
+      country: string,
+      countryCode: string
+    }
+}
+export type geoCodeData =   {
+    lat: number,
+    lon: number,
+    displayName: string,
+    type: string,
+    country: string,
+    city: string
+  }
+export type geocodeReverse={
+    lat: number,
+    lon: number,
+    displayName:string,
+    address: {
+      street: string,
+      houseNumber: string,
+      city:string,
+      postcode: string,
+      country: string,
+      countryCode: string
+    }
+}

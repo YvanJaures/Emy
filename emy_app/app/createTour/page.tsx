@@ -9,6 +9,7 @@ import Button from "@/components/atoms/Button";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { useAuth } from "@/hooks/useAuth";
 import LoadingAnimation from "@/components/organisms/LoadingAnimation";
+import AddressAutocomplete from "@/components/molecules/AddressAutocomplete";
 
 type PrizeRow = {
   name: string;
@@ -254,15 +255,12 @@ export default function CreateTournament() {
                 setAvatarFile(e.target.files?.[0] ?? null)
               }
             />
-
-            <InputText
+            <AddressAutocomplete
+              placeholder="Adresse"
               label="Adresse"
               containerClassName="flex flex-row flew-wrap justify-center items-center"
               required
-              value={tourLocation}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setTourLocation(e.target.value)
-              }
+              onNew={(res) => setTourLocation(res)}
             />
           </section>
 

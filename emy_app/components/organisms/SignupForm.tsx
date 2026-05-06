@@ -10,6 +10,9 @@ import AvatarPicker from "../molecules/AvatarPicker";
 import type { SignupFormData } from "@/hooks/Type_DTO";
 import Verification from "./VerificationForm";
 import { fetchApi } from "@/fetchs/global";
+import AddressAutocomplete from "../molecules/AddressAutocomplete";
+import { useRouter } from "next/navigation";
+import TermOfUse from "./TermOfUse";
 
 type SignupErrors = Partial<Record<keyof SignupFormData, string>>;
 
@@ -58,9 +61,11 @@ export default function SignupForm() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [checkingUsername, setCheckingUsername] = useState(false);
+  const [showTerms,setShowTerms]=useState(false)
   const [verified,setVerified]=useState(false)
   const [verify,setVerify]=useState(false)
   const [code,setCode]=useState('')
+  const router=useRouter()
   const formRef=useRef<HTMLFormElement|null>(null)
 
   function validateField<K extends keyof SignupFormData>(
@@ -325,7 +330,7 @@ export default function SignupForm() {
       setForm(initialForm);
       setErrors({});
       //location.href = d"/login";
-      history.back();
+      router.back();
     } catch {
       setError("Erreur serveur. Réessaie plus tard.");
     } finally {
@@ -407,10 +412,9 @@ export default function SignupForm() {
         </div>
 
         <div className="my-2">
-          <LabeledField
+          <AddressAutocomplete
             placeholder="address"
-            value={form.address}
-            onChange={(e) => updateField("address", e.target.value)}
+            onNew={(res) => updateField("address", res)}
             inputClassName={`py-2 text-xs rounded-lg ${
               errors.address ? "border-red-500" : ""
             }`}
@@ -494,17 +498,20 @@ export default function SignupForm() {
             <input
               type="checkbox"
               checked={form.acceptTerms}
-              onChange={(e) => updateField("acceptTerms", e.target.checked)}
+              onChange={(e) =>{ updateField("acceptTerms", e.target.checked);setShowTerms(false)}}
             />
-            <AppLink
-              href="/termesEtConditions"
-              className="text-[11px] text-blue-700 hover:underline"
+            <button
+              className="text-[11px] text-blue-700 hover:underline hover:cursor-pointer"
+              onClick={(e)=>{e.preventDefault();setShowTerms(!showTerms)}}
             >
               Accepter les termes et conditions.
-            </AppLink>
+            </button>
           </div>
           <FieldError message={errors.acceptTerms} />
         </div>
+        { showTerms &&
+          <TermOfUse className="h-50 overflow-y-scroll w-full animate-fade-in transition-all duration-300 ease-in-out"/>
+        }
 
         <div className="my-2">
           <FormError message={error} />
@@ -526,7 +533,7 @@ export default function SignupForm() {
             size="text-[10px]"
             className="w-full py-2"
             color="bg-white/80 border-white/80 text-black hover:bg-white"
-            onClick={() => history.back()}
+            onClick={() => router.back()}
           />
         </div>
 

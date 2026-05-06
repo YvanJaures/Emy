@@ -6,6 +6,7 @@ import Button from "@/components/atoms/Button";
 import PopUp from "../atoms/PopUp";
 import { RiDeleteBin2Line } from "react-icons/ri";
 import { PrizeDTO } from "@/hooks/Type_DTO";
+import AddressAutocomplete from "../molecules/AddressAutocomplete";
 
 type PrizeRow = {
   name: string;
@@ -319,14 +320,12 @@ export default function TournamentDetailsPopUp({
                 }
               />
 
-              <InputText
+              <AddressAutocomplete
+                placeholder="Adresse"
                 label="Adresse"
                 containerClassName="flex flex-row flew-wrap justify-center items-center"
                 required
-                value={tourLocation}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setTourLocation(e.target.value)
-                }
+                onNew={(res) => setTourLocation(res)}
               />
             </section>
 

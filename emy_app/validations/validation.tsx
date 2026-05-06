@@ -31,4 +31,8 @@ export function paysEstValide(pays:string){
 export function telEstValide(tel:string){
     return typeof tel==='string' && tel.trim().match(/^(\+\d{1,2}\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/)
 }
+export function adresseEstValide(adresse:string){
+    const fullAddressCA = /^(\d{1,5}[a-zA-Z]?)\s+([\w\s\.\-\'À-ÿ]+),\s+([\w\s\-\'À-ÿ]+),\s+([A-Z]{2})\s+([A-Z]\d[A-Z]\s?\d[A-Z]\d)$/i;
+    return typeof adresse==='string' && adresse.trim().match(fullAddressCA)
+}
 

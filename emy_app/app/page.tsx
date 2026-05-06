@@ -10,6 +10,7 @@ import MetaData from "@/components/organisms/MetaData";
 import Founders from "@/components/organisms/Founders";
 import { useConnexion } from "@/hooks/useAuth";
 import MapSection from "@/components/organisms/MapSection";
+import AddressAutocomplete from "@/components/molecules/AddressAutocomplete";
 
 export default function Home() {
   const router = useRouter();
