@@ -1,7 +1,6 @@
 "use client"
 import { MemberDTO } from "@/hooks/Type_DTO";
 import { RiDeleteBin2Line } from "react-icons/ri";
-import { CiFilter } from "react-icons/ci";
 import {use, useEffect, useState} from 'react'
 import { SlMagnifier } from "react-icons/sl";
 import { deleteMemberCommunity } from "@/fetchs/global";
@@ -9,6 +8,8 @@ import Confirmation from "@/components/organisms/Confirmation";
 import OnError from "../organisms/OnError";
 import InputText from "../atoms/InputText";
 import LoadText from "@/Loading/LoadText";
+import { GoSortAsc } from "react-icons/go";
+import { FaPlus,FaMinus  } from "react-icons/fa6";
 import LoadRoundButton from "@/Loading/LoadRoundButton";
 import Alert from "./Alert";
 import { NoResult } from "./NoResult";
@@ -30,6 +31,8 @@ export default function TableUser({title,headers,datas,id_community,loading}:Pro
   const [sorting,setSorting]=useState(-1)
   const [onError, setOnError] = useState(false);
   const [onPopUp,setOnPopUp]=useState(false)
+  const rowses:number=5  //nombre de lignes par défaut du tableau
+  const [count,setCount]=useState<number>(rowses)
 
   const handleDelete=(data:MemberDTO)=>{
     setShowConfirm(!showConfirm);
@@ -56,7 +59,16 @@ export default function TableUser({title,headers,datas,id_community,loading}:Pro
         setOnPopUp(true)
       }
   } 
-
+  const incCount=()=>{
+    if(!members) return
+    if((count+5)<members.length) return setCount(count+5)
+    setCount(members.length)
+  }
+  const decCount=()=>{
+    if(!members) return
+    if((count-5)>rowses) return setCount(count-5)
+    setCount(rowses)
+  }
   useEffect(()=>{
     if(loading) return
     if(!datas) return
@@ -103,17 +115,16 @@ export default function TableUser({title,headers,datas,id_community,loading}:Pro
       <>
         <table className={`w-full ${onError ? "pointer-events-none blur-md" : ""} ${onPopUp ? "pointer-events-none blur-md" : ""} max-sm:text-[12px] `}>
             <caption className="bold gap-5 flex flex-col">
-              <div className="flex gap-3 justify-center items-center w-full">
-                <label htmlFor="input">Rechercher</label>
+              <div className="flex gap-3 justify-center items-center w-full mb-2">
+                <label htmlFor="input">{title.toUpperCase()}</label>
                 <input type="search" 
                   placeholder="Entrer l'identifiant du membre"
                   onChange={(e)=>(setSearch(e.target.value ? e.target.value:''))}
-                  className="outline-red-200 border rounded-xl flex-70 p-2 h-7"/>
-                <SlMagnifier />
+                  className="outline-[#0F70AC] border rounded-sm flex-70 p-2 h-7 max-sm:h-5"/>
               </div>
-              {title.toUpperCase()}
+              
             </caption>
-            <thead className="bg-gray-200 p-1 flex gap-5 justify-center items-center w-full h-10 dark:bg-gray-800">
+            <thead className="bg-gray-200 p-1 flex gap-5 justify-start items-center w-full h-10 dark:bg-gray-800">
               <tr className="w-full flex justify-center items-center">
                 <th className="flex-5 hover:cursor-pointer hidden">
                   <input type="checkbox"
@@ -124,38 +135,38 @@ export default function TableUser({title,headers,datas,id_community,loading}:Pro
                   <th className={"flex-"+flex[i]+" justify-start items-center "} key={i}
                   onClick={()=>('e')}
                   >
-                    <CiFilter/>{header} 
+                    <GoSortAsc/>{header} 
                   </th>
                 ))*/}
-                <th className={`${sorting===0 ? "text-[#0F70AC] ":''}`+"flex-10 flex items-center justify-center hover:cursor-pointer "}
+                <th className={`${sorting===0 ? "text-[#0F70AC] ":''}`+"border-r-1 border-black/20 flex-10 flex items-center justify-between p-1 hover:cursor-pointer text-ellipsis text-nowrap "}
                   onClick={()=>(handleSort(0))}
                   >
-                    Identifiant<CiFilter/> 
+                    Id<GoSortAsc/> 
                 </th>
-                <th className={`${sorting===1 ? "text-[#0F70AC] ":''}`+"flex-25 flex items-center justify-center hover:cursor-pointer "}
+                <th className={`${sorting===1 ? "text-[#0F70AC] ":''}`+"border-r-1 border-black/20 dark:border-white/20 flex-20 flex items-center justify-between p-1 hover:cursor-pointer text-ellipsis text-nowrap "}
                   onClick={()=>(handleSort(1))}
                   >
-                    Email<CiFilter/> 
+                    Email<GoSortAsc/> 
                 </th>
-                <th className={`${sorting===2 ? "text-[#0F70AC] ":''}`+"flex-10 flex items-center justify-center max-sm:hidden hover:cursor-pointer "}
+                <th className={`${sorting===2 ? "text-[#0F70AC] ":''}`+"border-r-1 border-black/20 dark:border-white/20 flex-10 flex items-center justify-between p-1 max-sm:hidden hover:cursor-pointer text-ellipsis text-nowrap "}
                   onClick={()=>(handleSort(2))}
                   >
-                    Naissance<CiFilter/> 
+                    Naissance<GoSortAsc/> 
                 </th>
-                <th className={`${sorting===3 ? "text-[#0F70AC] ":''}`+"flex-20 flex justify-center items-center max-sm:hidden hover:cursor-pointer "}
+                <th className={`${sorting===3 ? "text-[#0F70AC] ":''}`+"border-r-1 border-black/20 dark:border-white/20 flex-20 flex justify-between items-center p-1 max-sm:hidden hover:cursor-pointer text-ellipsis text-nowrap "}
                   onClick={()=>(handleSort(3))}
                   >
-                    Telephone<CiFilter/> 
+                    Telephone<GoSortAsc/> 
                 </th>
-                <th className={`${sorting===4 ? "text-[#0F70AC] ":''}`+"flex-5 flex justify-center items-center hover:cursor-pointer "}
+                <th className={`${sorting===4 ? "text-[#0F70AC] ":''}`+"border-r-1 border-black/20 dark:border-white/20 flex-10 flex justify-between items-center p-1 hover:cursor-pointer overflow-hidden text-ellipsis text-nowrap "}
                   onClick={()=>(handleSort(4))}
                   >
-                    Employe?<CiFilter/> 
+                    Employé(e)?<GoSortAsc/> 
                 </th>
-                <th className={`${sorting===5 ? "text-[#0F70AC] ":''}`+"flex-20 flex justify-center items-center hover:cursor-pointer "}
+                <th className={`${sorting===5 ? "text-[#0F70AC] ":''}`+"border-r-1 border-black/20 dark:border-white/20 flex-20 flex justify-between items-center p-1 hover:cursor-pointer text-ellipsis text-nowrap "}
                   onClick={()=>(handleSort(5))}
                   >
-                    Adresse<CiFilter/> 
+                    Adresse<GoSortAsc/> 
                 </th>
                 </tr>
             </thead>
@@ -168,8 +179,8 @@ export default function TableUser({title,headers,datas,id_community,loading}:Pro
                 </tr>
               )
               }
-              {members?.map((data) => (
-                <tr key={data?.user_name} className="m-0 flex w-full has:input['checked']:bg-black-200 mb-2 hover:bg-black/10 hover:cursor-pointer pl-2"
+              {members?.slice(0,count).map((data) => (
+                <tr key={data?.user_name} className="border-b-1 border-black/20 dark:border-white/20 py-3 m-0 flex w-full has:input['checked']:bg-black-200 transition-all transition-discrete duration-300 ease-in-out hover:bg-black/10 dark:hover:bg-white/10 hover:cursor-pointer pl-2"
                   >
                   <td className="p-1 flex-5 flex text-center justify-start items-center hidden">
                     <input type="checkbox"/>
@@ -177,7 +188,7 @@ export default function TableUser({title,headers,datas,id_community,loading}:Pro
                   <td className="p-1 flex-10 flex text-start justify-start items-center overflow-hidden max-sm:text-[10px]">
                     <p className="text-ellipsis overflow-hidden line-clamp-1">{data?.user_name}</p>
                   </td>
-                  <td className="p-1 flex-25 flex text-start justify-start items-center overflow-hidden max-sm:text-[10px]">
+                  <td className="p-1 flex-20 flex text-start justify-start items-center overflow-hidden max-sm:text-[10px]">
                     <p className="text-ellipsis overflow-hidden line-clamp-1">{data?.email}</p>
                   </td>
                   <td className="p-1 flex-10 flex text-center justify-start items-center overflow-hidden text-nowrap max-sm:text-[10px] max-sm:hidden">
@@ -190,18 +201,19 @@ export default function TableUser({title,headers,datas,id_community,loading}:Pro
                       {data?.phone ? data.phone: 'aucun.'}
                     </p>
                   </td>
-                  <td className="p-1 flex-5 flex text-center justify-start items-center overflow-hidden max-sm:text-[10px]">
+                  <td className="p-1 flex-10 flex text-center justify-start items-center overflow-hidden max-sm:text-[10px]">
                     <p className="text-ellipsis overflow-hidden line-clamp-1">
                       {data?.Employee ? "oui": 'non'}
                     </p>
                   </td>
-                  <td className="p-1 flex-20 flex text-center justify-start items-center overflow-hidden max-sm:text-[10px]">
+                  <td className="p-1 flex-15 flex text-start justify-start items-center overflow-hidden max-sm:text-[10px]">
                     <p className="text-ellipsis overflow-hidden line-clamp-1">
                       {data?.address ? data.address: 'aucun.'}
                     </p>
                   </td>
-                  <td className="p-1 flex-5 p-1 text-center flex justify-start items-center">
+                  <td className="p-1 flex-5 p-1 text-end flex justify-center items-center">
                     <RiDeleteBin2Line
+                      title="supprimer le membre"
                       className="text-red-500 hover:cursor-pointer"
                       onClick={()=>{handleDelete(data)
                       }}
@@ -209,10 +221,10 @@ export default function TableUser({title,headers,datas,id_community,loading}:Pro
                   </td>
                 </tr>
               ))}
-              {(loading) && ([...Array(10)].map((_,index) => (
+              {(loading) && ([...Array(rowses)].map((_,index) => (
                 <tr key={index} className="m-0 flex w-full has:input['checked']:bg-black-200 mb-2 hover:bg-black/10 hover:cursor-pointer"
                  >
-                  <td className="p-1 flex-5 flex text-center justify-start items-center">
+                  <td className="p-1 flex-5 flex text-center justify-start items-center hidden">
                      <LoadRoundButton/>
                   </td>
                   <td className="p-1 flex-10 flex text-center justify-start items-center overflow-hidden">
@@ -239,12 +251,27 @@ export default function TableUser({title,headers,datas,id_community,loading}:Pro
                 </tr>
               )))}
             </tbody>
-            <tfoot className="bg-gray-200 p-1 flex gap-5 justify-center items-center w-full dark:bg-gray-800">
+            <tfoot className="bg-gray-200 p-1 flex gap-5 justify-end items-center w-full dark:bg-gray-800">
               <tr>
-                <td>
+                <td className="flex justify-center items-center gap-2 max-sm:text-[10px]">
                   <label htmlFor="input">Lignes</label>
-                  <input type="text" name="lgnes" id="lignes"
-                   className="bg-white rounded-xl p-1 text-center dark:bg-gray-700" />
+                  <div className="flex gap-1 justify-center items-center">
+                    <FaMinus
+                      title="retrait de 5 lignes"
+                      className={`${count<=rowses? 'pointer-events-none opacity-30':''} size-3 hover:text-[#0F70AC] hover:cursor-pointer`}
+                      onClick={decCount}
+                    />
+                      <input type="text" name="lgnes" id="lignes"
+                        className="bg-white pointer-events-none text-sm rounded-sm w-10 h-5 p-1 text-center dark:bg-gray-700 max-sm:text-[12px]" 
+                        value={count}
+                        onChange={()=>('')}
+                      />
+                    <FaPlus
+                      title="ajout de 5 lignes"
+                      className={`${(members && count>=members?.length)? 'pointer-events-none opacity-30':''} size-3 hover:text-[#0F70AC] hover:cursor-pointer`}
+                      onClick={incCount}
+                    />
+                  </div>
                 </td>
               </tr>
             </tfoot>

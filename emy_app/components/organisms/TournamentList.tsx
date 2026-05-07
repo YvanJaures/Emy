@@ -3,6 +3,7 @@
 import React from "react";
 import TournamentRow from "../molecules/TournamentRow";
 import type { TournamentDTO } from "@/hooks/Type_DTO";
+import NoContent from "../molecules/NoContent";
 
 type TournamentListProps = {
   tournaments: TournamentDTO[];
@@ -61,6 +62,9 @@ export default function TournamentList({
           isDeleting={deletingId === t.id_tour}
         />
       ))}
+      { !tournaments || tournaments.length===0 &&
+        <NoContent/>
+      }
     </div>
   );
 }

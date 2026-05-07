@@ -210,7 +210,7 @@ export default function MapSection() {
                   En savoir plus
                 </a>
                 <button
-                  onClick={() => setSelected(null)}
+                  onClick={() => {setSelected(null);setZoom(5)}}
                   style={{
                     marginTop: "5px",
                     fontSize: "12px",
@@ -223,14 +223,15 @@ export default function MapSection() {
               </div>
             </Overlay>
           )}
-
+          <Overlay anchor={[center[0],center[1]]} className="bg-black/20 relative">
           {loading && 
-            <div className="w-full h-full bg-black/20 pointer-events-none absolute top-0 flex justify-center items-center gap-2 text-white font-semibold">
+            <div className="w-full h-full absolute bg-black/20 pointer-events-none absolute top-0 flex justify-center items-center gap-2 text-[30px] text-black dark:text-white font-semibold">
                 <div className="rounded-full animate-spin bg-white w-5 h-7">
                 </div>
                 Chargement...
             </div>
           }
+          </Overlay>
         </Map>
       </div>
     </div>

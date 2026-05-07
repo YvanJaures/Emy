@@ -13,6 +13,7 @@ import LoadingAnimation from "@/components/organisms/LoadingAnimation";
 import TournamentTeamsBlock from "@/components/organisms/TournamentTeamsBlock";
 import type { TournamentDTO } from "@/hooks/Type_DTO";
 import { useAuth } from "@/hooks/useAuth";
+import NoContent from "@/components/molecules/NoContent";
 
 /**
  * Page affichant la liste des équipes inscrites aux tournois d’une communauté.
@@ -89,6 +90,9 @@ useEffect(() => {
             ) : (
               data.map((t) => <TournamentTeamsBlock key={t.id_tour} t={t} admin={true} onCreate={()=>('')}/>)
             )}
+            { (!_loading && (!data || data.length===0) )&&
+              <NoContent/>
+            }
           </div>
         </ImageBackground>
       </main>

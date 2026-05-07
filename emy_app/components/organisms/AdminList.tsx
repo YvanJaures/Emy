@@ -3,6 +3,7 @@
 import React from "react";
 import AdminRow from "../molecules/AdminRow";
 import type { AdminDTO } from "@/hooks/Type_DTO"
+import NoContent from "../molecules/NoContent";
 
 export default function AdminList({
   admins,
@@ -16,6 +17,9 @@ export default function AdminList({
       {admins.map((a) => (
         <AdminRow key={a.id_admin} admin={a} onDelete={onDelete} />
       ))}
+      {!admins || admins.length===0 &&(
+        <NoContent/>
+      )}
     </div>
   );
 }
